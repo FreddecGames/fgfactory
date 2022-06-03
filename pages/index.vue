@@ -1117,10 +1117,24 @@ class Item extends Base {
     startProducing() {
     
         this.state = 'waiting'
+        this.remainingSeconds = this.getTime()
     }
     
     pauseProducing() {
-    
+        
+        if (this.state == 'running') {
+
+            let inputs = this.getInputs()
+            if (inputs != null) {
+                for (let id in inputs) {
+                    let input = inputs[id]
+                    
+                    this.game.items[id].count += input
+                    if (this.game.items[id].count > this.game.items[id].getMax()) this.game.items[id].count = this.game.items[id].getMax()
+                }
+            }
+        }
+        
         this.state = 'paused'
         this.remainingSeconds = this.getTime()
     }
