@@ -1,0 +1,162 @@
+$black:                             #000 !default;
+$white:                             #fff !default;
+
+$danger:                            #e5534b !default;
+$normal:                            #c1c1c1 !default;
+$primary:                           #e69100 !default;
+$success:                           #12b712 !default;
+
+$spacer:                            1rem !default;
+
+$container-padding-x:               .75rem !default;
+
+$text-muted:                        #808080 !default;
+
+$line-height-base:                  1.25 !default;
+
+$font-family-sans-serif:            system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-size-base:                    .75rem !default;
+
+$font-weight-normal:                400 !default;
+
+$small-font-size:                   .75em !default;
+
+$border-color:                      #2a2a2a !default;
+$border-radius:                     6px !default;
+
+$body-bg:                           #2a2a2a !default;
+$body-color:                        $normal !default;
+
+$headings-margin-bottom:            0 !default;
+
+$h6-font-size:                      $font-size-base * 1.125 !default;
+
+$badge-color:                       $normal !default;
+
+$input-btn-padding-y:               .5rem !default;
+$input-btn-padding-x:               .5rem !default;
+$input-btn-focus-box-shadow:        none !default;
+
+$nav-link-color:                    $text-muted !default;
+$nav-link-hover-color:              $body-color !default;
+$nav-link-font-weight:              $font-weight-normal !default;
+$nav-link-padding-y:                .5rem !default;
+$nav-link-padding-x:                .5rem !default;
+
+$list-group-color:                  $text-muted !default;
+$list-group-bg:                     #333333 !default;
+$list-group-border-color:           #2a2a2a !default;
+$list-group-item-padding-y:         $spacer * .5 !default;
+$list-group-item-padding-x:         $spacer * .5 !default;
+$list-group-hover-bg:               rgba(76, 76, 76, .5) !default;
+$list-group-active-color:           $normal !default;
+$list-group-active-bg:              #333333 !default;
+$list-group-action-color:           $text-muted !default;
+$list-group-action-hover-color:     $normal !default;
+$list-group-action-active-color:    $body-color !default;
+$list-group-action-active-bg:       rgba(76, 76, 76, .5) !default;
+
+$card-bg:                           #333 !default;
+$card-cap-bg:                       #404040 !default;
+$card-cap-color:                    $text-muted !default;
+$card-spacer-x:                     .5rem !default;
+$card-spacer-y:                     .5rem !default;
+$card-border-width:                 0 !default;
+$card-border-color:                 transparent !default;
+$card-cap-padding-y:                .5rem !default;
+$card-cap-padding-x:                .5rem !default;
+
+$dropdown-min-width:                100% !default;
+$dropdown-padding-x:                0 !default;
+$dropdown-padding-y:                0 !default;
+$dropdown-bg:                       #3f3f3f !default;
+$dropdown-item-padding-y:           0 !default;
+$dropdown-item-padding-x:           $spacer * .5 !default;
+
+$toast-padding-x:                   .5rem !default;
+$toast-padding-y:                   .5rem !default;
+$toast-font-size:                   $font-size-base !default;
+
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+
+////////////////////////////////////////////////////////////////////////////////
+
+@keyframes flicker {
+  0%   { opacity: .9; }
+  50%  { opacity: .1; }
+  100% { opacity: .9; }
+}
+@-o-keyframes flicker{
+  0%   { opacity: .9; }
+  50%  { opacity: .1; }
+  100% { opacity: .9; }
+}
+@-moz-keyframes flicker{
+  0%   { opacity: .9; }
+  50%  { opacity: .1; }
+  100% { opacity: .9; }
+}
+@-webkit-keyframes flicker{
+  0%   { opacity: .9; }
+  50%  { opacity: .1; }
+  100% { opacity: .9; }
+}
+
+.flicker {
+   -webkit-animation: flicker 2s infinite;
+   -moz-animation: flicker 2s infinite;
+   -o-animation: flicker 2s infinite;
+    animation: flicker 2s infinite;
+}    
+
+////////////////////////////////////////////////////////////////////////////////
+
+html, #__nuxt { width: 100%; height: 100%; overflow: hidden; }
+
+body { width: 100%; height: 100%; overflow: hidden; }
+
+#__layout { width: 100%; height: 100%; overflow: hidden; }
+
+::-webkit-scrollbar { width: .35rem; height: .35rem; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { border-radius: .25rem; background: rgba(255, 255, 255, .125); }
+
+@media (min-width: 1200px) { .container-xl, .container-lg, .container-md, .container-sm, .container { max-width: 960px; } }
+
+.scrollbar { height: 100%; overflow-y: auto; scrollbar-color: $border-color transparent; scrollbar-width: thin; }
+
+.text-normal { color: $normal!important; }
+
+.text-shadow { text-shadow: 0px 1px 1px #000, 0px -1px 1px #000, 1px 0px 1px #000, -1px 0px 1px #000; }
+
+.nav-link { border-radius: 0; }
+.nav-link:hover { background-color: rgba(76, 76, 76, .5); }
+.nav-link.active { color: $body-color; background-color: transparent; border-bottom: 2px solid $primary; }
+
+.list-group-item.active { border-left: 2px solid $primary; }
+
+.btn { display: flex; flex-wrap: wrap; }
+.btn-primary, .btn-primary:disabled, .btn-primary.disabled, .btn-primary:focus { color: $normal; background-color: #404040; border-color: transparent; box-shadow: none; }
+.btn-primary:disabled, .btn-primary.disabled { color: $text-muted; }
+
+.bg-1 { background-color: #4c4c4c!important; }
+.bg-2 { background-color: #151515!important; }
+.bg-3 { background-color: #333333!important; }
+
+.bg-overlay { background-color: rgba(2, 4, 5, .7); }
+
+.card-header { border-bottom: 2px solid $border-color; }
+.card-header:first-child { border-radius: 6px 6px 0 0; }
+
+.progress { background-color: $border-color; }
+.progress-bar { transition: none; }
+
+.dropdown-item { color: $normal; min-height: 32px; border-bottom: 1px solid #333; }
+.dropdown-item:last-child { border-bottom: 0; }
+.dropdown-item:hover, .dropdown-item:focus { color: #000; background-color: $primary; }
+
+.list-group-item { border-radius: $border-radius!important; }
+.list-group-item.active { border-bottom: 1px solid #2a2a2a; border-top: 1px solid #2a2a2a; border-right: 2px solid $primary; }
+.list-group-item + .list-group-item.active { margin-top:.25rem; }
+.list-group-item + .list-group-item { border-top-width: 1px; }
+.list-group-flush > .list-group-item { border-radius: 0!important; }
