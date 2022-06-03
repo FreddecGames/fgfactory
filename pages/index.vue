@@ -465,6 +465,7 @@
                         <TopMenuTab v-if="gameItem('water').unlocked == true" tabId="chemistry" icon="fa-atom" />
                         <TopMenuTab v-if="gameItem('rocketFuel').unlocked == true" tabId="rocket" icon="fa-rocket" />
                         <TopMenuTab v-if="game.lab.unlocked == true" tabId="techs" icon="fa-flask" />
+                        <TopMenuTab tabId="achievements" icon="fa-cogs" class="ms-auto" />
                         <TopMenuTab tabId="settings" icon="fa-cogs" class="ms-auto" />
                     </div>
                 </div>
