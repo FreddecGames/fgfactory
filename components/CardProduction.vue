@@ -45,7 +45,7 @@
                             <span><i class="fas fa-fw fa-play"></i></span>
                         </button>
                         <button v-if="item.state != 'paused'" type="button" class="btn btn-primary" @click="pause()">
-                            <span :class="{ 'text-danger':item.state == 'waiting' }"><i class="fas fa-fw fa-pause"></i></span>
+                            <span :class="{ 'text-danger':item.state == 'waiting' }"><i class="fas fa-fw fa-stop"></i></span>
                         </button>
                     </div>
                 </div>

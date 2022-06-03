@@ -20,7 +20,7 @@
                     <span><i class="fas fa-fw fa-play"></i></span>
                 </button>
                 <button v-if="item.state != 'paused'" type="button" class="position-relative btn btn-primary" @click="pause()">
-                    <span :class="{ 'text-danger':item.state == 'waiting' }"><i class="fas fa-fw fa-pause"></i></span>
+                    <span :class="{ 'text-danger':item.state == 'waiting' }"><i class="fas fa-fw fa-stop"></i></span>
                     <div class="w-100 position-absolute progress" style="bottom:-1px; left:0; height:3px; border-radius: 0 0 6px 6px;">
                         <div class="progress-bar" role="progressbar" :style="'width:' + percent + '%;'" :aria-valuenow="percent" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>

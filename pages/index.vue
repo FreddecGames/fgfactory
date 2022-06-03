@@ -248,7 +248,7 @@
                             <span class="text-white h4">Iron Production</span>
                         </div>
                         <div class="col-12 text-center">
-                            <span class="text-normal">Congrats! You automated <span class="text-white">Iron Plate</span> production. If you want you could stop the production by clicking on <i class="fas fa-fw fa-pause"></i> button. Now since your <span class="text-white">Iron Plate</span> production is automated, it is consuming your <span class="text-white">Iron</span> automatically. When there is not enought <span class="text-white">Iron</span> the <i class="text-danger fas fa-fw fa-pause"></i> button will appear: this means there is a lack of input resource to produce automatically.</span>
+                            <span class="text-normal">Congrats! You automated <span class="text-white">Iron Plate</span> production. If you want you could stop the production by clicking on <i class="fas fa-fw fa-stop"></i> button. Now since your <span class="text-white">Iron Plate</span> production is automated, it is consuming your <span class="text-white">Iron</span> automatically. When there is not enought <span class="text-white">Iron</span> the <i class="text-danger fas fa-fw fa-stop"></i> button will appear: this means there is a lack of input resource to produce automatically.</span>
                         </div>
                         <div class="col-12 text-center">
                             <span class="text-normal">So to continue to produce <span class="text-white">Iron Plate</span> automatically, you have to produce <span class="text-white">Iron</span> automatically too. To do that you have to build a <span class="text-white">Basic Drill</span>.</span>
@@ -1140,7 +1140,7 @@ class Item extends Base {
                         
                         this.game.items[id].count -= input
                     }
-                }            
+                }
             }
         }
         
@@ -1159,8 +1159,16 @@ class Item extends Base {
                     this.game.items[id].onProduce()
                 }
                 
-                if (this.auto == true) this.state = 'waiting'
-                else this.state = 'paused'
+                if (this.auto == true) {
+                
+                    this.state = 'waiting'
+                    this.remainingSeconds = this.getTime()
+                }
+                else {
+                
+                    this.state = 'paused'
+                    this.remainingSeconds = this.getTime()
+                }
             }
         }
     }
@@ -1326,8 +1334,6 @@ class Building extends Buildable {
         this.item.auto = true
         this.item.time *= this.timeCoeff
         this.item.productionLevel = this.productionLevel
-        
-        this.item.startProducing()
     }
 }
 

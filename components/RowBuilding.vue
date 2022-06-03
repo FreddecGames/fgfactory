@@ -34,8 +34,11 @@
                 </div>
             </div>
             <div class="col-auto">
-                <button type="button" class="btn btn-primary" :class="{ 'disabled':building.canBuild() == false || building.state == 'running' }" @click="build()">
+                <button v-if="building.state != 'running'" type="button" class="btn btn-primary" :class="{ 'disabled':building.canBuild() == false }" @click="build()">
                     <span><i class="fas fa-fw fa-plus-square"></i></span>
+                </button>
+                <button v-if="building.state == 'running'" type="button" class="btn btn-primary" @click="cancel()">
+                    <span><i class="fas fa-fw fa-times-circle"></i></span>
                 </button>
             </div>
         </div>
@@ -61,6 +64,11 @@ export default {
         build() {
         
             this.building.startBuilding()
+        },
+        
+        cancel() {
+        
+            this.building.cancelBuilding()
         },
     },
 }
