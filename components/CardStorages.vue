@@ -4,7 +4,11 @@
             <div class="card-header">
                 <div class="row gx-2">
                     <div class="col">
-                        <span class="text-muted">Storages</span>
+                        <span class="text-muted">Storage</span>
+                    </div>
+                    <div class="col-auto">
+                        <span class="text-normal">{{ item.getStorageCount() }}</span>
+                        <span class="text-muted">/{{ item.storageSlots }}</span>
                     </div>
                 </div>                
             </div>
