@@ -77,13 +77,13 @@ export default {
     'storageName_ironChest': 'Iron Chest',
     'storageName_steelChest': 'Steel Chest',
     
-    'storageDesc_barrel': '+50 storage',
-    'storageDesc_ironChest': '+32 storage',
-    'storageDesc_steelChest': '+48 storage',
+    'storageDesc_barrel': 'Double storage',
+    'storageDesc_ironChest': 'Double storage',
+    'storageDesc_steelChest': 'Double storage',
     
     'labName_lab': 'Lab',
     
-    'labDesc_lab': 'One research slot per unit',
+    'labDesc_lab': 'Decrease research time',
     
     'techName_automation1': 'Automation 1',
     'techName_automation2': 'Automation 2',

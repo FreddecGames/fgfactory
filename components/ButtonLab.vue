@@ -11,7 +11,6 @@
                     </div>
                     <div class="col-auto">
                         <span :class="{ 'text-normal':lab.count > 0, 'text-muted':lab.count < 1 }"><FormatNumber :value="lab.count" /></span>
-                        <span class="text-muted">(<span :class="{ 'text-muted':lab.getUsedCount() < 1, 'text-primary':lab.getUsedCount() > 0 }">{{ lab.getUsedCount() }}</span>)</span>
                     </div>
                 </button>
             </div>

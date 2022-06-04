@@ -821,7 +821,7 @@ var buildingData = [
     {	id:'sulfuricAcidT1',        icon:'chemicalPlant',   name:'chemicalPlant',   itemId:'sulfuricAcid',      productionLevel:2,  timeCoeff:1,    time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
     {	id:'batteryT1',             icon:'chemicalPlant',   name:'chemicalPlant',   itemId:'battery',           productionLevel:2,  timeCoeff:1,    time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
     {	id:'rocketFuelT1',          icon:'assembler1',      name:'assembler1',      itemId:'rocketFuel',        productionLevel:2,  timeCoeff:.1,   time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'rocketPartT1',          icon:'rocketSilo',      name:'rocketSilo',      itemId:'rocketPart',        productionLevel:1,  timeCoeff:1,    time:80,	costs:{ concrete:1000, electricEngine:200, ironPlate:100, processingUnit:200, steelPlate:1000 }, },
+    {	id:'rocketPartT1',          icon:'rocketSilo',      name:'rocketSilo',      itemId:'rocketPart',        productionLevel:2,  timeCoeff:1,    time:80,	costs:{ concrete:1000, electricEngine:200, ironPlate:100, processingUnit:200, steelPlate:1000 }, },
     {	id:'redPackT1',             icon:'assembler1',      name:'assembler1',      itemId:'redPack',           productionLevel:2,  timeCoeff:.1,   time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
     {	id:'greenPackT1',           icon:'assembler1',      name:'assembler1',      itemId:'greenPack',         productionLevel:2,  timeCoeff:.1,   time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
     {	id:'bluePackT1',            icon:'assembler1',      name:'assembler1',      itemId:'bluePack',          productionLevel:2,  timeCoeff:.1,   time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
@@ -831,35 +831,35 @@ var buildingData = [
 
 var storageData = [
 
-    {	id:'stoneS1',               icon:'ironChest',               name:'ironChest',       itemId:'stone',             storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'stoneBrickS1',          icon:'ironChest',               name:'ironChest',       itemId:'stoneBrick',        storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'concreteS1',            icon:'ironChest',               name:'ironChest',       itemId:'concrete',          storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'ironS1',                icon:'ironChest',               name:'ironChest',       itemId:'iron',              storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'ironPlateS1',           icon:'ironChest',               name:'ironChest',       itemId:'ironPlate',         storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'steelPlateS1',          icon:'ironChest',               name:'ironChest',       itemId:'steelPlate',        storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'engineS1',              icon:'ironChest',               name:'ironChest',       itemId:'engine',            storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'electricEngineS1',      icon:'ironChest',               name:'ironChest',       itemId:'electricEngine',    storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'copperS1',              icon:'ironChest',               name:'ironChest',       itemId:'copper',            storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'copperPlateS1',         icon:'ironChest',               name:'ironChest',       itemId:'copperPlate',       storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'processingUnitS1',      icon:'ironChest',               name:'ironChest',       itemId:'processingUnit',    storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'waterS1',               icon:'waterBarrel',             name:'barrel',          itemId:'water',             storage:50,    time:1,	    costs:{ steelPlate:1 }, },
-    {	id:'oilS1',                 icon:'oilBarrel',               name:'barrel',          itemId:'oil',               storage:50,    time:1,	    costs:{ steelPlate:1 }, },
-    {	id:'heavyOilS1',            icon:'heavyOilBarrel',          name:'barrel',          itemId:'heavyOil',          storage:50,    time:1,	    costs:{ steelPlate:1 }, },
-    {	id:'lubricantS1',           icon:'lubricantBarrel',         name:'barrel',          itemId:'lubricant',         storage:50,    time:1,	    costs:{ steelPlate:1 }, },
-    {	id:'lightOilS1',            icon:'lightOilBarrel',          name:'barrel',          itemId:'lightOil',          storage:50,    time:1,	    costs:{ steelPlate:1 }, },
-    {	id:'petroleumGasS1',        icon:'petroleumGasBarrel',      name:'barrel',          itemId:'petroleumGas',      storage:50,    time:1,	    costs:{ steelPlate:1 }, },
-    {	id:'plasticBarS1',          icon:'ironChest',               name:'ironChest',       itemId:'plasticBar',        storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'solidFuelS1',           icon:'ironChest',               name:'ironChest',       itemId:'solidFuel',         storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'sulfurS1',              icon:'ironChest',               name:'ironChest',       itemId:'sulfur',            storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'sulfuricAcidS1',        icon:'sulfuricAcidBarrel',      name:'barrel',          itemId:'sulfuricAcid',      storage:50,    time:1,	    costs:{ steelPlate:1 }, },
-    {	id:'batteryS1',             icon:'ironChest',               name:'ironChest',       itemId:'battery',           storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'rocketFuelS1',          icon:'ironChest',               name:'ironChest',       itemId:'rocketFuel',        storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'rocketPartS1',          icon:'ironChest',               name:'ironChest',       itemId:'rocketPart',        storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'redPackS1',             icon:'ironChest',               name:'ironChest',       itemId:'redPack',           storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'greenPackS1',           icon:'ironChest',               name:'ironChest',       itemId:'greenPack',         storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'bluePackS1',            icon:'ironChest',               name:'ironChest',       itemId:'bluePack',          storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'purplePackS1',          icon:'ironChest',               name:'ironChest',       itemId:'purplePack',        storage:32,    time:1,	    costs:{ ironPlate:8 }, },
-    {	id:'yellowPackS1',          icon:'ironChest',               name:'ironChest',       itemId:'yellowPack',        storage:32,    time:1,	    costs:{ ironPlate:8 }, },
+    {	id:'stoneS1',               icon:'ironChest',               name:'ironChest',       itemId:'stone',             storage:50,    time:30,	    costs:{ stone:50 }, },
+    {	id:'stoneBrickS1',          icon:'ironChest',               name:'ironChest',       itemId:'stoneBrick',        storage:50,    time:30,	    costs:{ stoneBrick:50 }, },
+    {	id:'concreteS1',            icon:'ironChest',               name:'ironChest',       itemId:'concrete',          storage:50,    time:30,	    costs:{ concrete:50 }, },
+    {	id:'ironS1',                icon:'ironChest',               name:'ironChest',       itemId:'iron',              storage:50,    time:30,	    costs:{ iron:50 }, },
+    {	id:'ironPlateS1',           icon:'ironChest',               name:'ironChest',       itemId:'ironPlate',         storage:50,    time:30,	    costs:{ ironPlate:50 }, },
+    {	id:'steelPlateS1',          icon:'ironChest',               name:'ironChest',       itemId:'steelPlate',        storage:50,    time:30,	    costs:{ steelPlate:50 }, },
+    {	id:'engineS1',              icon:'ironChest',               name:'ironChest',       itemId:'engine',            storage:50,    time:30,	    costs:{ engine:50 }, },
+    {	id:'electricEngineS1',      icon:'ironChest',               name:'ironChest',       itemId:'electricEngine',    storage:50,    time:30,	    costs:{ electricEngine:50 }, },
+    {	id:'copperS1',              icon:'ironChest',               name:'ironChest',       itemId:'copper',            storage:50,    time:30,	    costs:{ copper:50 }, },
+    {	id:'copperPlateS1',         icon:'ironChest',               name:'ironChest',       itemId:'copperPlate',       storage:50,    time:30,	    costs:{ copperPlate:50 }, },
+    {	id:'processingUnitS1',      icon:'ironChest',               name:'ironChest',       itemId:'processingUnit',    storage:50,    time:30,	    costs:{ processingUnit:50 }, },
+    {	id:'waterS1',               icon:'waterBarrel',             name:'barrel',          itemId:'water',             storage:50,    time:30,	    costs:{ water:50 }, },
+    {	id:'oilS1',                 icon:'oilBarrel',               name:'barrel',          itemId:'oil',               storage:50,    time:30,	    costs:{ oil:50 }, },
+    {	id:'heavyOilS1',            icon:'heavyOilBarrel',          name:'barrel',          itemId:'heavyOil',          storage:50,    time:30,	    costs:{ heavyOil:50 }, },
+    {	id:'lubricantS1',           icon:'lubricantBarrel',         name:'barrel',          itemId:'lubricant',         storage:50,    time:30,	    costs:{ lubricant:50 }, },
+    {	id:'lightOilS1',            icon:'lightOilBarrel',          name:'barrel',          itemId:'lightOil',          storage:50,    time:30,	    costs:{ lightOil:50 }, },
+    {	id:'petroleumGasS1',        icon:'petroleumGasBarrel',      name:'barrel',          itemId:'petroleumGas',      storage:50,    time:30,	    costs:{ petroleumGas:50 }, },
+    {	id:'plasticBarS1',          icon:'ironChest',               name:'ironChest',       itemId:'plasticBar',        storage:50,    time:30,	    costs:{ plasticBar:50 }, },
+    {	id:'solidFuelS1',           icon:'ironChest',               name:'ironChest',       itemId:'solidFuel',         storage:50,    time:30,	    costs:{ solidFuel:50 }, },
+    {	id:'sulfurS1',              icon:'ironChest',               name:'ironChest',       itemId:'sulfur',            storage:50,    time:30,	    costs:{ sulfur:50 }, },
+    {	id:'sulfuricAcidS1',        icon:'sulfuricAcidBarrel',      name:'barrel',          itemId:'sulfuricAcid',      storage:50,    time:30,	    costs:{ sulfuricAcid:50 }, },
+    {	id:'batteryS1',             icon:'ironChest',               name:'ironChest',       itemId:'battery',           storage:50,    time:30,	    costs:{ battery:50 }, },
+    {	id:'rocketFuelS1',          icon:'ironChest',               name:'ironChest',       itemId:'rocketFuel',        storage:50,    time:30,	    costs:{ rocketFuel:50 }, },
+    {	id:'rocketPartS1',          icon:'ironChest',               name:'ironChest',       itemId:'rocketPart',        storage:50,    time:30,	    costs:{ rocketPart:50 }, },
+    {	id:'redPackS1',             icon:'ironChest',               name:'ironChest',       itemId:'redPack',           storage:50,    time:30,	    costs:{ redPack:50 }, },
+    {	id:'greenPackS1',           icon:'ironChest',               name:'ironChest',       itemId:'greenPack',         storage:50,    time:30,	    costs:{ greenPack:50 }, },
+    {	id:'bluePackS1',            icon:'ironChest',               name:'ironChest',       itemId:'bluePack',          storage:50,    time:30,	    costs:{ bluePack:50 }, },
+    {	id:'purplePackS1',          icon:'ironChest',               name:'ironChest',       itemId:'purplePack',        storage:50,    time:30,	    costs:{ purplePack:50 }, },
+    {	id:'yellowPackS1',          icon:'ironChest',               name:'ironChest',       itemId:'yellowPack',        storage:50,    time:30,	    costs:{ yellowPack:50 }, },
 ]
 
 var labData = { id:'lab', time:22,	costs:{ copperPlate:15, ironPlate:36 }, }
@@ -920,9 +920,6 @@ class Item extends Base {
         this.state = 'paused'
         this.remainingSeconds = this.getTime()
         
-        this.storageSlots = 3
-        this.buildingSlots = 3
-        
         this.storages = []
         this.buildings = []
     }
@@ -936,13 +933,13 @@ class Item extends Base {
         for (let id in this.storages) {
             let storage = this.storages[id]
             
-            ret += storage.count * storage.storage
+            ret += Math.floor(storage.storage * Math.pow(2.0, storage.count))
         }
         
         return ret
     }
     
-    getBuildingCount() {
+    getBuildingsCount() {
     
         let ret = 0
         
@@ -954,20 +951,7 @@ class Item extends Base {
         
         return ret
     }
-     
-    getStorageCount() {
     
-        let ret = 0
-        
-        for (let id in this.storages) {
-            let storage = this.storages[id]
-            
-            ret += storage.count
-        }
-        
-        return ret
-    }
-   
     getTime() {
     
         let ret = this.time
@@ -983,7 +967,7 @@ class Item extends Base {
         for (let id in this.inputs) {
             let input = this.inputs[id]
             
-            ret[id] = input
+            ret[id] = input * this.getBuildingsCount()
         }
         
         return ret
@@ -996,7 +980,7 @@ class Item extends Base {
         for (let id in this.outputs) {
             let output = this.outputs[id]
             
-            ret[id] = output
+            ret[id] = output * this.getBuildingsCount()
         }
         
         return ret
@@ -1126,6 +1110,7 @@ class Buildable extends Base {
         this.time = data.time
         this.costs = data.costs
         
+        this.coeff = 1.12
         this.state = 'paused'
         this.remainingSeconds = this.getTime()
     }
@@ -1145,7 +1130,7 @@ class Buildable extends Base {
         for (let id in this.costs) {
             let cost = this.costs[id]
             
-            ret[id] = cost
+            ret[id] = Math.floor(cost * Math.pow(this.coeff, this.count))
         }
         
         return ret
@@ -1226,20 +1211,10 @@ class Building extends Buildable {
         
         this.icon = data.icon
         this.name = data.name
-        this.timeCoeff = data.timeCoeff
         this.productionLevel = data.productionLevel
         
         this.item = this.game.items[data.itemId]
         this.item.buildings.push(this)
-    }
-    
-    //---
-    
-    canBuild() {
-                
-        if (this.item.getBuildingCount() >= this.item.buildingSlots) return false
-        
-        return super.canBuild()
     }
     
     //---
@@ -1272,7 +1247,6 @@ class Building extends Buildable {
         }
         
         this.item.auto = true
-        this.item.time *= this.timeCoeff
         this.item.productionLevel = this.productionLevel
     }
 }
@@ -1290,15 +1264,8 @@ class Storage extends Buildable {
         
         this.item = this.game.items[data.itemId]
         this.item.storages.push(this)
-    }
-    
-    //---
-    
-    canBuild() {
-                
-        if (this.item.getStorageCount() >= this.item.storageSlots) return false
         
-        return super.canBuild()
+        this.coeff = 2
     }
 }
 
@@ -1310,24 +1277,11 @@ class Lab extends Buildable {
     constructor(game, data) {
         super(game, data)
         
+        this.coeff = 1.5
+        
         this.techs = []
     }
     
-    //---
-    
-    getUsedCount() {
-    
-        let ret = 0
-        
-        for (let id in this.techs) {
-            let tech = this.techs[id]
-            
-            if (tech.state != 'paused') ret += 1
-        }
-        
-        return ret
-    }
-
     //---
     
     onBuild() {
@@ -1338,6 +1292,12 @@ class Lab extends Buildable {
             this.game.items['redPack'].unlocked = true
             
             this.game.techs['automation1'].unlocked = true
+        }
+        
+        for (let id in this.game.techs) {
+            let tech = this.game.techs[id]
+            
+            if (tech.state != 'running') tech.remainingSeconds = tech.getTime()
         }
     }
 }
@@ -1360,11 +1320,10 @@ class Tech extends Buildable {
     
     //---
     
-    canBuild() {
-                
-        if (this.lab.getUsedCount() > 0) return false
-        
-        return super.canBuild()
+    getTime() {
+    
+        let ret = super.getTime() / this.game.lab.count
+        return ret
     }
 
     //---
@@ -1432,7 +1391,7 @@ class Game {
                 item.unlocked = dataItem.unlocked
                 item.count = dataItem.count
                 item.state = dataItem.state
-                item.remainingSeconds = dataItem.remainingSeconds
+                if (item.state == 'running') item.remainingSeconds = dataItem.remainingSeconds
             }
         }
         
@@ -1445,7 +1404,7 @@ class Game {
                 building.unlocked = dataBuilding.unlocked
                 building.count = dataBuilding.count
                 building.state = dataBuilding.state
-                building.remainingSeconds = dataBuilding.remainingSeconds
+                if (building.state == 'running') building.remainingSeconds = dataBuilding.remainingSeconds
             }
         }
         
@@ -1458,7 +1417,7 @@ class Game {
                 storage.unlocked = dataStorage.unlocked
                 storage.count = dataStorage.count
                 storage.state = dataStorage.state
-                storage.remainingSeconds = dataStorage.remainingSeconds
+                if (storage.state == 'running') storage.remainingSeconds = dataStorage.remainingSeconds
             }
         }
         
@@ -1467,7 +1426,7 @@ class Game {
             this.lab.unlocked = data.lab.unlocked
             this.lab.count = data.lab.count
             this.lab.state = data.lab.state
-            this.lab.remainingSeconds = data.lab.remainingSeconds
+            if (this.lab.state == 'running') this.lab.remainingSeconds = data.lab.remainingSeconds
         }
         
         for (let id in data.techs) {
@@ -1479,7 +1438,7 @@ class Game {
                 tech.unlocked = dataTech.unlocked
                 tech.count = dataTech.count
                 tech.state = dataTech.state
-                tech.remainingSeconds = dataTech.remainingSeconds
+                if (tech.state == 'running') tech.remainingSeconds = dataTech.remainingSeconds
             }
         }
         
@@ -1716,7 +1675,7 @@ export default {
     
         setCurrentTabId(tabId) { this.currentTabId = tabId },
         
-        setCurrentIronworkPageId(pageId) { this.currentIronworkPageId = pageId },
+        setCurrentIronworkPageId(pageId) { this.currentIronworkPageId = pageId },        
         setCurrentMasonryPageId(pageId) { this.currentMasonryPageId = pageId },
         setCurrentElectronicPageId(pageId) { this.currentElectronicPageId = pageId },
         setCurrentChemistryPageId(pageId) { this.currentChemistryPageId = pageId },

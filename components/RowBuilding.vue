@@ -8,13 +8,12 @@
                 <div class="text-normal">{{ $t('buildingName_' + building.name) }}</div>
                 <div>{{ $t('buildingDesc_' + building.name) }}</div>
             </div>
-            <div v-if="building.count > 0" class="col-auto">
-                <button type="button" class="btn btn-primary disabled">
-                    <span class="text-success"><i class="fas fa-fw fa-check"></i></span>
-                </button>
+            <div class="col-auto">
+                <span class="text-muted">x</span>
+                <span class="text-normal">{{ building.count }}</span>
             </div>
         </div>
-        <div v-if="building.count < 1" class="row gx-2 align-items-center justify-content-end">
+        <div class="row gx-2 align-items-center justify-content-end">
             <div class="col-auto">
                 <div class="row gx-1 align-items-center justify-content-end">
                     <div v-for="(count, itemId) in building.getCosts()" class="col-auto">

@@ -1,10 +1,10 @@
 <template>
-    <div class="col-12 mt-2">
+    <div class="col-12">
         <div class="card">
             <div class="card-header">
                 <div class="row gx-2">
                     <div class="col">
-                        <span class="text-muted">Buildings</span>
+                        <span class="text-muted">Building</span>
                     </div>
                 </div>
             </div>
@@ -16,6 +16,10 @@
                     <div class="col">
                         <div class="text-normal">{{ $t('labName_' + lab.id) }}</div>
                         <div class="text-muted">{{ $t('labDesc_' + lab.id) }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <span class="text-muted">x</span>
+                        <span class="text-normal">{{ lab.count }}</span>
                     </div>
                 </div>
                 <div class="row gx-2 align-items-center justify-content-end">
