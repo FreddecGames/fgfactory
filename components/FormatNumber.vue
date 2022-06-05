@@ -27,7 +27,7 @@ export default {
             else if (absValue >= 1e12) { ret = sign + Math.floor(absValue / 1e12); symbol = "T";  }
             else if (absValue >= 1e9)  { ret = sign + Math.floor(absValue / 1e9);  symbol = "B";  }
             else if (absValue >= 1e6)  { ret = sign + Math.floor(absValue / 1e6);  symbol = "M";  }
-            else if (absValue >= 1e3)  { ret = sign + Math.floor(absValue / 1e3);  symbol = "K";  }
+            else if (absValue >= 1e3)  { ret = sign + Math.floor(100 * absValue / 1e3) / 100;  symbol = "K";  }
             
             else ret = sign + Math.floor(absValue)
             

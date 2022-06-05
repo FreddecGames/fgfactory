@@ -763,17 +763,14 @@ var itemData = [
     {	id:'stone',             productionLevel:1,    max:50,     time:4,	    outputs:{ stone:1 },            },
     {	id:'stoneBrick',        productionLevel:0,    max:50,     time:3,	    outputs:{ stoneBrick:1 },       inputs:{ stone:2 }, },
     {	id:'concrete',          productionLevel:0,    max:50,     time:10,	    outputs:{ concrete:10 },        inputs:{ iron:1, stoneBrick:5, water:100 }, },
-    
     {	id:'iron',              productionLevel:1,    max:50,     time:4,	    outputs:{ iron:1 },             },
     {	id:'ironPlate',         productionLevel:0,    max:50,     time:3,	    outputs:{ ironPlate:1 },        inputs:{ iron:1 }, },
     {	id:'steelPlate',        productionLevel:0,    max:50,     time:16,	    outputs:{ steelPlate:1 },       inputs:{ ironPlate:5 }, },
     {	id:'engine',            productionLevel:0,    max:50,     time:12,	    outputs:{ engine:1 },           inputs:{ ironPlate:4, steelPlate:1 }, },
     {	id:'electricEngine',    productionLevel:0,    max:50,     time:13,	    outputs:{ electricEngine:1 },   inputs:{ copperPlate:3, engine:1, ironPlate:2, lubricant:15 }, },
-    
     {	id:'copper',            productionLevel:1,    max:50,     time:4,	    outputs:{ copper:1 },           },
     {	id:'copperPlate',       productionLevel:0,    max:50,     time:3,       outputs:{ copperPlate:1 },      inputs:{ copper:1 }, },
     {	id:'processingUnit',    productionLevel:0,    max:50,     time:54,      outputs:{ processingUnit:1 },   inputs:{ copperPlate:40, ironPlate:24, plasticBar:4, sulfuricAcid:5 }, },
-    
     {	id:'water',             productionLevel:0,    max:50,     time:1,	    outputs:{ water:12 },           },
     {	id:'oil',               productionLevel:0,    max:50,     time:1,	    outputs:{ oil:12 },             },
     {	id:'heavyOil',          productionLevel:0,    max:50,     time:5,	    outputs:{ heavyOil:25 },        inputs:{ oil:100, water:50 }, },
@@ -785,10 +782,8 @@ var itemData = [
     {	id:'sulfur',            productionLevel:0,    max:50,     time:2,	    outputs:{ sulfur:2 },           inputs:{ petroleumGas:30, water:30 }, },
     {	id:'sulfuricAcid',      productionLevel:0,    max:50,     time:1,	    outputs:{ sulfuricAcid:50 },    inputs:{ ironPlate:1, sulfur:5, water:100 }, },
     {	id:'battery',           productionLevel:0,    max:50,     time:1,	    outputs:{ battery:50 },         inputs:{ copperPlate:1, ironPlate:1, sulfuricAcid:20 }, },
-    
     {	id:'rocketFuel',        productionLevel:0,    max:50,     time:30,	    outputs:{ rocketFuel:1 },       inputs:{ lightOil:10, solidFuel:10 }, },
     {	id:'rocketPart',        productionLevel:0,    max:50,     time:1200,	outputs:{ rocketPart:1 },       inputs:{ copperPlate:525, ironPlate:150, plasticBar:150, processingUnit:10, rocketFuel:10, steelPlate:20 }, },
-    
     {	id:'redPack',           productionLevel:1,    max:50,     time:6,	    outputs:{ redPack:1 },          inputs:{ ironPlate:2, copperPlate:1 }, },
     {	id:'greenPack',         productionLevel:1,    max:50,     time:9,	    outputs:{ greenPack:1 },        inputs:{ ironPlate:6, copperPlate:2 }, },
     {	id:'bluePack',          productionLevel:1,    max:50,     time:53,	    outputs:{ bluePack:2 },         inputs:{ ironPlate:6, copperPlate:15, engine:2, plasticBar:6, sulfur:1 }, },
@@ -876,7 +871,7 @@ var techData = [
     {	id:'lubricantTech',         time:3000,      costs:{ redPack:50, greenPack:50, bluePack:50 },                                            unlockItems:[ 'lubricant' ], unlockTechs:[ 'electricEngineTech' ], },
     {	id:'concreteTech',          time:7500,      costs:{ redPack:250, greenPack:250 },                                                       unlockItems:[ 'concrete' ], },
     {	id:'plastics',              time:6000,      costs:{ redPack:200, greenPack:200 },                                                       unlockItems:[ 'plasticBar' ], },
-    {	id:'batteryTech',           time:4500,      costs:{ redPack:150, greenPack:150 },                                                       unlockItems:[ 'battery' ], },
+    {	id:'batteryTech',           time:4500,      costs:{ redPack:150, greenPack:150 },                                                       unlockItems:[ 'battery' ], unlockBuildings:[ 'batteryT1' ], },
     {	id:'sulfurTech',            time:4500,      costs:{ redPack:150, greenPack:150 },                                                       unlockItems:[ 'sulfur', 'sulfuricAcid' ], unlockTechs:[ 'batteryTech', 'blueScience' ], },
     {	id:'oilTech1',              time:3000,      costs:{ redPack:100, greenPack:100 },                                                       unlockItems:[ 'oil', 'heavyOil', 'lightOil', 'petroleumGas' ], unlockBuildings:[ 'oilT1', 'heavyOilT1', 'lubricantT1', 'lightOilT1', 'petroleumGasT1', 'plasticBarT1', 'solidFuelT1', 'sulfurT1', 'sulfuricAcidT1' ], unlockStorages:[ 'oilS1', 'heavyOilS1', 'lightOilS1', 'lubricantS1', 'petroleumGasS1', 'sulfuricAcidS1' ], unlockTechs:[ 'plastics', 'sulfurTech' ], },
     {	id:'engineTech',            time:1500,      costs:{ redPack:100, greenPack:100 },                                                       unlockItems:[ 'engine' ], unlockTechs:[ 'fluidHandling' ], },
@@ -928,7 +923,7 @@ class Item extends Base {
     
     getMax() {
     
-        let ret = this.max
+        let ret = 0
         
         for (let id in this.storages) {
             let storage = this.storages[id]
@@ -961,13 +956,15 @@ class Item extends Base {
     getInputs() {
         
         if (this.inputs == null) return null
+
+        let bCount = Math.max(1, this.getBuildingsCount())
         
         let ret = {}
         
         for (let id in this.inputs) {
             let input = this.inputs[id]
             
-            ret[id] = input * this.getBuildingsCount()
+            ret[id] = input * bCount
         }
         
         return ret
@@ -977,10 +974,12 @@ class Item extends Base {
     
         let ret = {}
         
+        let bCount = Math.max(1, this.getBuildingsCount())
+        
         for (let id in this.outputs) {
             let output = this.outputs[id]
             
-            ret[id] = output * this.getBuildingsCount()
+            ret[id] = output * bCount
         }
         
         return ret
@@ -1786,7 +1785,7 @@ export default {
                 this.init()
                 this.load()                
                 this.update()
-                
+                                
                 window.onbeforeunload = () => {
                 
                     if (this.resetInProgress == false) {
