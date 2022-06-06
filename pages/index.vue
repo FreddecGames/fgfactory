@@ -368,7 +368,7 @@
                         <div class="col-12">
                             <div class="text-uppercase text-muted small mb-1">Final Objective</div>
                             <div class="text-normal ps-4 mb-1"><i class="fas fa-fw fa-caret-right"></i> Perform all researches</div>
-                            <div class="text-normal ps-4 mb-1"><i class="fas fa-fw fa-caret-right"></i> <span class="text-white">Build 100 Rocket Parts</span></div>
+                            <div class="text-normal ps-4 mb-1"><i class="fas fa-fw fa-caret-right"></i> Build 100 <span class="text-white">Rocket Parts</span></div>
                         </div>
                         <div class="col-12 text-center">
                             <span class="text-white h5">Good luck!</span>
@@ -473,7 +473,7 @@
             <div v-if="currentTabId == 'masonry' && gameItem('stone').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:90px; margin-bottom:52px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
-                        <div class="col-auto scrollbar" style="width:250px;">
+                        <div class="col-auto scrollbar" style="width:275px;">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="row g-1">
@@ -494,7 +494,7 @@
             <div v-if="currentTabId == 'ironwork' && gameItem('iron').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:90px; margin-bottom:52px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
-                        <div class="col-auto scrollbar" style="width:250px;">
+                        <div class="col-auto scrollbar" style="width:275px;">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="row g-1">
@@ -519,7 +519,7 @@
             <div v-if="currentTabId == 'electronic' && gameItem('copper').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:90px; margin-bottom:52px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
-                        <div class="col-auto scrollbar" style="width:250px;">
+                        <div class="col-auto scrollbar" style="width:275px;">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="row g-1">
@@ -540,7 +540,7 @@
             <div v-if="currentTabId == 'chemistry' && gameItem('water').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:90px; margin-bottom:52px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
-                        <div class="col-auto scrollbar" style="width:250px;">
+                        <div class="col-auto scrollbar" style="width:275px;">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="row g-1">
@@ -585,7 +585,7 @@
             <div v-if="currentTabId == 'rocket' && gameItem('rocketFuel').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:90px; margin-bottom:52px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
-                        <div class="col-auto scrollbar" style="width:250px;">
+                        <div class="col-auto scrollbar" style="width:275px;">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="row g-1">
@@ -604,7 +604,7 @@
             <div v-if="currentTabId == 'techs' && game.lab.unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:90px; margin-bottom:52px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
-                        <div class="col-auto scrollbar" style="width:250px;">
+                        <div class="col-auto scrollbar" style="width:275px;">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="row g-1">
@@ -878,7 +878,7 @@ var techData = [
     {	id:'blueScience',           time:750,       costs:{ redPack:75, greenPack:75 },                                                         unlockItems:[ 'bluePack' ], unlockTechs:[ 'oilTech2' ], },
     {	id:'fluidHandling',         time:750,       costs:{ redPack:50, greenPack:50 },                                                         unlockItems:[ 'water' ], unlockBuildings:[ 'waterT1' ], unlockStorages:[ 'waterS1' ], unlockTechs:[ 'oilTech1' ], },
     {	id:'automation2',           time:600,       costs:{ redPack:40, greenPack:40 },                                                         unlockTechs:[ 'concreteTech' ], },
-    {	id:'greenScience',          time:375,       costs:{ redPack:75 },                                                                       unlockItems:[ 'greenPack' ], },
+    {	id:'greenScience',          time:375,       costs:{ redPack:75 },                                                                       unlockItems:[ 'greenPack' ], unlockTechs:[ 'automation2' ], },
     {	id:'steelTech',             time:250,       costs:{ redPack:50 },                                                                       unlockItems:[ 'steelPlate' ], unlockBuildings:[ 'steelPlateT1' ], unlockTechs:[ 'engineTech' ], },
     {	id:'automation1',           time:100,	    costs:{ redPack:10 },                                                                       unlockItems:[ 'stoneBrick' ], unlockBuildings:[ 'stoneBrickT1', 'concreteT1', 'engineT1', 'electricEngineT1', 'processingUnitT1', 'rocketFuelT1', 'redPackT1', 'greenPackT1', 'bluePackT1', 'purplePackT1', 'yellowPackT1' ], unlockStorages:[ 'stoneS1', 'stoneBrickS1', 'concreteS1', 'ironS1', 'ironPlateS1', 'steelPlateS1', 'engineS1', 'electricEngineS1', 'copperS1', 'copperPlateS1', 'processingUnitS1', 'plasticBarS1', 'solidFuelS1', 'batteryS1', 'rocketFuelS1', 'rocketPartS1', 'redPackS1', 'greenPackS1', 'bluePackS1', 'purplePackS1', 'yellowPackS1' ], unlockTechs:[ 'steelTech', 'greenScience' ], },
 ]
