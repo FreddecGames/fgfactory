@@ -11,7 +11,7 @@
             <div class="card-body">
                 <div class="row gx-2 align-items-center">
                     <div class="col-auto">
-                        <img :src="require(`~/assets/lab/${lab.id}.png`)" width="18px" height="18px" :title="$t('labName_' + lab.id)" :alt="$t('labName_' + lab.id)" />
+                        <img :src="require(`~/assets/lab/${lab.id}.png`)" width="24px" height="24px" :title="$t('labName_' + lab.id)" :alt="$t('labName_' + lab.id)" />
                     </div>
                     <div class="col">
                         <div class="text-normal">{{ $t('labName_' + lab.id) }}</div>

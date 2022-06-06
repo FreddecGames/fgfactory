@@ -2,7 +2,7 @@
     <div v-if="tech.unlocked == true && (tech.count < 1 || (tech.count > 0 && tech.game.options.researchedTechs == true))" class="list-group-item">
         <div v-if="tech.count > 0 && tech.game.options.researchedTechs == true" class="row gx-2 align-items-center">
             <div class="col-auto">
-                <img :src="require(`~/assets/techs/${tech.id}.png`)" width="18px" height="18px" :title="$t('techName_' + tech.id)" :alt="$t('techName_' + tech.id)" />
+                <img :src="require(`~/assets/techs/${tech.id}.png`)" width="24px" height="24px" :title="$t('techName_' + tech.id)" :alt="$t('techName_' + tech.id)" />
             </div>
             <div class="col">
                 <div class="text-normal">{{ $t('techName_' + tech.id) }}</div>
@@ -17,7 +17,7 @@
         <div v-if="tech.count < 1">
             <div class="row gx-2 align-items-center">
                 <div class="col-auto">
-                    <img :src="require(`~/assets/techs/${tech.id}.png`)" width="18px" height="18px" :title="$t('techName_' + tech.id)" :alt="$t('techName_' + tech.id)" />
+                    <img :src="require(`~/assets/techs/${tech.id}.png`)" width="24px" height="24px" :title="$t('techName_' + tech.id)" :alt="$t('techName_' + tech.id)" />
                 </div>
                 <div class="col">
                     <div class="text-normal">{{ $t('techName_' + tech.id) }}</div>

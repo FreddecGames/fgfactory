@@ -2,7 +2,7 @@
     <div v-if="storage.unlocked == true" class="list-group-item">
         <div class="row gx-2 align-items-center">
             <div class="col-auto">
-                <img :src="require(`~/assets/storages/${storage.icon}.png`)" width="18px" height="18px" :title="$t('storageName_' + storage.name)" :alt="$t('storageName_' + storage.name)" />
+                <img :src="require(`~/assets/storages/${storage.icon}.png`)" width="24px" height="24px" :title="$t('storageName_' + storage.name)" :alt="$t('storageName_' + storage.name)" />
             </div>
             <div class="col">
                 <div class="text-normal">{{ $t('storageName_' + storage.name) }}</div>
