@@ -39,7 +39,7 @@
                     <div class="text-center mb-1">
                         <span :class="{ 'text-muted':tech.canBuild() == false, 'text-normal':tech.canBuild() == true || tech.state == 'running' }"><FormatTime :value="tech.remainingSeconds" /></span>
                     </div>
-                    <div class="progress" style="width:80px; height:3px;">
+                    <div class="progress" style="width:70px; height:3px;">
                         <div class="progress-bar" role="progressbar" :style="'width:' + percent + '%;'" :aria-valuenow="percent" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>

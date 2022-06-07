@@ -9,6 +9,7 @@ export default {
     'menuTab_rocket': 'Rocket',
     'menuTab_settings': 'Settings',
     'menuTab_techs': 'Techs',
+    'menuTab_weapons': 'Weapons',
     
     'itemName_battery': 'Battery',
     'itemName_bluePack': 'Blue Pack',
@@ -25,6 +26,7 @@ export default {
     'itemName_lubricant': 'Lubricant',
     'itemName_oil': 'Oil',
     'itemName_petroleumGas': 'Petroleum Gas',
+    'itemName_pistol': 'Pistol',
     'itemName_plasticBar': 'Plastic Bar',
     'itemName_processingUnit': 'Processing Unit',
     'itemName_purplePack': 'Purple Pack',
@@ -116,4 +118,6 @@ export default {
     'techDesk_steelTech': 'Unlocks Steel production, tier 2 storages',
     'techDesk_sulfurTech': 'Unlocks Sulfur and Acid Sulfuric productions',
     'techDesk_yellowScience': 'Unlocks Yellow Pack production',
+    
+    'attackName_fight': 'Fight',
 }

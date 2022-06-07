@@ -12,31 +12,31 @@
                 </div>                
             </div>
             <div class="card-body">
-                <div class="row gx-2 align-items-center justify-content-end">
+                <div class="row gx-1 align-items-center justify-content-end">
                     <div class="col-auto">
-                        <div class="row gx-1 align-items-center justify-content-end">
+                        <div class="row gx-2 align-items-center justify-content-end">
                             <div v-for="(count, itemId) in item.getInputs()" class="col-auto">
                                 <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('itemName_' + itemId)" >
                                     <img :src="require(`~/assets/items/${itemId}.png`)" width="18px" height="18px" :alt="$t('itemName_' + itemId)" />
-                                    <span class="position-absolute bottom-0 end-0 fw-bold text-shadow" :class="{ 'text-danger':count > item.game.items[itemId].count, 'text-normal':count <= item.game.items[itemId].count }"><FormatNumber :value="count" /></span>
+                                    <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow" :class="{ 'text-danger':count > item.game.items[itemId].count, 'text-normal':count <= item.game.items[itemId].count }"><FormatNumber :value="count" /></span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div v-if="item.getInputs()" class="col-auto">
+                    <div v-if="item.getInputs()" class="col-auto px-0">
                         <i class="text-muted fas fa-fw fa-long-arrow-alt-right"></i>
                     </div>
-                    <div v-for="(count, itemId) in item.getOutputs()" class="col-auto">
+                    <div v-for="(count, itemId) in item.getOutputs()" class="col-auto ps-0">
                         <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('itemName_' + itemId)" >
                             <img :src="require(`~/assets/items/${itemId}.png`)" width="18px" height="18px" :alt="$t('itemName_' + itemId)" />
-                            <span class="position-absolute bottom-0 end-0 fw-bold text-shadow" :class="{ 'text-danger':item.game.items[itemId].count + count > item.game.items[itemId].getMax(), 'text-normal':item.game.items[itemId].count + count <= item.game.items[itemId].getMax() }" :title="$t('itemName_' + itemId)"><FormatNumber :value="count" /></span>
+                            <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow" :class="{ 'text-danger':item.game.items[itemId].count + count > item.game.items[itemId].getMax(), 'text-normal':item.game.items[itemId].count + count <= item.game.items[itemId].getMax() }" :title="$t('itemName_' + itemId)"><FormatNumber :value="count" /></span>
                         </div>
                     </div>
                     <div class="col-auto">
                         <div class="text-center mb-1">
                             <span :class="{ 'text-muted':item.productionLevel < 1, 'text-normal':item.productionLevel > 0 }"><FormatTime :value="item.remainingSeconds" /></span>
                         </div>
-                        <div class="progress" style="width:80px; height:3px;">
+                        <div class="progress" style="width:70px; height:3px;">
                             <div class="progress-bar" role="progressbar" :style="'width:' + percent + '%;'" :aria-valuenow="percent" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
