@@ -96,7 +96,7 @@
                                     </a>
                                 </div>
                                 <div class="col-auto">
-                                    <button type="button" class="btn btn-primary" @click="popupTutorial.done = true; popupTutorial = null; showSupportPopup();">
+                                    <button type="button" class="btn btn-primary" @click="popupVictory = null; showSupportPopup();">
                                         <i class="fas fw fa-hand-holding-heart"></i>
                                         <span class="ms-2">Support</span>
                                     </button>
