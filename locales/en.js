@@ -11,6 +11,7 @@ export default {
     'menuTab_techs': 'Techs',
     'menuTab_weapons': 'Weapons',
     
+    'itemName_aliens': 'Aliens',
     'itemName_battery': 'Battery',
     'itemName_bluePack': 'Blue Pack',
     'itemName_concrete': 'Concrete',
@@ -26,7 +27,6 @@ export default {
     'itemName_lubricant': 'Lubricant',
     'itemName_oil': 'Oil',
     'itemName_petroleumGas': 'Petroleum Gas',
-    'itemName_pistol': 'Pistol',
     'itemName_plasticBar': 'Plastic Bar',
     'itemName_processingUnit': 'Processing Unit',
     'itemName_purplePack': 'Purple Pack',
@@ -75,6 +75,7 @@ export default {
     
     'labDesc_lab': 'Decrease research time',
     
+    'techName_arsenal': 'Arsenal',
     'techName_automation1': 'Automation 1',
     'techName_automation2': 'Automation 2',
     'techName_batteryTech': 'Battery Tech',
@@ -96,6 +97,7 @@ export default {
     'techName_sulfurTech': 'Sulfur Tech',
     'techName_yellowScience': 'Yellow Science',
     
+    'techDesk_arsenal': 'Unlocks Pistol weapon',
     'techDesk_automation1': 'Unlocks Assembler and Chest',
     'techDesk_automation2': 'Unlocks Concrete production',
     'techDesk_batteryTech': 'Unlocks Battery production',
@@ -119,5 +121,9 @@ export default {
     'techDesk_sulfurTech': 'Unlocks Sulfur and Acid Sulfuric productions',
     'techDesk_yellowScience': 'Unlocks Yellow Pack production',
     
-    'attackName_fight': 'Fight',
+    'weaponName_pistol': 'Pistol',
+    
+    'ammunitionName_firearmMagazine': 'Firearm Magazine',
+    
+    'ammunitionDesc_firearmMagazine': '10 bullet shots',
 }

@@ -63,7 +63,7 @@
                             <span>Victory</span>
                         </div>
                         <div class="col-auto">
-                            <button type="button" class="btn btn-primary p-1" @click="popupVictory = false;">
+                            <button type="button" class="btn btn-primary p-1" @click="game.victory = true; popupVictory = false;">
                                 <span><i class="fas fa-fw fa-times"></i></span>
                             </button>
                         </div>
@@ -95,10 +95,15 @@
                                         <span class="ms-2">Discord</span>
                                     </a>
                                 </div>
-                                <div class="col-auto">
+                                <div class="col">
                                     <button type="button" class="btn btn-primary" @click="popupVictory = null; showSupportPopup();">
                                         <i class="fas fw fa-hand-holding-heart"></i>
                                         <span class="ms-2">Support</span>
+                                    </button>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-primary" @click="game.victory = true; popupVictory = null;">
+                                        <span>Close</span>
                                     </button>
                                 </div>
                             </div>
@@ -638,19 +643,19 @@
                 </div>
             </div>            
 
-            <div v-if="currentTabId == 'weapons' && gameItem('pistol').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:90px; margin-bottom:52px;">
+            <div v-if="currentTabId == 'weapons' && gameWeapon('pistol').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:90px; margin-bottom:52px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
                         <div class="col-auto scrollbar" style="width:275px;">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="row g-1">
-                                        <ButtonItem :item="gameItem('pistol')" @click="setCurrentWeaponsPageId('pistol')" :active="currentWeaponsPageId == 'pistol'" />
+                                        <ButtonWeapon :weapon="gameWeapon('pistol')" @click="setCurrentWeaponsPageId('pistol')" :active="currentWeaponsPageId == 'pistol'" />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <PageWeapon v-if="currentWeaponsPageId == 'pistol'" :item="gameItem('pistol')" />
+                        <PageWeapon v-if="currentWeaponsPageId == 'pistol'" :weapon="gameWeapon('pistol')" />
                     </div>
                 </div>
             </div>            
@@ -812,8 +817,6 @@ var itemData = [
     {	id:'bluePack',          productionLevel:1,    time:53,	    outputs:{ bluePack:2 },         inputs:{ ironPlate:6, copperPlate:15, engine:2, plasticBar:6, sulfur:1 }, },
     {	id:'purplePack',        productionLevel:1,    time:154,	    outputs:{ purplePack:3 },       inputs:{ ironPlate:33, copperPlate:58, steelPlate:25, plasticBar:20, stone:15, stoneBrick:10 }, },
     {	id:'yellowPack',        productionLevel:1,    time:105,	    outputs:{ yellowPack:3 },       inputs:{ ironPlate:3, copperPlate:65, steelPlate:7, plasticBar:15, battery:2, processingUnit:2, electricEngine:1 }, },
-
-    {	id:'pistol',            productionLevel:1,    max:1,    time:5,	    outputs:{ pistol:1 },           inputs:{ ironPlate:5, copperPlate:5 }, },
 ]
 
 var buildingData = [
@@ -887,10 +890,11 @@ var labData = { id:'lab', time:22,	costs:{ copperPlate:15, ironPlate:36 }, }
 var techData = [
 
     {	id:'rocketTech',            time:60000,     costs:{ redPack:1000, greenPack:1000, bluePack:1000, purplePack:1000, yellowPack:1000 },    unlockItems:[ 'rocketPart' ], unlockBuildings:[ 'rocketPartT1' ], },
-    {	id:'rocketFuelTech',        time:13500,     costs:{ redPack:300, greenPack:300, bluePack:300 },                                         unlockItems:[ 'rocketFuel', 'pistol' ], unlockTechs:[ 'rocketTech' ], },
+    {	id:'arsenal',               time:25000,     costs:{ redPack:1000, greenPack:1000, bluePack:500, purplePack:500 },                       unlockWeapons:[ 'pistol' ], unlockAmmunitions:[ 'pistolA1' ], },
+    {	id:'rocketFuelTech',        time:13500,     costs:{ redPack:300, greenPack:300, bluePack:300 },                                         unlockItems:[ 'rocketFuel' ], unlockTechs:[ 'rocketTech' ], },
     {	id:'electronics',           time:9000,      costs:{ redPack:300, greenPack:300, bluePack:300 },                                         unlockItems:[ 'processingUnit' ], unlockTechs:[ 'purpleScience', 'yellowScience' ], },
     {	id:'yellowScience',         time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100 },                                         unlockItems:[ 'yellowPack' ], },
-    {	id:'purpleScience',         time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100 },                                         unlockItems:[ 'purplePack' ], },
+    {	id:'purpleScience',         time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100 },                                         unlockItems:[ 'purplePack' ], unlockTechs:[ 'arsenal' ], },
     {	id:'oilTech2',              time:2250,      costs:{ redPack:75, greenPack:75, bluePack:75 },                                            unlockItems:[ 'solidFuel' ], unlockTechs:[ 'lubricantTech', 'rocketFuelTech', 'electronics' ], },
     {	id:'electricEngineTech',    time:3000,      costs:{ redPack:50, greenPack:50, bluePack:50 },                                            unlockItems:[ 'electricEngine' ], },
     {	id:'lubricantTech',         time:3000,      costs:{ redPack:50, greenPack:50, bluePack:50 },                                            unlockItems:[ 'lubricant' ], unlockTechs:[ 'electricEngineTech' ], },
@@ -908,10 +912,14 @@ var techData = [
     {	id:'automation1',           time:100,	    costs:{ redPack:10 },                                                                       unlockItems:[ 'stoneBrick' ], unlockBuildings:[ 'stoneBrickT1', 'concreteT1', 'engineT1', 'electricEngineT1', 'processingUnitT1', 'rocketFuelT1', 'redPackT1', 'greenPackT1', 'bluePackT1', 'purplePackT1', 'yellowPackT1' ], unlockStorages:[ 'stoneS1', 'stoneBrickS1', 'concreteS1', 'ironS1', 'ironPlateS1', 'steelPlateS1', 'engineS1', 'electricEngineS1', 'copperS1', 'copperPlateS1', 'processingUnitS1', 'plasticBarS1', 'solidFuelS1', 'batteryS1', 'rocketFuelS1', 'rocketPartS1', 'redPackS1', 'greenPackS1', 'bluePackS1', 'purplePackS1', 'yellowPackS1' ], unlockTechs:[ 'steelTech', 'greenScience' ], },
 ]
 
-var enemyData = [
+var weaponData = [
 
-    {   id:'biter1',     health:15,    shield:{ physical:0, explosion:0 },      armor:{ physical:1, explosion:1 }, },
-    {   id:'biter2',     health:75,    shield:{ physical:0, explosion:4 },      armor:{ physical:.9, explosion:.9 }, },
+    {	id:'pistol',        max:1,    time:5,	    costs:{ ironPlate:5, copperPlate:5 },   fireTime:.25, },
+]
+
+var ammunitionData = [
+
+    {   id:'pistolA1',      icon:'firearmMagazine',     name:'firearmMagazine',    weaponId:'pistol',  fireCount:10,  damages:{ physical:5 },   time:1,    costs:{ ironPlate:4 }, },
 ]
 
 //------------------------------------------------------------------------------
@@ -1280,6 +1288,10 @@ class Building extends Buildable {
         
         this.item.auto = true
         this.item.productionLevel = this.productionLevel
+        
+        if (this.item.getBuildingsCount() == 1) {
+            this.item.startProducing()
+        }
     }
 }
 
@@ -1344,6 +1356,8 @@ class Tech extends Buildable {
         this.unlockItems = data.unlockItems
         this.unlockStorages = data.unlockStorages
         this.unlockBuildings = data.unlockBuildings
+        this.unlockWeapons = data.unlockWeapons
+        this.unlockAmmunitions = data.unlockAmmunitions
         
         this.lab = this.game.lab
         this.lab.techs.push(this)
@@ -1366,6 +1380,42 @@ class Tech extends Buildable {
         if (this.unlockItems) this.unlockItems.forEach(id => { console.log(id); this.game.items[id].unlocked = true })
         if (this.unlockStorages) this.unlockStorages.forEach(id => { console.log(id); this.game.storages[id].unlocked = true })
         if (this.unlockBuildings) this.unlockBuildings.forEach(id => { console.log(id); this.game.buildings[id].unlocked = true })
+        if (this.unlockWeapons) this.unlockWeapons.forEach(id => { console.log(id); this.game.weapons[id].unlocked = true })
+        if (this.unlockAmmunitions) this.unlockAmmunitions.forEach(id => { console.log(id); this.game.ammunitions[id].unlocked = true })
+    }
+}
+
+//------------------------------------------------------------------------------
+
+class Weapon extends Buildable {
+
+    constructor(game, data) {
+        super(game, data)
+        
+        this.id = data.id
+        this.max = data.max
+        this.fireTime = data.fireTime
+            
+        this.ammunitions = []
+    }
+}
+
+//------------------------------------------------------------------------------
+
+class Ammunition extends Buildable {
+
+    constructor(game, data) {
+        super(game, data)
+        
+        this.icon = data.icon
+        this.name = data.name
+        this.damages = data.damages
+        this.fireCount = data.fireCount
+        
+        this.weapon = this.game.weapons[data.weaponId]
+        this.weapon.ammunitions.push(this)
+        
+        this.totalFireCount = 0
     }
 }
 
@@ -1392,6 +1442,12 @@ class Game {
         
         this.techs = {}
         techData.forEach(data => { this.techs[data.id] = new Tech(this, data) })
+        
+        this.weapons = {}
+        weaponData.forEach(data => { this.weapons[data.id] = new Weapon(this, data) })
+       
+        this.ammunitions = {}
+        ammunitionData.forEach(data => { this.ammunitions[data.id] = new Ammunition(this, data) })
         
         this.options = {
         
@@ -1473,6 +1529,32 @@ class Game {
             }
         }
         
+        for (let id in data.weapons) {
+            let dataWeapon = data.weapons[id]
+            
+            let weapon = this.weapons[id]
+            if (weapon) {
+            
+                weapon.unlocked = dataWeapon.unlocked
+                weapon.count = dataWeapon.count
+                weapon.state = dataWeapon.state
+                if (weapon.state == 'running') weapon.remainingSeconds = dataWeapon.remainingSeconds
+            }
+        }
+        
+        for (let id in data.ammunitions) {
+            let dataAmmunition = data.ammunitions[id]
+            
+            let ammunition = this.ammunitions[id]
+            if (ammunition) {
+            
+                ammunition.unlocked = dataAmmunition.unlocked
+                ammunition.count = dataAmmunition.count
+                ammunition.state = dataAmmunition.state
+                if (ammunition.state == 'running') ammunition.remainingSeconds = dataAmmunition.remainingSeconds
+            }
+        }
+        
         for (let id in this.items) {
             let item = this.items[id]
             if (item.count > 0) item.onProduce()
@@ -1487,7 +1569,6 @@ class Game {
         
         for (let id in this.techs) {
             let tech = this.techs[id]
-            console.log(id)
             if (tech.count > 0) tech.onBuild()
         }
     }
@@ -1510,8 +1591,10 @@ class Game {
             
             items: {},
             techs: {},
+            weapons: {},
             storages: {},
             buildings: {},
+            ammunitions: {},
         }
         
         for (let id in this.items) {
@@ -1559,6 +1642,30 @@ class Game {
                 count: tech.count,
                 state: tech.state,
                 remainingSeconds: tech.remainingSeconds,
+            }
+        }
+        
+        for (let id in this.weapons) {
+            let weapon = this.weapons[id]
+            
+            ret.weapons[weapon.id] = {
+            
+                unlocked: weapon.unlocked,
+                count: weapon.count,
+                state: weapon.state,
+                remainingSeconds: weapon.remainingSeconds,
+            }
+        }
+        
+        for (let id in this.ammunitions) {
+            let ammunition = this.ammunitions[id]
+            
+            ret.ammunitions[ammunition.id] = {
+            
+                unlocked: ammunition.unlocked,
+                count: ammunition.count,
+                state: ammunition.state,
+                remainingSeconds: ammunition.remainingSeconds,
             }
         }
         
@@ -1611,6 +1718,18 @@ class Game {
                 let tech = this.techs[id]
                 
                 tech.build(delta)
+            }
+            
+            for (let id in this.ammunitions) {
+                let ammunition = this.ammunitions[id]
+                
+                ammunition.build(delta)
+            }
+            
+            for (let id in this.weapons) {
+                let weapon = this.weapons[id]
+                
+                weapon.build(delta)
             }
         }
     }
@@ -1724,6 +1843,7 @@ export default {
         //---
         
         gameItem(id) { return this.game.items[id] },
+        gameWeapon(id) { return this.game.weapons[id] },
         
         //---
         
