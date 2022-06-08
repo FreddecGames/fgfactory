@@ -41,10 +41,12 @@ export default {
     'itemName_sulfur': 'Sulfur',
     'itemName_sulfuricAcid': 'Sulfuric Acid',
     'itemName_water': 'Water',
+    'itemName_wood': 'Wood',
     'itemName_yellowPack': 'Yellow Pack',
-        
+    
     'buildingName_assembler1': 'Assembler',
     'buildingName_chemicalPlant': 'Chemical Plant',
+    'buildingName_manual': 'Manual',
     'buildingName_miningDrill': 'Mining Drill',
     'buildingName_offshorePump': 'Offshore Pump',
     'buildingName_oilRefinery': 'Oil Refinery',
@@ -54,6 +56,7 @@ export default {
     
     'buildingDesc_assembler1': 'Automated production',
     'buildingDesc_chemicalPlant': 'Automated production',
+    'buildingDesc_manual': 'Worker',
     'buildingDesc_miningDrill': 'Automated production',
     'buildingDesc_offshorePump': 'Automated production',
     'buildingDesc_oilRefinery': 'Automated production',
@@ -122,8 +125,12 @@ export default {
     'techDesk_yellowScience': 'Unlocks Yellow Pack production',
     
     'weaponName_pistol': 'Pistol',
+    'weaponName_shotgun': 'Shotgun',
+    'weaponName_submachine': 'Submachine Gun',
     
     'ammunitionName_firearmMagazine': 'Firearm Magazine',
+    'ammunitionName_shotgunShells': 'Shotgun Shells',
     
-    'ammunitionDesc_firearmMagazine': '10 bullet shots',
+    'ammunitionDesc_firearmMagazine': '10 x 5 physical damages',
+    'ammunitionDesc_shotgunShells': '2 x 12 physical damages',
 }

@@ -6,6 +6,9 @@
                     <div class="col">
                         <span class="text-muted">Ammunitions</span>
                     </div>
+                    <div class="col-auto">
+                        <span class="badge bg-1 text-primary">{{ $t('productionState_1') }}</span>
+                    </div>
                 </div>                
             </div>
             <div class="list-group list-group-flush">
