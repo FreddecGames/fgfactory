@@ -75,7 +75,7 @@ export default {
     
     'labDesc_lab': 'Decrease research time',
     
-    'techName_arsenal': 'Arsenal',
+    'techName_alienTech': 'Alien Tech',
     'techName_automation1': 'Automation 1',
     'techName_automation2': 'Automation 2',
     'techName_batteryTech': 'Battery Tech',
@@ -97,7 +97,7 @@ export default {
     'techName_sulfurTech': 'Sulfur Tech',
     'techName_yellowScience': 'Yellow Science',
     
-    'techDesk_arsenal': 'Unlocks Pistol weapon',
+    'techDesk_alienTech': 'Unlocks Pistol weapon',
     'techDesk_automation1': 'Unlocks Assembler and Chest',
     'techDesk_automation2': 'Unlocks Concrete production',
     'techDesk_batteryTech': 'Unlocks Battery production',

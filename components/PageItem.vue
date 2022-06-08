@@ -4,7 +4,7 @@
             <HeaderItem :item="item" />
             <CardProduction :item="item" />
             <CardStorages v-if="item.game.storages[item.id + 'S1'].unlocked == true" :item="item" />
-            <CardBuildings v-if="item.game.buildings[item.id + 'T1'].unlocked == true" :item="item" />
+            <CardBuildings v-if="item.game.buildings.length > 0 && item.game.buildings[item.id + 'T1'].unlocked == true" :item="item" />
         </div>
     </div>
 </template>
