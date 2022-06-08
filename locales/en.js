@@ -11,7 +11,7 @@ export default {
     'menuTab_techs': 'Techs',
     'menuTab_weapons': 'Weapons',
     
-    'itemName_aliens': 'Aliens',
+    'itemName_alienEgg': 'Alien Egg',
     'itemName_battery': 'Battery',
     'itemName_bluePack': 'Blue Pack',
     'itemName_concrete': 'Concrete',
