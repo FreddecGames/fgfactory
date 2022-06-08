@@ -652,6 +652,7 @@
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="row g-1">
+                                        <ButtonItemCount :item="gameItem('alienEgg')" @click="setCurrentWeaponsPageId('alienEgg')" :active="currentWeaponsPageId == 'alienEgg'" />
                                         <ButtonWeapon :weapon="gameWeapon('pistol')" @click="setCurrentWeaponsPageId('pistol')" :active="currentWeaponsPageId == 'pistol'" />
                                         <ButtonWeapon :weapon="gameWeapon('submachine')" @click="setCurrentWeaponsPageId('submachine')" :active="currentWeaponsPageId == 'submachine'" />
                                         <ButtonWeapon :weapon="gameWeapon('shotgun')" @click="setCurrentWeaponsPageId('shotgun')" :active="currentWeaponsPageId == 'shotgun'" />
@@ -659,6 +660,7 @@
                                 </div>
                             </div>
                         </div>
+                        <PageAlienEgg v-if="currentWeaponsPageId == 'alienEgg'" :item="gameItem('alienEgg')" />
                         <PageWeapon v-if="currentWeaponsPageId == 'pistol'" :weapon="gameWeapon('pistol')" />
                         <PageWeapon v-if="currentWeaponsPageId == 'submachine'" :weapon="gameWeapon('submachine')" />
                         <PageWeapon v-if="currentWeaponsPageId == 'shotgun'" :weapon="gameWeapon('shotgun')" />
@@ -829,36 +831,36 @@ var itemData = [
 
 var buildingData = [
 
-    {	id:'woodT1',                icon:'manual',          name:'manual',          itemId:'wood',              productionLevel:2,  time:30,	},
-    {	id:'stoneT1',               icon:'miningDrill',     name:'miningDrill',     itemId:'stone',             productionLevel:2,  time:4,	    costs:{ ironPlate:9, stone:5 }, },
-    {	id:'stoneBrickT1',          icon:'stoneFurnace',    name:'stoneFurnace',    itemId:'stoneBrick',        productionLevel:2,  time:1,	    costs:{ stone:5 }, },
-    {	id:'concreteT1',            icon:'assembler1',      name:'assembler1',      itemId:'concrete',          productionLevel:2,  time:7,	    costs:{ copperPlate:5, ironPlate:22 }, },
-    {	id:'ironT1',                icon:'miningDrill',     name:'miningDrill',     itemId:'iron',              productionLevel:2,  time:4,	    costs:{ ironPlate:9, stone:5 }, },
-    {	id:'ironPlateT1',           icon:'stoneFurnace',    name:'stoneFurnace',    itemId:'ironPlate',         productionLevel:2,  time:1,	    costs:{ stone:5 }, },
-    {	id:'steelPlateT1',          icon:'stoneFurnace',    name:'stoneFurnace',    itemId:'steelPlate',        productionLevel:2,  time:1,	    costs:{ stone:5 }, },
-    {	id:'engineT1',              icon:'assembler1',      name:'assembler1',      itemId:'engine',            productionLevel:2,  time:7,	    costs:{ copperPlate:5, ironPlate:22 }, },
-    {	id:'electricEngineT1',      icon:'assembler1',      name:'assembler1',      itemId:'electricEngine',    productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'copperT1',              icon:'miningDrill',     name:'miningDrill',     itemId:'copper',            productionLevel:2,  time:4,	    costs:{ ironPlate:9, stone:5 }, },
-    {	id:'copperPlateT1',         icon:'stoneFurnace',    name:'stoneFurnace',    itemId:'copperPlate',       productionLevel:2,  time:1,	    costs:{ stone:5 }, },
-    {	id:'processingUnitT1',      icon:'assembler1',      name:'assembler1',      itemId:'processingUnit',    productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'waterT1',               icon:'offshorePump',    name:'offshorePump',    itemId:'water',             productionLevel:2,  time:4,	    costs:{ copperPlate:3, ironPlate:5 }, },
-    {	id:'oilT1',                 icon:'pumpjack',        name:'pumpjack',        itemId:'oil',               productionLevel:2,  time:21,    costs:{ copperPlate:8, ironPlate:35, steelPlate:5 }, },
-    {	id:'heavyOilT1',            icon:'oilRefinery',     name:'oilRefinery',     itemId:'heavyOil',          productionLevel:2,  time:31,    costs:{ copperPlate:15, ironPlate:40, steelPlate:15, stoneBrick:10 }, },
-    {	id:'lubricantT1',           icon:'chemicalPlant',   name:'chemicalPlant',   itemId:'lubricant',         productionLevel:2,  time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
-    {	id:'lightOilT1',            icon:'chemicalPlant',   name:'chemicalPlant',   itemId:'lightOil',          productionLevel:2,  time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
-    {	id:'petroleumGasT1',        icon:'oilRefinery',     name:'oilRefinery',     itemId:'petroleumGas',      productionLevel:2,  time:31,    costs:{ copperPlate:15, ironPlate:40, steelPlate:15, stoneBrick:10 }, },
-    {	id:'plasticBarT1',          icon:'chemicalPlant',   name:'chemicalPlant',   itemId:'plasticBar',        productionLevel:2,  time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
-    {	id:'solidFuelT1',           icon:'chemicalPlant',   name:'chemicalPlant',   itemId:'solidFuel',         productionLevel:2,  time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
-    {	id:'sulfurT1',              icon:'chemicalPlant',   name:'chemicalPlant',   itemId:'sulfur',            productionLevel:2,  time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
-    {	id:'sulfuricAcidT1',        icon:'chemicalPlant',   name:'chemicalPlant',   itemId:'sulfuricAcid',      productionLevel:2,  time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
-    {	id:'batteryT1',             icon:'chemicalPlant',   name:'chemicalPlant',   itemId:'battery',           productionLevel:2,  time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
-    {	id:'rocketFuelT1',          icon:'assembler1',      name:'assembler1',      itemId:'rocketFuel',        productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'rocketPartT1',          icon:'rocketSilo',      name:'rocketSilo',      itemId:'rocketPart',        productionLevel:2,  time:80,	costs:{ concrete:1000, electricEngine:200, ironPlate:100, processingUnit:200, steelPlate:1000 }, },
-    {	id:'redPackT1',             icon:'assembler1',      name:'assembler1',      itemId:'redPack',           productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'greenPackT1',           icon:'assembler1',      name:'assembler1',      itemId:'greenPack',         productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'bluePackT1',            icon:'assembler1',      name:'assembler1',      itemId:'bluePack',          productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'purplePackT1',          icon:'assembler1',      name:'assembler1',      itemId:'purplePack',        productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'yellowPackT1',          icon:'assembler1',      name:'assembler1',      itemId:'yellowPack',        productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
+    {	id:'woodT1',                icon:'constructionRobot',   name:'constructionRobot',   itemId:'wood',              productionLevel:2,  time:27,	costs:{ battery:2, copperPlate:8, electricEngine:1, ironPlate:5, steelPlate:1 }, },
+    {	id:'stoneT1',               icon:'miningDrill',         name:'miningDrill',         itemId:'stone',             productionLevel:2,  time:4,	    costs:{ ironPlate:9, stone:5 }, },
+    {	id:'stoneBrickT1',          icon:'stoneFurnace',        name:'stoneFurnace',        itemId:'stoneBrick',        productionLevel:2,  time:1,	    costs:{ stone:5 }, },
+    {	id:'concreteT1',            icon:'assembler1',          name:'assembler1',          itemId:'concrete',          productionLevel:2,  time:7,	    costs:{ copperPlate:5, ironPlate:22 }, },
+    {	id:'ironT1',                icon:'miningDrill',         name:'miningDrill',         itemId:'iron',              productionLevel:2,  time:4,	    costs:{ ironPlate:9, stone:5 }, },
+    {	id:'ironPlateT1',           icon:'stoneFurnace',        name:'stoneFurnace',        itemId:'ironPlate',         productionLevel:2,  time:1,	    costs:{ stone:5 }, },
+    {	id:'steelPlateT1',          icon:'stoneFurnace',        name:'stoneFurnace',        itemId:'steelPlate',        productionLevel:2,  time:1,	    costs:{ stone:5 }, },
+    {	id:'engineT1',              icon:'assembler1',          name:'assembler1',          itemId:'engine',            productionLevel:2,  time:7,	    costs:{ copperPlate:5, ironPlate:22 }, },
+    {	id:'electricEngineT1',      icon:'assembler1',          name:'assembler1',          itemId:'electricEngine',    productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
+    {	id:'copperT1',              icon:'miningDrill',         name:'miningDrill',         itemId:'copper',            productionLevel:2,  time:4,	    costs:{ ironPlate:9, stone:5 }, },
+    {	id:'copperPlateT1',         icon:'stoneFurnace',        name:'stoneFurnace',        itemId:'copperPlate',       productionLevel:2,  time:1,	    costs:{ stone:5 }, },
+    {	id:'processingUnitT1',      icon:'assembler1',          name:'assembler1',          itemId:'processingUnit',    productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
+    {	id:'waterT1',               icon:'offshorePump',        name:'offshorePump',        itemId:'water',             productionLevel:2,  time:4,	    costs:{ copperPlate:3, ironPlate:5 }, },
+    {	id:'oilT1',                 icon:'pumpjack',            name:'pumpjack',            itemId:'oil',               productionLevel:2,  time:21,    costs:{ copperPlate:8, ironPlate:35, steelPlate:5 }, },
+    {	id:'heavyOilT1',            icon:'oilRefinery',         name:'oilRefinery',         itemId:'heavyOil',          productionLevel:2,  time:31,    costs:{ copperPlate:15, ironPlate:40, steelPlate:15, stoneBrick:10 }, },
+    {	id:'lubricantT1',           icon:'chemicalPlant',       name:'chemicalPlant',       itemId:'lubricant',         productionLevel:2,  time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
+    {	id:'lightOilT1',            icon:'chemicalPlant',       name:'chemicalPlant',       itemId:'lightOil',          productionLevel:2,  time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
+    {	id:'petroleumGasT1',        icon:'oilRefinery',         name:'oilRefinery',         itemId:'petroleumGas',      productionLevel:2,  time:31,    costs:{ copperPlate:15, ironPlate:40, steelPlate:15, stoneBrick:10 }, },
+    {	id:'plasticBarT1',          icon:'chemicalPlant',       name:'chemicalPlant',       itemId:'plasticBar',        productionLevel:2,  time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
+    {	id:'solidFuelT1',           icon:'chemicalPlant',       name:'chemicalPlant',       itemId:'solidFuel',         productionLevel:2,  time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
+    {	id:'sulfurT1',              icon:'chemicalPlant',       name:'chemicalPlant',       itemId:'sulfur',            productionLevel:2,  time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
+    {	id:'sulfuricAcidT1',        icon:'chemicalPlant',       name:'chemicalPlant',       itemId:'sulfuricAcid',      productionLevel:2,  time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
+    {	id:'batteryT1',             icon:'chemicalPlant',       name:'chemicalPlant',       itemId:'battery',           productionLevel:2,  time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
+    {	id:'rocketFuelT1',          icon:'assembler1',          name:'assembler1',          itemId:'rocketFuel',        productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
+    {	id:'rocketPartT1',          icon:'rocketSilo',          name:'rocketSilo',          itemId:'rocketPart',        productionLevel:2,  time:80,	costs:{ concrete:1000, electricEngine:200, ironPlate:100, processingUnit:200, steelPlate:1000 }, },
+    {	id:'redPackT1',             icon:'assembler1',          name:'assembler1',          itemId:'redPack',           productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
+    {	id:'greenPackT1',           icon:'assembler1',          name:'assembler1',          itemId:'greenPack',         productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
+    {	id:'bluePackT1',            icon:'assembler1',          name:'assembler1',          itemId:'bluePack',          productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
+    {	id:'purplePackT1',          icon:'assembler1',          name:'assembler1',          itemId:'purplePack',        productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
+    {	id:'yellowPackT1',          icon:'assembler1',          name:'assembler1',          itemId:'yellowPack',        productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
 ]
 
 var storageData = [
@@ -904,10 +906,12 @@ var techData = [
     {	id:'electronics',           time:9000,      costs:{ redPack:300, greenPack:300, bluePack:300 },                                         unlockItems:[ 'processingUnit' ], unlockTechs:[ 'alienTech', 'yellowScience' ], },
     {	id:'yellowScience',         time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100 },                                         unlockItems:[ 'yellowPack' ], },
     {	id:'purpleScience',         time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100 },                                         unlockItems:[ 'purplePack' ], },
+    {	id:'robotics2',             time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100 },                                         unlockBuildings:[ 'woodT1' ], },
     {	id:'oilTech2',              time:2250,      costs:{ redPack:75, greenPack:75, bluePack:75 },                                            unlockItems:[ 'solidFuel' ], unlockTechs:[ 'lubricantTech', 'rocketFuelTech', 'electronics' ], },
-    {	id:'electricEngineTech',    time:3000,      costs:{ redPack:50, greenPack:50, bluePack:50 },                                            unlockItems:[ 'electricEngine' ], },
+    {	id:'robotics1',             time:2250,      costs:{ redPack:75, greenPack:75, bluePack:75 },                                            unlockTechs:[ 'robotics2' ], },
+    {	id:'electricEngineTech',    time:3000,      costs:{ redPack:50, greenPack:50, bluePack:50 },                                            unlockItems:[ 'electricEngine' ], unlockTechs:[ 'robotics1' ], },
     {	id:'lubricantTech',         time:3000,      costs:{ redPack:50, greenPack:50, bluePack:50 },                                            unlockItems:[ 'lubricant' ], unlockTechs:[ 'electricEngineTech' ], },
-    {	id:'alienTech',             time:9000,      costs:{ redPack:300, greenPack:300 },                                                       unlockTechs:[ 'purpleScience', 'militaryTech' ], unlockWeapons:[ 'pistol' ], unlockAmmunitions:[ 'pistolA1' ], },
+    {	id:'alienTech',             time:9000,      costs:{ redPack:300, greenPack:300 },                                                       unlockItems:[ 'alienEgg' ], unlockTechs:[ 'purpleScience', 'militaryTech' ], unlockWeapons:[ 'pistol' ], unlockAmmunitions:[ 'pistolA1' ], },
     {	id:'concreteTech',          time:7500,      costs:{ redPack:250, greenPack:250 },                                                       unlockItems:[ 'concrete' ], },
     {	id:'plastics',              time:6000,      costs:{ redPack:200, greenPack:200 },                                                       unlockItems:[ 'plasticBar' ], },
     {	id:'batteryTech',           time:4500,      costs:{ redPack:150, greenPack:150 },                                                       unlockItems:[ 'battery' ], unlockBuildings:[ 'batteryT1' ], },
@@ -919,15 +923,15 @@ var techData = [
     {	id:'automation2',           time:600,       costs:{ redPack:40, greenPack:40 },                                                         unlockTechs:[ 'concreteTech' ], },
     {	id:'greenScience',          time:375,       costs:{ redPack:75 },                                                                       unlockItems:[ 'greenPack' ], unlockTechs:[ 'automation2' ], },
     {	id:'steelTech',             time:250,       costs:{ redPack:50 },                                                                       unlockItems:[ 'steelPlate' ], unlockBuildings:[ 'steelPlateT1' ], unlockTechs:[ 'engineTech' ], },
-    {	id:'militaryTech',          time:150,	    costs:{ redPack:10 },                                                                       unlockItems:[ 'wood' ], unlockBuildings:[ 'woodT1' ], unlockStorages:[ 'woodS1' ], unlockWeapons:[ 'submachine', 'shotgun' ], unlockAmmunitions:[ 'submachineA1', 'shotgunA1' ], },
+    {	id:'militaryTech',          time:150,	    costs:{ redPack:10 },                                                                       unlockItems:[ 'wood' ], unlockStorages:[ 'woodS1' ], unlockWeapons:[ 'submachine', 'shotgun' ], unlockAmmunitions:[ 'submachineA1', 'shotgunA1' ], },
     {	id:'automation1',           time:100,	    costs:{ redPack:10 },                                                                       unlockItems:[ 'stoneBrick' ], unlockBuildings:[ 'stoneBrickT1', 'concreteT1', 'engineT1', 'electricEngineT1', 'processingUnitT1', 'rocketFuelT1', 'redPackT1', 'greenPackT1', 'bluePackT1', 'purplePackT1', 'yellowPackT1' ], unlockStorages:[ 'stoneS1', 'stoneBrickS1', 'concreteS1', 'ironS1', 'ironPlateS1', 'steelPlateS1', 'engineS1', 'electricEngineS1', 'copperS1', 'copperPlateS1', 'processingUnitS1', 'plasticBarS1', 'solidFuelS1', 'batteryS1', 'rocketFuelS1', 'rocketPartS1', 'redPackS1', 'greenPackS1', 'bluePackS1', 'purplePackS1', 'yellowPackS1' ], unlockTechs:[ 'steelTech', 'greenScience' ], },
 ]
 
 var weaponData = [
 
-    {	id:'pistol',        max:1,    time:5,	    costs:{ ironPlate:5, copperPlate:5 },               fireTime:.25, },
-    {	id:'submachine',    max:1,    time:15,	    costs:{ ironPlate:30, copperPlate:5 },              fireTime:.1, },
-    {	id:'shotgun',       max:1,    time:13,	    costs:{ ironPlate:10, copperPlate:25, wood:5 },     fireTime:1, },
+    {	id:'pistol',        auto:false,     max:1,    time:5,	    costs:{ ironPlate:5, copperPlate:5 },               fireTime:.25, },
+    {	id:'submachine',    auto:true,      max:1,    time:15,	    costs:{ ironPlate:30, copperPlate:5 },              fireTime:.1, },
+    {	id:'shotgun',       auto:false,     max:1,    time:13,	    costs:{ ironPlate:10, copperPlate:25, wood:5 },     fireTime:1, },
 ]
 
 var ammunitionData = [
@@ -935,6 +939,11 @@ var ammunitionData = [
     {   id:'pistolA1',      icon:'firearmMagazine',     name:'firearmMagazine',     weaponId:'pistol',          fireCount:10,  damages:{ physical:5 },      time:1,    costs:{ ironPlate:4 }, },
     {   id:'submachineA1',  icon:'firearmMagazine',     name:'firearmMagazine',     weaponId:'submachine',      fireCount:10,  damages:{ physical:5 },      time:1,    costs:{ ironPlate:4 }, },
     {   id:'shotgunA1',     icon:'shotgunShells',       name:'shotgunShells',       weaponId:'shotgun',         fireCount:2,   damages:{ physical:12 },     time:3,    costs:{ copperPlate:2, ironPlate:2 }, },
+]
+
+var alienData = [
+    
+    {   id:'biter1',    health:15,     shield:{ physical:0 },  armor:{ physical:0 },  eggCoeff:.9,  },
 ]
 
 //------------------------------------------------------------------------------
@@ -1409,9 +1418,156 @@ class Weapon extends Buildable {
         
         this.id = data.id
         this.max = data.max
+        this.auto = data.auto
         this.fireTime = data.fireTime
             
+        this.fireState = 'paused'
+        this.fireRemainingSeconds = this.getFireTime()
+        
         this.ammunitions = []
+    }
+    
+    //---
+    
+    getFireTime() {
+    
+        let ret = this.fireTime
+        return ret
+    }
+    
+    getRemainingShotCount() {
+    
+        let ret = 0
+        
+        for (let id in this.ammunitions) {
+            let ammunition = this.ammunitions[id]
+            
+            ret += ammunition.remainingShot
+        }
+        
+        return ret
+    }
+    
+    canFire() {
+        
+        if (this.count < 1) return false
+        if (this.getRemainingShotCount() < 1) return false        
+        if (this.game.getAlienCount() < 1) return false
+        
+        return true
+    }    
+    
+    getAlienTarget() {
+    
+        let ret = null
+        
+        for (let id in this.game.aliens) {
+            let alien = this.game.aliens[id]
+            
+            if (alien.totalHealth > 0) {
+            
+                ret = alien
+                break
+            }
+        }
+        
+        return ret
+    }
+    
+    getFireAmmunition() {
+
+        let ret = null
+        
+        for (let id in this.ammunitions) {
+            let ammunition = this.ammunitions[id]
+            
+            if (ammunition.remainingShot > 0) {
+            
+                ret = ammunition
+                break
+            }
+        }
+        
+        return ret
+    }
+    
+    //---
+    
+    startFiring() {
+        
+        let kill = 0
+        
+        if (this.canFire() == true) {
+            
+            this.fireState = 'running'
+            this.fireRemainingSeconds = this.getFireTime()
+            
+            let alien = this.getAlienTarget()
+            let ammunition = this.getFireAmmunition()
+            
+            if (alien && ammunition) {
+            
+                let totalDamage = 0
+                for (let id in ammunition.damages) {
+                
+                    let armor = alien.armor[id]
+                    let shield = alien.shield[id]
+                    let damage = ammunition.damages[id]
+                    
+                    if (shield + 1 < damage) {
+                        totalDamage += damage - shield
+                    }
+                    else if (damage > 1) {
+                        totalDamage += 1 / (shield - damage + 2)
+                    }
+                    else {
+                        totalDamage += 1 / (shield + 1)
+                    }
+                    
+                    totalDamage = totalDamage * (1 - armor)
+                }
+                
+                ammunition.setRemainingShot(ammunition.remainingShot - 1)
+                
+                kill = alien.doDamage(totalDamage)
+                if (kill > 0) {
+                
+                    let dice = Math.random()
+                    if (dice > alien.eggCoeff) {
+                        this.game.items['alienEgg'].count += 1
+                    }
+                }                
+            }
+            else {
+            
+                this.cancelFiring()
+            }
+        }
+        else {
+        
+            this.cancelFiring()
+        }
+        
+        return kill
+    }
+    
+    cancelFiring() {
+    
+        this.fireState = 'paused'
+        this.fireRemainingSeconds = this.getFireTime()        
+    }
+    
+    fire(delta) {
+    
+        if (this.fireState == 'running') {
+        
+            this.fireRemainingSeconds -= delta            
+            if (this.fireRemainingSeconds <= 0) {
+                                
+                if (this.auto) this.startFiring()
+                else this.cancelFiring()
+            }
+        }
     }
 }
 
@@ -1430,7 +1586,67 @@ class Ammunition extends Buildable {
         this.weapon = this.game.weapons[data.weaponId]
         this.weapon.ammunitions.push(this)
         
-        this.totalFireCount = 0
+        this.remainingShot = 0
+    }
+    
+    //---
+    
+    setRemainingShot(count) {
+        
+        if (count == null) count = 0
+        
+        this.count = Math.ceil(count / this.fireCount)
+        this.remainingShot = count
+    }
+    
+    onBuild() {
+        super.onBuild()
+        
+        this.remainingShot += this.fireCount
+    }
+}
+
+//------------------------------------------------------------------------------
+
+class Alien {
+
+    constructor(game, data) {
+    
+        this.id = data.id
+        this.armor = data.armor
+        this.shield = data.shield
+        this.health = data.health
+        this.eggCoeff = data.eggCoeff
+        
+        this.count = 0
+        this.totalHealth = 0
+    }
+    
+    //---
+    
+    setCount(count) {
+        
+        if (count == null) count = 0
+        
+        this.count = count
+        this.totalHealth = count * this.health
+    }
+    
+    doDamage(damage) {
+        
+        let gap = 0
+        
+        this.totalHealth -= damage
+        if (this.totalHealth < 0) this.totalHealth = 0
+        
+        let newCount = Math.ceil(this.totalHealth / this.health)
+        if (newCount != this.count) {
+            
+            gap = this.count - newCount
+            this.count = newCount
+        }
+        
+        return gap
     }
 }
 
@@ -1464,10 +1680,41 @@ class Game {
         this.ammunitions = {}
         ammunitionData.forEach(data => { this.ammunitions[data.id] = new Ammunition(this, data) })
         
+        this.aliens = {}
+        alienData.forEach(data => { this.aliens[data.id] = new Alien(this, data) })
+        
         this.options = {
         
             researchedTechs: true,
         }
+    }
+    
+    //---
+    
+    getWeaponCount() {
+    
+        let ret = 0
+        
+        for (let id in this.weapons) {
+            let weapon = this.weapons[id]
+            
+            ret += weapon.count
+        }
+        
+        return ret
+    }
+    
+    getAlienCount() {
+    
+        let ret = 0
+        
+        for (let id in this.aliens) {
+            let alien = this.aliens[id]
+            
+            ret += alien.count
+        }
+        
+        return ret
     }
     
     //---
@@ -1564,12 +1811,24 @@ class Game {
             if (ammunition) {
             
                 ammunition.unlocked = dataAmmunition.unlocked
-                ammunition.count = dataAmmunition.count
                 ammunition.state = dataAmmunition.state
+                ammunition.setRemainingShot(dataAmmunition.remainingShot)
                 if (ammunition.state == 'running') ammunition.remainingSeconds = dataAmmunition.remainingSeconds
             }
         }
         
+        for (let id in data.aliens) {
+            let dataAlien = data.aliens[id]
+            
+            let alien = this.aliens[id]
+            if (alien) {
+            
+                alien.count = dataAlien.count
+                alien.totalHealth = dataAlien.totalHealth
+                if (!alien.totalHealth && alien.count > 0) alien.setCount(dataAlien.count)
+            }
+        }
+         
         for (let id in this.items) {
             let item = this.items[id]
             if (item.count > 0) item.onProduce()
@@ -1606,6 +1865,7 @@ class Game {
             
             items: {},
             techs: {},
+            aliens: {},
             weapons: {},
             storages: {},
             buildings: {},
@@ -1681,10 +1941,30 @@ class Game {
                 count: ammunition.count,
                 state: ammunition.state,
                 remainingSeconds: ammunition.remainingSeconds,
+                remainingShot: ammunition.remainingShot,
+            }
+        }
+        
+        for (let id in this.aliens) {
+            let alien = this.aliens[id]
+            
+            ret.aliens[alien.id] = {
+            
+                count: alien.count,
+                totalHealth: alien.totalHealth,
             }
         }
         
         return ret
+    }
+    
+    generateAliens() {
+    
+        for (let id in this.aliens) {
+            let alien = this.aliens[id]
+            
+            alien.setCount(Math.random() * 100)
+        }
     }
     
     //---
@@ -1745,6 +2025,7 @@ class Game {
                 let weapon = this.weapons[id]
                 
                 weapon.build(delta)
+                weapon.fire(delta)
             }
         }
     }

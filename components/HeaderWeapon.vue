@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="row gx-2 align-items-center">
             <div class="col-auto">
-                <img :src="require(`~/assets/weapons/${weapon.id}.png`)" width="18px" height="18px" :title="$t('weaponName_' + weapon.id)" :alt="$t('itemName_' + weapon.id)" />
+                <img :src="require(`~/assets/weapons/${weapon.id}.png`)" width="18px" height="18px" :title="$t('weaponName_' + weapon.id)" :alt="$t('weaponName_' + weapon.id)" />
             </div>
             <div class="col">
                 <span class="h5">{{ $t('weaponName_' + weapon.id) }}</span>
