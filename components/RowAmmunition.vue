@@ -2,7 +2,7 @@
     <div v-if="ammunition.unlocked == true" class="list-group-item">
         <div class="row gx-2 align-items-center">
             <div class="col-auto">
-                <img :src="require(`~/assets/ammunitions/${ammunition.icon}.png`)" width="24px" height="24px" :title="$t('ammunitionName_' + ammunition.name)" :alt="$t('ammunitionName_' + ammunition.name)" />
+                <img :src="require(`~/assets/items/${ammunition.icon}.png`)" width="24px" height="24px" :title="$t('ammunitionName_' + ammunition.name)" :alt="$t('ammunitionName_' + ammunition.name)" />
             </div>
             <div class="col">
                 <div class="text-normal">{{ $t('ammunitionName_' + ammunition.name) }}</div>
