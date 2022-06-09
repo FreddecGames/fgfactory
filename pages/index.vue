@@ -653,17 +653,17 @@
                                 <div class="col-12">
                                     <div class="row g-1">
                                         <ButtonItemCount :item="gameItem('alienEgg')" @click="setCurrentWeaponsPageId('alienEgg')" :active="currentWeaponsPageId == 'alienEgg'" />
-                                        <ButtonWeapon :weapon="gameWeapon('pistol')" @click="setCurrentWeaponsPageId('pistol')" :active="currentWeaponsPageId == 'pistol'" />
-                                        <ButtonWeapon :weapon="gameWeapon('submachine')" @click="setCurrentWeaponsPageId('submachine')" :active="currentWeaponsPageId == 'submachine'" />
-                                        <ButtonWeapon :weapon="gameWeapon('shotgun')" @click="setCurrentWeaponsPageId('shotgun')" :active="currentWeaponsPageId == 'shotgun'" />
+                                        <ButtonItem :item="gameAmmunition('bullet')" @click="setCurrentWeaponsPageId('bullet')" :active="currentWeaponsPageId == 'bullet'" />
+                                        <ButtonItem :item="gameAmmunition('piercing')" @click="setCurrentWeaponsPageId('piercing')" :active="currentWeaponsPageId == 'piercing'" />
+                                        <ButtonItem :item="gameAmmunition('shotgunShell')" @click="setCurrentWeaponsPageId('shotgunShell')" :active="currentWeaponsPageId == 'shotgunShell'" />
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <PageAlienEgg v-if="currentWeaponsPageId == 'alienEgg'" :item="gameItem('alienEgg')" />
-                        <PageWeapon v-if="currentWeaponsPageId == 'pistol'" :weapon="gameWeapon('pistol')" />
-                        <PageWeapon v-if="currentWeaponsPageId == 'submachine'" :weapon="gameWeapon('submachine')" />
-                        <PageWeapon v-if="currentWeaponsPageId == 'shotgun'" :weapon="gameWeapon('shotgun')" />
+                        <PageItem v-if="currentWeaponsPageId == 'bullet'" :item="gameAmmunition('bullet')" />
+                        <PageItem v-if="currentWeaponsPageId == 'piercing'" :item="gameAmmunition('piercing')" />
+                        <PageItem v-if="currentWeaponsPageId == 'shotgunShell'" :item="gameAmmunition('shotgunShell')" />
                     </div>
                 </div>
             </div>            
@@ -861,6 +861,10 @@ var buildingData = [
     {	id:'bluePackT1',            icon:'assembler1',          name:'assembler1',          itemId:'bluePack',          productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
     {	id:'purplePackT1',          icon:'assembler1',          name:'assembler1',          itemId:'purplePack',        productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
     {	id:'yellowPackT1',          icon:'assembler1',          name:'assembler1',          itemId:'yellowPack',        productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
+
+    {	id:'bulletT1',              icon:'assembler1',          name:'assembler1',          ammoId:'bullet',            productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
+    {	id:'piercingT1',            icon:'assembler1',          name:'assembler1',          ammoId:'piercing',          productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
+    {	id:'shotgunShellT1',        icon:'assembler1',          name:'assembler1',          ammoId:'shotgunShell',      productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
 ]
 
 var storageData = [
@@ -895,6 +899,10 @@ var storageData = [
     {	id:'bluePackS1',            icon:'ironChest',               name:'ironChest',       itemId:'bluePack',          storage:50,    time:10,    costs:{ bluePack:50 }, },
     {	id:'purplePackS1',          icon:'ironChest',               name:'ironChest',       itemId:'purplePack',        storage:50,    time:10,    costs:{ purplePack:50 }, },
     {	id:'yellowPackS1',          icon:'ironChest',               name:'ironChest',       itemId:'yellowPack',        storage:50,    time:10,    costs:{ yellowPack:50 }, },
+
+    {	id:'bulletS1',              icon:'ironChest',               name:'ironChest',       ammoId:'bullet',            storage:50,    time:10,    costs:{ bullet:50 }, },
+    {	id:'piercingS1',            icon:'ironChest',               name:'ironChest',       ammoId:'piercing',          storage:50,    time:10,    costs:{ piercing:50 }, },
+    {	id:'shotgunShellS1',        icon:'ironChest',               name:'ironChest',       ammoId:'shotgunShell',      storage:50,    time:10,    costs:{ shotgunShell:50 }, },
 ]
 
 var labData = { id:'lab', time:22,	costs:{ copperPlate:15, ironPlate:36 }, }
@@ -911,7 +919,7 @@ var techData = [
     {	id:'robotics1',             time:2250,      costs:{ redPack:75, greenPack:75, bluePack:75 },                                            unlockTechs:[ 'robotics2' ], },
     {	id:'electricEngineTech',    time:3000,      costs:{ redPack:50, greenPack:50, bluePack:50 },                                            unlockItems:[ 'electricEngine' ], unlockTechs:[ 'robotics1' ], },
     {	id:'lubricantTech',         time:3000,      costs:{ redPack:50, greenPack:50, bluePack:50 },                                            unlockItems:[ 'lubricant' ], unlockTechs:[ 'electricEngineTech' ], },
-    {	id:'alienTech',             time:9000,      costs:{ redPack:300, greenPack:300 },                                                       unlockItems:[ 'alienEgg' ], unlockTechs:[ 'purpleScience', 'militaryTech' ], unlockWeapons:[ 'pistol' ], unlockAmmunitions:[ 'pistolA1' ], },
+    {	id:'alienTech',             time:9000,      costs:{ redPack:300, greenPack:300 },                                                       unlockItems:[ 'alienEgg' ], unlockTechs:[ 'purpleScience', 'military1' ], unlockWeapons:[ 'pistol' ], unlockAmmunitions:[ 'bullet' ], unlockBuildings:[ 'bulletT1' ], unlockStorages:[ 'bulletS1' ], },
     {	id:'concreteTech',          time:7500,      costs:{ redPack:250, greenPack:250 },                                                       unlockItems:[ 'concrete' ], },
     {	id:'plastics',              time:6000,      costs:{ redPack:200, greenPack:200 },                                                       unlockItems:[ 'plasticBar' ], },
     {	id:'batteryTech',           time:4500,      costs:{ redPack:150, greenPack:150 },                                                       unlockItems:[ 'battery' ], unlockBuildings:[ 'batteryT1' ], },
@@ -921,9 +929,10 @@ var techData = [
     {	id:'blueScience',           time:750,       costs:{ redPack:75, greenPack:75 },                                                         unlockItems:[ 'bluePack' ], unlockTechs:[ 'oilTech2' ], },
     {	id:'fluidHandling',         time:750,       costs:{ redPack:50, greenPack:50 },                                                         unlockItems:[ 'water' ], unlockBuildings:[ 'waterT1' ], unlockStorages:[ 'waterS1' ], unlockTechs:[ 'oilTech1' ], },
     {	id:'automation2',           time:600,       costs:{ redPack:40, greenPack:40 },                                                         unlockTechs:[ 'concreteTech' ], },
+    {	id:'military2',             time:300,	    costs:{ redPack:20, greenPack:20 },                                                         unlockAmmunitions:[ 'piercing' ], unlockBuildings:[ 'piercingT1' ], unlockStorages:[ 'piercingS1' ], },
     {	id:'greenScience',          time:375,       costs:{ redPack:75 },                                                                       unlockItems:[ 'greenPack' ], unlockTechs:[ 'automation2' ], },
     {	id:'steelTech',             time:250,       costs:{ redPack:50 },                                                                       unlockItems:[ 'steelPlate' ], unlockBuildings:[ 'steelPlateT1' ], unlockTechs:[ 'engineTech' ], },
-    {	id:'militaryTech',          time:150,	    costs:{ redPack:10 },                                                                       unlockItems:[ 'wood' ], unlockStorages:[ 'woodS1' ], unlockWeapons:[ 'submachine', 'shotgun' ], unlockAmmunitions:[ 'submachineA1', 'shotgunA1' ], },
+    {	id:'military1',             time:150,	    costs:{ redPack:10 },                                                                       unlockItems:[ 'wood' ], unlockStorages:[ 'woodS1' ], unlockWeapons:[ 'submachine', 'shotgun' ], unlockAmmunitions:[ 'shotgunShell' ], unlockTechs:[ 'military2' ], },
     {	id:'automation1',           time:100,	    costs:{ redPack:10 },                                                                       unlockItems:[ 'stoneBrick' ], unlockBuildings:[ 'stoneBrickT1', 'concreteT1', 'engineT1', 'electricEngineT1', 'processingUnitT1', 'rocketFuelT1', 'redPackT1', 'greenPackT1', 'bluePackT1', 'purplePackT1', 'yellowPackT1' ], unlockStorages:[ 'stoneS1', 'stoneBrickS1', 'concreteS1', 'ironS1', 'ironPlateS1', 'steelPlateS1', 'engineS1', 'electricEngineS1', 'copperS1', 'copperPlateS1', 'processingUnitS1', 'plasticBarS1', 'solidFuelS1', 'batteryS1', 'rocketFuelS1', 'rocketPartS1', 'redPackS1', 'greenPackS1', 'bluePackS1', 'purplePackS1', 'yellowPackS1' ], unlockTechs:[ 'steelTech', 'greenScience' ], },
 ]
 
@@ -936,14 +945,17 @@ var weaponData = [
 
 var ammunitionData = [
 
-    {   id:'pistolA1',      icon:'firearmMagazine',     name:'firearmMagazine',     weaponId:'pistol',          fireCount:10,  damages:{ physical:5 },      time:1,    costs:{ ironPlate:4 }, },
-    {   id:'submachineA1',  icon:'firearmMagazine',     name:'firearmMagazine',     weaponId:'submachine',      fireCount:10,  damages:{ physical:5 },      time:1,    costs:{ ironPlate:4 }, },
-    {   id:'shotgunA1',     icon:'shotgunShells',       name:'shotgunShells',       weaponId:'shotgun',         fireCount:2,   damages:{ physical:12 },     time:3,    costs:{ copperPlate:2, ironPlate:2 }, },
+    {   id:'bullet',            icon:'bullet',              name:'bullet',              weaponIds:[ 'pistol', 'submachine' ],       desc:true,  damages:{ physical:5 },      productionLevel:1,    time:1,	    outputs:{ bullet:10 },        inputs:{ ironPlate:4 }, },
+    {   id:'piercing',          icon:'piercing',            name:'piercing',            weaponIds:[ 'pistol', 'submachine' ],       desc:true,  damages:{ physical:8 },      productionLevel:1,    time:4,	    outputs:{ piercing:10 },      inputs:{ copperPlate:5, ironPlate:4, steelPlate:1 }, },
+    {   id:'shotgunShell',      icon:'shotgunShell',        name:'shotgunShell',        weaponIds:[ 'shotgun' ],                    desc:true,  damages:{ physical:60 },     productionLevel:1,    time:3,      outputs:{ shotgunShell:2 },   inputs:{ copperPlate:2, ironPlate:2 }, },
 ]
 
 var alienData = [
     
-    {   id:'biter1',    health:15,     shield:{ physical:0 },  armor:{ physical:0 },  eggCoeff:.9,  },
+    {   id:'biter1',    health:15,      shield:{ physical:0,  explosion:0  },  armor:{ physical:0,   explosion:0  },  eggCoeff:.9,  },
+    {   id:'biter2',    health:75,      shield:{ physical:4,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.8,  },
+    {   id:'biter3',    health:375,     shield:{ physical:8,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.7,  },
+    {   id:'biter4',    health:3000,    shield:{ physical:12, explosion:12 },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.6,  },
 ]
 
 //------------------------------------------------------------------------------
@@ -970,6 +982,7 @@ class Item extends Base {
         
         this.max = data.max
         this.time = data.time
+        this.desc = data.desc
         this.inputs = data.inputs
         this.outputs = data.outputs
         this.productionLevel = data.productionLevel
@@ -1277,8 +1290,17 @@ class Building extends Buildable {
         this.name = data.name
         this.productionLevel = data.productionLevel
         
-        this.item = this.game.items[data.itemId]
-        this.item.buildings.push(this)
+        if (data.itemId) {
+        
+            this.item = this.game.items[data.itemId]
+            this.item.buildings.push(this)
+        }
+        
+        if (data.ammoId) {
+        
+            this.item = this.game.ammunitions[data.ammoId]
+            this.item.buildings.push(this)
+        }
     }
     
     //---
@@ -1330,8 +1352,17 @@ class Storage extends Buildable {
         this.name = data.name
         this.storage = data.storage
         
-        this.item = this.game.items[data.itemId]
-        this.item.storages.push(this)
+        if (data.itemId) {
+        
+            this.item = this.game.items[data.itemId]
+            this.item.storages.push(this)
+        }
+        
+        if (data.ammoId) {
+        
+            this.item = this.game.ammunitions[data.ammoId]
+            this.item.storages.push(this)
+        }
         
         this.coeff = 2
     }
@@ -1442,7 +1473,7 @@ class Weapon extends Buildable {
         for (let id in this.ammunitions) {
             let ammunition = this.ammunitions[id]
             
-            ret += ammunition.remainingShot
+            ret += ammunition.count
         }
         
         return ret
@@ -1481,7 +1512,7 @@ class Weapon extends Buildable {
         for (let id in this.ammunitions) {
             let ammunition = this.ammunitions[id]
             
-            if (ammunition.remainingShot > 0) {
+            if (ammunition.count > 0) {
             
                 ret = ammunition
                 break
@@ -1498,6 +1529,12 @@ class Weapon extends Buildable {
         let kill = 0
         
         if (this.canFire() == true) {
+            
+            for (let id in this.game.weapons) {
+            
+                let weapon = this.game.weapons[id]
+                weapon.cancelFiring()
+            }
             
             this.fireState = 'running'
             this.fireRemainingSeconds = this.getFireTime()
@@ -1527,7 +1564,7 @@ class Weapon extends Buildable {
                     totalDamage = totalDamage * (1 - armor)
                 }
                 
-                ammunition.setRemainingShot(ammunition.remainingShot - 1)
+                ammunition.count -= 1
                 
                 kill = alien.doDamage(totalDamage)
                 if (kill > 0) {
@@ -1573,7 +1610,7 @@ class Weapon extends Buildable {
 
 //------------------------------------------------------------------------------
 
-class Ammunition extends Buildable {
+class Ammunition extends Item {
 
     constructor(game, data) {
         super(game, data)
@@ -1583,27 +1620,12 @@ class Ammunition extends Buildable {
         this.damages = data.damages
         this.fireCount = data.fireCount
         
-        this.weapon = this.game.weapons[data.weaponId]
-        this.weapon.ammunitions.push(this)
+        for (let weaponId of data.weaponIds) {
         
-        this.remainingShot = 0
-    }
-    
-    //---
-    
-    setRemainingShot(count) {
-        
-        if (count == null) count = 0
-        
-        this.count = Math.ceil(count / this.fireCount)
-        this.remainingShot = count
-    }
-    
-    onBuild() {
-        super.onBuild()
-        
-        this.remainingShot += this.fireCount
-    }
+            let weapon = this.game.weapons[weaponId]
+            weapon.ammunitions.push(this)
+        }
+    }    
 }
 
 //------------------------------------------------------------------------------
@@ -1663,6 +1685,18 @@ class Game {
         this.items = {}
         itemData.forEach(data => { this.items[data.id] = new Item(this, data) })
         
+        this.weapons = {}
+        weaponData.forEach(data => { this.weapons[data.id] = new Weapon(this, data) })
+        
+        this.ammunitions = {}
+        ammunitionData.forEach(data => {
+        
+            let ammunition = new Ammunition(this, data)
+            
+            this.items[data.id] = ammunition
+            this.ammunitions[data.id] = ammunition
+        })
+        
         this.buildings = {}
         buildingData.forEach(data => { this.buildings[data.id] = new Building(this, data) })
         
@@ -1673,13 +1707,7 @@ class Game {
         
         this.techs = {}
         techData.forEach(data => { this.techs[data.id] = new Tech(this, data) })
-        
-        this.weapons = {}
-        weaponData.forEach(data => { this.weapons[data.id] = new Weapon(this, data) })
-       
-        this.ammunitions = {}
-        ammunitionData.forEach(data => { this.ammunitions[data.id] = new Ammunition(this, data) })
-        
+                       
         this.aliens = {}
         alienData.forEach(data => { this.aliens[data.id] = new Alien(this, data) })
         
@@ -1803,20 +1831,7 @@ class Game {
                 if (weapon.state == 'running') weapon.remainingSeconds = dataWeapon.remainingSeconds
             }
         }
-        
-        for (let id in data.ammunitions) {
-            let dataAmmunition = data.ammunitions[id]
-            
-            let ammunition = this.ammunitions[id]
-            if (ammunition) {
-            
-                ammunition.unlocked = dataAmmunition.unlocked
-                ammunition.state = dataAmmunition.state
-                ammunition.setRemainingShot(dataAmmunition.remainingShot)
-                if (ammunition.state == 'running') ammunition.remainingSeconds = dataAmmunition.remainingSeconds
-            }
-        }
-        
+                
         for (let id in data.aliens) {
             let dataAlien = data.aliens[id]
             
@@ -1931,20 +1946,7 @@ class Game {
                 remainingSeconds: weapon.remainingSeconds,
             }
         }
-        
-        for (let id in this.ammunitions) {
-            let ammunition = this.ammunitions[id]
-            
-            ret.ammunitions[ammunition.id] = {
-            
-                unlocked: ammunition.unlocked,
-                count: ammunition.count,
-                state: ammunition.state,
-                remainingSeconds: ammunition.remainingSeconds,
-                remainingShot: ammunition.remainingShot,
-            }
-        }
-        
+                
         for (let id in this.aliens) {
             let alien = this.aliens[id]
             
@@ -2014,13 +2016,7 @@ class Game {
                 
                 tech.build(delta)
             }
-            
-            for (let id in this.ammunitions) {
-                let ammunition = this.ammunitions[id]
-                
-                ammunition.build(delta)
-            }
-            
+                        
             for (let id in this.weapons) {
                 let weapon = this.weapons[id]
                 
@@ -2091,7 +2087,7 @@ export default {
             currentChemistryPageId: 'water',
             currentRocketPageId: 'rocketFuel',
             currentTechPageId: 'lab',
-            currentWeaponsPageId: 'pistol',
+            currentWeaponsPageId: 'alienEgg',
             
             //---
             
@@ -2140,6 +2136,7 @@ export default {
         
         gameItem(id) { return this.game.items[id] },
         gameWeapon(id) { return this.game.weapons[id] },
+        gameAmmunition(id) { return this.game.ammunitions[id] },
         
         //---
         

@@ -12,6 +12,9 @@
                 <span class="text-muted">/<FormatNumber :value="item.getMax()" /></span>
             </div>
         </div>
+        <div v-if="item.desc == true" class="mt-2">
+            <span class="text-muted">{{ $t('itemDesc_' + item.id) }}</span>
+        </div>
     </div>
 </template>
 
