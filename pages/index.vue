@@ -130,10 +130,7 @@
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-12 text-center">
-                            <span>I didn't like the intrusiveness of ads on game and felt that getting people to pay for an in-game boost wouldn't bode well in the community as it makes the game feel like a freemium or pay-to-win game.</span>
-                        </div>
-                        <div class="col-12 text-center">
-                            <span>However, I like the donation system because there is nothing forcing you to donate other than out of the goodness of people's hearts. If you like the game and want more content faster, I would be happy to put more time towards this game if I felt that it is paying off.</span>
+                            <span>I like the donation system because there is nothing forcing you to donate other than out of the goodness of people's hearts. If you like the game and want more content faster, I would be happy to put more time towards this game if I felt that it is paying off.</span>
                         </div>
                         <div class="col-3 text-center">
                             <a href="https://www.patreon.com/bePatron?u=61283131" target="_blank" class="btn btn-primary" style="width:80px;">
@@ -465,7 +462,7 @@
         
         <div v-if="isMobile == false && started == true" class="w-100 h-100 position-relative">
             
-            <div class="position-fixed top-0 start-0 end-0 bg-2 py-2 d-flex align-items-center">
+            <div class="position-fixed top-0 start-0 end-0 bg-2 py-1 d-flex align-items-center">
                 <div class="container">
                     <div class="row gx-2 align-items-center py-1">
                         <div class="col-auto">
@@ -474,14 +471,26 @@
                         <div class="col-auto">
                             <span class="h5">FG Factory</span>
                         </div>
-                        <div class="col-auto">
+                        <div class="col">
                             <span class="badge bg-danger text-white">Alpha version</span>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn">
+                                <span class="opacity-0">...</span>
+                            </button>
+                        </div>
+                        <div class="d-none col-auto d-flex align-items-center">
+                            <span v-if="rewardDelay > 0" class="me-2 text-primary"><FormatTime :value="rewardDelay" /></span>
+                            <button type="button" class="btn btn-primary align-items-center" :class="{ 'disabled':rewardDelay > 0 }" @click="reward();">
+                                <i class="fas fa-fw fa-eye"></i>
+                                <span class="ms-2">Ad Reward x2</span>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="position-fixed start-0 end-0 nav bg-3" style="top:42px;">
+            <div class="position-fixed start-0 end-0 nav bg-3" style="top:49px;">
                 <div class="container">
                     <div class="row gx-0 align-items-center">
                         <TopMenuTab v-if="gameItem('iron').unlocked == true" tabId="ironwork" icon="fa-drum-steelpan" />
@@ -496,7 +505,7 @@
                 </div>
             </div>
             
-            <div v-if="currentTabId == 'ironwork' && gameItem('iron').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:90px; margin-bottom:52px;">
+            <div v-if="currentTabId == 'ironwork' && gameItem('iron').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:101px; margin-bottom:52px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
                         <div class="col-auto scrollbar" style="width:275px;">
@@ -523,7 +532,7 @@
                 </div>
             </div>
             
-            <div v-if="currentTabId == 'masonry' && gameItem('stone').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:90px; margin-bottom:52px;">
+            <div v-if="currentTabId == 'masonry' && gameItem('stone').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:101px; margin-bottom:52px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
                         <div class="col-auto scrollbar" style="width:275px;">
@@ -546,7 +555,7 @@
                 </div>
             </div>
 
-            <div v-if="currentTabId == 'electronic' && gameItem('copper').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:90px; margin-bottom:52px;">
+            <div v-if="currentTabId == 'electronic' && gameItem('copper').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:101px; margin-bottom:52px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
                         <div class="col-auto scrollbar" style="width:275px;">
@@ -567,7 +576,7 @@
                 </div>
             </div>
             
-            <div v-if="currentTabId == 'chemistry' && gameItem('water').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:90px; margin-bottom:52px;">
+            <div v-if="currentTabId == 'chemistry' && gameItem('water').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:101px; margin-bottom:52px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
                         <div class="col-auto scrollbar" style="width:275px;">
@@ -606,7 +615,7 @@
                 </div>
             </div>
             
-            <div v-if="currentTabId == 'rocket' && gameItem('rocketFuel').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:90px; margin-bottom:52px;">
+            <div v-if="currentTabId == 'rocket' && gameItem('rocketFuel').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:101px; margin-bottom:52px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
                         <div class="col-auto scrollbar" style="width:275px;">
@@ -625,7 +634,7 @@
                 </div>
             </div>
             
-            <div v-if="currentTabId == 'techs' && game.lab.unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:90px; margin-bottom:52px;">
+            <div v-if="currentTabId == 'techs' && game.lab.unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:101px; margin-bottom:52px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
                         <div class="col-auto scrollbar" style="width:275px;">
@@ -654,7 +663,7 @@
                 </div>
             </div>            
 
-            <div v-if="currentTabId == 'weapons' && gameWeapon('pistol').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:90px; margin-bottom:52px;">
+            <div v-if="currentTabId == 'weapons' && gameWeapon('pistol').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:101px; margin-bottom:52px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
                         <div class="col-auto scrollbar" style="width:275px;">
@@ -666,6 +675,7 @@
                                         <ButtonItem :item="gameAmmunition('piercing')" @click="setCurrentWeaponsPageId('piercing')" :active="currentWeaponsPageId == 'piercing'" />
                                         <ButtonItem :item="gameAmmunition('shotgunShell')" @click="setCurrentWeaponsPageId('shotgunShell')" :active="currentWeaponsPageId == 'shotgunShell'" />
                                         <ButtonItem :item="gameAmmunition('rocket')" @click="setCurrentWeaponsPageId('rocket')" :active="currentWeaponsPageId == 'rocket'" />
+                                        <ButtonItem :item="gameAmmunition('artilleryShell')" @click="setCurrentWeaponsPageId('artilleryShell')" :active="currentWeaponsPageId == 'artilleryShell'" />
                                     </div>
                                 </div>
                             </div>
@@ -675,11 +685,12 @@
                         <PageItem v-if="currentWeaponsPageId == 'piercing'" :item="gameAmmunition('piercing')" />
                         <PageItem v-if="currentWeaponsPageId == 'shotgunShell'" :item="gameAmmunition('shotgunShell')" />
                         <PageItem v-if="currentWeaponsPageId == 'rocket'" :item="gameAmmunition('rocket')" />
+                        <PageItem v-if="currentWeaponsPageId == 'artilleryShell'" :item="gameAmmunition('artilleryShell')" />
                     </div>
                 </div>
             </div>            
 
-            <div v-if="currentTabId == 'settings'" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:90px; margin-bottom:52px;">
+            <div v-if="currentTabId == 'settings'" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:101px; margin-bottom:52px;">
                 <div class="container py-3 scrollbar">
                     <div class="row g-3">
                         <div class="col-12">
@@ -800,10 +811,25 @@
             
         </div>
         
+        <script async
+            data-adbreak-test="on"
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3024602338984886"
+            crossorigin="anonymous">
+        </script>
+            
     </div>
 </template>
 
 <script>
+
+window.adsbygoogle = window.adsbygoogle || []
+const adBreak = function(o) { adsbygoogle.push(o) }
+const adConfig = function(o) { adsbygoogle.push(o) }
+
+adConfig({
+    sound: "on",
+    preloadAdBreaks: "on",
+})
 
 var itemData = [
     
@@ -883,6 +909,7 @@ var buildingData = [
     {	id:'piercingT1',            icon:'assembler1',          name:'assembler1',          ammoId:'piercing',          productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
     {	id:'shotgunShellT1',        icon:'assembler1',          name:'assembler1',          ammoId:'shotgunShell',      productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
     {	id:'rocketT1',              icon:'assembler1',          name:'assembler1',          ammoId:'rocket',            productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
+    {	id:'artilleryShellT1',      icon:'assembler1',          name:'assembler1',          ammoId:'artilleryShell',    productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
 ]
 
 var storageData = [
@@ -925,6 +952,7 @@ var storageData = [
     {	id:'piercingS1',            icon:'ironChest',               name:'ironChest',       ammoId:'piercing',          storage:50,    time:10,    costs:{ piercing:50 }, },
     {	id:'shotgunShellS1',        icon:'ironChest',               name:'ironChest',       ammoId:'shotgunShell',      storage:50,    time:10,    costs:{ shotgunShell:50 }, },
     {	id:'rocketS1',              icon:'ironChest',               name:'ironChest',       ammoId:'rocket',            storage:50,    time:10,    costs:{ rocket:50 }, },
+    {	id:'artilleryShellS1',      icon:'ironChest',               name:'ironChest',       ammoId:'artilleryShell',    storage:50,    time:10,    costs:{ artilleryShell:50 }, },
 ]
 
 var labData = { id:'lab', time:22,	costs:{ copperPlate:15, ironPlate:36 }, }
@@ -932,12 +960,13 @@ var labData = { id:'lab', time:22,	costs:{ copperPlate:15, ironPlate:36 }, }
 var techData = [
 
     {	id:'rocketTech',            time:60000,     costs:{ redPack:1000, greenPack:1000, bluePack:1000, purplePack:1000, yellowPack:1000 },    unlockItems:[ 'rocketPart' ], unlockBuildings:[ 'rocketPartT1' ], },
+    {	id:'military4',             time:6750,      costs:{ redPack:150, greenPack:150, bluePack:150, grayPack:150, yellowPack:150 },           unlockWeapons:[ 'artilleryTurret'], unlockAmmunitions:[ 'artilleryShell' ], unlockBuildings:[ 'artilleryShellT1' ], unlockStorages:[ 'artilleryShellS1' ], },
     {	id:'rocketFuelTech',        time:13500,     costs:{ redPack:300, greenPack:300, bluePack:300 },                                         unlockItems:[ 'rocketFuel' ], unlockTechs:[ 'rocketTech' ], },
     {	id:'electronics',           time:9000,      costs:{ redPack:300, greenPack:300, bluePack:300 },                                         unlockItems:[ 'processingUnit' ], unlockTechs:[ 'alienTech', 'yellowScience' ], },
     {	id:'yellowScience',         time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100 },                                         unlockItems:[ 'yellowPack' ], },
     {	id:'purpleScience',         time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100 },                                         unlockItems:[ 'purplePack' ], },
     {	id:'robotics2',             time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100 },                                         unlockBuildings:[ 'woodT1' ], },
-    {	id:'military3',             time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100, grayPack:100 },                           unlockWeapons:[ 'combatShotgun'], },
+    {	id:'military3',             time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100, grayPack:100 },                           unlockWeapons:[ 'combatShotgun'], unlockTechs:[ 'military4' ], },
     {	id:'rocketry',              time:1800,      costs:{ redPack:120, greenPack:120, grayPack:120 },                                         unlockWeapons:[ 'rocketLauncher'], unlockAmmunitions:[ 'rocket' ], unlockBuildings:[ 'rocketT1' ], unlockStorages:[ 'rocketS1' ], },
     {	id:'oilTech2',              time:2250,      costs:{ redPack:75, greenPack:75, bluePack:75 },                                            unlockItems:[ 'solidFuel' ], unlockTechs:[ 'lubricantTech', 'rocketFuelTech', 'electronics' ], },
     {	id:'robotics1',             time:2250,      costs:{ redPack:75, greenPack:75, bluePack:75 },                                            unlockTechs:[ 'robotics2' ], },
@@ -964,26 +993,21 @@ var techData = [
 
 var weaponData = [
 
-    {	id:'pistol',            auto:false,     max:1,    time:5,	    costs:{ ironPlate:5, copperPlate:5 },                               fireTime:.25,   },
-    {	id:'submachine',        auto:true,      max:1,    time:15,	    costs:{ ironPlate:30, copperPlate:5 },                              fireTime:.1,    },
-    {	id:'shotgun',           auto:false,     max:1,    time:13,	    costs:{ ironPlate:10, copperPlate:25, wood:5 },                     fireTime:1,     },
-    {	id:'combatShotgun',     auto:true,      max:1,    time:13,	    costs:{ ironPlate:10, copperPlate:10, steelPlate:15, wood:10 },     fireTime:.5,    },
-    {	id:'rocketLauncher',    auto:false,     max:1,    time:19,	    costs:{ ironPlate:20, copperPlate:8 },                              fireTime:1,     },
-    
-    /*
-    Gun turret
-    Tank
-    Artillery turret
-    Spidertron
-    */
+    {	id:'pistol',            auto:false,     max:1,    time:5,	    costs:{ ironPlate:5, copperPlate:5 },                                                   fireTime:.25,   },
+    {	id:'submachine',        auto:true,      max:1,    time:15,	    costs:{ ironPlate:30, copperPlate:5 },                                                  fireTime:.1,    },
+    {	id:'shotgun',           auto:false,     max:1,    time:13,	    costs:{ ironPlate:10, copperPlate:25, wood:5 },                                         fireTime:1,     },
+    {	id:'combatShotgun',     auto:true,      max:1,    time:13,	    costs:{ ironPlate:10, copperPlate:10, steelPlate:15, wood:10 },                         fireTime:.5,    },
+    {	id:'rocketLauncher',    auto:false,     max:1,    time:19,	    costs:{ ironPlate:20, copperPlate:8 },                                                  fireTime:1,     },
+    {	id:'artilleryTurret',   auto:false,     max:1,    time:250,	    costs:{ concrete:60, copperPlate:100, ironPlate:120, plasticBar:40, steelPlate:60 },    fireTime:4,     },
 ]
 
 var ammunitionData = [
 
-    {   id:'bullet',            icon:'bullet',              name:'bullet',              weaponIds:[ 'pistol', 'submachine' ],       desc:true,  damages:{ physical:5 },      productionLevel:1,    time:1,	    outputs:{ bullet:10 },        inputs:{ ironPlate:4 }, },
-    {   id:'piercing',          icon:'piercing',            name:'piercing',            weaponIds:[ 'pistol', 'submachine' ],       desc:true,  damages:{ physical:8 },      productionLevel:1,    time:4,	    outputs:{ piercing:10 },      inputs:{ copperPlate:5, ironPlate:4, steelPlate:1 }, },
-    {   id:'shotgunShell',      icon:'shotgunShell',        name:'shotgunShell',        weaponIds:[ 'shotgun', 'combatShotgun' ],   desc:true,  damages:{ physical:60 },     productionLevel:1,    time:3,      outputs:{ shotgunShell:2 },   inputs:{ copperPlate:2, ironPlate:2 }, },
-    {   id:'rocket',            icon:'rocket',              name:'rocket',              weaponIds:[ 'rocketLauncher' ],             desc:true,  damages:{ explosion:200 },   productionLevel:1,    time:9,      outputs:{ rocket:1 },         inputs:{ copperPlate:2, explosive:1, ironPlate:3 }, },
+    {   id:'bullet',            icon:'bullet',              name:'bullet',              weaponIds:[ 'pistol', 'submachine' ],       desc:true,  damages:{ physical:5 },                     productionLevel:1,    time:1,	    outputs:{ bullet:10 },        inputs:{ ironPlate:4 }, },
+    {   id:'piercing',          icon:'piercing',            name:'piercing',            weaponIds:[ 'pistol', 'submachine' ],       desc:true,  damages:{ physical:8 },                     productionLevel:1,    time:4,	    outputs:{ piercing:10 },      inputs:{ copperPlate:5, ironPlate:4, steelPlate:1 }, },
+    {   id:'shotgunShell',      icon:'shotgunShell',        name:'shotgunShell',        weaponIds:[ 'shotgun', 'combatShotgun' ],   desc:true,  damages:{ physical:60 },                    productionLevel:1,    time:3,       outputs:{ shotgunShell:2 },   inputs:{ copperPlate:2, ironPlate:2 }, },
+    {   id:'rocket',            icon:'rocket',              name:'rocket',              weaponIds:[ 'rocketLauncher' ],             desc:true,  damages:{ explosion:200 },                  productionLevel:1,    time:9,       outputs:{ rocket:1 },         inputs:{ copperPlate:2, explosive:1, ironPlate:3 }, },
+    {   id:'artilleryShell',    icon:'artilleryShell',      name:'artilleryShell',      weaponIds:[ 'artilleryTurret' ],            desc:true,  damages:{ physical:500, explosion:500 },    productionLevel:1,    time:56,      outputs:{ artilleryShell:1 }, inputs:{ copperPlate:8, explosive:16, ironPlate:25, plasticBar:8, steelPlate:8 }, },
 ]
 
 var alienData = [
@@ -1484,12 +1508,12 @@ class Tech extends Buildable {
     onBuild() {
         super.onBuild()
         
-        if (this.unlockTechs) this.unlockTechs.forEach(id => { console.log(id); this.game.techs[id].unlocked = true })
-        if (this.unlockItems) this.unlockItems.forEach(id => { console.log(id); this.game.items[id].unlocked = true })
-        if (this.unlockStorages) this.unlockStorages.forEach(id => { console.log(id); this.game.storages[id].unlocked = true })
-        if (this.unlockBuildings) this.unlockBuildings.forEach(id => { console.log(id); this.game.buildings[id].unlocked = true })
-        if (this.unlockWeapons) this.unlockWeapons.forEach(id => { console.log(id); this.game.weapons[id].unlocked = true })
-        if (this.unlockAmmunitions) this.unlockAmmunitions.forEach(id => { console.log(id); this.game.ammunitions[id].unlocked = true })
+        if (this.unlockTechs) this.unlockTechs.forEach(id => { this.game.techs[id].unlocked = true })
+        if (this.unlockItems) this.unlockItems.forEach(id => { this.game.items[id].unlocked = true })
+        if (this.unlockStorages) this.unlockStorages.forEach(id => { this.game.storages[id].unlocked = true })
+        if (this.unlockBuildings) this.unlockBuildings.forEach(id => { this.game.buildings[id].unlocked = true })
+        if (this.unlockWeapons) this.unlockWeapons.forEach(id => { this.game.weapons[id].unlocked = true })
+        if (this.unlockAmmunitions) this.unlockAmmunitions.forEach(id => { this.game.ammunitions[id].unlocked = true })
     }
 }
 
@@ -2112,6 +2136,7 @@ export default {
             localStorageName: 'fgfactory',
             importExportData: null,
             minLoadingTimerMS: 1000,
+            rewardDelay: 0,
             
             //---
 
@@ -2174,7 +2199,43 @@ export default {
     },
     
     methods: {
-    
+        
+        reward() {
+        
+            adBreak({
+            
+                type: 'reward',
+                name: 'reward',
+                beforeAd: () => {
+                    console.log("***** beforeAd *****")
+                    
+                    this.pauseGame()
+                },
+                afterAd: () => {
+                    console.log("***** afterAd *****")
+
+                    this.resumeGame()
+                },
+                beforeReward: (showAdFn) => {
+                    console.log("***** beforeReward *****")
+                    
+                    showAdFn()
+                },
+                adDismissed: () => {
+                    console.log("***** adDismissed *****")
+                    
+                    this.rewardDelay = 0
+                },
+                adViewed: () => {
+                    console.log("***** adViewed *****")
+                    
+                    this.rewardDelay = 600
+                },
+            })
+        },
+        
+        //---
+        
         setCurrentTabId(tabId) { this.currentTabId = tabId },
         
         setCurrentIronworkPageId(pageId) { this.currentIronworkPageId = pageId },        
@@ -2330,8 +2391,20 @@ export default {
             if (deltaTimeMs >= 1000 / this.fps) {            
                 this.lastFrameTimeMs = currentTimeMs
                 
+                if (this.rewardDelay > 0) {
+                
+                    this.rewardDelay -= deltaTimeMs / 1000
+                    deltaTimeMs *= 2
+                }
+                
+                if (this.rewardDelay < 0) {
+                
+                    this.rewardDelay = 0
+                    this.lastFrameTimeMs += this.rewardDelay * 1000
+                }
+                
                 this.game.mainLoop(deltaTimeMs)
-            
+                
                 if (this.game.isVictory() == true) {
                 
                     this.game.paused = true

@@ -12,6 +12,7 @@ export default {
     'menuTab_weapons': 'Weapons',
     
     'itemName_alienEgg': 'Alien Egg',
+    'itemName_artilleryShell': 'Artillery Shell',
     'itemName_battery': 'Battery',
     'itemName_bluePack': 'Blue Pack',
     'itemName_bullet': 'Bullet',
@@ -50,6 +51,7 @@ export default {
     'itemName_wood': 'Wood',
     'itemName_yellowPack': 'Yellow Pack',
     
+    'itemDesc_artilleryShell': '500 physical + 500 explosion damages',
     'itemDesc_bullet': '5 physical damages',
     'itemDesc_piercing': '8 physical damages',
     'itemDesc_rocket': '200 explosion damages',
@@ -106,6 +108,7 @@ export default {
     'techName_military1': 'Military 1',
     'techName_military2': 'Military 2',
     'techName_military3': 'Military 3',
+    'techName_military4': 'Military 4',
     'techName_oilTech1': 'Oil Processing 1',
     'techName_oilTech2': 'Oil Processing 2',
     'techName_plastics': 'Plastics',
@@ -136,6 +139,7 @@ export default {
     'techDesk_military1': 'Unlocks Submachine Gun and Shotgun weapons',
     'techDesk_military2': 'Unlocks Piercing ammunition',
     'techDesk_military3': 'Unlocks Combat Shotgun weapon',
+    'techDesk_military4': 'Unlocks Artillery Turret weapon and Artillery Shell ammunition',
     'techDesk_material1': 'Unlocks steel furnaces',
     'techDesk_material2': 'Unlocks electric furnaces',
     'techDesk_oilTech1': 'Unlocks all oil productions',
@@ -151,6 +155,7 @@ export default {
     'techDesk_sulfurTech': 'Unlocks Sulfur and Acid Sulfuric productions',
     'techDesk_yellowScience': 'Unlocks Yellow Pack production',
     
+    'weaponName_artilleryTurret': 'Artillery Turret',
     'weaponName_combatShotgun': 'Combat Shotgun',    
     'weaponName_pistol': 'Pistol',
     'weaponName_rocketLauncher': 'Rocket Launcher',    
@@ -162,6 +167,7 @@ export default {
     'weaponDesc_rocketLauncher': 'Manual',
     'weaponDesc_submachine': 'Auto',
     'weaponDesc_shotgun': 'Manual',
+    'weaponDesc_artilleryTurret': 'Manual',
     
     'alienName_biter1': 'Small Biter',
     'alienName_biter2': 'Medium Biter',
