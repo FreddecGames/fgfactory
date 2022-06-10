@@ -63,7 +63,7 @@
                             <span>Victory</span>
                         </div>
                         <div class="col-auto">
-                            <button type="button" class="btn btn-primary p-1" @click="game.victory = true; popupVictory = false;">
+                            <button type="button" class="btn btn-primary p-1" @click="game.victory = true; game.paused = false; popupVictory = false;">
                                 <span><i class="fas fa-fw fa-times"></i></span>
                             </button>
                         </div>
@@ -96,13 +96,13 @@
                                     </a>
                                 </div>
                                 <div class="col">
-                                    <button type="button" class="btn btn-primary" @click="popupVictory = null; showSupportPopup();">
+                                    <button type="button" class="btn btn-primary" @click="popupVictory = null; game.paused = false; showSupportPopup();">
                                         <i class="fas fw fa-hand-holding-heart"></i>
                                         <span class="ms-2">Support</span>
                                     </button>
                                 </div>
                                 <div class="col-auto">
-                                    <button type="button" class="btn btn-primary" @click="game.victory = true; popupVictory = null;">
+                                    <button type="button" class="btn btn-primary" @click="game.victory = true; game.paused = false; popupVictory = null;">
                                         <span>Close</span>
                                     </button>
                                 </div>
@@ -804,7 +804,7 @@
                             <div class="text-center"><FormatTime :value="game.timePlayed" /></div>
                         </div>
                         <BottomButton v-if="game.paused == false" label="Pause" icon="fa-pause" :click="pauseGame" />
-                        <BottomButton v-if="game.paused == true" label="Resume" icon="fa-play" :click="resumeGame" />
+                        <BottomButton v-if="game.paused == true" label="Resume" icon="fa-play" :click="resumeGame" :border="true" />
                     </div>
                 </div>
             </div>
@@ -827,8 +827,8 @@ const adBreak = function(o) { adsbygoogle.push(o) }
 const adConfig = function(o) { adsbygoogle.push(o) }
 
 adConfig({
-    sound: "on",
-    preloadAdBreaks: "on",
+    sound: 'on',
+    preloadAdBreaks: 'on',
 })
 
 var itemData = [
@@ -1803,7 +1803,9 @@ class Game {
         for (let id in this.weapons) {
             let weapon = this.weapons[id]
             
-            ret += weapon.count
+            if (weapon.unlocked == true) {
+                ret += 1
+            }
         }
         
         return ret
