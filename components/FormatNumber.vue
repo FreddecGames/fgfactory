@@ -1,5 +1,5 @@
 <template>
-    <span>{{ format.value }}<small v-if="format.symbol" class="opacity-75"> {{ format.symbol }}</small></span>
+    <span class="text-nowrap">{{ format.value }}<small v-if="format.symbol" class="opacity-75"> {{ format.symbol }}</small></span>
 </template>
 
 <script>
@@ -16,20 +16,20 @@ export default {
             
             let ret = "", symbol = null
             
-                 if (absValue >= 1e36) { ret = sign + Math.floor(absValue / 1e36); symbol = "Ud"; }
-            else if (absValue >= 1e33) { ret = sign + Math.floor(absValue / 1e33); symbol = "Dc"; }
-            else if (absValue >= 1e30) { ret = sign + Math.floor(absValue / 1e30); symbol = "No"; }
-            else if (absValue >= 1e27) { ret = sign + Math.floor(absValue / 1e27); symbol = "Oc"; }
-            else if (absValue >= 1e24) { ret = sign + Math.floor(absValue / 1e24); symbol = "Sp"; }
-            else if (absValue >= 1e21) { ret = sign + Math.floor(absValue / 1e21); symbol = "Sx"; }
-            else if (absValue >= 1e18) { ret = sign + Math.floor(absValue / 1e18); symbol = "Qi"; }
-            else if (absValue >= 1e15) { ret = sign + Math.floor(absValue / 1e15); symbol = "Qa"; }
-            else if (absValue >= 1e12) { ret = sign + Math.floor(absValue / 1e12); symbol = "T";  }
-            else if (absValue >= 1e9)  { ret = sign + Math.floor(absValue / 1e9);  symbol = "B";  }
-            else if (absValue >= 1e6)  { ret = sign + Math.floor(absValue / 1e6);  symbol = "M";  }
-            else if (absValue >= 1e3)  { ret = sign + Math.floor(100 * absValue / 1e3) / 100;  symbol = "K";  }
+                 if (absValue >= 1e36) { ret = sign + Math.floor(10 * absValue / 1e36) / 10; symbol = "Ud"; }
+            else if (absValue >= 1e33) { ret = sign + Math.floor(10 * absValue / 1e33) / 10; symbol = "Dc"; }
+            else if (absValue >= 1e30) { ret = sign + Math.floor(10 * absValue / 1e30) / 10; symbol = "No"; }
+            else if (absValue >= 1e27) { ret = sign + Math.floor(10 * absValue / 1e27) / 10; symbol = "Oc"; }
+            else if (absValue >= 1e24) { ret = sign + Math.floor(10 * absValue / 1e24) / 10; symbol = "Sp"; }
+            else if (absValue >= 1e21) { ret = sign + Math.floor(10 * absValue / 1e21) / 10; symbol = "Sx"; }
+            else if (absValue >= 1e18) { ret = sign + Math.floor(10 * absValue / 1e18) / 10; symbol = "Qi"; }
+            else if (absValue >= 1e15) { ret = sign + Math.floor(10 * absValue / 1e15) / 10; symbol = "Qa"; }
+            else if (absValue >= 1e12) { ret = sign + Math.floor(10 * absValue / 1e12) / 10; symbol = "T";  }
+            else if (absValue >= 1e9)  { ret = sign + Math.floor(10 * absValue / 1e9) / 10;  symbol = "B";  }
+            else if (absValue >= 1e6)  { ret = sign + Math.floor(10 * absValue / 1e6) / 10;  symbol = "M";  }
+            else if (absValue >= 1e3)  { ret = sign + Math.floor(10 * absValue / 1e3) / 10;  symbol = "K";  }
             
-            else ret = sign + Math.floor(absValue)
+            else ret = sign + Math.floor(10 * absValue) / 10
             
             return { value:ret, symbol:symbol }
         }

@@ -9,6 +9,7 @@ export default {
     'menuTab_rocket': 'Rocket',
     'menuTab_settings': 'Settings',
     'menuTab_techs': 'Techs',
+    'menuTab_trophies': 'Trophies',
     'menuTab_weapons': 'Weapons',
     
     'itemName_alienEgg': 'Alien Egg',

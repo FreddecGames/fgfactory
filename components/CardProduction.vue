@@ -4,10 +4,10 @@
             <div class="card-header">
                 <div class="row gx-2">
                     <div class="col">
-                        <span class="text-muted">Production</span>
+                        <span>Production</span>
                     </div>
                     <div class="col-auto">
-                        <span class="badge" :class="{ 'bg-1 text-dark':item.productionLevel == 0, 'bg-1':item.productionLevel == 1, 'bg-success text-dark':item.productionLevel == 2, }">{{ $t('productionState_' + item.productionLevel) }}</span>
+                        <small class="fw-bold" :class="{ 'text-danger':item.productionLevel == 0, 'text-warning':item.productionLevel == 1, 'text-success':item.productionLevel == 2, }">{{ $t('productionState_' + item.productionLevel) }}</small>
                     </div>
                 </div>                
             </div>

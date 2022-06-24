@@ -1,12 +1,12 @@
 <template>
     <div class="col-auto nav-item">
         <button type="button" class="w-100 btn nav-link pt-2 pb-1 justify-content-center" :class="{ 'active':$parent.currentTabId == tabId }" @click="$parent.setCurrentTabId(tabId)">
-            <div class="row g-1 align-items-center">
+            <div class="row g-0 align-items-center">
                 <div class="col-12">
-                    <span class="h5"><i :class="'fas fa-fw ' + icon"></i></span>
+                    <span class="h4"><i :class="'fas fa-fw ' + icon"></i></span>
                 </div>
                 <div class="col-12">
-                    <span>{{ $t('menuTab_' + tabId) }}</span>
+                    <span class="small">{{ $t('menuTab_' + tabId) }}</span>
                 </div>
             </div>
         </button>

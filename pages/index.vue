@@ -43,7 +43,7 @@
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-12 text-center">
-                            <span class="text-danger">Are you sure you want to wipe your data?<br>You will lose ALL your progress!</span>
+                            <span class="text-danger fw-bold">Are you sure you want to wipe your data?<br>You will lose ALL your progress!</span>
                         </div>
                         <div class="col-12 d-flex justify-content-end">
                             <button type="button" class="btn btn-primary" @click="resetGameData(); popupWipe = false;">
@@ -72,7 +72,7 @@
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-12 text-center">
-                            <span class="text-white h4">!!! Victory !!!</span>
+                            <span class="text-white h4">!!! Congratulations, You escape !!!</span>
                         </div>
                         <div class="col-12 text-center">
                             <img :src="require(`~/assets/rocketSiloLaunch.gif`)" width="240px" height="240px" alt="Rocket Silo Launch" />
@@ -80,9 +80,6 @@
                         <div class="col-12 text-center">
                             <div class="text-normal">You escape from the this hostile planet in</div>
                             <div class="h5 text-white"><FormatTime :value="game.timePlayed" /></div>
-                        </div>
-                        <div class="col-12 text-center">
-                            <span class="text-danger">Next step and new content will arrive soon! The game is still in developement :)</span>
                         </div>
                         <div class="col-12 text-center">
                             <span class="text-normal">To be kept informed about other games and the future of this one, join Discord. And if you want to support the job done, please support the Dev!</span>
@@ -191,7 +188,10 @@
                             <span class="text-primary">Let me teach you the first steps!<br>You could disable this tutorial. To open it again, click on the button <i class="fas fa-fw fa-question-circle"></i> in the bottom bar of the screen.</span>
                         </div>
                         <div class="col-12 text-center">
-                            <span class="text-danger">This game is still under development so bugs and data lost could happen! Play as your own risks!</span>
+                            <div class="alert alert-danger text-center">
+                                <div class="fw-bold">Alpha Version</div>
+                                <div>This game is still under development with bugs and maybe data lost! Play as your own risks!</div>
+                            </div>
                         </div>
                         <div class="col-12 d-flex justify-content-between">
                             <button type="button" class="btn btn-primary" @click="popupTutorial = null; disableTutorial();">
@@ -386,7 +386,6 @@
                         </div>
                         <div class="col-12">
                             <div class="text-uppercase text-muted small mb-1">Final Objective</div>
-                            <div class="text-normal ps-4 mb-1"><i class="fas fa-fw fa-caret-right"></i> Perform all researches</div>
                             <div class="text-normal ps-4 mb-1"><i class="fas fa-fw fa-caret-right"></i> Build 100 <span class="text-white">Rocket Parts</span></div>
                         </div>
                         <div class="col-12 text-center">
@@ -462,7 +461,7 @@
         
         <div v-if="isMobile == false && started == true" class="w-100 h-100 position-relative">
             
-            <div class="position-fixed top-0 start-0 end-0 bg-2 py-1 d-flex align-items-center">
+            <div class="position-fixed top-0 start-0 end-0 bg-2 d-flex align-items-center" style="height:50px;">
                 <div class="container">
                     <div class="row gx-2 align-items-center py-1">
                         <div class="col-auto">
@@ -472,25 +471,13 @@
                             <span class="h5">FG Factory</span>
                         </div>
                         <div class="col">
-                            <span class="badge bg-danger text-white">Alpha version</span>
-                        </div>
-                        <div class="col-auto">
-                            <button type="button" class="btn">
-                                <span class="opacity-0">...</span>
-                            </button>
-                        </div>
-                        <div class="d-none col-auto d-flex align-items-center">
-                            <span v-if="rewardDelay > 0" class="me-2 text-primary"><FormatTime :value="rewardDelay" /></span>
-                            <button type="button" class="btn btn-primary align-items-center" :class="{ 'disabled':rewardDelay > 0 }" @click="reward();">
-                                <i class="fas fa-fw fa-eye"></i>
-                                <span class="ms-2">Ad Reward x2</span>
-                            </button>
+                            <span class="badge badge-danger">Alpha version</span>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="position-fixed start-0 end-0 nav bg-3" style="top:49px;">
+            <div class="position-fixed start-0 end-0 nav bg-1 d-flex align-items-end" style="top:50px; height:55px;">
                 <div class="container">
                     <div class="row gx-0 align-items-center">
                         <TopMenuTab v-if="gameItem('iron').unlocked == true" tabId="ironwork" icon="fa-drum-steelpan" />
@@ -499,13 +486,14 @@
                         <TopMenuTab v-if="gameItem('water').unlocked == true" tabId="chemistry" icon="fa-atom" />
                         <TopMenuTab v-if="gameItem('rocketFuel').unlocked == true" tabId="rocket" icon="fa-rocket" />
                         <TopMenuTab v-if="game.lab.unlocked == true" tabId="techs" icon="fa-flask" />
-                        <TopMenuTab tabId="weapons" icon="fa-burn" />
-                        <TopMenuTab tabId="settings" icon="fa-cogs" class="ms-auto" />
+                        <TopMenuTab v-if="gameAmmunition('bullet').unlocked == true" tabId="weapons" icon="fa-burn" />
+                        <TopMenuTab tabId="trophies" icon="fa-trophy" class="ms-auto" />
+                        <TopMenuTab tabId="settings" icon="fa-cogs" />
                     </div>
                 </div>
             </div>
             
-            <div v-if="currentTabId == 'ironwork' && gameItem('iron').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:101px; margin-bottom:52px;">
+            <div v-if="currentTabId == 'ironwork' && gameItem('iron').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
                         <div class="col-auto scrollbar" style="width:275px;">
@@ -532,7 +520,7 @@
                 </div>
             </div>
             
-            <div v-if="currentTabId == 'masonry' && gameItem('stone').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:101px; margin-bottom:52px;">
+            <div v-if="currentTabId == 'masonry' && gameItem('stone').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
                         <div class="col-auto scrollbar" style="width:275px;">
@@ -555,7 +543,7 @@
                 </div>
             </div>
 
-            <div v-if="currentTabId == 'electronic' && gameItem('copper').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:101px; margin-bottom:52px;">
+            <div v-if="currentTabId == 'electronic' && gameItem('copper').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
                         <div class="col-auto scrollbar" style="width:275px;">
@@ -576,7 +564,7 @@
                 </div>
             </div>
             
-            <div v-if="currentTabId == 'chemistry' && gameItem('water').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:101px; margin-bottom:52px;">
+            <div v-if="currentTabId == 'chemistry' && gameItem('water').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
                         <div class="col-auto scrollbar" style="width:275px;">
@@ -615,7 +603,7 @@
                 </div>
             </div>
             
-            <div v-if="currentTabId == 'rocket' && gameItem('rocketFuel').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:101px; margin-bottom:52px;">
+            <div v-if="currentTabId == 'rocket' && gameItem('rocketFuel').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
                         <div class="col-auto scrollbar" style="width:275px;">
@@ -634,7 +622,7 @@
                 </div>
             </div>
             
-            <div v-if="currentTabId == 'techs' && game.lab.unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:101px; margin-bottom:52px;">
+            <div v-if="currentTabId == 'techs' && game.lab.unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
                         <div class="col-auto scrollbar" style="width:275px;">
@@ -663,7 +651,7 @@
                 </div>
             </div>            
 
-            <div v-if="currentTabId == 'weapons' && gameWeapon('pistol').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:101px; margin-bottom:52px;">
+            <div v-if="currentTabId == 'weapons' && gameWeapon('pistol').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
                         <div class="col-auto scrollbar" style="width:275px;">
@@ -690,7 +678,72 @@
                 </div>
             </div>            
 
-            <div v-if="currentTabId == 'settings'" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:101px; margin-bottom:52px;">
+            <div v-if="currentTabId == 'trophies'" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
+                <div class="container py-3 scrollbar">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="h-100 card">
+                                <div class="card-header">
+                                    <span>Statistics</span>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col"></th>
+                                                <th nowrap scope="col" width="1%" class="text-end text-muted">Easy Mode</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Total Time Played</td>
+                                                <td nowrap class="text-end"><FormatTime :value="game.stats.easyMode.totalTimePlayed" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total Alien Eggs Earned</td>
+                                                <td nowrap class="text-end"><FormatNumber :value="game.stats.easyMode.totalAlienEggs" /></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="h-100 card">
+                                <div class="card-header">
+                                    <span>Achievements</span>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col"></th>
+                                                <th nowrap scope="col" width="1%" class="text-muted">Easy Mode</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Win the game</td>
+                                                <td nowrap class="text-end"><i class="fas fa-fw fa-trophy" :class="{ 'text-success':game.trophies.easyMode.win, 'text-muted opacity-25':!game.trophies.easyMode.win }"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Research Oil Processing 1</td>
+                                                <td nowrap class="text-end"><i class="fas fa-fw fa-trophy" :class="{ 'text-success':game.trophies.easyMode.oilProcessing, 'text-muted opacity-25':!game.trophies.easyMode.oilProcessing }"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Research All Techs</td>
+                                                <td nowrap class="text-end"><i class="fas fa-fw fa-trophy" :class="{ 'text-success':game.trophies.easyMode.allResearches, 'text-muted opacity-25':!game.trophies.easyMode.allResearches }"></i></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div v-if="currentTabId == 'settings'" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
                 <div class="container py-3 scrollbar">
                     <div class="row g-3">
                         <div class="col-12">
@@ -702,7 +755,7 @@
                                     <div class="row g-3">
                                         <div class="col-6">
                                             <div class="row g-3">
-                                                <div class="col-12 text-center text-normal">This game has been designed and developed by <span class="text-white">Freddec Games</span>. To be kept informed about other games and the future of this one, join Discord server and visit our official website.</div>
+                                                <div class="col-12 text-center text-normal">This game has been designed and built with all the love in the world by <span class="text-white">Freddec Games</span>. To be kept informed about other games and the future of this one, join Discord server and visit our official website.</div>
                                                 <div class="col-12">
                                                     <div class="row align-items-center justify-content-center">
                                                         <div class="col-auto">
@@ -719,7 +772,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 text-center text-danger">This is still under development with bugs and maybe data lost!</div>
+                                                <div class="col-12">
+                                                    <div class="alert alert-danger text-center">
+                                                        <div class="fw-bold">Alpha Version</div>
+                                                        <div>This game is still under development with bugs and maybe data lost! Play as your own risks!</div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-6">
@@ -731,7 +789,7 @@
                                                         <span class="ms-2">Factorio Offical Site</span>
                                                     </a>
                                                 </div>
-                                                <div class="col-12 text-center text-normal">Icons are provided by <a href="https://www.flaticon.com/" target="_blank">Flaticon</a> and <a href="https://fontawesome.com/" target="_blank">Fontawesome</a></div>
+                                                <div class="col-12 text-center text-normal">Icons are provided by <a href="https://wiki.factorio.com/" target="_blank">Factorio Wiki</a>, <a href="https://www.flaticon.com/" target="_blank">Flaticon</a> and <a href="https://fontawesome.com/" target="_blank">Fontawesome</a></div>
                                             </div>
                                         </div>
                                     </div>
@@ -757,9 +815,9 @@
                                     <span>Hard Reset</span>
                                 </div>
                                 <div class="card-body d-flex align-items-center justify-content-center">
-                                    <button type="button" class="btn btn-primary text-danger" @click="showWipeDataPopup()">
-                                        <div class="col-12 text-center h4"><i class="fas fa-fw fa-skull"></i></div>
-                                        <div class="col-12 text-center mt-2">Wipe Local<br>Data</div>
+                                    <button type="button" class="btn btn-danger align-items-center" @click="showWipeDataPopup()">
+                                        <i class="fas fa-fw fa-skull"></i>
+                                        <span class="ms-2">Wipe Local Data</span>
                                     </button>
                                 </div>
                             </div>
@@ -770,7 +828,19 @@
                                     <span>Export Save</span>
                                 </div>
                                 <div class="card-body">
-                                    <textarea spellcheck="false" rows="5" class="w-100 rounded bg-1 border-0 text-normal p-2">{{ exportGameData }}</textarea>                                        
+                                    <textarea spellcheck="false" rows="5" class="w-100 rounded bg-1 border-0 text-normal p-2" disabled readonly>{{ exportGameData }}</textarea>                                        
+                                    <div class="mt-1 row gx-2 align-items-center justify-content-end">
+                                        <div class="col-auto">
+                                            <button type="button" class="btn btn-primary" @click="exportToClipboard()">
+                                                <span>Copy to clipboard</span>
+                                            </button>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="button" class="btn btn-primary" @click="downloadGameData()">
+                                                <span>Download TXT file</span>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -793,7 +863,7 @@
                 </div>
             </div>
             
-            <div class="position-fixed bottom-0 start-0 end-0 bg-2 py-2 d-flex align-items-center">
+            <div class="position-fixed bottom-0 start-0 end-0 bg-2 d-flex align-items-center" style="height:50px;">
                 <div class="container">
                     <div class="row gx-2 align-items-center">
                         <BottomButton label="Save" icon="fa-save" :click="manualSave" />
@@ -810,26 +880,11 @@
             </div>
             
         </div>
-        
-        <script async
-            data-adbreak-test="on"
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3024602338984886"
-            crossorigin="anonymous">
-        </script>
-            
+                    
     </div>
 </template>
 
 <script>
-
-window.adsbygoogle = window.adsbygoogle || []
-const adBreak = function(o) { adsbygoogle.push(o) }
-const adConfig = function(o) { adsbygoogle.push(o) }
-
-adConfig({
-    sound: 'on',
-    preloadAdBreaks: 'on',
-})
 
 var itemData = [
     
@@ -1153,9 +1208,26 @@ class Item extends Base {
     //---
     
     startProducing() {
-    
-        this.state = 'waiting'
-        this.remainingSeconds = this.getTime()
+        
+        if (this.canProduce() == true) {
+        
+            this.state = 'running'
+            this.remainingSeconds = this.getTime()
+            
+            let inputs = this.getInputs()
+            if (inputs != null) {
+                for (let id in inputs) {
+                    let input = inputs[id]
+                    
+                    this.game.items[id].count -= input
+                }
+            }
+        }
+        else {
+        
+            this.state = 'waiting'
+            this.remainingTime = this.getTime()
+        }
     }
     
     pauseProducing() {
@@ -1180,26 +1252,13 @@ class Item extends Base {
     produce(delta) {
         
         if (this.state == 'waiting') {
-            if (this.canProduce() == true) {
-                    
-                this.state = 'running'
-                this.remainingSeconds = this.getTime()
-                
-                let inputs = this.getInputs()
-                if (inputs != null) {
-                    for (let id in inputs) {
-                        let input = inputs[id]
-                        
-                        this.game.items[id].count -= input
-                    }
-                }
-            }
+            this.startProducing()
         }
         
         if (this.state == 'running') {
         
-            this.remainingSeconds -= delta            
-            if (this.remainingSeconds <= 0) {
+            let time = this.remainingSeconds - delta            
+            if (time <= 0) {
                                 
                 let outputs = this.getOutputs()
                 for (let id in outputs) {
@@ -1213,14 +1272,18 @@ class Item extends Base {
                 
                 if (this.auto == true) {
                 
-                    this.state = 'waiting'
                     this.remainingSeconds = this.getTime()
+                    this.startProducing()
                 }
                 else {
                 
                     this.state = 'paused'
                     this.remainingSeconds = this.getTime()
                 }
+            }
+            else {
+            
+                this.remainingSeconds = time
             }
         }
     }
@@ -1648,7 +1711,10 @@ class Weapon extends Buildable {
                 
                     let dice = Math.random()
                     if (dice > alien.eggCoeff) {
+                    
                         this.game.items['alienEgg'].count += 1
+                        
+                        if (this.game.currentMode == 'easy') this.stats.easyMode.totalAlienEggs += 1
                     }
                 }                
             }
@@ -1758,6 +1824,7 @@ class Game {
         this.paused = false
         this.victory = false
         this.timePlayed = 0
+        this.currentMode = 'easy'
         
         this.items = {}
         itemData.forEach(data => { this.items[data.id] = new Item(this, data) })
@@ -1792,6 +1859,25 @@ class Game {
         
             researchedTechs: true,
         }
+        
+        this.stats = {
+        
+            easyMode: {
+            
+                totalTimePlayed:0,
+                totalAlienEggs:0,
+            },
+        }
+
+        this.trophies = {
+        
+            easyMode: {
+            
+                win:false,
+                oilProcessing:false,
+                allResearches:false,
+            },
+        }
     }
     
     //---
@@ -1804,6 +1890,19 @@ class Game {
             let weapon = this.weapons[id]
             
             if (weapon.unlocked == true) {
+                ret += 1
+            }
+        }
+        
+        return ret
+    }
+    
+    getResearchedTechCount() {
+    
+        let ret = 0
+        for (let id in this.techs) {
+            let tech = this.techs[id]
+            if (tech.count >= 1) {
                 ret += 1
             }
         }
@@ -1828,15 +1927,39 @@ class Game {
     
     initStartingData() {
     
-        this.items['iron'].unlocked = true
-    }
+        if (this.items['iron'].unlocked == false) this.items['iron'].unlocked = true
+        
+        if (this.currentMode == 'easy') {
+        
+            if (this.stats.easyMode.totalAlienEggs < this.items['alienEgg'].count) this.stats.easyMode.totalAlienEggs = this.items['alienEgg'].count            
+        }
+        
+        this.checkTrophies()
+    }    
     
     loadFromData(data) {
         
         if (data.paused != null) this.paused = data.paused
-        if (data.options != null) this.options = data.options
         if (data.victory != null) this.victory = data.victory
         if (data.timePlayed != null) this.timePlayed = data.timePlayed
+        
+        if (data.options != null) {
+        
+            if (data.options.researchedTechs != null) this.options.researchedTechs = data.options.researchedTechs
+        }
+        
+        if (data.stats != null) {
+        
+            if (data.stats.easyMode.totalTimePlayed != null) this.stats.easyMode.totalTimePlayed = data.stats.easyMode.totalTimePlayed
+            if (data.stats.easyMode.totalAlienEggs != null) this.stats.easyMode.totalAlienEggs = data.stats.easyMode.totalAlienEggs
+        }
+        
+        if (data.trophies != null) {
+        
+            if (data.trophies.easyMode.win != null) this.trophies.easyMode.win = data.trophies.easyMode.win
+            if (data.trophies.easyMode.oilProcessing != null) this.trophies.easyMode.win = data.trophies.easyMode.oilProcessing
+            if (data.trophies.easyMode.allResearches != null) this.trophies.easyMode.allResearches = data.trophies.easyMode.allResearches
+        }
         
         for (let id in data.items) {
             let dataItem = data.items[id]
@@ -1945,9 +2068,11 @@ class Game {
     
         let ret = {
             
+            stats: this.stats,
             paused: this.paused,
             options: this.options,
             victory: this.victory,
+            trophies: this.trophies,
             timePlayed: this.timePlayed,
             
             lab: {
@@ -2065,10 +2190,12 @@ class Game {
                 cycleDelta = 1
             }
             
+            this.timePlayed += cycleDelta * cycleCount
+            
+            if (this.currentMode == 'easy') this.stats.easyMode.totalTimePlayed = this.timePlayed
+            
             for (let i = 0; i < cycleCount; i++) {    
-                
-                this.timePlayed += cycleDelta
-                
+                                
                 for (let id in this.items) {
                     let item = this.items[id]
                     
@@ -2103,6 +2230,8 @@ class Game {
                 weapon.fire(delta)
             }
         }
+        
+        this.checkTrophies()
     }
     
     isVictory() {
@@ -2114,6 +2243,16 @@ class Game {
         }
         
         return ret
+    }
+    
+    checkTrophies() {
+    
+        if (this.currentMode == 'easy') {
+        
+            if (this.victory == true) this.trophies.easyMode.win = true
+            if (this.techs['oilTech1'].count >= 1) this.trophies.easyMode.oilProcessing = true
+            if (this.getResearchedTechCount() >= techData.length) this.trophies.easyMode.allResearches = true
+        }
     }
 }
 
@@ -2138,7 +2277,6 @@ export default {
             localStorageName: 'fgfactory',
             importExportData: null,
             minLoadingTimerMS: 1000,
-            rewardDelay: 0,
             
             //---
 
@@ -2201,40 +2339,6 @@ export default {
     },
     
     methods: {
-        
-        reward() {
-        
-            adBreak({
-            
-                type: 'reward',
-                name: 'reward',
-                beforeAd: () => {
-                    console.log("***** beforeAd *****")
-                    
-                    this.pauseGame()
-                },
-                afterAd: () => {
-                    console.log("***** afterAd *****")
-
-                    this.resumeGame()
-                },
-                beforeReward: (showAdFn) => {
-                    console.log("***** beforeReward *****")
-                    
-                    showAdFn()
-                },
-                adDismissed: () => {
-                    console.log("***** adDismissed *****")
-                    
-                    this.rewardDelay = 0
-                },
-                adViewed: () => {
-                    console.log("***** adViewed *****")
-                    
-                    this.rewardDelay = 600
-                },
-            })
-        },
         
         //---
         
@@ -2351,8 +2455,8 @@ export default {
             
             try {
             
-                this.init()
                 this.load()                
+                this.init()
                 this.update()
                                 
                 window.onbeforeunload = () => {
@@ -2393,18 +2497,6 @@ export default {
             if (deltaTimeMs >= 1000 / this.fps) {            
                 this.lastFrameTimeMs = currentTimeMs
                 
-                if (this.rewardDelay > 0) {
-                
-                    this.rewardDelay -= deltaTimeMs / 1000
-                    deltaTimeMs *= 2
-                }
-                
-                if (this.rewardDelay < 0) {
-                
-                    this.rewardDelay = 0
-                    this.lastFrameTimeMs += this.rewardDelay * 1000
-                }
-                
                 this.game.mainLoop(deltaTimeMs)
                 
                 if (this.game.isVictory() == true) {
@@ -2433,6 +2525,16 @@ export default {
                 if (loadedData.lastFrameTimeMs != null) this.lastFrameTimeMs = loadedData.lastFrameTimeMs
                 if (loadedData.tutorialEnabled != null) this.tutorialEnabled = loadedData.tutorialEnabled
                 
+                if (loadedData.currentTabId != null) this.currentTabId = loadedData.currentTabId
+
+                if (loadedData.currentIronworkPageId != null) this.currentIronworkPageId = loadedData.currentIronworkPageId
+                if (loadedData.currentMasonryPageId != null) this.currentMasonryPageId = loadedData.currentMasonryPageId
+                if (loadedData.currentElectronicPageId != null) this.currentElectronicPageId = loadedData.currentElectronicPageId
+                if (loadedData.currentChemistryPageId != null) this.currentChemistryPageId = loadedData.currentChemistryPageId
+                if (loadedData.currentRocketPageId != null) this.currentRocketPageId = loadedData.currentRocketPageId
+                if (loadedData.currentTechPageId != null) this.currentTechPageId = loadedData.currentTechPageId
+                if (loadedData.currentWeaponsPageId != null) this.currentWeaponsPageId = loadedData.currentWeaponsPageId
+                
                 if (loadedData.tutorials) {
                     for (var id in loadedData.tutorials) {
                         let dataTut = loadedData.tutorials[id]
@@ -2452,6 +2554,16 @@ export default {
             
             savedData.lastFrameTimeMs = this.lastFrameTimeMs
             savedData.tutorialEnabled = this.tutorialEnabled
+            
+            savedData.currentTabId = this.currentTabId
+            
+            savedData.currentIronworkPageId = this.currentIronworkPageId
+            savedData.currentMasonryPageId = this.currentMasonryPageId
+            savedData.currentElectronicPageId = this.currentElectronicPageId
+            savedData.currentChemistryPageId = this.currentChemistryPageId
+            savedData.currentRocketPageId = this.currentRocketPageId
+            savedData.currentTechPageId = this.currentTechPageId
+            savedData.currentWeaponsPageId = this.currentWeaponsPageId
             
             savedData.tutorials = {}
             for (var id in this.tutorials) {
@@ -2480,6 +2592,26 @@ export default {
             
             localStorage.removeItem(this.localStorageName)
             window.location.reload()
+        },
+
+        exportToClipboard() {
+        
+            navigator.clipboard.writeText(this.exportGameData)
+            this.showToast("Game data in clipboard!", "info")
+        },
+
+        downloadGameData() {
+        
+            var element = document.createElement('a')
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.exportGameData))
+            element.setAttribute('download', 'FGFactory_save_' + (new Date).getTime() + '.txt')
+
+            element.style.display = 'none'
+            document.body.appendChild(element)
+
+            element.click()
+
+            document.body.removeChild(element)
         },
     },
 

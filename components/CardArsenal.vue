@@ -4,7 +4,7 @@
             <div class="card-header">
                 <div class="row gx-2">
                     <div class="col">
-                        <span class="text-muted">Arsenal</span>
+                        <span>Arsenal</span>
                     </div>
                 </div>                
             </div>

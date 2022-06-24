@@ -1,10 +1,10 @@
 <template>
-    <div class="col-12">
+    <div class="col-12 mt-2">
         <div class="card">
             <div class="card-header">
                 <div class="row gx-2">
                     <div class="col">
-                        <span class="text-muted">Aliens</span>
+                        <span>Aliens</span>
                     </div>
                 </div>
             </div>

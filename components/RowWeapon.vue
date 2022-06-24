@@ -5,8 +5,21 @@
                 <img :src="require(`~/assets/weapons/${weapon.id}.png`)" width="24px" height="24px" :title="$t('weaponName_' + weapon.id)" :alt="$t('weaponName_' + weapon.id)" />
             </div>
             <div class="col">
-                <div class="text-normal">{{ $t('weaponName_' + weapon.id) }}</div>
+                <div class="text-normal">
+                    {{ $t('weaponName_' + weapon.id) }}
+                    <small class="ms-2 text-success fw-bold">Built</small>
+                </div>
                 <div>{{ $t('weaponDesc_' + weapon.id) }}</div>
+            </div>
+            <div class="col-auto">
+                <div class="row gx-2 align-items-center">
+                    <div v-for="ammunition in ammunitions" class="col-auto">
+                        <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('itemName_' + ammunition.id)" >
+                            <img :src="require(`~/assets/items/${ammunition.id}.png`)" width="18px" height="18px" :alt="$t('itemName_' + ammunition.id)" />
+                            <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow"><FormatNumber :value="ammunition.count" /></span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-auto">
                 <div class="text-center mb-1">
@@ -80,6 +93,20 @@ export default {
             
             if (this.weapon.fireRemainingSeconds > 0) return 100 - 100 * (this.weapon.fireRemainingSeconds / this.weapon.getFireTime())
             else return 0
+        },
+        
+        ammunitions() {
+        
+            let ret = []
+            
+            for (let id in this.weapon.ammunitions) {
+                let ammunition = this.weapon.ammunitions[id]
+                if (ammunition.count > 0) {
+                    ret.push(ammunition)
+                }
+            }
+            
+            return ret
         },
     },
     

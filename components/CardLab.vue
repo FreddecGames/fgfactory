@@ -4,7 +4,7 @@
             <div class="card-header">
                 <div class="row gx-2">
                     <div class="col">
-                        <span class="text-muted">Building</span>
+                        <span>Building</span>
                     </div>
                 </div>
             </div>
@@ -14,15 +14,13 @@
                         <img :src="require(`~/assets/lab/${lab.id}.png`)" width="24px" height="24px" :title="$t('labName_' + lab.id)" :alt="$t('labName_' + lab.id)" />
                     </div>
                     <div class="col">
-                        <div class="text-normal">{{ $t('labName_' + lab.id) }}</div>
+                        <div class="text-normal">
+                            {{ $t('labName_' + lab.id) }}
+                        <small class="text-muted ms-2">x</small>
+                        <span class="text-normal">{{ lab.count }}</span>
+                        </div>
                         <div class="text-muted">{{ $t('labDesc_' + lab.id) }}</div>
                     </div>
-                    <div class="col-auto">
-                        <span class="text-muted">x</span>
-                        <span class="text-normal">{{ lab.count }}</span>
-                    </div>
-                </div>
-                <div class="row gx-1 align-items-center justify-content-end">
                     <div class="col-auto">
                         <div class="row gx-2 align-items-center justify-content-end">
                             <div v-for="(count, itemId) in lab.getCosts()" class="col-auto">

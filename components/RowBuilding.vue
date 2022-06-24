@@ -5,15 +5,13 @@
                 <img :src="require(`~/assets/buildings/${building.icon}.png`)" width="24px" height="24px" :title="$t('buildingName_' + building.name)" :alt="$t('buildingName_' + building.name)" />
             </div>
             <div class="col">
-                <div class="text-normal">{{ $t('buildingName_' + building.name) }}</div>
+                <div class="text-normal">
+                    {{ $t('buildingName_' + building.name) }}
+                    <small class="text-muted ms-2">x</small>
+                    <span class="text-normal">{{ building.count }}</span>
+                </div>
                 <div>{{ $t('buildingDesc_' + building.name) }}</div>
             </div>
-            <div class="col-auto">
-                <span class="text-muted">x</span>
-                <span class="text-normal">{{ building.count }}</span>
-            </div>
-        </div>
-        <div class="row gx-1 align-items-center justify-content-end">
             <div class="col-auto">
                 <div class="row gx-2 align-items-center justify-content-end">
                     <div v-for="(count, itemId) in building.getCosts()" class="col-auto">

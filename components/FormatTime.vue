@@ -13,7 +13,9 @@ export default {
         
             let val = this.value
             
-            if (val < 1) return '00:00:00'
+            if (val == Infinity) return 'Infinity'
+            
+            if (val < 1) return Math.ceil(val * 1000) + ' ms'
             
             let d = Math.floor(val / (3600 * 24))
             

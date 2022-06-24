@@ -23,14 +23,12 @@
                     <div class="text-normal">{{ $t('techName_' + tech.id) }}</div>
                     <div class="text-muted">{{ $t('techDesk_' + tech.id) }}</div>
                 </div>
-            </div>
-            <div class="row gx-2 align-items-center justify-content-end">
                 <div class="col-auto">
                     <div class="row gx-1 align-items-center justify-content-end">
                         <div v-for="(count, itemId) in tech.getCosts()" class="col-auto">
                             <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('itemName_' + itemId)" >
                                 <img :src="require(`~/assets/items/${itemId}.png`)" width="18px" height="18px" :alt="$t('itemName_' + itemId)" />
-                                <span class="position-absolute bottom-0 end-0 fw-bold text-shadow" :class="{ 'text-danger':count > tech.game.items[itemId].count, 'text-normal':count <= tech.game.items[itemId].count }"><FormatNumber :value="count" /></span>
+                                <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow text-normal" :class="{ 'text-danger':count > tech.game.items[itemId].count, 'text-normal':count <= tech.game.items[itemId].count }"><FormatNumber :value="count" /></span>
                             </div>
                         </div>
                     </div>

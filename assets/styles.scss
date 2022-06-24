@@ -15,14 +15,15 @@ $text-muted:                        #808080 !default;
 $line-height-base:                  1.25 !default;
 
 $font-family-sans-serif:            system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
-$font-size-base:                    .75rem !default;
+$font-size-base:                    .8rem !default;
 
 $font-weight-normal:                400 !default;
 
-$small-font-size:                   .75em !default;
+$small-font-size:                   .8em !default;
 
 $border-color:                      #2a2a2a !default;
 $border-radius:                     6px !default;
+$border-width:                      1px !default;
 
 $body-bg:                           #2a2a2a !default;
 $body-color:                        $normal !default;
@@ -58,7 +59,7 @@ $list-group-action-active-bg:       rgba(76, 76, 76, .5) !default;
 
 $card-bg:                           #333 !default;
 $card-cap-bg:                       #404040 !default;
-$card-cap-color:                    $text-muted !default;
+$card-cap-color:                    $normal !default;
 $card-spacer-x:                     .5rem !default;
 $card-spacer-y:                     .5rem !default;
 $card-border-width:                 0 !default;
@@ -76,6 +77,15 @@ $dropdown-item-padding-x:           $spacer * .5 !default;
 $toast-padding-x:                   .5rem !default;
 $toast-padding-y:                   .5rem !default;
 $toast-font-size:                   $font-size-base !default;
+
+$alert-padding-y:                   .5rem !default;
+$alert-padding-x:                   .5rem !default;
+$alert-margin-bottom:               0 !default;
+
+$table-th-font-weight:              $font-weight-normal !default;
+$table-border-factor:               .5 !default;
+$table-border-width:                $border-width !default;
+$table-border-color:                $border-color !default;
 
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
 
@@ -141,7 +151,7 @@ body { width: 100%; height: 100%; overflow: hidden; }
 .btn-primary, .btn-primary:disabled, .btn-primary.disabled, .btn-primary:focus { color: $normal; background-color: #404040; border-color: transparent; box-shadow: none; }
 .btn-primary:disabled, .btn-primary.disabled { color: $text-muted; }
 
-.bg-1 { background-color: #4c4c4c!important; }
+.bg-1 { background-color: #404040!important; }
 .bg-2 { background-color: #151515!important; }
 .bg-3 { background-color: #333333!important; }
 
@@ -162,3 +172,9 @@ body { width: 100%; height: 100%; overflow: hidden; }
 .list-group-item + .list-group-item.active { margin-top:.25rem; }
 .list-group-item + .list-group-item { border-top-width: 1px; }
 .list-group-flush > .list-group-item { border-radius: 0!important; }
+
+.badge-danger, .alert-danger { color: #fff; background-color: #b94b45; border: 1px solid $danger; }
+
+thead, tbody, tfoot, tr, td, th { border-color: #505050; }
+
+.table > :not(:first-child) { border-top: 0; }

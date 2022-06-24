@@ -4,16 +4,16 @@
             <div class="col-auto">
                 <img :src="require(`~/assets/storages/${storage.icon}.png`)" width="24px" height="24px" :title="$t('storageName_' + storage.name)" :alt="$t('storageName_' + storage.name)" />
             </div>
-            <div class="col">
-                <div class="text-normal">{{ $t('storageName_' + storage.name) }}</div>
+            <div class="col-auto">
+                <div class="text-normal">
+                    {{ $t('storageName_' + storage.name) }}
+                    <small class="text-muted ms-2">x</small>
+                    <span class="text-normal">{{ storage.count }}</span>
+                </div>
                 <div>{{ $t('storageDesc_' + storage.name) }}</div>
             </div>
-            <div class="col-auto">
-                <span class="text-muted">x</span>
-                <span class="text-normal">{{ storage.count }}</span>
+            <div class="col">
             </div>
-        </div>
-        <div class="row gx-1 align-items-center justify-content-end">
             <div class="col-auto">
                 <div class="row gx-2 align-items-center justify-content-end">
                     <div v-for="(count, itemId) in storage.getCosts()" class="col-auto">
