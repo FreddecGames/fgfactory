@@ -7,7 +7,7 @@
                         <span>Production</span>
                     </div>
                     <div class="col-auto">
-                        <small class="fw-bold" :class="{ 'text-danger':item.productionLevel == 0, 'text-warning':item.productionLevel == 1, 'text-success':item.productionLevel == 2, }">{{ $t('productionState_' + item.productionLevel) }}</small>
+                        <small class="fw-bold" :class="{ 'text-danger':item.productionLevel == 0, 'text-primary':item.productionLevel == 1, 'text-success':item.productionLevel == 2, }">{{ $t('productionState_' + item.productionLevel) }}</small>
                     </div>
                 </div>                
             </div>

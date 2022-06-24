@@ -1,10 +1,10 @@
 $black:                             #000 !default;
 $white:                             #fff !default;
 
-$danger:                            #e5534b !default;
-$normal:                            #c1c1c1 !default;
+$danger:                            #ff5c53 !default;
+$normal:                            #d1d1d1 !default;
 $primary:                           #e69100 !default;
-$success:                           #12b712 !default;
+$success:                           #00ff00 !default;
 
 $spacer:                            1rem !default;
 
@@ -45,20 +45,20 @@ $nav-link-padding-y:                .5rem !default;
 $nav-link-padding-x:                .5rem !default;
 
 $list-group-color:                  $text-muted !default;
-$list-group-bg:                     #333333 !default;
+$list-group-bg:                     #444444 !default;
 $list-group-border-color:           #2a2a2a !default;
 $list-group-item-padding-y:         $spacer * .5 !default;
 $list-group-item-padding-x:         $spacer * .5 !default;
 $list-group-hover-bg:               rgba(76, 76, 76, .5) !default;
 $list-group-active-color:           $normal !default;
-$list-group-active-bg:              #333333 !default;
+$list-group-active-bg:              #444444 !default;
 $list-group-action-color:           $text-muted !default;
 $list-group-action-hover-color:     $normal !default;
 $list-group-action-active-color:    $body-color !default;
 $list-group-action-active-bg:       rgba(76, 76, 76, .5) !default;
 
-$card-bg:                           #333 !default;
-$card-cap-bg:                       #404040 !default;
+$card-bg:                           #444444 !default;
+$card-cap-bg:                       #505050 !default;
 $card-cap-color:                    $normal !default;
 $card-spacer-x:                     .5rem !default;
 $card-spacer-y:                     .5rem !default;
@@ -148,12 +148,12 @@ body { width: 100%; height: 100%; overflow: hidden; }
 .list-group-item.active { border-left: 2px solid $primary; }
 
 .btn { display: flex; flex-wrap: wrap; }
-.btn-primary, .btn-primary:disabled, .btn-primary.disabled, .btn-primary:focus { color: $normal; background-color: #404040; border-color: transparent; box-shadow: none; }
+.btn-primary, .btn-primary:disabled, .btn-primary.disabled, .btn-primary:focus { color: $normal; background-color: #505050; border-color: transparent; box-shadow: none; }
 .btn-primary:disabled, .btn-primary.disabled { color: $text-muted; }
 
-.bg-1 { background-color: #404040!important; }
+.bg-1 { background-color: #505050!important; }
 .bg-2 { background-color: #151515!important; }
-.bg-3 { background-color: #333333!important; }
+.bg-3 { background-color: #444444!important; }
 
 .bg-overlay { background-color: rgba(2, 4, 5, .7); }
 
