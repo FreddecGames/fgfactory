@@ -29,7 +29,7 @@
                     <div v-for="(count, itemId) in item.getOutputs()" class="col-auto ps-0">
                         <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('itemName_' + itemId)" >
                             <img :src="require(`~/assets/items/${itemId}.png`)" width="18px" height="18px" :alt="$t('itemName_' + itemId)" />
-                            <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow" :class="{ 'text-danger':item.game.items[itemId].count + count > item.game.items[itemId].getMax(), 'text-normal':item.game.items[itemId].count + count <= item.game.items[itemId].getMax() }" :title="$t('itemName_' + itemId)"><FormatNumber :value="count" /></span>
+                            <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow" :class="{ 'text-primary':item.game.items[itemId].count + count > item.game.items[itemId].getMax(), 'text-normal':item.game.items[itemId].count + count <= item.game.items[itemId].getMax() }" :title="$t('itemName_' + itemId)"><FormatNumber :value="count" /></span>
                         </div>
                     </div>
                     <div class="col-auto">
@@ -45,7 +45,7 @@
                             <span><i class="fas fa-fw fa-play"></i></span>
                         </button>
                         <button v-if="item.state != 'paused'" type="button" class="btn btn-primary" @click="pause()">
-                            <span :class="{ 'text-danger':item.state == 'waiting' }"><i class="fas fa-fw fa-stop"></i></span>
+                            <span :class="{ 'text-danger':item.state == 'waiting' && item.count < item.getMax(), 'text-primary':item.state == 'waiting' && item.count >= item.getMax() }"><i class="fas fa-fw fa-stop"></i></span>
                         </button>
                     </div>
                 </div>

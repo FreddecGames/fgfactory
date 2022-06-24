@@ -19,7 +19,7 @@
                     <div class="col-12">
                         <div class="row gx-2 align-items-center">
                             <div class="col text-end">
-                                <span :class="{ 'text-muted':item.count <= 0, 'text-normal':item.count > 0 && item.count < item.getMax(), 'text-danger':item.count >= item.getMax() }"><FormatNumber :value="item.count" /></span>
+                                <span :class="{ 'text-muted':item.count <= 0, 'text-normal':item.count > 0 && item.count < item.getMax(), 'text-primary':item.count >= item.getMax() }"><FormatNumber :value="item.count" /></span>
                                 <span class="text-muted">/<FormatNumber :value="item.getMax()" /></span>
                             </div>
                         </div>
@@ -31,7 +31,7 @@
                     <span><i class="fas fa-fw fa-play"></i></span>
                 </button>
                 <button v-if="item.state != 'paused'" type="button" class="position-relative btn btn-primary" @click="pause()">
-                    <span :class="{ 'text-danger':item.state == 'waiting' }"><i class="fas fa-fw fa-stop"></i></span>
+                    <span :class="{ 'text-danger':item.state == 'waiting' && item.count < item.getMax(), 'text-primary':item.state == 'waiting' && item.count >= item.getMax() }"><i class="fas fa-fw fa-stop"></i></span>
                     <div class="w-100 position-absolute progress" style="bottom:-1px; left:0; height:3px; border-radius: 0 0 6px 6px;">
                         <div class="progress-bar" role="progressbar" :style="'width:' + percent + '%;'" :aria-valuenow="percent" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>

@@ -9,7 +9,7 @@
                 <span v-if="item.desc == true" class="ms-2 text-muted">{{ $t('itemDesc_' + item.id) }}</span>
             </div>
             <div class="col-auto">
-                <span :class="{ 'text-danger':item.count >= item.getMax(), 'text-muted':item.count < 1 }"><FormatNumber :value="item.count" /></span>
+                <span :class="{ 'text-primary':item.count >= item.getMax(), 'text-muted':item.count < 1 }"><FormatNumber :value="item.count" /></span>
                 <span class="text-muted">/<FormatNumber :value="item.getMax()" /></span>
             </div>
         </div>

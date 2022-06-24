@@ -1666,8 +1666,6 @@ class Weapon extends Buildable {
     
     startFiring() {
         
-        let kill = 0
-        
         if (this.canFire() == true) {
             
             for (let id in this.game.weapons) {
@@ -1677,58 +1675,12 @@ class Weapon extends Buildable {
             }
             
             this.fireState = 'running'
-            this.fireRemainingSeconds = this.getFireTime()
-            
-            let alien = this.getAlienTarget()
-            let ammunition = this.getFireAmmunition()
-            
-            if (alien && ammunition) {
-            
-                let totalDamage = 0
-                for (let id in ammunition.damages) {
-                
-                    let armor = alien.armor[id]
-                    let shield = alien.shield[id]
-                    let damage = ammunition.damages[id]
-                    
-                    if (shield + 1 < damage) {
-                        totalDamage += damage - shield
-                    }
-                    else if (damage > 1) {
-                        totalDamage += 1 / (shield - damage + 2)
-                    }
-                    else {
-                        totalDamage += 1 / (shield + 1)
-                    }
-                    
-                    totalDamage = totalDamage * (1 - armor)
-                }
-                
-                ammunition.count -= 1
-                
-                kill = alien.doDamage(totalDamage)
-                if (kill > 0) {
-                
-                    let dice = Math.random()
-                    if (dice > alien.eggCoeff) {
-                    
-                        this.game.items['alienEgg'].count += 1
-                        
-                        if (this.game.currentMode == 'easy') this.stats.easyMode.totalAlienEggs += 1
-                    }
-                }                
-            }
-            else {
-            
-                this.cancelFiring()
-            }
+            this.fireRemainingSeconds = this.getFireTime()            
         }
         else {
         
             this.cancelFiring()
         }
-        
-        return kill
     }
     
     cancelFiring() {
@@ -1744,8 +1696,52 @@ class Weapon extends Buildable {
             this.fireRemainingSeconds -= delta            
             if (this.fireRemainingSeconds <= 0) {
                                 
-                if (this.auto) this.startFiring()
-                else this.cancelFiring()
+                let alien = this.getAlienTarget()
+                let ammunition = this.getFireAmmunition()
+                
+                if (alien && ammunition) {
+                
+                    let totalDamage = 0
+                    for (let id in ammunition.damages) {
+                    
+                        let armor = alien.armor[id]
+                        let shield = alien.shield[id]
+                        let damage = ammunition.damages[id]
+                        
+                        if (shield + 1 < damage) {
+                            totalDamage += damage - shield
+                        }
+                        else if (damage > 1) {
+                            totalDamage += 1 / (shield - damage + 2)
+                        }
+                        else {
+                            totalDamage += 1 / (shield + 1)
+                        }
+                        
+                        totalDamage = totalDamage * (1 - armor)
+                    }
+                    
+                    ammunition.count -= 1
+                    
+                    let kill = alien.doDamage(totalDamage)
+                    if (kill > 0) {
+                    
+                        let dice = Math.random()
+                        if (dice > alien.eggCoeff) {
+                        
+                            this.game.items['alienEgg'].count += 1
+                            
+                            if (this.game.currentMode == 'easy') this.stats.easyMode.totalAlienEggs += 1
+                        }
+                    }                
+                    
+                    if (this.auto) this.startFiring()
+                    else this.cancelFiring()
+                }
+                else {
+                
+                    this.cancelFiring()
+                }
             }
         }
     }
