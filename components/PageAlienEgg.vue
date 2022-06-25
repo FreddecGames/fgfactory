@@ -1,8 +1,7 @@
 <template>
     <div class="col scrollbar">
         <div class="row g-3">
-            <HeaderItemCount :item="item" />
-            <CardAliens :game="item.game" />
+            <CardAliens :item="item" />
             <div v-if="item.game.getWeaponCount() < 1" class="col-12">
                 <span class="text-muted">To collect Alien Eggs you have to build weapons.</span>
             </div>

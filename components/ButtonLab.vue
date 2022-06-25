@@ -10,6 +10,7 @@
                         <span class="ms-2">{{ $t('labName_' + lab.id) }}</span>
                     </div>
                     <div class="col-auto">
+                        <small class="text-muted">x</small>
                         <span :class="{ 'text-normal':lab.count > 0, 'text-muted':lab.count < 1 }"><FormatNumber :value="lab.count" /></span>
                     </div>
                 </button>

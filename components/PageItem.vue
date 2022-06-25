@@ -1,10 +1,9 @@
 <template>
     <div class="col scrollbar">
         <div class="row g-3">
-            <HeaderItem :item="item" />
             <CardProduction :item="item" />
-            <CardStorages v-if="item.game.storages[item.id + 'S1'].unlocked == true" :item="item" />
-            <CardBuildings v-if="item.game.buildings[item.id + 'T1'].unlocked == true" :item="item" />
+            <CardStorage v-if="item.storage.unlocked == true" :storage="item.storage" />
+            <CardBuilding v-if="item.building.unlocked == true" :building="item.building" />
         </div>
     </div>
 </template>

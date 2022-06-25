@@ -1,34 +1,38 @@
 <template>
-    <div class="col-12 mt-2">
+    <div class="col-12">
         <div class="card">
             <div class="card-header">
                 <div class="row gx-2">
-                    <div class="col">
-                        <span>Production</span>
+                    <div class="col-auto">
+                        <img :src="require(`~/assets/items/${item.id}.png`)" width="18px" height="18px" :title="$t('itemName_' + item.id)" :alt="$t('itemName_' + item.id)" />
                     </div>
                     <div class="col-auto">
+                        <span>{{ $t('itemName_' + item.id) }}</span>
+                        <small v-if="item.desc == true" class="ms-2 text-muted">{{ $t('itemDesc_' + item.id) }}</small>
+                    </div>
+                    <div class="col">
                         <small class="fw-bold" :class="{ 'text-danger':item.productionLevel == 0, 'text-primary':item.productionLevel == 1, 'text-success':item.productionLevel == 2, }">{{ $t('productionState_' + item.productionLevel) }}</small>
+                    </div>
+                    <div class="col-auto">
+                        <span :class="{ 'text-primary':item.count >= item.getMax(), 'text-muted':item.count < 1 }"><FormatNumber :value="item.count" /></span>
+                        <span class="text-muted">/<FormatNumber :value="item.getMax()" /></span>
                     </div>
                 </div>                
             </div>
             <div class="card-body">
-                <div class="row gx-1 align-items-center justify-content-end">
-                    <div class="col-auto">
-                        <div class="row gx-2 align-items-center justify-content-end">
-                            <div v-for="(count, itemId) in item.getInputs()" class="col-auto">
-                                <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('itemName_' + itemId)" >
-                                    <img :src="require(`~/assets/items/${itemId}.png`)" width="18px" height="18px" :alt="$t('itemName_' + itemId)" />
-                                    <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow" :class="{ 'text-danger':count > item.game.items[itemId].count, 'text-normal':count <= item.game.items[itemId].count }"><FormatNumber :value="count" /></span>
-                                </div>
-                            </div>
+                <div class="row gx-2 align-items-center justify-content-end">
+                    <div v-for="(count, itemId) in item.getInputs()" class="col-auto">
+                        <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('itemName_' + itemId)" >
+                            <img :src="require(`~/assets/items/${itemId}.png`)" width="24px" height="24px" :alt="$t('itemName_' + itemId)" />
+                            <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow" :class="{ 'text-danger':count > item.game.items[itemId].count, 'text-normal':count <= item.game.items[itemId].count }"><FormatNumber :value="count" /></span>
                         </div>
                     </div>
-                    <div v-if="item.getInputs()" class="col-auto px-0">
+                    <div v-if="item.getInputs()" class="col-auto">
                         <i class="text-muted fas fa-fw fa-long-arrow-alt-right"></i>
                     </div>
-                    <div v-for="(count, itemId) in item.getOutputs()" class="col-auto ps-0">
+                    <div v-for="(count, itemId) in item.getOutputs()" class="col-auto">
                         <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('itemName_' + itemId)" >
-                            <img :src="require(`~/assets/items/${itemId}.png`)" width="18px" height="18px" :alt="$t('itemName_' + itemId)" />
+                            <img :src="require(`~/assets/items/${itemId}.png`)" width="24px" height="24px" :alt="$t('itemName_' + itemId)" />
                             <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow" :class="{ 'text-primary':item.game.items[itemId].count + count > item.game.items[itemId].getMax(), 'text-normal':item.game.items[itemId].count + count <= item.game.items[itemId].getMax() }" :title="$t('itemName_' + itemId)"><FormatNumber :value="count" /></span>
                         </div>
                     </div>

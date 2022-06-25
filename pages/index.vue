@@ -1140,36 +1140,18 @@ class Item extends Base {
         this.state = 'paused'
         this.remainingSeconds = this.getTime()
         
-        this.storages = []
-        this.buildings = []
+        this.storage = null
+        this.building = null
     }
     
     //---
     
     getMax() {
     
-        let ret = 0
-        
-        for (let id in this.storages) {
-            let storage = this.storages[id]
-            
-            ret += Math.floor(storage.storage * Math.pow(2.0, storage.count))
-        }
+        let ret = 0        
+        ret += Math.floor(this.storage.storage * Math.pow(2.0, this.storage.count))
         
         if (ret == 0) ret = this.max
-        
-        return ret
-    }
-    
-    getBuildingsCount() {
-    
-        let ret = 0
-        
-        for (let id in this.buildings) {
-            let building = this.buildings[id]
-            
-            ret += building.count
-        }
         
         return ret
     }
@@ -1184,7 +1166,7 @@ class Item extends Base {
         
         if (this.inputs == null) return null
 
-        let bCount = Math.max(1, this.getBuildingsCount())
+        let bCount = Math.max(1, this.building.count)
         
         let ret = {}
         
@@ -1201,7 +1183,7 @@ class Item extends Base {
     
         let ret = {}
         
-        let bCount = Math.max(1, this.getBuildingsCount())
+        let bCount = Math.max(1, this.building.count)
         
         for (let id in this.outputs) {
             let output = this.outputs[id]
@@ -1450,13 +1432,13 @@ class Building extends Buildable {
         if (data.itemId) {
         
             this.item = this.game.items[data.itemId]
-            this.item.buildings.push(this)
+            this.item.building = this
         }
         
         if (data.ammoId) {
         
             this.item = this.game.ammunitions[data.ammoId]
-            this.item.buildings.push(this)
+            this.item.building = this
         }
     }
     
@@ -1492,7 +1474,7 @@ class Building extends Buildable {
         this.item.auto = true
         this.item.productionLevel = this.productionLevel
         
-        if (this.item.getBuildingsCount() == 1) {
+        if (this.item.building.count == 1) {
             this.item.startProducing()
         }
     }
@@ -1512,13 +1494,13 @@ class Storage extends Buildable {
         if (data.itemId) {
         
             this.item = this.game.items[data.itemId]
-            this.item.storages.push(this)
+            this.item.storage = this
         }
         
         if (data.ammoId) {
         
             this.item = this.game.ammunitions[data.ammoId]
-            this.item.storages.push(this)
+            this.item.storage = this
         }
         
         this.coeff = 2
