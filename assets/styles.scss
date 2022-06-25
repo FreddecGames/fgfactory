@@ -178,3 +178,10 @@ body { width: 100%; height: 100%; overflow: hidden; }
 thead, tbody, tfoot, tr, td, th { border-color: #505050; }
 
 .table > :not(:first-child) { border-top: 0; }
+
+.top-n1 { top: -0.25rem; }
+.bottom-n1 { bottom: -0.25rem; }
+
+.subtitle { font-size: $small-font-size; color: $text-muted; text-transform: uppercase; margin-bottom: .25rem; }
+
+.collapsed .fa-caret-down { transform: rotate(-90deg); }

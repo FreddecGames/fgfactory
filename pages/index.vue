@@ -473,6 +473,9 @@
                         <div class="col">
                             <span class="badge badge-danger">Alpha version</span>
                         </div>
+                        <div class="col-auto">
+                            <small class="fw-bold text-primary">{{ $t('modeName_' + game.currentMode) }}</small>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -480,11 +483,7 @@
             <div class="position-fixed start-0 end-0 nav bg-1 d-flex align-items-end" style="top:50px; height:55px;">
                 <div class="container">
                     <div class="row gx-0 align-items-center">
-                        <TopMenuTab v-if="gameItem('iron').unlocked == true" tabId="ironwork" icon="fa-drum-steelpan" />
-                        <TopMenuTab v-if="gameItem('stone').unlocked == true" tabId="masonry" icon="fa-home" />
-                        <TopMenuTab v-if="gameItem('copper').unlocked == true" tabId="electronic" icon="fa-microchip" />
-                        <TopMenuTab v-if="gameItem('water').unlocked == true" tabId="chemistry" icon="fa-atom" />
-                        <TopMenuTab v-if="gameItem('rocketFuel').unlocked == true" tabId="rocket" icon="fa-rocket" />
+                        <TopMenuTab v-if="gameItem('iron').unlocked == true" tabId="production" icon="fa-drum-steelpan" />
                         <TopMenuTab v-if="game.lab.unlocked == true" tabId="techs" icon="fa-flask" />
                         <TopMenuTab v-if="gameAmmunition('bullet').unlocked == true" tabId="weapons" icon="fa-burn" />
                         <TopMenuTab tabId="trophies" icon="fa-trophy" class="ms-auto" />
@@ -493,139 +492,97 @@
                 </div>
             </div>
             
-            <div v-if="currentTabId == 'ironwork' && gameItem('iron').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
+            <div v-if="currentTabId == 'production'" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
-                        <div class="col-auto scrollbar" style="width:275px;">
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <div class="row g-1">
-                                        <ButtonItem :item="gameItem('coal')" @click="setCurrentIronworkPageId('coal')" :active="currentIronworkPageId == 'coal'" />
-                                        <ButtonItem :item="gameItem('iron')" @click="setCurrentIronworkPageId('iron')" :active="currentIronworkPageId == 'iron'" />
-                                        <ButtonItem :item="gameItem('ironPlate')" @click="setCurrentIronworkPageId('ironPlate')" :active="currentIronworkPageId == 'ironPlate'" />
-                                        <ButtonItem :item="gameItem('steelPlate')" @click="setCurrentIronworkPageId('steelPlate')" :active="currentIronworkPageId == 'steelPlate'" />
-                                        <ButtonItem :item="gameItem('engine')" @click="setCurrentIronworkPageId('engine')" :active="currentIronworkPageId == 'engine'" />
-                                        <ButtonItem :item="gameItem('electricEngine')" @click="setCurrentIronworkPageId('electricEngine')" :active="currentIronworkPageId == 'electricEngine'" />
-                                    </div>
-                                </div>
+                        <div class="col-auto scrollbar" style="width:425px;">
+                            <div v-if="game.currentMode == 'easy'" class="row g-3">
+                            
+                                <Category v-if="gameItem('iron').unlocked == true" id="ironwork" :show="catIronworkOpen" @click="catIronworkOpen = !catIronworkOpen;">
+                                    <ButtonItem :item="gameItem('coal')" @click="setCurrentProductionPageId('coal')" :active="currentProductionPageId == 'coal'" />
+                                    <ButtonItem :item="gameItem('iron')" @click="setCurrentProductionPageId('iron')" :active="currentProductionPageId == 'iron'" />
+                                    <ButtonItem :item="gameItem('ironPlate')" @click="setCurrentProductionPageId('ironPlate')" :active="currentProductionPageId == 'ironPlate'" />
+                                    <ButtonItem :item="gameItem('steelPlate')" @click="setCurrentProductionPageId('steelPlate')" :active="currentProductionPageId == 'steelPlate'" />
+                                    <ButtonItem :item="gameItem('engine')" @click="setCurrentProductionPageId('engine')" :active="currentProductionPageId == 'engine'" />
+                                    <ButtonItem :item="gameItem('electricEngine')" @click="setCurrentProductionPageId('electricEngine')" :active="currentProductionPageId == 'electricEngine'" />
+                                </Category>
+                                
+                                <Category v-if="gameItem('stone').unlocked == true" id="masonry" :show="catMasonryOpen" @click="catMasonryOpen = !catMasonryOpen;">
+                                    <ButtonItem :item="gameItem('wood')" @click="setCurrentProductionPageId('wood')" :active="currentProductionPageId == 'wood'" />
+                                    <ButtonItem :item="gameItem('stone')" @click="setCurrentProductionPageId('stone')" :active="currentProductionPageId == 'stone'" />
+                                    <ButtonItem :item="gameItem('stoneBrick')" @click="setCurrentProductionPageId('stoneBrick')" :active="currentProductionPageId == 'stoneBrick'" />
+                                    <ButtonItem :item="gameItem('concrete')" @click="setCurrentProductionPageId('concrete')" :active="currentProductionPageId == 'concrete'" />
+                                </Category>
+                                
+                                <Category v-if="gameItem('copper').unlocked == true" id="electronic" :show="catElectronicOpen" @click="catElectronicOpen = !catElectronicOpen;">
+                                    <ButtonItem :item="gameItem('copper')" @click="setCurrentProductionPageId('copper')" :active="currentProductionPageId == 'copper'" />
+                                    <ButtonItem :item="gameItem('copperPlate')" @click="setCurrentProductionPageId('copperPlate')" :active="currentProductionPageId == 'copperPlate'" />
+                                    <ButtonItem :item="gameItem('processingUnit')" @click="setCurrentProductionPageId('processingUnit')" :active="currentProductionPageId == 'processingUnit'" />
+                                </Category>
+                                
+                                <Category v-if="gameItem('water').unlocked == true" id="chemistry" :show="catChemistryOpen" @click="catChemistryOpen = !catChemistryOpen;">
+                                    <ButtonItem :item="gameItem('water')" @click="setCurrentProductionPageId('water')" :active="currentProductionPageId == 'water'" />
+                                    <ButtonItem :item="gameItem('oil')" @click="setCurrentProductionPageId('oil')"  :active="currentProductionPageId == 'oil'" />
+                                    <ButtonItem :item="gameItem('heavyOil')" @click="setCurrentProductionPageId('heavyOil')" :active="currentProductionPageId == 'heavyOil'" />
+                                    <ButtonItem :item="gameItem('lubricant')" @click="setCurrentProductionPageId('lubricant')" :active="currentProductionPageId == 'lubricant'" />
+                                    <ButtonItem :item="gameItem('lightOil')" @click="setCurrentProductionPageId('lightOil')" :active="currentProductionPageId == 'lightOil'" />
+                                    <ButtonItem :item="gameItem('petroleumGas')" @click="setCurrentProductionPageId('petroleumGas')" :active="currentProductionPageId == 'petroleumGas'" />
+                                    <ButtonItem :item="gameItem('plasticBar')" @click="setCurrentProductionPageId('plasticBar')" :active="currentProductionPageId == 'plasticBar'" />
+                                    <ButtonItem :item="gameItem('solidFuel')" @click="setCurrentProductionPageId('solidFuel')" :active="currentProductionPageId == 'solidFuel'" />
+                                    <ButtonItem :item="gameItem('sulfur')" @click="setCurrentProductionPageId('sulfur')" :active="currentProductionPageId == 'sulfur'" />
+                                    <ButtonItem :item="gameItem('sulfuricAcid')" @click="setCurrentProductionPageId('sulfuricAcid')" :active="currentProductionPageId == 'sulfuricAcid'" />
+                                    <ButtonItem :item="gameItem('battery')" @click="setCurrentProductionPageId('battery')" :active="currentProductionPageId == 'battery'" />
+                                    <ButtonItem :item="gameItem('explosive')" @click="setCurrentProductionPageId('explosive')" :active="currentProductionPageId == 'explosive'" />
+                                </Category>
+                                
+                                <Category v-if="gameItem('rocketFuel').unlocked == true" id="rocket" :show="catRocketOpen" @click="catRocketOpen = !catRocketOpen;">
+                                    <ButtonItem :item="gameItem('rocketFuel')" @click="setCurrentProductionPageId('rocketFuel')" :active="currentProductionPageId == 'rocketFuel'" />
+                                    <ButtonItem :item="gameItem('rocketPart')" @click="setCurrentProductionPageId('rocketPart')" :active="currentProductionPageId == 'rocketPart'" />
+                                </Category>
+                                
                             </div>
                         </div>
-                        <PageItem v-if="currentIronworkPageId == 'coal'" :item="gameItem('coal')" />
-                        <PageItem v-if="currentIronworkPageId == 'iron'" :item="gameItem('iron')" />
-                        <PageItem v-if="currentIronworkPageId == 'ironPlate'" :item="gameItem('ironPlate')" />
-                        <PageItem v-if="currentIronworkPageId == 'steelPlate'" :item="gameItem('steelPlate')" />
-                        <PageItem v-if="currentIronworkPageId == 'engine'" :item="gameItem('engine')" />
-                        <PageItem v-if="currentIronworkPageId == 'electricEngine'" :item="gameItem('electricEngine')" />
-                    </div>
-                </div>
-            </div>
-            
-            <div v-if="currentTabId == 'masonry' && gameItem('stone').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
-                <div class="container py-3 scrollbar">
-                    <div class="row gx-4 scrollbar">
-                        <div class="col-auto scrollbar" style="width:275px;">
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <div class="row g-1">
-                                        <ButtonItem :item="gameItem('wood')" @click="setCurrentMasonryPageId('wood')" :active="currentMasonryPageId == 'wood'" />
-                                        <ButtonItem :item="gameItem('stone')" @click="setCurrentMasonryPageId('stone')" :active="currentMasonryPageId == 'stone'" />
-                                        <ButtonItem :item="gameItem('stoneBrick')" @click="setCurrentMasonryPageId('stoneBrick')" :active="currentMasonryPageId == 'stoneBrick'" />
-                                        <ButtonItem :item="gameItem('concrete')" @click="setCurrentMasonryPageId('concrete')" :active="currentMasonryPageId == 'concrete'" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <PageItem v-if="currentMasonryPageId == 'wood'" :item="gameItem('wood')" />
-                        <PageItem v-if="currentMasonryPageId == 'stone'" :item="gameItem('stone')" />
-                        <PageItem v-if="currentMasonryPageId == 'stoneBrick'" :item="gameItem('stoneBrick')" />
-                        <PageItem v-if="currentMasonryPageId == 'concrete'" :item="gameItem('concrete')" />
+                        
+                        <PageItem v-if="currentProductionPageId == 'coal'" :item="gameItem('coal')" />
+                        <PageItem v-if="currentProductionPageId == 'iron'" :item="gameItem('iron')" />
+                        <PageItem v-if="currentProductionPageId == 'ironPlate'" :item="gameItem('ironPlate')" />
+                        <PageItem v-if="currentProductionPageId == 'steelPlate'" :item="gameItem('steelPlate')" />
+                        <PageItem v-if="currentProductionPageId == 'engine'" :item="gameItem('engine')" />
+                        <PageItem v-if="currentProductionPageId == 'electricEngine'" :item="gameItem('electricEngine')" />
+                        
+                        <PageItem v-if="currentProductionPageId == 'wood'" :item="gameItem('wood')" />
+                        <PageItem v-if="currentProductionPageId == 'stone'" :item="gameItem('stone')" />
+                        <PageItem v-if="currentProductionPageId == 'stoneBrick'" :item="gameItem('stoneBrick')" />
+                        <PageItem v-if="currentProductionPageId == 'concrete'" :item="gameItem('concrete')" />
+                        
+                        <PageItem v-if="currentProductionPageId == 'copper'" :item="gameItem('copper')" />
+                        <PageItem v-if="currentProductionPageId == 'copperPlate'" :item="gameItem('copperPlate')" />
+                        <PageItem v-if="currentProductionPageId == 'processingUnit'" :item="gameItem('processingUnit')" />
+                        
+                        <PageItem v-if="currentProductionPageId == 'water'" :item="gameItem('water')" />
+                        <PageItem v-if="currentProductionPageId == 'oil'" :item="gameItem('oil')" />
+                        <PageItem v-if="currentProductionPageId == 'heavyOil'" :item="gameItem('heavyOil')" />
+                        <PageItem v-if="currentProductionPageId == 'lubricant'" :item="gameItem('lubricant')" />
+                        <PageItem v-if="currentProductionPageId == 'lightOil'" :item="gameItem('lightOil')" />
+                        <PageItem v-if="currentProductionPageId == 'petroleumGas'" :item="gameItem('petroleumGas')" />
+                        <PageItem v-if="currentProductionPageId == 'plasticBar'" :item="gameItem('plasticBar')" />
+                        <PageItem v-if="currentProductionPageId == 'solidFuel'" :item="gameItem('solidFuel')" />
+                        <PageItem v-if="currentProductionPageId == 'sulfur'" :item="gameItem('sulfur')" />
+                        <PageItem v-if="currentProductionPageId == 'sulfuricAcid'" :item="gameItem('sulfuricAcid')" />
+                        <PageItem v-if="currentProductionPageId == 'battery'" :item="gameItem('battery')" />
+                        <PageItem v-if="currentProductionPageId == 'explosive'" :item="gameItem('explosive')" />
+                        
+                        <PageItem v-if="currentProductionPageId == 'rocketFuel'" :item="gameItem('rocketFuel')" />
+                        <PageItem v-if="currentProductionPageId == 'rocketPart'" :item="gameItem('rocketPart')" />
+                        
                     </div>
                 </div>
             </div>
 
-            <div v-if="currentTabId == 'electronic' && gameItem('copper').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
+            <div v-if="game.currentMode == 'easy' && currentTabId == 'techs' && game.lab.unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
-                        <div class="col-auto scrollbar" style="width:275px;">
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <div class="row g-1">
-                                        <ButtonItem :item="gameItem('copper')" @click="setCurrentElectronicPageId('copper')" :active="currentElectronicPageId == 'copper'" />
-                                        <ButtonItem :item="gameItem('copperPlate')" @click="setCurrentElectronicPageId('copperPlate')" :active="currentElectronicPageId == 'copperPlate'" />
-                                        <ButtonItem :item="gameItem('processingUnit')" @click="setCurrentElectronicPageId('processingUnit')" :active="currentElectronicPageId == 'processingUnit'" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <PageItem v-if="currentElectronicPageId == 'copper'" :item="gameItem('copper')" />
-                        <PageItem v-if="currentElectronicPageId == 'copperPlate'" :item="gameItem('copperPlate')" />
-                        <PageItem v-if="currentElectronicPageId == 'processingUnit'" :item="gameItem('processingUnit')" />
-                    </div>
-                </div>
-            </div>
-            
-            <div v-if="currentTabId == 'chemistry' && gameItem('water').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
-                <div class="container py-3 scrollbar">
-                    <div class="row gx-4 scrollbar">
-                        <div class="col-auto scrollbar" style="width:275px;">
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <div class="row g-1">
-                                        <ButtonItem :item="gameItem('water')" @click="setCurrentChemistryPageId('water')" :active="currentChemistryPageId == 'water'" />
-                                        <ButtonItem :item="gameItem('oil')" @click="setCurrentChemistryPageId('oil')"  :active="currentChemistryPageId == 'oil'" />
-                                        <ButtonItem :item="gameItem('heavyOil')" @click="setCurrentChemistryPageId('heavyOil')" :active="currentChemistryPageId == 'heavyOil'" />
-                                        <ButtonItem :item="gameItem('lubricant')" @click="setCurrentChemistryPageId('lubricant')" :active="currentChemistryPageId == 'lubricant'" />
-                                        <ButtonItem :item="gameItem('lightOil')" @click="setCurrentChemistryPageId('lightOil')" :active="currentChemistryPageId == 'lightOil'" />
-                                        <ButtonItem :item="gameItem('petroleumGas')" @click="setCurrentChemistryPageId('petroleumGas')" :active="currentChemistryPageId == 'petroleumGas'" />
-                                        <ButtonItem :item="gameItem('plasticBar')" @click="setCurrentChemistryPageId('plasticBar')" :active="currentChemistryPageId == 'plasticBar'" />
-                                        <ButtonItem :item="gameItem('solidFuel')" @click="setCurrentChemistryPageId('solidFuel')" :active="currentChemistryPageId == 'solidFuel'" />
-                                        <ButtonItem :item="gameItem('sulfur')" @click="setCurrentChemistryPageId('sulfur')" :active="currentChemistryPageId == 'sulfur'" />
-                                        <ButtonItem :item="gameItem('sulfuricAcid')" @click="setCurrentChemistryPageId('sulfuricAcid')" :active="currentChemistryPageId == 'sulfuricAcid'" />
-                                        <ButtonItem :item="gameItem('battery')" @click="setCurrentChemistryPageId('battery')" :active="currentChemistryPageId == 'battery'" />
-                                        <ButtonItem :item="gameItem('explosive')" @click="setCurrentChemistryPageId('explosive')" :active="currentChemistryPageId == 'explosive'" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <PageItem v-if="currentChemistryPageId == 'water'" :item="gameItem('water')" />
-                        <PageItem v-if="currentChemistryPageId == 'oil'" :item="gameItem('oil')" />
-                        <PageItem v-if="currentChemistryPageId == 'heavyOil'" :item="gameItem('heavyOil')" />
-                        <PageItem v-if="currentChemistryPageId == 'lubricant'" :item="gameItem('lubricant')" />
-                        <PageItem v-if="currentChemistryPageId == 'lightOil'" :item="gameItem('lightOil')" />
-                        <PageItem v-if="currentChemistryPageId == 'petroleumGas'" :item="gameItem('petroleumGas')" />
-                        <PageItem v-if="currentChemistryPageId == 'plasticBar'" :item="gameItem('plasticBar')" />
-                        <PageItem v-if="currentChemistryPageId == 'solidFuel'" :item="gameItem('solidFuel')" />
-                        <PageItem v-if="currentChemistryPageId == 'sulfur'" :item="gameItem('sulfur')" />
-                        <PageItem v-if="currentChemistryPageId == 'sulfuricAcid'" :item="gameItem('sulfuricAcid')" />
-                        <PageItem v-if="currentChemistryPageId == 'battery'" :item="gameItem('battery')" />
-                        <PageItem v-if="currentChemistryPageId == 'explosive'" :item="gameItem('explosive')" />
-                    </div>
-                </div>
-            </div>
-            
-            <div v-if="currentTabId == 'rocket' && gameItem('rocketFuel').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
-                <div class="container py-3 scrollbar">
-                    <div class="row gx-4 scrollbar">
-                        <div class="col-auto scrollbar" style="width:275px;">
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <div class="row g-1">
-                                        <ButtonItem :item="gameItem('rocketFuel')" @click="setCurrentRocketPageId('rocketFuel')" :active="currentRocketPageId == 'rocketFuel'" />
-                                        <ButtonItem :item="gameItem('rocketPart')" @click="setCurrentRocketPageId('rocketPart')" :active="currentRocketPageId == 'rocketPart'" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <PageItem v-if="currentRocketPageId == 'rocketFuel'" :item="gameItem('rocketFuel')" />
-                        <PageItem v-if="currentRocketPageId == 'rocketPart'" :item="gameItem('rocketPart')" />
-                    </div>
-                </div>
-            </div>
-            
-            <div v-if="currentTabId == 'techs' && game.lab.unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
-                <div class="container py-3 scrollbar">
-                    <div class="row gx-4 scrollbar">
-                        <div class="col-auto scrollbar" style="width:275px;">
+                        <div class="col-auto scrollbar" style="width:425px;">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="row g-1">
@@ -651,10 +608,10 @@
                 </div>
             </div>            
 
-            <div v-if="currentTabId == 'weapons' && gameWeapon('pistol').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
+            <div v-if="game.currentMode == 'easy' && currentTabId == 'weapons' && gameWeapon('pistol').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
-                        <div class="col-auto scrollbar" style="width:275px;">
+                        <div class="col-auto scrollbar" style="width:425px;">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="row g-1">
@@ -886,7 +843,7 @@
 
 <script>
 
-var itemData = [
+var easyItemData = [
     
     {	id:'coal',                  type:'item', reqs:[ 'explosives' ],                 productionLevel:1,    time:4,	    outputs:{ coal:1 },             },
     {	id:'iron',                  type:'item',                                        productionLevel:1,    time:4,	    outputs:{ iron:1 },             },
@@ -924,7 +881,7 @@ var itemData = [
     {	id:'alienEgg',              type:'item', reqs:[ 'alienTech' ],                  productionLevel:0,    },
 ]
 
-var buildingData = [
+var easyBuildingData = [
 
     {	id:'coalT1',                type:'building', reqs:[ 'explosives' ],                         icon:'miningDrill',         name:'miningDrill',         itemId:'coal',              productionLevel:2,  time:4,	    costs:{ ironPlate:9, stone:5 }, },
     {	id:'ironT1',                type:'building',                                                icon:'miningDrill',         name:'miningDrill',         itemId:'iron',              productionLevel:2,  time:4,	    costs:{ ironPlate:9, stone:5 }, },
@@ -967,7 +924,7 @@ var buildingData = [
     {	id:'artilleryShellT1',      type:'building', reqs:[ 'military4', 'automation1' ],           icon:'assembler1',          name:'assembler1',          ammoId:'artilleryShell',    productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
 ]
 
-var storageData = [
+var easyStorageData = [
 
     {	id:'coalS1',                type:'storage', reqs:[ 'explosives', 'automation1' ],               icon:'ironChest',               name:'ironChest',       itemId:'coal',              storage:50,    time:10,    costs:{ coal:50 }, },
     {	id:'ironS1',                type:'storage', reqs:[ 'automation1' ],                             icon:'ironChest',               name:'ironChest',       itemId:'iron',              storage:50,    time:10,    costs:{ iron:50 }, },
@@ -1010,9 +967,9 @@ var storageData = [
     {	id:'artilleryShellS1',      type:'storage', reqs:[ 'military4', 'automation1' ],                icon:'ironChest',               name:'ironChest',       ammoId:'artilleryShell',    storage:50,    time:10,    costs:{ artilleryShell:50 }, },
 ]
 
-var labData = { id:'lab', type:'lab', reqs:[], time:22,	costs:{ copperPlate:15, ironPlate:36 }, }
+var easyLabData = { id:'lab', type:'lab', reqs:[], time:22,	costs:{ copperPlate:15, ironPlate:36 }, }
 
-var techData = [
+var easyTechData = [
 
     {	id:'rocketTech',            type:'tech', reqs:[ 'rocketFuelTech' ],     time:60000,     costs:{ redPack:1000, greenPack:1000, bluePack:1000, purplePack:1000, yellowPack:1000 },    unlocks:[ 'rocketPart', 'rocketPartT1' ], },
     {	id:'military4',             type:'tech', reqs:[ 'military3' ],          time:6750,      costs:{ redPack:150, greenPack:150, bluePack:150, grayPack:150, yellowPack:150 },           unlocks:[ 'artilleryTurret', 'artilleryShell', 'artilleryShellT1', 'artilleryShellS1' ], },
@@ -1046,7 +1003,7 @@ var techData = [
     {	id:'automation1',           type:'tech',                                time:100,	    costs:{ redPack:10 },                                                                       unlocks:[ 'stoneBrick', 'stoneBrickT1', 'concreteT1', 'engineT1', 'electricEngineT1', 'processingUnitT1', 'rocketFuelT1', 'redPackT1', 'greenPackT1', 'bluePackT1', 'purplePackT1', 'yellowPackT1', 'stoneS1', 'stoneBrickS1', 'concreteS1', 'ironS1', 'ironPlateS1', 'steelPlateS1', 'engineS1', 'electricEngineS1', 'copperS1', 'copperPlateS1', 'processingUnitS1', 'plasticBarS1', 'solidFuelS1', 'batteryS1', 'rocketFuelS1', 'rocketPartS1', 'redPackS1', 'greenPackS1', 'bluePackS1', 'purplePackS1', 'yellowPackS1', 'steelTech', 'greenScience' ], },
 ]
 
-var weaponData = [
+var easyWeaponData = [
 
     {	id:'pistol',                type:'weapon', reqs:[ 'alienTech' ],    auto:false,     max:1,    time:5,	    costs:{ ironPlate:5, copperPlate:5 },                                                   fireTime:.25,   },
     {	id:'submachine',            type:'weapon', reqs:[ 'military1' ],    auto:true,      max:1,    time:15,	    costs:{ ironPlate:30, copperPlate:5 },                                                  fireTime:.1,    },
@@ -1056,7 +1013,7 @@ var weaponData = [
     {	id:'artilleryTurret',       type:'weapon', reqs:[ 'military4' ],    auto:false,     max:1,    time:250,	    costs:{ concrete:60, copperPlate:100, ironPlate:120, plasticBar:40, steelPlate:60 },    fireTime:4,     },
 ]
 
-var ammunitionData = [
+var easyAmmunitionData = [
 
     {   id:'bullet',                type:'ammunition', reqs:[ 'alienTech' ],    icon:'bullet',              name:'bullet',              weaponIds:[ 'pistol', 'submachine' ],       desc:true,  damages:{ physical:5 },                     productionLevel:1,    time:1,	    outputs:{ bullet:10 },        inputs:{ ironPlate:4 }, },
     {   id:'piercing',              type:'ammunition', reqs:[ 'military2' ],    icon:'piercing',            name:'piercing',            weaponIds:[ 'pistol', 'submachine' ],       desc:true,  damages:{ physical:8 },                     productionLevel:1,    time:4,	    outputs:{ piercing:10 },      inputs:{ copperPlate:5, ironPlate:4, steelPlate:1 }, },
@@ -1065,13 +1022,71 @@ var ammunitionData = [
     {   id:'artilleryShell',        type:'ammunition', reqs:[ 'military4' ],    icon:'artilleryShell',      name:'artilleryShell',      weaponIds:[ 'artilleryTurret' ],            desc:true,  damages:{ physical:500, explosion:500 },    productionLevel:1,    time:56,      outputs:{ artilleryShell:1 }, inputs:{ copperPlate:8, explosive:16, ironPlate:25, plasticBar:8, steelPlate:8 }, },
 ]
 
-var alienData = [
+var easyAlienData = [
     
     {   id:'biter1',                type:'alien', reqs:[ 'alienTech' ], health:15,      shield:{ physical:0,  explosion:0  },  armor:{ physical:0,   explosion:0  },  eggCoeff:.9,  },
     {   id:'biter2',                type:'alien', reqs:[ 'alienTech' ], health:75,      shield:{ physical:4,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.8,  },
     {   id:'biter3',                type:'alien', reqs:[ 'alienTech' ], health:375,     shield:{ physical:8,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.7,  },
     {   id:'biter4',                type:'alien', reqs:[ 'alienTech' ], health:3000,    shield:{ physical:12, explosion:12 },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.6,  },
 ]
+
+var easyTutorialData = [
+
+    {   id:'tut0',                  check: function() { return false },                                            action: function(app) { app.setCurrentTabId('ironwork');    app.setCurrentIronworkPageId('iron'); }, },
+    {   id:'tut1',                  check: function() { return this.game.items['iron'].count >= 5 },               action: function(app) { app.setCurrentTabId('ironwork');    app.setCurrentIronworkPageId('iron'); }, },
+    {   id:'tut2',                  check: function() { return this.game.items['stone'].count >= 5 },              action: function(app) { app.setCurrentTabId('masonry');     app.setCurrentMasonryPageId('stone'); }, },
+    {   id:'tut3',                  check: function() { return this.game.buildings['ironPlateT1'].count >= 1 },    action: function(app) { app.setCurrentTabId('ironwork');    app.setCurrentIronworkPageId('ironPlate'); }, },
+    {   id:'tut4',                  check: function() { return this.game.buildings['ironT1'].count >= 1 },         action: function(app) { app.setCurrentTabId('ironwork');    app.setCurrentIronworkPageId('iron'); }, },
+    {   id:'tut5',                  check: function() { return this.game.buildings['stoneT1'].count >= 1 },        action: function(app) { app.setCurrentTabId('masonry');     app.setCurrentMasonryPageId('stone'); }, },
+    {   id:'tut6',                  check: function() { return this.game.buildings['copperPlateT1'].count >= 1 },  action: function(app) { app.setCurrentTabId('electronic');  app.setCurrentElectronicPageId('copper'); }, },
+    {   id:'tut7',                  check: function() { return this.game.lab.count >= 1 },                         action: function(app) { app.setCurrentTabId('techs');       app.setCurrentTechPageId('lab'); }, },
+    {   id:'tut8',                  check: function() { return this.game.techs['automation1'].count >= 1 },        action: function(app) { app.setCurrentTabId('techs');       app.setCurrentTechPageId('lab'); }, },
+    {   id:'tut9',                  check: function() { return false },                                            action: function(app) { app.setCurrentTabId('techs');       app.setCurrentTechPageId('redPack'); }, },
+]
+
+//------------------------------------------------------------------------------
+
+var hardcoreItemData = [
+    
+]
+
+var hardcoreBuildingData = [
+
+]
+
+var hardcoreStorageData = [
+
+]
+
+var hardcoreLabData = { }
+
+var hardcoreTechData = [
+
+]
+
+var hardcoreWeaponData = [
+
+]
+
+var hardcoreAmmunitionData = [
+
+]
+
+var hardcoreAlienData = [
+    
+]
+
+var hardcoreTutorialData = [
+    
+]
+
+//------------------------------------------------------------------------------
+
+var modesData = {
+
+    easy: { itemData:easyItemData, weaponData:easyWeaponData, ammunitionData:easyAmmunitionData, buildingData:easyBuildingData, storageData:easyStorageData, labData:easyLabData, techData:easyTechData, alienData:easyAlienData, tutorialData:easyTutorialData },
+    hardcore: { itemData:hardcoreItemData, weaponData:hardcoreWeaponData, ammunitionData:hardcoreAmmunitionData, buildingData:hardcoreBuildingData, storageData:hardcoreStorageData, labData:hardcoreLabData, techData:hardcoreTechData, alienData:hardcoreAlienData, tutorialData:hardcoreTutorialData },
+}
 
 //------------------------------------------------------------------------------
 
@@ -1527,7 +1542,7 @@ class Lab extends Buildable {
     onBuild() {
         super.onBuild()
         
-        if (this.count >= 1) {
+        if (this.game.mode == 'easy' && this.count >= 1) {
         
             this.game.items['redPack'].unlocked = true
             
@@ -1825,6 +1840,22 @@ class Alien {
 
 //------------------------------------------------------------------------------
 
+class Tutorial {
+
+    constructor(game, data) {
+        
+        this.game = game
+        
+        this.id = data.id
+        this.check = data.check
+        this.action = data.action
+        
+        this.done = false
+    }
+}
+
+//------------------------------------------------------------------------------
+
 class Game {
 
     constructor() {
@@ -1832,78 +1863,9 @@ class Game {
         this.paused = false
         this.victory = false
         this.timePlayed = 0
-        this.currentMode = 'easy'
+        this.currentMode = null
         
-        this.bases = {}
-        
-        this.items = {}
-        itemData.forEach(data => {
-        
-            let item = new Item(this, data)
-            
-            this.items[data.id] = item
-            this.bases[data.id] = item
-        })
-        
-        this.weapons = {}
-        weaponData.forEach(data => {
-            
-            let weapon = new Weapon(this, data)
-            
-            this.weapons[data.id] = weapon
-            this.bases[data.id] = weapon
-        })
-        
-        this.ammunitions = {}
-        ammunitionData.forEach(data => {
-        
-            let ammunition = new Ammunition(this, data)
-            
-            this.items[data.id] = ammunition
-            this.ammunitions[data.id] = ammunition
-            this.bases[data.id] = ammunition
-        })
-        
-        this.buildings = {}
-        buildingData.forEach(data => {
-            
-            let building = new Building(this, data)
-            
-            this.buildings[data.id] = building
-            this.bases[data.id] = building
-        })
-        
-        this.storages = {}
-        storageData.forEach(data => {
-            
-            let storage = new Storage(this, data)
-            
-            this.storages[data.id] = storage
-            this.bases[data.id] = storage
-        })
-        
-        let lab = new Lab(this, labData)
-        
-        this.lab = lab
-        this.bases['lab'] = lab
-        
-        this.techs = {}
-        techData.forEach(data => {
-        
-            let tech = new Tech(this, data)
-            
-            this.techs[data.id] = tech
-            this.bases[data.id] = tech
-        })
-                       
-        this.aliens = {}
-        alienData.forEach(data => {
-            
-            let alien = new Alien(this, data)
-            
-            this.aliens[data.id] = alien
-            this.bases[data.id] = alien
-        })
+        this.loadMode('easy')
         
         this.options = {
         
@@ -1976,18 +1938,104 @@ class Game {
     //---
     
     initStartingData() {
-    
-        if (this.items['iron'].unlocked == false) this.items['iron'].unlocked = true
         
         if (this.currentMode == 'easy') {
-        
+            
+            if (this.items['iron'].unlocked == false) this.items['iron'].unlocked = true
+            
             if (this.stats.easyMode.totalAlienEggs < this.items['alienEgg'].count) this.stats.easyMode.totalAlienEggs = this.items['alienEgg'].count            
         }
         
         this.checkTrophies()
     }    
     
+    loadMode(mode) {
+    
+        this.currentMode = mode
+        
+        this.bases = {}
+        
+        this.items = {}
+        modesData[mode].itemData.forEach(data => {
+        
+            let item = new Item(this, data)
+            
+            this.items[data.id] = item
+            this.bases[data.id] = item
+        })
+        
+        this.weapons = {}
+        modesData[mode].weaponData.forEach(data => {
+            
+            let weapon = new Weapon(this, data)
+            
+            this.weapons[data.id] = weapon
+            this.bases[data.id] = weapon
+        })
+        
+        this.ammunitions = {}
+        modesData[mode].ammunitionData.forEach(data => {
+        
+            let ammunition = new Ammunition(this, data)
+            
+            this.items[data.id] = ammunition
+            this.ammunitions[data.id] = ammunition
+            this.bases[data.id] = ammunition
+        })
+        
+        this.buildings = {}
+        modesData[mode].buildingData.forEach(data => {
+            
+            let building = new Building(this, data)
+            
+            this.buildings[data.id] = building
+            this.bases[data.id] = building
+        })
+        
+        this.storages = {}
+        modesData[mode].storageData.forEach(data => {
+            
+            let storage = new Storage(this, data)
+            
+            this.storages[data.id] = storage
+            this.bases[data.id] = storage
+        })
+        
+        let lab = new Lab(this, modesData[mode].labData)
+        
+        this.lab = lab
+        this.bases['lab'] = lab
+        
+        this.techs = {}
+        modesData[mode].techData.forEach(data => {
+        
+            let tech = new Tech(this, data)
+            
+            this.techs[data.id] = tech
+            this.bases[data.id] = tech
+        })
+                       
+        this.aliens = {}
+        modesData[mode].alienData.forEach(data => {
+            
+            let alien = new Alien(this, data)
+            
+            this.aliens[data.id] = alien
+            this.bases[data.id] = alien
+        })
+
+        this.tutorials = {}
+        modesData[mode].tutorialData.forEach(data => {
+            
+            let tutorial = new Tutorial(this, data)
+            
+            this.tutorials[data.id] = tutorial
+        })
+    }
+    
     loadFromData(data) {
+        
+        if (data.currentMode != null && data.currentMode != 'easy') this.loadMode(data.currentMode)
         
         if (data.paused != null) this.paused = data.paused
         if (data.victory != null) this.victory = data.victory
@@ -2096,6 +2144,16 @@ class Game {
             }
         }
          
+        for (let id in data.tutorials) {
+            let dataTutorial = data.tutorials[id]
+            
+            let tutorial = this.tutorials[id]
+            if (tutorial) {
+            
+                tutorial.done = dataTutorial.done
+            }
+        }
+        
         for (let id in this.items) {
             let item = this.items[id]
             if (item.count > 0) item.onProduce()
@@ -2124,6 +2182,7 @@ class Game {
             victory: this.victory,
             trophies: this.trophies,
             timePlayed: this.timePlayed,
+            currentMode: this.currentMode,
             
             lab: {
                 unlocked: this.lab.unlocked,
@@ -2138,6 +2197,7 @@ class Game {
             weapons: {},
             storages: {},
             buildings: {},
+            tutorials: {},
             ammunitions: {},
         }
         
@@ -2211,6 +2271,15 @@ class Game {
             }
         }
         
+        for (let id in this.tutorials) {
+            let tutorial = this.tutorials[id]
+            
+            ret.tutorials[tutorial.id] = {
+            
+                done: tutorial.done,
+            }
+        }
+        
         return ret
     }
     
@@ -2219,7 +2288,7 @@ class Game {
         for (let id in this.aliens) {
             let alien = this.aliens[id]
             
-            alien.setCount(Math.random() * 100)
+            alien.setCount(Math.ceil(Math.random() * 100))
         }
     }
     
@@ -2288,7 +2357,7 @@ class Game {
         
         let ret = false
         
-        if (this.victory == false && this.items['rocketPart'].count >= 100) {
+        if (this.currentMode == 'easy' && this.victory == false && this.items['rocketPart'].count >= 100) {
             ret = true
         }
         
@@ -2301,7 +2370,7 @@ class Game {
         
             if (this.victory == true) this.trophies.easyMode.win = true
             if (this.techs['oilTech1'].count >= 1) this.trophies.easyMode.oilProcessing = true
-            if (this.getResearchedTechCount() >= techData.length) this.trophies.easyMode.allResearches = true
+            if (this.getResearchedTechCount() >= modesData[this.currentMode].techData.length) this.trophies.easyMode.allResearches = true
         }
     }
 }
@@ -2347,35 +2416,21 @@ export default {
             
             //---
             
-            currentTabId: 'ironwork',
+            currentTabId: 'production',
             
-            currentIronworkPageId: 'iron',
-            currentMasonryPageId: 'stone',
-            currentElectronicPageId: 'copper',
-            currentChemistryPageId: 'water',
-            currentRocketPageId: 'rocketFuel',
+            catIronworkOpen: true,
+            catMasonryOpen: true,
+            catElectronicOpen: true,
+            catChemistryOpen: true,
+            catRocketOpen: true,
+            
+            currentProductionPageId: 'iron',
             currentTechPageId: 'lab',
             currentWeaponsPageId: 'alienEgg',
             
             //---
             
-            game: new Game(),
-            
-            //---
-            
-            tutorials: {
-            
-                tut0: { id:'tut0', done:false, check: function(app) { return false },                                           action: function(app) { app.setCurrentTabId('ironwork');    app.setCurrentIronworkPageId('iron'); }, },
-                tut1: { id:'tut1', done:false, check: function(app) { return app.game.items['iron'].count >= 5 },               action: function(app) { app.setCurrentTabId('ironwork');    app.setCurrentIronworkPageId('iron'); }, },
-                tut2: { id:'tut2', done:false, check: function(app) { return app.game.items['stone'].count >= 5 },              action: function(app) { app.setCurrentTabId('masonry');     app.setCurrentMasonryPageId('stone'); }, },
-                tut3: { id:'tut3', done:false, check: function(app) { return app.game.buildings['ironPlateT1'].count >= 1 },    action: function(app) { app.setCurrentTabId('ironwork');    app.setCurrentIronworkPageId('ironPlate'); }, },
-                tut4: { id:'tut4', done:false, check: function(app) { return app.game.buildings['ironT1'].count >= 1 },         action: function(app) { app.setCurrentTabId('ironwork');    app.setCurrentIronworkPageId('iron'); }, },
-                tut5: { id:'tut5', done:false, check: function(app) { return app.game.buildings['stoneT1'].count >= 1 },        action: function(app) { app.setCurrentTabId('masonry');     app.setCurrentMasonryPageId('stone'); }, },
-                tut6: { id:'tut6', done:false, check: function(app) { return app.game.buildings['copperPlateT1'].count >= 1 },  action: function(app) { app.setCurrentTabId('electronic');  app.setCurrentElectronicPageId('copper'); }, },
-                tut7: { id:'tut7', done:false, check: function(app) { return app.game.lab.count >= 1 },                         action: function(app) { app.setCurrentTabId('techs');       app.setCurrentTechPageId('lab'); }, },
-                tut8: { id:'tut8', done:false, check: function(app) { return app.game.techs['automation1'].count >= 1 },        action: function(app) { app.setCurrentTabId('techs');       app.setCurrentTechPageId('lab'); }, },
-                tut9: { id:'tut9', done:false, check: function(app) { return false },                                           action: function(app) { app.setCurrentTabId('techs');       app.setCurrentTechPageId('redPack'); }, },
-            },
+            game: new Game(),            
         }
     },
     
@@ -2394,11 +2449,7 @@ export default {
         
         setCurrentTabId(tabId) { this.currentTabId = tabId },
         
-        setCurrentIronworkPageId(pageId) { this.currentIronworkPageId = pageId },        
-        setCurrentMasonryPageId(pageId) { this.currentMasonryPageId = pageId },
-        setCurrentElectronicPageId(pageId) { this.currentElectronicPageId = pageId },
-        setCurrentChemistryPageId(pageId) { this.currentChemistryPageId = pageId },
-        setCurrentRocketPageId(pageId) { this.currentRocketPageId = pageId },
+        setCurrentProductionPageId(pageId) { this.currentProductionPageId = pageId },        
         setCurrentTechPageId(pageId) { this.currentTechPageId = pageId },
         setCurrentWeaponsPageId(pageId) { this.currentWeaponsPageId = pageId },
         
@@ -2423,14 +2474,14 @@ export default {
         
         processTutorial() {
         
-            for (var tutId in this.tutorials) {
-                if (this.tutorials[tutId].done == false) {
+            for (var tutId in this.game.tutorials) {
+                if (this.game.tutorials[tutId].done == false) {
                     break
                 }
             }
             
-            let tut = this.tutorials[tutId]
-            if (tut && tut.check(this) == true) {
+            let tut = this.game.tutorials[tutId]
+            if (tut && tut.check() == true) {
                 
                 tut.done = true
                 
@@ -2450,13 +2501,13 @@ export default {
         
         showPopupTutorial() {
         
-            for (var tutId in this.tutorials) {
-                if (this.tutorials[tutId].done == false) {
+            for (var tutId in this.game.tutorials) {
+                if (this.game.tutorials[tutId].done == false) {
                     break
                 }
             }
             
-            let tut = this.tutorials[tutId]
+            let tut = this.game.tutorials[tutId]
             if (tut) {
             
                 tut.action(this)
@@ -2506,7 +2557,7 @@ export default {
             try {
             
                 this.load()                
-                this.init()
+                this.init()                
                 this.update()
                                 
                 window.onbeforeunload = () => {
@@ -2576,25 +2627,16 @@ export default {
                 if (loadedData.tutorialEnabled != null) this.tutorialEnabled = loadedData.tutorialEnabled
                 
                 if (loadedData.currentTabId != null) this.currentTabId = loadedData.currentTabId
-
-                if (loadedData.currentIronworkPageId != null) this.currentIronworkPageId = loadedData.currentIronworkPageId
-                if (loadedData.currentMasonryPageId != null) this.currentMasonryPageId = loadedData.currentMasonryPageId
-                if (loadedData.currentElectronicPageId != null) this.currentElectronicPageId = loadedData.currentElectronicPageId
-                if (loadedData.currentChemistryPageId != null) this.currentChemistryPageId = loadedData.currentChemistryPageId
-                if (loadedData.currentRocketPageId != null) this.currentRocketPageId = loadedData.currentRocketPageId
-                if (loadedData.currentTechPageId != null) this.currentTechPageId = loadedData.currentTechPageId
-                if (loadedData.currentWeaponsPageId != null) this.currentWeaponsPageId = loadedData.currentWeaponsPageId
+        
+                if (loadedData.catIronworkOpen != null) this.catIronworkOpen = loadedData.catIronworkOpen
+                if (loadedData.catMasonryOpen != null) this.catMasonryOpen = loadedData.catMasonryOpen
+                if (loadedData.catElectronicOpen != null) this.catElectronicOpen = loadedData.catElectronicOpen
+                if (loadedData.catChemistryOpen != null) this.catChemistryOpen = loadedData.catChemistryOpen
+                if (loadedData.catRocketOpen != null) this.catRocketOpen = loadedData.catRocketOpen
                 
-                if (loadedData.tutorials) {
-                    for (var id in loadedData.tutorials) {
-                        let dataTut = loadedData.tutorials[id]
-                        
-                        let tut = this.tutorials[id]
-                        if (tut) {
-                            tut.done = dataTut.done
-                        }
-                    }
-                }
+                if (loadedData.currentProductionPageId != null) this.currentProductionPageId = loadedData.currentProductionPageId
+                if (loadedData.currentTechPageId != null) this.currentTechPageId = loadedData.currentTechPageId
+                if (loadedData.currentWeaponsPageId != null) this.currentWeaponsPageId = loadedData.currentWeaponsPageId                
             }
         },
 
@@ -2607,19 +2649,16 @@ export default {
             
             savedData.currentTabId = this.currentTabId
             
-            savedData.currentIronworkPageId = this.currentIronworkPageId
-            savedData.currentMasonryPageId = this.currentMasonryPageId
-            savedData.currentElectronicPageId = this.currentElectronicPageId
-            savedData.currentChemistryPageId = this.currentChemistryPageId
-            savedData.currentRocketPageId = this.currentRocketPageId
+            savedData.catIronworkOpen = this.catIronworkOpen
+            savedData.catMasonryOpen = this.catMasonryOpen
+            savedData.catElectronicOpen = this.catElectronicOpen
+            savedData.catChemistryOpen = this.catChemistryOpen
+            savedData.catRocketOpen = this.catRocketOpen
+            
+            savedData.currentProductionPageId = this.currentProductionPageId
             savedData.currentTechPageId = this.currentTechPageId
             savedData.currentWeaponsPageId = this.currentWeaponsPageId
             
-            savedData.tutorials = {}
-            for (var id in this.tutorials) {
-                savedData.tutorials[id] = { done: this.tutorials[id].done }
-            }
-                      
             let text = JSON.stringify(savedData)
             let compressed = LZString.compressToBase64(text)
             localStorage.setItem(this.localStorageName, compressed)

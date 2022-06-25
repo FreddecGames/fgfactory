@@ -2,15 +2,20 @@ export default {
     
     'abbr_day': 'd',
     
-    'menuTab_chemistry': 'Chemistry',
-    'menuTab_electronic': 'Electronic',
-    'menuTab_ironwork': 'Ironwork',
-    'menuTab_masonry': 'Masonry',
-    'menuTab_rocket': 'Rocket',
-    'menuTab_settings': 'Settings',
+    'modeName_easy': 'Easy Mode',
+    'modeName_hardcore': 'Hardcore Mode',
+    
+    'menuTab_production': 'Production',
     'menuTab_techs': 'Techs',
     'menuTab_trophies': 'Trophies',
+    'menuTab_settings': 'Settings',
     'menuTab_weapons': 'Weapons',
+    
+    'category_chemistry': 'Chemistry',
+    'category_electronic': 'Electronic',
+    'category_ironwork': 'Ironwork',
+    'category_masonry': 'Masonry',
+    'category_rocket': 'Rocket',
     
     'itemName_alienEgg': 'Alien Egg',
     'itemName_artilleryShell': 'Artillery Shell',
@@ -75,7 +80,7 @@ export default {
     'buildingDesc_offshorePump': 'Automated production',
     'buildingDesc_oilRefinery': 'Automated production',
     'buildingDesc_pumpjack': 'Automated production',
-    'buildingDesc_rocketSilo': 'Manual production',
+    'buildingDesc_rocketSilo': 'Automated production',
     'buildingDesc_stoneFurnace': 'Automated production',
     
     'productionState_0': 'None',
