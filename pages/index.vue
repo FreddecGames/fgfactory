@@ -1032,13 +1032,13 @@ var easyAlienData = [
 
 var easyTutorialData = [
 
-    {   id:'tut0',                  check: function() { return false },                                            action: function(app) { app.setCurrentTabId('ironwork');    app.setCurrentIronworkPageId('iron'); }, },
-    {   id:'tut1',                  check: function() { return this.game.items['iron'].count >= 5 },               action: function(app) { app.setCurrentTabId('ironwork');    app.setCurrentIronworkPageId('iron'); }, },
-    {   id:'tut2',                  check: function() { return this.game.items['stone'].count >= 5 },              action: function(app) { app.setCurrentTabId('masonry');     app.setCurrentMasonryPageId('stone'); }, },
-    {   id:'tut3',                  check: function() { return this.game.buildings['ironPlateT1'].count >= 1 },    action: function(app) { app.setCurrentTabId('ironwork');    app.setCurrentIronworkPageId('ironPlate'); }, },
-    {   id:'tut4',                  check: function() { return this.game.buildings['ironT1'].count >= 1 },         action: function(app) { app.setCurrentTabId('ironwork');    app.setCurrentIronworkPageId('iron'); }, },
-    {   id:'tut5',                  check: function() { return this.game.buildings['stoneT1'].count >= 1 },        action: function(app) { app.setCurrentTabId('masonry');     app.setCurrentMasonryPageId('stone'); }, },
-    {   id:'tut6',                  check: function() { return this.game.buildings['copperPlateT1'].count >= 1 },  action: function(app) { app.setCurrentTabId('electronic');  app.setCurrentElectronicPageId('copper'); }, },
+    {   id:'tut0',                  check: function() { return false },                                            action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('iron'); }, },
+    {   id:'tut1',                  check: function() { return this.game.items['iron'].count >= 5 },               action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('iron'); }, },
+    {   id:'tut2',                  check: function() { return this.game.items['stone'].count >= 5 },              action: function(app) { app.setCurrentTabId('production');     app.setCurrentProductionPageId('stone'); }, },
+    {   id:'tut3',                  check: function() { return this.game.buildings['ironPlateT1'].count >= 1 },    action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('ironPlate'); }, },
+    {   id:'tut4',                  check: function() { return this.game.buildings['ironT1'].count >= 1 },         action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('iron'); }, },
+    {   id:'tut5',                  check: function() { return this.game.buildings['stoneT1'].count >= 1 },        action: function(app) { app.setCurrentTabId('production');     app.setCurrentProductionPageId('stone'); }, },
+    {   id:'tut6',                  check: function() { return this.game.buildings['copperPlateT1'].count >= 1 },  action: function(app) { app.setCurrentTabId('production');  app.setCurrentProductionPageId('copper'); }, },
     {   id:'tut7',                  check: function() { return this.game.lab.count >= 1 },                         action: function(app) { app.setCurrentTabId('techs');       app.setCurrentTechPageId('lab'); }, },
     {   id:'tut8',                  check: function() { return this.game.techs['automation1'].count >= 1 },        action: function(app) { app.setCurrentTabId('techs');       app.setCurrentTechPageId('lab'); }, },
     {   id:'tut9',                  check: function() { return false },                                            action: function(app) { app.setCurrentTabId('techs');       app.setCurrentTechPageId('redPack'); }, },

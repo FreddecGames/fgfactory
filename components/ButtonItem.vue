@@ -2,7 +2,7 @@
     <div v-if="item.unlocked == true" class="col-4">
         <div class="list-group-item list-group-item-action py-0 px-1" :class="{ 'active':active }" >
             <div class="row gx-2 align-items-center">
-                <div class="col">
+                <div class="col pe-0">
                     <button type="button" class="w-100 position-relative btn py-0 px-2 align-items-center justify-content-center" @click="$emit('click')">
                         <img :src="require(`~/assets/items/${item.id}.png`)" width="28px" height="28px" :title="$t('itemName_' + item.id)" :alt="$t('itemName_' + item.id)" />
                         <div class="position-absolute start-0 top-n1 small">

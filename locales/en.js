@@ -5,11 +5,11 @@ export default {
     'modeName_easy': 'Easy Mode',
     'modeName_hardcore': 'Hardcore Mode',
     
-    'menuTab_production': 'Production',
+    'menuTab_production': 'Items',
     'menuTab_techs': 'Techs',
     'menuTab_trophies': 'Trophies',
     'menuTab_settings': 'Settings',
-    'menuTab_weapons': 'Weapons',
+    'menuTab_weapons': 'Aliens',
     
     'category_chemistry': 'Chemistry',
     'category_electronic': 'Electronic',
