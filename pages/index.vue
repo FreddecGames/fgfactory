@@ -1468,6 +1468,8 @@ class Building extends Buildable {
 
         if (this.id == 'copperPlateT1' && this.count >= 1) {
         
+            this.game.items['redPack'].unlocked = true
+            
             this.game.lab.unlocked = true
         }
         
