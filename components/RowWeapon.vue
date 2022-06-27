@@ -9,13 +9,13 @@
                     {{ $t('name_' + weapon.id) }}
                     <small class="ms-2 text-success fw-bold">Built</small>
                 </div>
-                <div>{{ $t('desc_' + weapon.id) }}</div>
+                <div class="small">{{ $t('desc_' + weapon.id) }}</div>
             </div>
             <div class="col-auto">
                 <div class="row gx-2 align-items-center">
                     <div v-for="ammunition in ammunitions" class="col-auto">
                         <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('name_' + ammunition.id)" >
-                            <img :src="require(`~/assets/vignets/${ammunition.id}.png`)" width="18px" height="18px" :alt="$t('name_' + ammunition.id)" />
+                            <img :src="require(`~/assets/vignets/${ammunition.id}.png`)" width="24px" height="24px" :alt="$t('name_' + ammunition.id)" />
                             <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow text-normal"><FormatNumber :value="ammunition.count" /></span>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                 </button>
             </div>
         </div>
-        <div v-if="weapon.count < 1" class="row gx-1 align-items-center justify-content-end">
+        <div v-if="weapon.count < 1" class="row gx-2 align-items-center justify-content-end">
             <div class="col-auto">
                 <img :src="require(`~/assets/vignets/${weapon.id}.png`)" width="24px" height="24px" :title="$t('name_' + weapon.id)" :alt="$t('name_' + weapon.id)" />
             </div>
@@ -50,7 +50,7 @@
                 <div class="row gx-2 align-items-center justify-content-end">
                     <div v-for="(count, itemId) in weapon.getCosts()" class="col-auto">
                         <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('name_' + itemId)" >
-                            <img :src="require(`~/assets/vignets/${itemId}.png`)" width="18px" height="18px" :alt="$t('name_' + itemId)" />
+                            <img :src="require(`~/assets/vignets/${itemId}.png`)" width="24px" height="24px" :alt="$t('name_' + itemId)" />
                             <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow" :class="{ 'text-danger':count > weapon.game.items[itemId].count, 'text-normal':count <= weapon.game.items[itemId].count }"><FormatNumber :value="count" /></span>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
             </div>
             <div class="col-auto">
                 <div class="text-center mb-1">
-                    <span :class="{ 'text-muted':weapon.productionLevel < 1, 'text-normal':weapon.productionLevel > 0 }"><FormatTime :value="weapon.remainingSeconds" /></span>
+                    <span :class="{ 'text-muted':weapon.canBuild() == false, 'text-normal':weapon.canBuild() == true || weapon.state == 'running' }"><FormatTime :value="weapon.remainingSeconds" /></span>
                 </div>
                 <div class="progress" style="width:70px; height:3px;">
                     <div class="progress-bar" role="progressbar" :style="'width:' + percent + '%;'" :aria-valuenow="percent" aria-valuemin="0" aria-valuemax="100"></div>

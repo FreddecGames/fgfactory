@@ -745,12 +745,6 @@
                                 </div>
                                 <div class="card-body">
                                     <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col"></th>
-                                                <th nowrap scope="col" width="1%" class="text-end text-muted">Easy Mode</th>
-                                            </tr>
-                                        </thead>
                                         <tbody>
                                             <tr>
                                                 <td>Total Time Played</td>
@@ -772,12 +766,6 @@
                                 </div>
                                 <div class="card-body">
                                     <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col"></th>
-                                                <th nowrap scope="col" width="1%" class="text-muted">Easy Mode</th>
-                                            </tr>
-                                        </thead>
                                         <tbody>
                                             <tr>
                                                 <td>Win the game</td>
@@ -1109,7 +1097,7 @@ var easyWeaponData = [
     {	id:'shotgun',               type:'weapon', reqs:[ 'military1' ],    auto:false,     max:1,    time:13,	    costs:{ ironPlate:10, copperPlate:25, wood:5 },                                         fireTime:1,     },
     {	id:'combatShotgun',         type:'weapon', reqs:[ 'military3' ],    auto:true,      max:1,    time:13,	    costs:{ ironPlate:10, copperPlate:10, steelPlate:15, wood:10 },                         fireTime:.5,    },
     {	id:'rocketLauncher',        type:'weapon', reqs:[ 'rocketry' ],     auto:false,     max:1,    time:19,	    costs:{ ironPlate:20, copperPlate:8 },                                                  fireTime:1,     },
-    {	id:'artilleryTurret',       type:'weapon', reqs:[ 'military4' ],    auto:false,     max:1,    time:250,	    costs:{ concrete:60, copperPlate:100, ironPlate:120, plasticBar:40, steelPlate:60 },    fireTime:4,     },
+    {	id:'artilleryTurret',       type:'weapon', reqs:[ 'military4' ],    auto:true,      max:1,    time:250,	    costs:{ concrete:60, copperPlate:100, ironPlate:120, plasticBar:40, steelPlate:60 },    fireTime:4,     },
 ]
 
 var easyAmmunitionData = [
@@ -1123,10 +1111,10 @@ var easyAmmunitionData = [
 
 var easyAlienData = [
     
-    {   id:'biter1',                type:'alien', reqs:[ 'military1' ], health:15,      shield:{ physical:0,  explosion:0  },  armor:{ physical:0,   explosion:0  },  eggCoeff:.9,  },
-    {   id:'biter2',                type:'alien', reqs:[ 'military2' ], health:75,      shield:{ physical:4,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.8,  },
-    {   id:'biter3',                type:'alien', reqs:[ 'military3' ], health:375,     shield:{ physical:8,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.7,  },
-    {   id:'biter4',                type:'alien', reqs:[ 'military4' ], health:3000,    shield:{ physical:12, explosion:12 },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.6,  },
+    {   id:'biter1',                type:'alien', reqs:[ 'military1' ], genCount:150,   health:15,      shield:{ physical:0,  explosion:0  },  armor:{ physical:0,   explosion:0  },  eggCoeff:.9,  },
+    {   id:'biter2',                type:'alien', reqs:[ 'military2' ], genCount:100,   health:75,      shield:{ physical:4,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.8,  },
+    {   id:'biter3',                type:'alien', reqs:[ 'military3' ], genCount:50,    health:375,     shield:{ physical:8,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.7,  },
+    {   id:'biter4',                type:'alien', reqs:[ 'military4' ], genCount:30,    health:3000,    shield:{ physical:12, explosion:12 },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.6,  },
 ]
 
 var easyTutorialData = [
@@ -1142,7 +1130,7 @@ var easyTutorialData = [
     {   id:'tut8',                  check: function() { return this.game.techs['automation1'].count >= 1 },        action: function(app) { app.setCurrentTabId('techs');         app.setCurrentTechPageId('lab'); }, },
     {   id:'tut9',                  check: function() { return this.game.techs['military1'].count >= 1 },          action: function(app) { app.setCurrentTabId('techs');         app.setCurrentTechPageId('lab'); }, },
     {   id:'tut10',                 check: function() { return this.game.items['alienEgg'].count >= 1 },           action: function(app) { app.setCurrentTabId('weapons');       app.setCurrentWeaponsPageId('alienEgg'); }, },
-    {   id:'tut11',                 check: function() { return false },                                            action: function(app) { app.setCurrentTabId('techs');         app.setCurrentTechPageId('redPack'); }, },
+    {   id:'tut11',                 check: function() { return false },                                            action: function(app) { app.setCurrentTabId('techs');         app.setCurrentTechPageId('lab'); }, },
 ]
 
 //------------------------------------------------------------------------------
@@ -1240,6 +1228,7 @@ class Item extends Base {
         this.auto = false
         this.state = 'paused'
         this.deltaCount = 0
+        this.alienEggCount = 0
         this.remainingSeconds = this.getTime()
         
         this.storage = null
@@ -1261,6 +1250,8 @@ class Item extends Base {
     getTime() {
     
         let ret = this.time
+        ret *= (1 - (0.01 * this.alienEggCount))
+        
         return ret
     }
     
@@ -1858,7 +1849,7 @@ class Weapon extends Buildable {
                         
                             this.game.items['alienEgg'].count += 1
                             
-                            if (this.game.currentMode == 'easy') this.stats.easyMode.totalAlienEggs += 1
+                            if (this.game.currentMode == 'easy') this.game.stats.easyMode.totalAlienEggs += 1
                         }
                     }                
                     
@@ -1896,17 +1887,17 @@ class Ammunition extends Item {
 
 //------------------------------------------------------------------------------
 
-class Alien {
+class Alien extends Base {
 
     constructor(game, data) {
-    
-        this.id = data.id
+        super(game, data)
+        
         this.armor = data.armor
         this.shield = data.shield
         this.health = data.health
+        this.genCount = data.genCount
         this.eggCoeff = data.eggCoeff
         
-        this.count = 0
         this.totalHealth = 0
     }
     
@@ -2152,22 +2143,17 @@ class Game {
             if (data.stats.easyMode.totalAlienEggs != null) this.stats.easyMode.totalAlienEggs = data.stats.easyMode.totalAlienEggs
         }
         
-        if (data.trophies != null) {
-        
-            if (data.trophies.easyMode.win != null) this.trophies.easyMode.win = data.trophies.easyMode.win
-            if (data.trophies.easyMode.oilProcessing != null) this.trophies.easyMode.win = data.trophies.easyMode.oilProcessing
-            if (data.trophies.easyMode.allResearches != null) this.trophies.easyMode.allResearches = data.trophies.easyMode.allResearches
-        }
-        
         for (let id in data.items) {
             let dataItem = data.items[id]
             
             let item = this.items[id]
             if (item) {
             
-                item.unlocked = dataItem.unlocked
-                item.count = dataItem.count
-                item.state = dataItem.state
+                if (dataItem.unlocked) item.unlocked = dataItem.unlocked
+                if (dataItem.count) item.count = dataItem.count
+                if (dataItem.state) item.state = dataItem.state
+                if (dataItem.alienEggCount) item.alienEggCount = dataItem.alienEggCount
+                
                 if (item.state == 'running') item.remainingSeconds = dataItem.remainingSeconds
             }
         }
@@ -2280,7 +2266,6 @@ class Game {
             paused: this.paused,
             options: this.options,
             victory: this.victory,
-            trophies: this.trophies,
             timePlayed: this.timePlayed,
             currentMode: this.currentMode,
             
@@ -2306,9 +2291,10 @@ class Game {
             
             ret.items[item.id] = {
             
-                unlocked: item.unlocked,
                 count: item.count,
                 state: item.state,
+                unlocked: item.unlocked,
+                alienEggCount: item.alienEggCount,
                 remainingSeconds: item.remainingSeconds,
             }
         }
@@ -2387,8 +2373,10 @@ class Game {
     
         for (let id in this.aliens) {
             let alien = this.aliens[id]
+            if (alien.unlocked == true) {
             
-            alien.setCount(Math.ceil(Math.random() * 100))
+                alien.setCount(Math.ceil(Math.random() * alien.genCount))
+            }
         }
     }
     
@@ -2768,8 +2756,6 @@ export default {
                 if (loadedData.catAmmunitionOpen != null) this.catAmmunitionOpen = loadedData.catAmmunitionOpen
                 
                 if (loadedData.currentProductionPageId != null) this.currentProductionPageId = loadedData.currentProductionPageId
-                if (loadedData.currentTechPageId != null) this.currentTechPageId = loadedData.currentTechPageId
-                if (loadedData.currentWeaponsPageId != null) this.currentWeaponsPageId = loadedData.currentWeaponsPageId                
             }
         },
 
@@ -2791,8 +2777,6 @@ export default {
             savedData.catAmmunitionOpen = this.catAmmunitionOpen
             
             savedData.currentProductionPageId = this.currentProductionPageId
-            savedData.currentTechPageId = this.currentTechPageId
-            savedData.currentWeaponsPageId = this.currentWeaponsPageId
             
             let text = JSON.stringify(savedData)
             let compressed = LZString.compressToBase64(text)

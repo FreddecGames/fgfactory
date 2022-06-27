@@ -111,7 +111,7 @@ export default {
     'name_yellowScience': 'Yellow Science',
     
     'desc_artilleryShell': '500 physical + 500 explosion damages',
-    'desc_artilleryTurret': 'Manual',
+    'desc_artilleryTurret': 'Auto',
     'desc_assembler1': 'Automate and increase production',
     'desc_automation1': 'Unlocks Assembler and Chest',
     'desc_automation2': 'Unlocks Concrete production',

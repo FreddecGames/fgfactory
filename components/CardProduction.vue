@@ -54,6 +54,35 @@
                     </div>
                 </div>
             </div>
+            <div v-if="alienEggUnlocked" class="card-body">
+                <div class="row gx-3 align-items-center">
+                    <div class="col-auto">
+                        <small class="text-muted">Speed Production</small>
+                        <span>{{ speedBonus }}%</span>
+                    </div>
+                    <div v-if="item.alienEggCount < 100" class="col-auto">
+                        <div class="row gx-2 align-items-center">
+                            <div class="col-auto">
+                                <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('name_alienEgg')" >
+                                    <img :src="require(`~/assets/vignets/alienEgg.png`)" width="18px" height="18px" :alt="$t('name_alienEgg')" />
+                                    <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow" :class="{ 'text-normal':alienEggCount > 0, 'text-danger':alienEggCount <= 0 }" :title="$t('name_alienEgg')"><FormatNumber :value="1" /></span>
+                                </div>
+                            </div>
+                            <div class="col-auto px-0">
+                                <i class="text-muted fas fa-fw fa-long-arrow-alt-right"></i>
+                            </div>
+                            <div class="col-auto">
+                                <span class="text-success">+1%</span>
+                            </div>
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-sm p-1 btn-primary" :class="{ 'disabled':alienEggCount < 1 || item.alienEggCount >= 100 }" @click="addAlienEgg()">
+                                    <span><i class="fas fa-fw fa-plus-square"></i></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -74,6 +103,18 @@ export default {
             if (this.item.remainingSeconds > 0) return 100 - 100 * (this.item.remainingSeconds / this.item.getTime())
             else return 0
         },
+        
+        alienEggUnlocked() { return this.item.game.techs['military1'].unlocked },
+        
+        alienEggCount() { return this.item.game.items['alienEgg'].count },
+        
+        speedBonus() {
+        
+            let ret = 100
+            ret += this.item.alienEggCount
+            
+            return ret
+        },
     },
     
     methods: {
@@ -81,6 +122,17 @@ export default {
         run() { this.item.startProducing() },
         
         pause() { this.item.pauseProducing() },
+        
+        addAlienEgg() {
+        
+            if (this.alienEggCount > 0 && this.item.alienEggCount < 100) {
+            
+                this.item.alienEggCount += 1                
+                this.item.remainingSeconds *= .99
+                
+                this.item.game.items['alienEgg'].count -= 1
+            }
+        },
     },
 }
 </script>
