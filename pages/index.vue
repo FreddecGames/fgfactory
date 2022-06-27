@@ -379,10 +379,61 @@
                     </div>
                     <div v-if="popupTutorial.id == 'tut9'" class="row g-3">
                         <div class="col-12 text-center">
+                            <span class="text-white h4">Military and Weapons</span>
+                        </div>
+                        <div class="col-12 text-center">
+                            <span class="text-normal">You unlocked <span class="text-white">Assembler</span> buildings that allow you to automate packs production. You unlocked new resaerches too.</span>
+                        </div>
+                        <div class="col-12 text-center">
+                            <span class="text-normal">You are on an hostile planet so you have to defend yourself from <span class="text-white">Aliens</span>. For that you have to produce weapons and ammunitions.</span>
+                        </div>
+                        <div class="col-12">
+                            <div class="text-uppercase text-muted small mb-1">Current Objective</div>
+                            <div class="text-normal ps-4 mb-1"><i class="fas fa-fw fa-caret-right"></i> Research <span class="text-white">Military 1</span></div>
+                        </div>
+                        <div class="col-12 d-flex justify-content-between">
+                            <button type="button" class="btn btn-primary" @click="popupTutorial = null; disableTutorial();">
+                                <span>Disable</span>
+                            </button>
+                            <button type="button" class="btn btn-primary" @click="popupTutorial = null;">
+                                <span>Continue</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div v-if="popupTutorial.id == 'tut10'" class="row g-3">
+                        <div class="col-12 text-center">
+                            <span class="text-white h4">Alien Eggs</span>
+                        </div>
+                        <div class="col-12 text-center">
+                            <span class="text-normal">Now you are able to build weapons and produce ammunitions. Moreover you could generate aliens to collect <span class="text-white">Alien Eggs</span> by killing them with weapons and ammunitions.</span>
+                        </div>
+                        <div class="col-12 text-center">
+                            <span class="text-normal"><span class="text-white">Alien Eggs</span> are mandatory to produce some items and are used to speed up machine production.</span>
+                        </div>
+                        <div class="col-12">
+                            <div class="text-uppercase text-muted small mb-1">Current Objective</div>
+                            <div class="text-normal ps-4 mb-1"><i class="fas fa-fw fa-caret-right"></i> Build a <span class="text-white">Pistol</span></div>
+                            <div class="text-normal ps-4 mb-1"><i class="fas fa-fw fa-caret-right"></i> Produce <span class="text-white">Bullets</span></div>
+                            <div class="text-normal ps-4 mb-1"><i class="fas fa-fw fa-caret-right"></i> Collect 1 <span class="text-white">Alien Egg</span> by killing aliens</div>
+                        </div>
+                        <div class="col-12 d-flex justify-content-between">
+                            <button type="button" class="btn btn-primary" @click="popupTutorial = null; disableTutorial();">
+                                <span>Disable</span>
+                            </button>
+                            <button type="button" class="btn btn-primary" @click="popupTutorial = null;">
+                                <span>Continue</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div v-if="popupTutorial.id == 'tut11'" class="row g-3">
+                        <div class="col-12 text-center">
                             <span class="text-white h4">End of Tutorial</span>
                         </div>
                         <div class="col-12 text-center">
-                            <span class="text-normal">You unlocked <span class="text-white">Assembler</span> buildings that allow you to automate packs production. So now, you know what to do to build <span class="text-white">Rocket</span> and to escape from this hostile planet: produce packs, perform researches, unlock new productions, produce more items!</span>
+                            <span class="text-normal">Congratulations for your first <span class="text-white">Alien Egg</span>!</span>
+                        </div>
+                        <div class="col-12 text-center">
+                            <span class="text-normal">So now, you know what to do to build <span class="text-white">Rocket</span> and to escape from this hostile planet: produce packs, perform researches, unlock new productions, use <span class="text-white">Alien Eggs</span> to improve machines and finally produce more items!</span>
                         </div>
                         <div class="col-12">
                             <div class="text-uppercase text-muted small mb-1">Final Objective</div>
@@ -557,6 +608,23 @@
                                     <ButtonItem :item="gameItem('processingUnit')" @click="setCurrentProductionPageId('processingUnit')" :active="currentProductionPageId == 'processingUnit'" />
                                 </Category>
                                 
+                                <Category v-if="gameItem('redPack').unlocked == true" id="tech" :show="catTechOpen" @click="catTechOpen = !catTechOpen;">
+                                    <ButtonItem :item="gameItem('redPack')" @click="setCurrentProductionPageId('redPack')" :active="currentProductionPageId == 'redPack'" />
+                                    <ButtonItem :item="gameItem('greenPack')" @click="setCurrentProductionPageId('greenPack')" :active="currentProductionPageId == 'greenPack'" />
+                                    <ButtonItem :item="gameItem('bluePack')" @click="setCurrentProductionPageId('bluePack')" :active="currentProductionPageId == 'bluePack'" />
+                                    <ButtonItem :item="gameItem('purplePack')" @click="setCurrentProductionPageId('purplePack')" :active="currentProductionPageId == 'purplePack'" />
+                                    <ButtonItem :item="gameItem('yellowPack')" @click="setCurrentProductionPageId('yellowPack')" :active="currentProductionPageId == 'yellowPack'" />
+                                    <ButtonItem :item="gameItem('grayPack')" @click="setCurrentProductionPageId('grayPack')" :active="currentProductionPageId == 'grayPack'" />
+                                </Category>
+
+                                <Category v-if="gameAmmunition('bullet').unlocked == true" id="ammunition" :show="catAmmunitionOpen" @click="catAmmunitionOpen = !catAmmunitionOpen;">
+                                    <ButtonItem :item="gameAmmunition('bullet')" @click="setCurrentProductionPageId('bullet')" :active="currentProductionPageId == 'bullet'" />
+                                    <ButtonItem :item="gameAmmunition('piercing')" @click="setCurrentProductionPageId('piercing')" :active="currentProductionPageId == 'piercing'" />
+                                    <ButtonItem :item="gameAmmunition('shotgunShell')" @click="setCurrentProductionPageId('shotgunShell')" :active="currentProductionPageId == 'shotgunShell'" />
+                                    <ButtonItem :item="gameAmmunition('rocket')" @click="setCurrentProductionPageId('rocket')" :active="currentProductionPageId == 'rocket'" />
+                                    <ButtonItem :item="gameAmmunition('artilleryShell')" @click="setCurrentProductionPageId('artilleryShell')" :active="currentProductionPageId == 'artilleryShell'" />
+                                </Category>
+                                        
                                 <Category v-if="gameItem('water').unlocked == true" id="chemistry" :show="catChemistryOpen" @click="catChemistryOpen = !catChemistryOpen;">
                                     <ButtonItem :item="gameItem('water')" @click="setCurrentProductionPageId('water')" :active="currentProductionPageId == 'water'" />
                                     <ButtonItem :item="gameItem('oil')" @click="setCurrentProductionPageId('oil')"  :active="currentProductionPageId == 'oil'" />
@@ -596,6 +664,19 @@
                         <PageItem v-if="currentProductionPageId == 'copperPlate'" :item="gameItem('copperPlate')" />
                         <PageItem v-if="currentProductionPageId == 'processingUnit'" :item="gameItem('processingUnit')" />
                         
+                        <PageItem v-if="currentProductionPageId == 'redPack'" :item="gameItem('redPack')" />
+                        <PageItem v-if="currentProductionPageId == 'greenPack'" :item="gameItem('greenPack')" />
+                        <PageItem v-if="currentProductionPageId == 'bluePack'" :item="gameItem('bluePack')" />
+                        <PageItem v-if="currentProductionPageId == 'purplePack'" :item="gameItem('purplePack')" />
+                        <PageItem v-if="currentProductionPageId == 'yellowPack'" :item="gameItem('yellowPack')" />
+                        <PageItem v-if="currentProductionPageId == 'grayPack'" :item="gameItem('grayPack')" />
+                        
+                        <PageItem v-if="currentProductionPageId == 'bullet'" :item="gameAmmunition('bullet')" />
+                        <PageItem v-if="currentProductionPageId == 'piercing'" :item="gameAmmunition('piercing')" />
+                        <PageItem v-if="currentProductionPageId == 'shotgunShell'" :item="gameAmmunition('shotgunShell')" />
+                        <PageItem v-if="currentProductionPageId == 'rocket'" :item="gameAmmunition('rocket')" />
+                        <PageItem v-if="currentProductionPageId == 'artilleryShell'" :item="gameAmmunition('artilleryShell')" />
+                        
                         <PageItem v-if="currentProductionPageId == 'water'" :item="gameItem('water')" />
                         <PageItem v-if="currentProductionPageId == 'oil'" :item="gameItem('oil')" />
                         <PageItem v-if="currentProductionPageId == 'heavyOil'" :item="gameItem('heavyOil')" />
@@ -624,29 +705,12 @@
                                 <div class="col-12">
                                     <div class="row g-3">
                                         <ButtonItemCount :item="game.lab" @click="setCurrentTechPageId('lab')" :active="currentTechPageId == 'lab'" />
-                                        
-                                        <Category id="tech" :show="catTechOpen" @click="catTechOpen = !catTechOpen;">
-                                            <ButtonItem :item="gameItem('redPack')" @click="setCurrentTechPageId('redPack')" :active="currentTechPageId == 'redPack'" />
-                                            <ButtonItem :item="gameItem('greenPack')" @click="setCurrentTechPageId('greenPack')" :active="currentTechPageId == 'greenPack'" />
-                                            <ButtonItem :item="gameItem('bluePack')" @click="setCurrentTechPageId('bluePack')" :active="currentTechPageId == 'bluePack'" />
-                                            <ButtonItem :item="gameItem('purplePack')" @click="setCurrentTechPageId('purplePack')" :active="currentTechPageId == 'purplePack'" />
-                                            <ButtonItem :item="gameItem('yellowPack')" @click="setCurrentTechPageId('yellowPack')" :active="currentTechPageId == 'yellowPack'" />
-                                            <ButtonItem :item="gameItem('grayPack')" @click="setCurrentTechPageId('grayPack')" :active="currentTechPageId == 'grayPack'" />
-                                        </Category>
-                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
                         <PageLab v-if="currentTechPageId == 'lab'" :lab="game.lab" />
-                        
-                        <PageItem v-if="currentTechPageId == 'redPack'" :item="gameItem('redPack')" />
-                        <PageItem v-if="currentTechPageId == 'greenPack'" :item="gameItem('greenPack')" />
-                        <PageItem v-if="currentTechPageId == 'bluePack'" :item="gameItem('bluePack')" />
-                        <PageItem v-if="currentTechPageId == 'purplePack'" :item="gameItem('purplePack')" />
-                        <PageItem v-if="currentTechPageId == 'yellowPack'" :item="gameItem('yellowPack')" />
-                        <PageItem v-if="currentTechPageId == 'grayPack'" :item="gameItem('grayPack')" />
                         
                     </div>
                 </div>
@@ -660,27 +724,12 @@
                                 <div class="col-12">
                                     <div class="row g-3">
                                         <ButtonItemCount :item="gameItem('alienEgg')" @click="setCurrentWeaponsPageId('alienEgg')" :active="currentWeaponsPageId == 'alienEgg'" />
-                                        
-                                        <Category id="tech" :show="catAmmunitionOpen" @click="catAmmunitionOpen = !catAmmunitionOpen;">
-                                            <ButtonItem :item="gameAmmunition('bullet')" @click="setCurrentWeaponsPageId('bullet')" :active="currentWeaponsPageId == 'bullet'" />
-                                            <ButtonItem :item="gameAmmunition('piercing')" @click="setCurrentWeaponsPageId('piercing')" :active="currentWeaponsPageId == 'piercing'" />
-                                            <ButtonItem :item="gameAmmunition('shotgunShell')" @click="setCurrentWeaponsPageId('shotgunShell')" :active="currentWeaponsPageId == 'shotgunShell'" />
-                                            <ButtonItem :item="gameAmmunition('rocket')" @click="setCurrentWeaponsPageId('rocket')" :active="currentWeaponsPageId == 'rocket'" />
-                                            <ButtonItem :item="gameAmmunition('artilleryShell')" @click="setCurrentWeaponsPageId('artilleryShell')" :active="currentWeaponsPageId == 'artilleryShell'" />
-                                        </Category>
-                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
                         <PageAlienEgg v-if="currentWeaponsPageId == 'alienEgg'" :item="gameItem('alienEgg')" />
-                        
-                        <PageItem v-if="currentWeaponsPageId == 'bullet'" :item="gameAmmunition('bullet')" />
-                        <PageItem v-if="currentWeaponsPageId == 'piercing'" :item="gameAmmunition('piercing')" />
-                        <PageItem v-if="currentWeaponsPageId == 'shotgunShell'" :item="gameAmmunition('shotgunShell')" />
-                        <PageItem v-if="currentWeaponsPageId == 'rocket'" :item="gameAmmunition('rocket')" />
-                        <PageItem v-if="currentWeaponsPageId == 'artilleryShell'" :item="gameAmmunition('artilleryShell')" />
                         
                     </div>
                 </div>
@@ -929,7 +978,7 @@ var easyItemData = [
     {	id:'purplePack',            type:'item', reqs:[ 'purpleScience' ],              productionLevel:1,    time:154,	    output:3,   inputs:{ ironPlate:33, copperPlate:58, steelPlate:25, plasticBar:20, stone:15, stoneBrick:10, alienEgg:1 }, },
     {	id:'yellowPack',            type:'item', reqs:[ 'yellowScience' ],              productionLevel:1,    time:105,	    output:3,   inputs:{ ironPlate:3, copperPlate:65, steelPlate:7, plasticBar:15, battery:2, processingUnit:2, electricEngine:1 }, },
     {	id:'grayPack',              type:'item', reqs:[ 'grayScience' ],                productionLevel:1,    time:23,	    output:2,   inputs:{ coal:10, ironPlate:9, copperPlate:5, steelPlate:1, stoneBrick:10 }, },
-    {	id:'alienEgg',              type:'item', reqs:[ 'alienTech' ],                  productionLevel:0,    },
+    {	id:'alienEgg',              type:'item', reqs:[ 'military1' ],                  productionLevel:0,    },
 ]
 
 var easyBuildingData = [
@@ -968,7 +1017,7 @@ var easyBuildingData = [
     {	id:'yellowPackT1',          type:'building', reqs:[ 'yellowScience', 'automation1' ],       icon:'assembler1',          name:'assembler1',          itemId:'yellowPack',        productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
     {	id:'grayPackT1',            type:'building', reqs:[ 'grayScience', 'automation1' ],         icon:'assembler1',          name:'assembler1',          itemId:'grayPack',          productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
 
-    {	id:'bulletT1',              type:'building', reqs:[ 'alienTech', 'automation1' ],           icon:'assembler1',          name:'assembler1',          ammoId:'bullet',            productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
+    {	id:'bulletT1',              type:'building', reqs:[ 'military1', 'automation1' ],           icon:'assembler1',          name:'assembler1',          ammoId:'bullet',            productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
     {	id:'piercingT1',            type:'building', reqs:[ 'military2', 'automation1' ],           icon:'assembler1',          name:'assembler1',          ammoId:'piercing',          productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
     {	id:'shotgunShellT1',        type:'building', reqs:[ 'military1', 'automation1' ],           icon:'assembler1',          name:'assembler1',          ammoId:'shotgunShell',      productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
     {	id:'rocketT1',              type:'building', reqs:[ 'rocketry', 'automation1' ],            icon:'assembler1',          name:'assembler1',          ammoId:'rocket',            productionLevel:2,  time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
@@ -1011,7 +1060,7 @@ var easyStorageData = [
     {	id:'yellowPackS1',          type:'storage', reqs:[ 'yellowScience', 'automation1' ],            icon:'ironChest',               name:'ironChest',       itemId:'yellowPack',        storage:50,    time:10,    costs:{ yellowPack:50 }, },
     {	id:'grayPackS1',            type:'storage', reqs:[ 'grayScience', 'automation1' ],              icon:'ironChest',               name:'ironChest',       itemId:'grayPack',          storage:50,    time:10,    costs:{ grayPack:50 }, },
 
-    {	id:'bulletS1',              type:'storage', reqs:[ 'alienTech', 'automation1' ],                icon:'ironChest',               name:'ironChest',       ammoId:'bullet',            storage:50,    time:10,    costs:{ bullet:50 }, },
+    {	id:'bulletS1',              type:'storage', reqs:[ 'military1', 'automation1' ],                icon:'ironChest',               name:'ironChest',       ammoId:'bullet',            storage:50,    time:10,    costs:{ bullet:50 }, },
     {	id:'piercingS1',            type:'storage', reqs:[ 'military2', 'automation1' ],                icon:'ironChest',               name:'ironChest',       ammoId:'piercing',          storage:50,    time:10,    costs:{ piercing:50 }, },
     {	id:'shotgunShellS1',        type:'storage', reqs:[ 'military1', 'automation1' ],                icon:'ironChest',               name:'ironChest',       ammoId:'shotgunShell',      storage:50,    time:10,    costs:{ shotgunShell:50 }, },
     {	id:'rocketS1',              type:'storage', reqs:[ 'rocketry', 'automation1' ],                 icon:'ironChest',               name:'ironChest',       ammoId:'rocket',            storage:50,    time:10,    costs:{ rocket:50 }, },
@@ -1022,41 +1071,40 @@ var easyLabData = { id:'lab', type:'lab', icon:'lab', name:'lab', time:22, costs
 
 var easyTechData = [
 
-    {	id:'rocketTech',            type:'tech', reqs:[ 'rocketFuelTech' ],     time:60000,     costs:{ redPack:1000, greenPack:1000, bluePack:1000, purplePack:1000, yellowPack:1000 },    unlocks:[ 'rocketPart', 'rocketPartT1' ], },
-    {	id:'military4',             type:'tech', reqs:[ 'military3' ],          time:6750,      costs:{ redPack:150, greenPack:150, bluePack:150, grayPack:150, yellowPack:150 },           unlocks:[ 'artilleryTurret', 'artilleryShell', 'artilleryShellT1', 'artilleryShellS1' ], },
-    {	id:'rocketFuelTech',        type:'tech', reqs:[ 'oilTech2' ],           time:13500,     costs:{ redPack:300, greenPack:300, bluePack:300 },                                         unlocks:[ 'rocketFuel', 'rocketTech' ], },
-    {	id:'electronics',           type:'tech', reqs:[ 'oilTech2' ],           time:9000,      costs:{ redPack:300, greenPack:300, bluePack:300 },                                         unlocks:[ 'processingUnit', 'alienTech', 'yellowScience' ], },
-    {	id:'yellowScience',         type:'tech', reqs:[ 'electronics' ],        time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100 },                                         unlocks:[ 'yellowPack' ], },
-    {	id:'purpleScience',         type:'tech', reqs:[ 'alienTech' ],          time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100 },                                         unlocks:[ 'purplePack' ], },
-    {	id:'robotics2',             type:'tech', reqs:[ 'robotics1' ],          time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100 },                                         unlocks:[ 'woodT1' ], },
-    {	id:'military3',             type:'tech', reqs:[ 'military2' ],          time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100, grayPack:100 },                           unlocks:[ 'combatShotgun', 'military4' ], },
-    {	id:'rocketry',              type:'tech', reqs:[ 'grayScience' ],        time:1800,      costs:{ redPack:120, greenPack:120, grayPack:120 },                                         unlocks:[ 'rocketLauncher', 'rocket', 'rocketT1', 'rocketS1' ], },
-    {	id:'oilTech2',              type:'tech', reqs:[ 'blueScience' ],        time:2250,      costs:{ redPack:75, greenPack:75, bluePack:75 },                                            unlocks:[ 'solidFuel', 'lubricantTech', 'rocketFuelTech', 'electronics' ], },
-    {	id:'robotics1',             type:'tech', reqs:[ 'electricEngineTech' ], time:2250,      costs:{ redPack:75, greenPack:75, bluePack:75 },                                            unlocks:[ 'robotics2' ], },
-    {	id:'electricEngineTech',    type:'tech', reqs:[ 'lubricantTech' ],      time:3000,      costs:{ redPack:50, greenPack:50, bluePack:50 },                                            unlocks:[ 'electricEngine', 'robotics1' ], },
-    {	id:'lubricantTech',         type:'tech', reqs:[ 'oilTech2' ],           time:3000,      costs:{ redPack:50, greenPack:50, bluePack:50 },                                            unlocks:[ 'lubricant', 'electricEngineTech' ], },
-    {	id:'alienTech',             type:'tech', reqs:[ 'electronics' ],        time:9000,      costs:{ redPack:300, greenPack:300 },                                                       unlocks:[ 'alienEgg', 'purpleScience', 'military1', 'pistol', 'bullet', 'bulletT1', 'bulletS1' ], },
-    {	id:'concreteTech',          type:'tech', reqs:[ 'automation2' ],        time:7500,      costs:{ redPack:250, greenPack:250 },                                                       unlocks:[ 'concrete' ], },
-    {	id:'plastics',              type:'tech', reqs:[ 'oilTech1' ],           time:6000,      costs:{ redPack:200, greenPack:200 },                                                       unlocks:[ 'plasticBar' ], },
-    {	id:'batteryTech',           type:'tech', reqs:[ 'sulfurTech' ],         time:4500,      costs:{ redPack:150, greenPack:150 },                                                       unlocks:[ 'battery', 'batteryT1' ], },
-    {	id:'sulfurTech',            type:'tech', reqs:[ 'oilTech1' ],           time:4500,      costs:{ redPack:150, greenPack:150 },                                                       unlocks:[ 'sulfur', 'sulfuricAcid', 'batteryTech', 'blueScience', 'explosives' ], },
-    {	id:'oilTech1',              type:'tech', reqs:[ 'fluidHandling' ],      time:3000,      costs:{ redPack:100, greenPack:100 },                                                       unlocks:[ 'oil', 'heavyOil', 'lightOil', 'petroleumGas', 'oilT1', 'heavyOilT1', 'lubricantT1', 'lightOilT1', 'petroleumGasT1', 'plasticBarT1', 'solidFuelT1', 'sulfurT1', 'sulfuricAcidT1', 'oilS1', 'heavyOilS1', 'lightOilS1', 'lubricantS1', 'petroleumGasS1', 'sulfurS1', 'sulfuricAcidS1', 'plastics', 'sulfurTech' ], },
-    {	id:'explosives',            type:'tech', reqs:[ 'sulfurTech' ],         time:1500,      costs:{ redPack:100, greenPack:100 },                                                       unlocks:[ 'coal', 'explosive', 'coalT1', 'explosiveT1', 'coalS1', 'explosiveS1', 'grayScience' ], },
-    {	id:'engineTech',            type:'tech', reqs:[ 'steelTech' ],          time:1500,      costs:{ redPack:100, greenPack:100 },                                                       unlocks:[ 'engine', 'fluidHandling' ], },
-    {	id:'blueScience',           type:'tech', reqs:[ 'sulfurTech' ],         time:750,       costs:{ redPack:75, greenPack:75 },                                                         unlocks:[ 'bluePack', 'oilTech2' ], },
-    {	id:'fluidHandling',         type:'tech', reqs:[ 'engineTech' ],         time:750,       costs:{ redPack:50, greenPack:50 },                                                         unlocks:[ 'water', 'waterT1', 'waterS1', 'oilTech1' ], },
-    {	id:'automation2',           type:'tech', reqs:[ 'greenScience' ],       time:600,       costs:{ redPack:40, greenPack:40 },                                                         unlocks:[ 'concreteTech' ], },
-    {	id:'grayScience',           type:'tech', reqs:[ 'explosives' ],         time:450,	    costs:{ redPack:30, greenPack:30 },                                                         unlocks:[ 'grayPack', 'grayPackT1', 'grayPackS1', 'rocketry' ], },
-    {	id:'military2',             type:'tech', reqs:[ 'military1' ],          time:300,	    costs:{ redPack:20, greenPack:20 },                                                         unlocks:[ 'piercing', 'piercingT1', 'piercingS1', 'military3' ], },
-    {	id:'greenScience',          type:'tech', reqs:[ 'automation1' ],        time:375,       costs:{ redPack:75 },                                                                       unlocks:[ 'greenPack', 'automation2' ], },
-    {	id:'steelTech',             type:'tech', reqs:[ 'automation1' ],        time:250,       costs:{ redPack:50 },                                                                       unlocks:[ 'steelPlate', 'steelPlateT1', 'engineTech' ], },
-    {	id:'military1',             type:'tech', reqs:[ 'alienTech' ],          time:150,	    costs:{ redPack:10 },                                                                       unlocks:[ 'wood', 'shotgunShellT1', 'woodS1', 'shotgunShellS1', 'submachine', 'shotgun', 'shotgunShell', 'military2' ], },
-    {	id:'automation1',           type:'tech',                                time:100,	    costs:{ redPack:10 },                                                                       unlocks:[ 'stoneBrick', 'stoneBrickT1', 'concreteT1', 'engineT1', 'electricEngineT1', 'processingUnitT1', 'rocketFuelT1', 'redPackT1', 'greenPackT1', 'bluePackT1', 'purplePackT1', 'yellowPackT1', 'stoneS1', 'stoneBrickS1', 'concreteS1', 'ironS1', 'ironPlateS1', 'steelPlateS1', 'engineS1', 'electricEngineS1', 'copperS1', 'copperPlateS1', 'processingUnitS1', 'plasticBarS1', 'solidFuelS1', 'batteryS1', 'rocketFuelS1', 'rocketPartS1', 'redPackS1', 'greenPackS1', 'bluePackS1', 'purplePackS1', 'yellowPackS1', 'steelTech', 'greenScience' ], },
+    {	id:'rocketTech',            type:'tech', reqs:[ 'rocketFuelTech' ],     time:60000,     costs:{ redPack:1000, greenPack:1000, bluePack:1000, purplePack:1000, yellowPack:1000 },    },
+    {	id:'military4',             type:'tech', reqs:[ 'military3' ],          time:6750,      costs:{ redPack:150, greenPack:150, bluePack:150, grayPack:150, yellowPack:150 },           },
+    {	id:'rocketFuelTech',        type:'tech', reqs:[ 'oilTech2' ],           time:13500,     costs:{ redPack:300, greenPack:300, bluePack:300 },                                         },
+    {	id:'electronics',           type:'tech', reqs:[ 'oilTech2' ],           time:9000,      costs:{ redPack:300, greenPack:300, bluePack:300 },                                         },
+    {	id:'yellowScience',         type:'tech', reqs:[ 'electronics' ],        time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100 },                                         },
+    {	id:'purpleScience',         type:'tech', reqs:[ 'oilTech2' ],           time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100 },                                         },
+    {	id:'robotics2',             type:'tech', reqs:[ 'robotics1' ],          time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100 },                                         },
+    {	id:'military3',             type:'tech', reqs:[ 'military2' ],          time:3000,      costs:{ redPack:100, greenPack:100, bluePack:100, grayPack:100 },                           },
+    {	id:'rocketry',              type:'tech', reqs:[ 'grayScience' ],        time:1800,      costs:{ redPack:120, greenPack:120, grayPack:120 },                                         },
+    {	id:'oilTech2',              type:'tech', reqs:[ 'blueScience' ],        time:2250,      costs:{ redPack:75, greenPack:75, bluePack:75 },                                            },
+    {	id:'robotics1',             type:'tech', reqs:[ 'electricEngineTech' ], time:2250,      costs:{ redPack:75, greenPack:75, bluePack:75 },                                            },
+    {	id:'electricEngineTech',    type:'tech', reqs:[ 'lubricantTech' ],      time:3000,      costs:{ redPack:50, greenPack:50, bluePack:50 },                                            },
+    {	id:'lubricantTech',         type:'tech', reqs:[ 'oilTech2' ],           time:3000,      costs:{ redPack:50, greenPack:50, bluePack:50 },                                            },
+    {	id:'concreteTech',          type:'tech', reqs:[ 'automation2' ],        time:7500,      costs:{ redPack:250, greenPack:250 },                                                       },
+    {	id:'plastics',              type:'tech', reqs:[ 'oilTech1' ],           time:6000,      costs:{ redPack:200, greenPack:200 },                                                       },
+    {	id:'batteryTech',           type:'tech', reqs:[ 'sulfurTech' ],         time:4500,      costs:{ redPack:150, greenPack:150 },                                                       },
+    {	id:'sulfurTech',            type:'tech', reqs:[ 'oilTech1' ],           time:4500,      costs:{ redPack:150, greenPack:150 },                                                       },
+    {	id:'oilTech1',              type:'tech', reqs:[ 'fluidHandling' ],      time:3000,      costs:{ redPack:100, greenPack:100 },                                                       },
+    {	id:'explosives',            type:'tech', reqs:[ 'sulfurTech' ],         time:1500,      costs:{ redPack:100, greenPack:100 },                                                       },
+    {	id:'engineTech',            type:'tech', reqs:[ 'steelTech' ],          time:1500,      costs:{ redPack:100, greenPack:100 },                                                       },
+    {	id:'blueScience',           type:'tech', reqs:[ 'sulfurTech' ],         time:750,       costs:{ redPack:75, greenPack:75 },                                                         },
+    {	id:'fluidHandling',         type:'tech', reqs:[ 'engineTech' ],         time:750,       costs:{ redPack:50, greenPack:50 },                                                         },
+    {	id:'automation2',           type:'tech', reqs:[ 'greenScience' ],       time:600,       costs:{ redPack:40, greenPack:40 },                                                         },
+    {	id:'grayScience',           type:'tech', reqs:[ 'explosives' ],         time:450,	    costs:{ redPack:30, greenPack:30 },                                                         },
+    {	id:'military2',             type:'tech', reqs:[ 'military1' ],          time:300,	    costs:{ redPack:20, greenPack:20 },                                                         },
+    {	id:'greenScience',          type:'tech', reqs:[ 'automation1' ],        time:375,       costs:{ redPack:75 },                                                                       },
+    {	id:'steelTech',             type:'tech', reqs:[ 'automation1' ],        time:250,       costs:{ redPack:50 },                                                                       },
+    {	id:'military1',             type:'tech', reqs:[ 'automation1' ],        time:150,	    costs:{ redPack:10 },                                                                       },
+    {	id:'automation1',           type:'tech',                                time:100,	    costs:{ redPack:10 },                                                                       },
 ]
 
 var easyWeaponData = [
 
-    {	id:'pistol',                type:'weapon', reqs:[ 'alienTech' ],    auto:false,     max:1,    time:5,	    costs:{ ironPlate:5, copperPlate:5 },                                                   fireTime:.25,   },
+    {	id:'pistol',                type:'weapon', reqs:[ 'military1' ],    auto:false,     max:1,    time:5,	    costs:{ ironPlate:5, copperPlate:5 },                                                   fireTime:.25,   },
     {	id:'submachine',            type:'weapon', reqs:[ 'military1' ],    auto:true,      max:1,    time:15,	    costs:{ ironPlate:30, copperPlate:5 },                                                  fireTime:.1,    },
     {	id:'shotgun',               type:'weapon', reqs:[ 'military1' ],    auto:false,     max:1,    time:13,	    costs:{ ironPlate:10, copperPlate:25, wood:5 },                                         fireTime:1,     },
     {	id:'combatShotgun',         type:'weapon', reqs:[ 'military3' ],    auto:true,      max:1,    time:13,	    costs:{ ironPlate:10, copperPlate:10, steelPlate:15, wood:10 },                         fireTime:.5,    },
@@ -1066,33 +1114,35 @@ var easyWeaponData = [
 
 var easyAmmunitionData = [
 
-    {   id:'bullet',                type:'ammunition', reqs:[ 'alienTech' ],    icon:'bullet',              name:'bullet',              weaponIds:[ 'pistol', 'submachine' ],       desc:true,  damages:{ physical:5 },                     productionLevel:1,    time:1,	    outputs:{ bullet:10 },        inputs:{ ironPlate:4 }, },
-    {   id:'piercing',              type:'ammunition', reqs:[ 'military2' ],    icon:'piercing',            name:'piercing',            weaponIds:[ 'pistol', 'submachine' ],       desc:true,  damages:{ physical:8 },                     productionLevel:1,    time:4,	    outputs:{ piercing:10 },      inputs:{ copperPlate:5, ironPlate:4, steelPlate:1 }, },
-    {   id:'shotgunShell',          type:'ammunition', reqs:[ 'military1' ],    icon:'shotgunShell',        name:'shotgunShell',        weaponIds:[ 'shotgun', 'combatShotgun' ],   desc:true,  damages:{ physical:60 },                    productionLevel:1,    time:3,       outputs:{ shotgunShell:2 },   inputs:{ copperPlate:2, ironPlate:2 }, },
-    {   id:'rocket',                type:'ammunition', reqs:[ 'rocketry' ],     icon:'rocket',              name:'rocket',              weaponIds:[ 'rocketLauncher' ],             desc:true,  damages:{ explosion:200 },                  productionLevel:1,    time:9,       outputs:{ rocket:1 },         inputs:{ copperPlate:2, explosive:1, ironPlate:3 }, },
-    {   id:'artilleryShell',        type:'ammunition', reqs:[ 'military4' ],    icon:'artilleryShell',      name:'artilleryShell',      weaponIds:[ 'artilleryTurret' ],            desc:true,  damages:{ physical:500, explosion:500 },    productionLevel:1,    time:56,      outputs:{ artilleryShell:1 }, inputs:{ copperPlate:8, explosive:16, ironPlate:25, plasticBar:8, steelPlate:8 }, },
+    {   id:'bullet',                type:'ammunition', reqs:[ 'military1' ],    icon:'bullet',              name:'bullet',              weaponIds:[ 'pistol', 'submachine' ],       desc:true,  damages:{ physical:5 },                     productionLevel:1,    time:1,	    output:10,  inputs:{ ironPlate:4 }, },
+    {   id:'piercing',              type:'ammunition', reqs:[ 'military2' ],    icon:'piercing',            name:'piercing',            weaponIds:[ 'pistol', 'submachine' ],       desc:true,  damages:{ physical:8 },                     productionLevel:1,    time:4,	    output:10,  inputs:{ copperPlate:5, ironPlate:4, steelPlate:1 }, },
+    {   id:'shotgunShell',          type:'ammunition', reqs:[ 'military1' ],    icon:'shotgunShell',        name:'shotgunShell',        weaponIds:[ 'shotgun', 'combatShotgun' ],   desc:true,  damages:{ physical:60 },                    productionLevel:1,    time:3,       output:2,   inputs:{ copperPlate:2, ironPlate:2 }, },
+    {   id:'rocket',                type:'ammunition', reqs:[ 'rocketry' ],     icon:'rocket',              name:'rocket',              weaponIds:[ 'rocketLauncher' ],             desc:true,  damages:{ explosion:200 },                  productionLevel:1,    time:9,       output:1,   inputs:{ copperPlate:2, explosive:1, ironPlate:3 }, },
+    {   id:'artilleryShell',        type:'ammunition', reqs:[ 'military4' ],    icon:'artilleryShell',      name:'artilleryShell',      weaponIds:[ 'artilleryTurret' ],            desc:true,  damages:{ physical:500, explosion:500 },    productionLevel:1,    time:56,      output:1,   inputs:{ copperPlate:8, explosive:16, ironPlate:25, plasticBar:8, steelPlate:8 }, },
 ]
 
 var easyAlienData = [
     
-    {   id:'biter1',                type:'alien', reqs:[ 'alienTech' ], health:15,      shield:{ physical:0,  explosion:0  },  armor:{ physical:0,   explosion:0  },  eggCoeff:.9,  },
-    {   id:'biter2',                type:'alien', reqs:[ 'alienTech' ], health:75,      shield:{ physical:4,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.8,  },
-    {   id:'biter3',                type:'alien', reqs:[ 'alienTech' ], health:375,     shield:{ physical:8,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.7,  },
-    {   id:'biter4',                type:'alien', reqs:[ 'alienTech' ], health:3000,    shield:{ physical:12, explosion:12 },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.6,  },
+    {   id:'biter1',                type:'alien', reqs:[ 'military1' ], health:15,      shield:{ physical:0,  explosion:0  },  armor:{ physical:0,   explosion:0  },  eggCoeff:.9,  },
+    {   id:'biter2',                type:'alien', reqs:[ 'military2' ], health:75,      shield:{ physical:4,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.8,  },
+    {   id:'biter3',                type:'alien', reqs:[ 'military3' ], health:375,     shield:{ physical:8,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.7,  },
+    {   id:'biter4',                type:'alien', reqs:[ 'military4' ], health:3000,    shield:{ physical:12, explosion:12 },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.6,  },
 ]
 
 var easyTutorialData = [
 
     {   id:'tut0',                  check: function() { return false },                                            action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('iron'); }, },
     {   id:'tut1',                  check: function() { return this.game.items['iron'].count >= 5 },               action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('iron'); }, },
-    {   id:'tut2',                  check: function() { return this.game.items['stone'].count >= 5 },              action: function(app) { app.setCurrentTabId('production');     app.setCurrentProductionPageId('stone'); }, },
+    {   id:'tut2',                  check: function() { return this.game.items['stone'].count >= 5 },              action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('stone'); }, },
     {   id:'tut3',                  check: function() { return this.game.buildings['ironPlateT1'].count >= 1 },    action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('ironPlate'); }, },
     {   id:'tut4',                  check: function() { return this.game.buildings['ironT1'].count >= 1 },         action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('iron'); }, },
-    {   id:'tut5',                  check: function() { return this.game.buildings['stoneT1'].count >= 1 },        action: function(app) { app.setCurrentTabId('production');     app.setCurrentProductionPageId('stone'); }, },
-    {   id:'tut6',                  check: function() { return this.game.buildings['copperPlateT1'].count >= 1 },  action: function(app) { app.setCurrentTabId('production');  app.setCurrentProductionPageId('copper'); }, },
-    {   id:'tut7',                  check: function() { return this.game.lab.count >= 1 },                         action: function(app) { app.setCurrentTabId('techs');       app.setCurrentTechPageId('lab'); }, },
-    {   id:'tut8',                  check: function() { return this.game.techs['automation1'].count >= 1 },        action: function(app) { app.setCurrentTabId('techs');       app.setCurrentTechPageId('lab'); }, },
-    {   id:'tut9',                  check: function() { return false },                                            action: function(app) { app.setCurrentTabId('techs');       app.setCurrentTechPageId('redPack'); }, },
+    {   id:'tut5',                  check: function() { return this.game.buildings['stoneT1'].count >= 1 },        action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('stone'); }, },
+    {   id:'tut6',                  check: function() { return this.game.buildings['copperPlateT1'].count >= 1 },  action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('copper'); }, },
+    {   id:'tut7',                  check: function() { return this.game.lab.count >= 1 },                         action: function(app) { app.setCurrentTabId('techs');         app.setCurrentTechPageId('lab'); }, },
+    {   id:'tut8',                  check: function() { return this.game.techs['automation1'].count >= 1 },        action: function(app) { app.setCurrentTabId('techs');         app.setCurrentTechPageId('lab'); }, },
+    {   id:'tut9',                  check: function() { return this.game.techs['military1'].count >= 1 },          action: function(app) { app.setCurrentTabId('techs');         app.setCurrentTechPageId('lab'); }, },
+    {   id:'tut10',                 check: function() { return this.game.items['alienEgg'].count >= 1 },           action: function(app) { app.setCurrentTabId('weapons');       app.setCurrentWeaponsPageId('alienEgg'); }, },
+    {   id:'tut11',                 check: function() { return false },                                            action: function(app) { app.setCurrentTabId('techs');         app.setCurrentTechPageId('redPack'); }, },
 ]
 
 //------------------------------------------------------------------------------
@@ -2690,7 +2740,7 @@ export default {
                 }
             }
             
-            if (deltaTimeMs > 15 * 60 * 100) this.showOfflinePopup(deltaTimeMs)
+            if (deltaTimeMs > 15 * 60 * 1000) this.showOfflinePopup(deltaTimeMs)
         },
         
         load() {

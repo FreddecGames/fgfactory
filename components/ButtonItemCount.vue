@@ -1,5 +1,5 @@
 <template>
-    <div v-if="item.unlocked == true" class="col-6">
+    <div v-if="item.unlocked == true" class="col-12">
         <div class="list-group-item list-group-item-action py-0" :class="{ 'active':active }">
             <div class="row gx-2 align-items-center">
                 <div class="col">

@@ -24,7 +24,6 @@ export default {
     'productionState_2': 'Automated',
     
     'name_alienEgg': 'Alien Egg',
-    'name_alienTech': 'Alien Tech',
     'name_artilleryShell': 'Artillery Shell',
     'name_artilleryTurret': 'Artillery Turret',
     'name_assembler1': 'Assembler',
@@ -111,7 +110,6 @@ export default {
     'name_yellowPack': 'Yellow Pack',
     'name_yellowScience': 'Yellow Science',
     
-    'desc_alienTech': 'Unlocks Pistol weapon',
     'desc_artilleryShell': '500 physical + 500 explosion damages',
     'desc_artilleryTurret': 'Manual',
     'desc_assembler1': 'Automate and increase production',
@@ -135,8 +133,6 @@ export default {
     'desc_ironChest': 'Double storage',
     'desc_lab': 'Decrease research time',
     'desc_lubricantTech': 'Unlocks Lubricant production',
-    'desc_material1': 'Unlocks steel furnaces',
-    'desc_material2': 'Unlocks electric furnaces',
     'desc_military1': 'Unlocks Submachine Gun and Shotgun weapons',
     'desc_military2': 'Unlocks Piercing ammunition',
     'desc_military3': 'Unlocks Combat Shotgun weapon',
