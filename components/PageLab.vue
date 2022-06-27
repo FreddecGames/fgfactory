@@ -1,7 +1,7 @@
 <template>
     <div class="col scrollbar">
         <div class="row g-3">
-            <CardLab :lab="lab" />
+            <CardBuildable :buildable="lab" />
             <CardTechs v-if="lab.game.techs['automation1'].unlocked == true" :lab="lab" />
         </div>
     </div>

@@ -2,11 +2,11 @@
     <div v-if="tech.unlocked == true && (tech.count < 1 || (tech.count > 0 && tech.game.options.researchedTechs == true))" class="list-group-item">
         <div class="row gx-2 align-items-center">
             <div class="col-auto">
-                <img :src="require(`~/assets/techs/${tech.id}.png`)" width="24px" height="24px" :title="$t('techName_' + tech.id)" :alt="$t('techName_' + tech.id)" />
+                <img :src="require(`~/assets/vignets/${tech.id}.png`)" width="24px" height="24px" :title="$t('name_' + tech.id)" :alt="$t('name_' + tech.id)" />
             </div>
             <div class="col">
-                <span class="text-normal">{{ $t('techName_' + tech.id) }}</span>
-                <small class="ms-2 text-muted">{{ $t('techDesk_' + tech.id) }}</small>
+                <span class="text-normal">{{ $t('name_' + tech.id) }}</span>
+                <small class="ms-2 text-muted">{{ $t('desc_' + tech.id) }}</small>
             </div>
         </div>
         <div v-if="tech.count > 0 && tech.game.options.researchedTechs == true" class="row gx-2 align-items-center justify-content-end">
@@ -19,8 +19,8 @@
         <div v-if="tech.count < 1">
             <div class="row gx-2 align-items-center justify-content-end">
                 <div v-for="(count, itemId) in tech.getCosts()" class="col-auto">
-                    <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('itemName_' + itemId)" >
-                        <img :src="require(`~/assets/items/${itemId}.png`)" width="24px" height="24px" :alt="$t('itemName_' + itemId)" />
+                    <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('name_' + itemId)" >
+                        <img :src="require(`~/assets/vignets/${itemId}.png`)" width="24px" height="24px" :alt="$t('name_' + itemId)" />
                         <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow text-normal" :class="{ 'text-danger':count > tech.game.items[itemId].count, 'text-normal':count <= tech.game.items[itemId].count }"><FormatNumber :value="count" /></span>
                     </div>
                 </div>

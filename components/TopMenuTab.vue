@@ -6,7 +6,7 @@
                     <span class="h4"><i :class="'fas fa-fw ' + icon"></i></span>
                 </div>
                 <div class="col-12">
-                    <span class="small text-uppercase">{{ $t('menuTab_' + tabId) }}</span>
+                    <span class="small text-uppercase">{{ $t('tab_' + tabId) }}</span>
                 </div>
             </div>
         </button>

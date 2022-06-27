@@ -4,10 +4,10 @@
             <div class="card-header">
                 <div class="row gx-2">
                     <div class="col-auto">
-                        <img :src="require(`~/assets/items/${item.id}.png`)" width="18px" height="18px" :title="$t('itemName_' + item.id)" :alt="$t('itemName_' + item.id)" />
+                        <img :src="require(`~/assets/vignets/${item.id}.png`)" width="18px" height="18px" :title="$t('name_' + item.id)" :alt="$t('name_' + item.id)" />
                     </div>
                     <div class="col">
-                        <span>{{ $t('itemName_' + item.id) }}</span>
+                        <span>{{ $t('name_' + item.id) }}</span>
                     </div>
                     <div class="col-auto">
                         <small class="text-muted">x</small>

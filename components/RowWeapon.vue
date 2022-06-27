@@ -2,20 +2,20 @@
     <div v-if="weapon.unlocked == true" class="list-group-item">
         <div v-if="weapon.count >= 1" class="row gx-2 align-items-center">
             <div class="col-auto">
-                <img :src="require(`~/assets/weapons/${weapon.id}.png`)" width="24px" height="24px" :title="$t('weaponName_' + weapon.id)" :alt="$t('weaponName_' + weapon.id)" />
+                <img :src="require(`~/assets/vignets/${weapon.id}.png`)" width="24px" height="24px" :title="$t('name_' + weapon.id)" :alt="$t('name_' + weapon.id)" />
             </div>
             <div class="col">
                 <div class="text-normal">
-                    {{ $t('weaponName_' + weapon.id) }}
+                    {{ $t('name_' + weapon.id) }}
                     <small class="ms-2 text-success fw-bold">Built</small>
                 </div>
-                <div>{{ $t('weaponDesc_' + weapon.id) }}</div>
+                <div>{{ $t('desc_' + weapon.id) }}</div>
             </div>
             <div class="col-auto">
                 <div class="row gx-2 align-items-center">
                     <div v-for="ammunition in ammunitions" class="col-auto">
-                        <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('itemName_' + ammunition.id)" >
-                            <img :src="require(`~/assets/items/${ammunition.id}.png`)" width="18px" height="18px" :alt="$t('itemName_' + ammunition.id)" />
+                        <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('name_' + ammunition.id)" >
+                            <img :src="require(`~/assets/vignets/${ammunition.id}.png`)" width="18px" height="18px" :alt="$t('name_' + ammunition.id)" />
                             <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow text-normal"><FormatNumber :value="ammunition.count" /></span>
                         </div>
                     </div>
@@ -40,17 +40,17 @@
         </div>
         <div v-if="weapon.count < 1" class="row gx-1 align-items-center justify-content-end">
             <div class="col-auto">
-                <img :src="require(`~/assets/weapons/${weapon.id}.png`)" width="24px" height="24px" :title="$t('weaponName_' + weapon.id)" :alt="$t('weaponName_' + weapon.id)" />
+                <img :src="require(`~/assets/vignets/${weapon.id}.png`)" width="24px" height="24px" :title="$t('name_' + weapon.id)" :alt="$t('name_' + weapon.id)" />
             </div>
             <div class="col">
-                <div class="text-normal">{{ $t('weaponName_' + weapon.id) }}</div>
-                <div>{{ $t('weaponDesc_' + weapon.id) }}</div>
+                <div class="text-normal">{{ $t('name_' + weapon.id) }}</div>
+                <div>{{ $t('desc_' + weapon.id) }}</div>
             </div>
             <div class="col-auto">
                 <div class="row gx-2 align-items-center justify-content-end">
                     <div v-for="(count, itemId) in weapon.getCosts()" class="col-auto">
-                        <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('itemName_' + itemId)" >
-                            <img :src="require(`~/assets/items/${itemId}.png`)" width="18px" height="18px" :alt="$t('itemName_' + itemId)" />
+                        <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('name_' + itemId)" >
+                            <img :src="require(`~/assets/vignets/${itemId}.png`)" width="18px" height="18px" :alt="$t('name_' + itemId)" />
                             <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow" :class="{ 'text-danger':count > weapon.game.items[itemId].count, 'text-normal':count <= weapon.game.items[itemId].count }"><FormatNumber :value="count" /></span>
                         </div>
                     </div>

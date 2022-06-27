@@ -18,10 +18,10 @@
             </div>
         </div>
 
-        <div v-if="toastText" class="position-absolute" style="bottom:52px; right:25%; left:25%; z-index:100;">
-            <div class="d-flex justify-content-center">
-                <div class="toast show toast-body py-2 bg-transparent text-center">
-                    <span :class="{ 'text-primary':toastType == 'info', 'text-danger':toastType == 'error', 'text-success':toastType == 'success' }" v-html="toastText"></span>
+        <div v-if="toastText" class="position-absolute container" style="bottom:50px; z-index:100;">
+            <div class="d-flex justify-content-end">
+                <div class="toast bg-primary show toast-body py-2 mb-2 text-end">
+                    <span :class="{ 'text-dark':toastType == 'info', 'text-danger':toastType == 'error', 'text-success':toastType == 'success' }" v-html="toastText"></span>
                 </div>
             </div>
         </div>
@@ -420,6 +420,43 @@
             </div>
         </div>
 
+        <div v-if="popupOffline" class="position-absolute top-0 bottom-0 start-0 end-0 bg-overlay d-flex align-items-center justify-content-center" style="z-index:100;">
+            <div class="card" style="width:380px; overflow-y:auto; overflow-x:hidden; max-height:642px;">
+                <div class="card-header">
+                    <div class="row gx-2 align-items-center">
+                        <div class="col">
+                            <span>Offline Gains</span>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-primary p-1" @click="popupOffline = null;">
+                                <span><i class="fas fa-fw fa-times"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-12 text-center">
+                            <div class="text-normal">You were away</div>
+                            <div class="h5 text-white"><FormatTime :value="popupOffline / 1000" /></div>
+                        </div>
+                        <div class="col-12 text-center">
+                            <small>Offline gains are limited to 24 hours</small>
+                        </div>
+                        <div class="col-12">
+                            <div class="row gx-2 align-items-center justify-content-center">
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-primary" @click="popupOffline = null;">
+                                        <span>Close</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div v-if="isMobile == false && started == false" class="position-absolute bg-grid top-0 bottom-0 start-0 end-0 d-flex align-items-center justify-content-center">
             <div class="p-3">
                 <div class="row g-3">
@@ -474,7 +511,7 @@
                             <span class="badge badge-danger">Alpha version</span>
                         </div>
                         <div class="col-auto">
-                            <small class="fw-bold text-primary">{{ $t('modeName_' + game.currentMode) }}</small>
+                            <small class="fw-bold text-primary">{{ $t('mode_' + game.currentMode) }}</small>
                         </div>
                     </div>
                 </div>
@@ -585,25 +622,32 @@
                         <div class="col-auto scrollbar" style="width:425px;">
                             <div class="row g-3">
                                 <div class="col-12">
-                                    <div class="row g-1">
-                                        <ButtonLab :lab="game.lab" @click="setCurrentTechPageId('lab')" :active="currentTechPageId == 'lab'" />
-                                        <ButtonItem :item="gameItem('redPack')" @click="setCurrentTechPageId('redPack')" :active="currentTechPageId == 'redPack'" />
-                                        <ButtonItem :item="gameItem('greenPack')" @click="setCurrentTechPageId('greenPack')" :active="currentTechPageId == 'greenPack'" />
-                                        <ButtonItem :item="gameItem('bluePack')" @click="setCurrentTechPageId('bluePack')" :active="currentTechPageId == 'bluePack'" />
-                                        <ButtonItem :item="gameItem('purplePack')" @click="setCurrentTechPageId('purplePack')" :active="currentTechPageId == 'purplePack'" />
-                                        <ButtonItem :item="gameItem('yellowPack')" @click="setCurrentTechPageId('yellowPack')" :active="currentTechPageId == 'yellowPack'" />
-                                        <ButtonItem :item="gameItem('grayPack')" @click="setCurrentTechPageId('grayPack')" :active="currentTechPageId == 'grayPack'" />
+                                    <div class="row g-3">
+                                        <ButtonItemCount :item="game.lab" @click="setCurrentTechPageId('lab')" :active="currentTechPageId == 'lab'" />
+                                        
+                                        <Category id="tech" :show="catTechOpen" @click="catTechOpen = !catTechOpen;">
+                                            <ButtonItem :item="gameItem('redPack')" @click="setCurrentTechPageId('redPack')" :active="currentTechPageId == 'redPack'" />
+                                            <ButtonItem :item="gameItem('greenPack')" @click="setCurrentTechPageId('greenPack')" :active="currentTechPageId == 'greenPack'" />
+                                            <ButtonItem :item="gameItem('bluePack')" @click="setCurrentTechPageId('bluePack')" :active="currentTechPageId == 'bluePack'" />
+                                            <ButtonItem :item="gameItem('purplePack')" @click="setCurrentTechPageId('purplePack')" :active="currentTechPageId == 'purplePack'" />
+                                            <ButtonItem :item="gameItem('yellowPack')" @click="setCurrentTechPageId('yellowPack')" :active="currentTechPageId == 'yellowPack'" />
+                                            <ButtonItem :item="gameItem('grayPack')" @click="setCurrentTechPageId('grayPack')" :active="currentTechPageId == 'grayPack'" />
+                                        </Category>
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                         <PageLab v-if="currentTechPageId == 'lab'" :lab="game.lab" />
+                        
                         <PageItem v-if="currentTechPageId == 'redPack'" :item="gameItem('redPack')" />
                         <PageItem v-if="currentTechPageId == 'greenPack'" :item="gameItem('greenPack')" />
                         <PageItem v-if="currentTechPageId == 'bluePack'" :item="gameItem('bluePack')" />
                         <PageItem v-if="currentTechPageId == 'purplePack'" :item="gameItem('purplePack')" />
                         <PageItem v-if="currentTechPageId == 'yellowPack'" :item="gameItem('yellowPack')" />
                         <PageItem v-if="currentTechPageId == 'grayPack'" :item="gameItem('grayPack')" />
+                        
                     </div>
                 </div>
             </div>            
@@ -614,23 +658,30 @@
                         <div class="col-auto scrollbar" style="width:425px;">
                             <div class="row g-3">
                                 <div class="col-12">
-                                    <div class="row g-1">
+                                    <div class="row g-3">
                                         <ButtonItemCount :item="gameItem('alienEgg')" @click="setCurrentWeaponsPageId('alienEgg')" :active="currentWeaponsPageId == 'alienEgg'" />
-                                        <ButtonItem :item="gameAmmunition('bullet')" @click="setCurrentWeaponsPageId('bullet')" :active="currentWeaponsPageId == 'bullet'" />
-                                        <ButtonItem :item="gameAmmunition('piercing')" @click="setCurrentWeaponsPageId('piercing')" :active="currentWeaponsPageId == 'piercing'" />
-                                        <ButtonItem :item="gameAmmunition('shotgunShell')" @click="setCurrentWeaponsPageId('shotgunShell')" :active="currentWeaponsPageId == 'shotgunShell'" />
-                                        <ButtonItem :item="gameAmmunition('rocket')" @click="setCurrentWeaponsPageId('rocket')" :active="currentWeaponsPageId == 'rocket'" />
-                                        <ButtonItem :item="gameAmmunition('artilleryShell')" @click="setCurrentWeaponsPageId('artilleryShell')" :active="currentWeaponsPageId == 'artilleryShell'" />
+                                        
+                                        <Category id="tech" :show="catAmmunitionOpen" @click="catAmmunitionOpen = !catAmmunitionOpen;">
+                                            <ButtonItem :item="gameAmmunition('bullet')" @click="setCurrentWeaponsPageId('bullet')" :active="currentWeaponsPageId == 'bullet'" />
+                                            <ButtonItem :item="gameAmmunition('piercing')" @click="setCurrentWeaponsPageId('piercing')" :active="currentWeaponsPageId == 'piercing'" />
+                                            <ButtonItem :item="gameAmmunition('shotgunShell')" @click="setCurrentWeaponsPageId('shotgunShell')" :active="currentWeaponsPageId == 'shotgunShell'" />
+                                            <ButtonItem :item="gameAmmunition('rocket')" @click="setCurrentWeaponsPageId('rocket')" :active="currentWeaponsPageId == 'rocket'" />
+                                            <ButtonItem :item="gameAmmunition('artilleryShell')" @click="setCurrentWeaponsPageId('artilleryShell')" :active="currentWeaponsPageId == 'artilleryShell'" />
+                                        </Category>
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                         <PageAlienEgg v-if="currentWeaponsPageId == 'alienEgg'" :item="gameItem('alienEgg')" />
+                        
                         <PageItem v-if="currentWeaponsPageId == 'bullet'" :item="gameAmmunition('bullet')" />
                         <PageItem v-if="currentWeaponsPageId == 'piercing'" :item="gameAmmunition('piercing')" />
                         <PageItem v-if="currentWeaponsPageId == 'shotgunShell'" :item="gameAmmunition('shotgunShell')" />
                         <PageItem v-if="currentWeaponsPageId == 'rocket'" :item="gameAmmunition('rocket')" />
                         <PageItem v-if="currentWeaponsPageId == 'artilleryShell'" :item="gameAmmunition('artilleryShell')" />
+                        
                     </div>
                 </div>
             </div>            
@@ -845,39 +896,39 @@
 
 var easyItemData = [
     
-    {	id:'coal',                  type:'item', reqs:[ 'explosives' ],                 productionLevel:1,    time:4,	    outputs:{ coal:1 },             },
-    {	id:'iron',                  type:'item',                                        productionLevel:1,    time:4,	    outputs:{ iron:1 },             },
-    {	id:'ironPlate',             type:'item',                                        productionLevel:0,    time:3,	    outputs:{ ironPlate:1 },        inputs:{ iron:1 }, },
-    {	id:'steelPlate',            type:'item', reqs:[ 'steelTech' ],                  productionLevel:0,    time:16,	    outputs:{ steelPlate:1 },       inputs:{ ironPlate:5 }, },
-    {	id:'engine',                type:'item', reqs:[ 'engineTech' ],                 productionLevel:0,    time:12,	    outputs:{ engine:1 },           inputs:{ ironPlate:4, steelPlate:1 }, },
-    {	id:'electricEngine',        type:'item', reqs:[ 'electricEngineTech' ],         productionLevel:0,    time:13,	    outputs:{ electricEngine:1 },   inputs:{ copperPlate:3, engine:1, ironPlate:2, lubricant:15 }, },
-    {	id:'wood',                  type:'item', reqs:[ 'military1' ],                  productionLevel:1,    time:10,	    outputs:{ wood:1 },             },
-    {	id:'stone',                 type:'item',                                        productionLevel:1,    time:4,	    outputs:{ stone:1 },            },
-    {	id:'stoneBrick',            type:'item', reqs:[ 'automation1' ],                productionLevel:0,    time:3,	    outputs:{ stoneBrick:1 },       inputs:{ stone:2 }, },
-    {	id:'concrete',              type:'item', reqs:[ 'concreteTech' ],               productionLevel:0,    time:10,	    outputs:{ concrete:10 },        inputs:{ iron:1, stoneBrick:5, water:100 }, },
-    {	id:'copper',                type:'item',                                        productionLevel:1,    time:4,	    outputs:{ copper:1 },           },
-    {	id:'copperPlate',           type:'item',                                        productionLevel:0,    time:3,       outputs:{ copperPlate:1 },      inputs:{ copper:1 }, },
-    {	id:'processingUnit',        type:'item', reqs:[ 'electronics' ],                productionLevel:0,    time:54,      outputs:{ processingUnit:1 },   inputs:{ copperPlate:40, ironPlate:24, plasticBar:4, sulfuricAcid:5 }, },
-    {	id:'water',                 type:'item', reqs:[ 'fluidHandling' ],              productionLevel:0,    time:1,	    outputs:{ water:12 },           },
-    {	id:'oil',                   type:'item', reqs:[ 'oilTech1' ],                   productionLevel:0,    time:1,	    outputs:{ oil:12 },             },
-    {	id:'heavyOil',              type:'item', reqs:[ 'oilTech1' ],                   productionLevel:0,    time:5,	    outputs:{ heavyOil:25 },        inputs:{ oil:100, water:50 }, },
-    {	id:'lubricant',             type:'item', reqs:[ 'lubricantTech' ],              productionLevel:0,    time:1,	    outputs:{ lubricant:10 },       inputs:{ heavyOil:10 }, },
-    {	id:'lightOil',              type:'item', reqs:[ 'oilTech1' ],                   productionLevel:0,    time:2,	    outputs:{ lightOil:30 },        inputs:{ heavyOil:40, water:30 }, },
-    {	id:'petroleumGas',          type:'item', reqs:[ 'oilTech1' ],                   productionLevel:0,    time:5,	    outputs:{ petroleumGas:45 },    inputs:{ oil:100 }, },
-    {	id:'plasticBar',            type:'item', reqs:[ 'plastics' ],                   productionLevel:0,    time:1,	    outputs:{ plasticBar:2 },       inputs:{ petroleumGas:20 }, },
-    {	id:'solidFuel',             type:'item', reqs:[ 'oilTech2' ],                   productionLevel:0,    time:2,	    outputs:{ solidFuel:1 },        inputs:{ petroleumGas:20 }, },
-    {	id:'sulfur',                type:'item', reqs:[ 'sulfurTech' ],                 productionLevel:0,    time:2,	    outputs:{ sulfur:2 },           inputs:{ petroleumGas:30, water:30 }, },
-    {	id:'sulfuricAcid',          type:'item', reqs:[ 'sulfurTech' ],                 productionLevel:0,    time:1,	    outputs:{ sulfuricAcid:50 },    inputs:{ ironPlate:1, sulfur:5, water:100 }, },
-    {	id:'battery',               type:'item', reqs:[ 'batteryTech' ],                productionLevel:0,    time:1,	    outputs:{ battery:50 },         inputs:{ copperPlate:1, ironPlate:1, sulfuricAcid:20 }, },
-    {	id:'explosive',             type:'item', reqs:[ 'sulfurTech', 'explosives' ],   productionLevel:0,    time:4,	    outputs:{ explosive:2 },        inputs:{ coal:1, sulfur:1, water:10 }, },
-    {	id:'rocketFuel',            type:'item', reqs:[ 'rocketFuelTech' ],             productionLevel:0,    time:30,	    outputs:{ rocketFuel:1 },       inputs:{ lightOil:10, solidFuel:10 }, },
-    {	id:'rocketPart',            type:'item', reqs:[ 'rocketTech' ],                 productionLevel:0,    time:1200,	outputs:{ rocketPart:1 },       inputs:{ copperPlate:525, ironPlate:150, plasticBar:150, processingUnit:10, rocketFuel:10, steelPlate:20 }, },
-    {	id:'redPack',               type:'item',                                        productionLevel:1,    time:6,	    outputs:{ redPack:1 },          inputs:{ ironPlate:2, copperPlate:1 }, },
-    {	id:'greenPack',             type:'item', reqs:[ 'greenScience' ],               productionLevel:1,    time:9,	    outputs:{ greenPack:1 },        inputs:{ ironPlate:6, copperPlate:2 }, },
-    {	id:'bluePack',              type:'item', reqs:[ 'blueScience' ],                productionLevel:1,    time:53,	    outputs:{ bluePack:2 },         inputs:{ ironPlate:6, copperPlate:15, engine:2, plasticBar:6, sulfur:1 }, },
-    {	id:'purplePack',            type:'item', reqs:[ 'purpleScience' ],              productionLevel:1,    time:154,	    outputs:{ purplePack:3 },       inputs:{ ironPlate:33, copperPlate:58, steelPlate:25, plasticBar:20, stone:15, stoneBrick:10, alienEgg:1 }, },
-    {	id:'yellowPack',            type:'item', reqs:[ 'yellowScience' ],              productionLevel:1,    time:105,	    outputs:{ yellowPack:3 },       inputs:{ ironPlate:3, copperPlate:65, steelPlate:7, plasticBar:15, battery:2, processingUnit:2, electricEngine:1 }, },
-    {	id:'grayPack',              type:'item', reqs:[ 'grayScience' ],                productionLevel:1,    time:23,	    outputs:{ grayPack:2 },         inputs:{ coal:10, ironPlate:9, copperPlate:5, steelPlate:1, stoneBrick:10 }, },
+    {	id:'coal',                  type:'item', reqs:[ 'explosives' ],                 productionLevel:1,    time:4,	    output:1,   },
+    {	id:'iron',                  type:'item',                                        productionLevel:1,    time:4,	    output:1,   },
+    {	id:'ironPlate',             type:'item',                                        productionLevel:0,    time:3,	    output:1,   inputs:{ iron:1 }, },
+    {	id:'steelPlate',            type:'item', reqs:[ 'steelTech' ],                  productionLevel:0,    time:16,	    output:1,   inputs:{ ironPlate:5 }, },
+    {	id:'engine',                type:'item', reqs:[ 'engineTech' ],                 productionLevel:0,    time:12,	    output:1,   inputs:{ ironPlate:4, steelPlate:1 }, },
+    {	id:'electricEngine',        type:'item', reqs:[ 'electricEngineTech' ],         productionLevel:0,    time:13,	    output:1,   inputs:{ copperPlate:3, engine:1, ironPlate:2, lubricant:15 }, },
+    {	id:'wood',                  type:'item', reqs:[ 'military1' ],                  productionLevel:1,    time:10,	    output:1,   },
+    {	id:'stone',                 type:'item',                                        productionLevel:1,    time:4,	    output:1,   },
+    {	id:'stoneBrick',            type:'item', reqs:[ 'automation1' ],                productionLevel:0,    time:3,	    output:1,   inputs:{ stone:2 }, },
+    {	id:'concrete',              type:'item', reqs:[ 'concreteTech' ],               productionLevel:0,    time:10,	    output:10,  inputs:{ iron:1, stoneBrick:5, water:100 }, },
+    {	id:'copper',                type:'item',                                        productionLevel:1,    time:4,	    output:1,   },
+    {	id:'copperPlate',           type:'item',                                        productionLevel:0,    time:3,       output:1,   inputs:{ copper:1 }, },
+    {	id:'processingUnit',        type:'item', reqs:[ 'electronics' ],                productionLevel:0,    time:54,      output:1,   inputs:{ copperPlate:40, ironPlate:24, plasticBar:4, sulfuricAcid:5 }, },
+    {	id:'water',                 type:'item', reqs:[ 'fluidHandling' ],              productionLevel:0,    time:1,	    output:12,  },
+    {	id:'oil',                   type:'item', reqs:[ 'oilTech1' ],                   productionLevel:0,    time:1,	    output:12,  },
+    {	id:'heavyOil',              type:'item', reqs:[ 'oilTech1' ],                   productionLevel:0,    time:5,	    output:25,  inputs:{ oil:100, water:50 }, },
+    {	id:'lubricant',             type:'item', reqs:[ 'lubricantTech' ],              productionLevel:0,    time:1,	    output:10,  inputs:{ heavyOil:10 }, },
+    {	id:'lightOil',              type:'item', reqs:[ 'oilTech1' ],                   productionLevel:0,    time:2,	    output:30,  inputs:{ heavyOil:40, water:30 }, },
+    {	id:'petroleumGas',          type:'item', reqs:[ 'oilTech1' ],                   productionLevel:0,    time:5,	    output:45,  inputs:{ oil:100 }, },
+    {	id:'plasticBar',            type:'item', reqs:[ 'plastics' ],                   productionLevel:0,    time:1,	    output:2,   inputs:{ petroleumGas:20 }, },
+    {	id:'solidFuel',             type:'item', reqs:[ 'oilTech2' ],                   productionLevel:0,    time:2,	    output:1,   inputs:{ petroleumGas:20 }, },
+    {	id:'sulfur',                type:'item', reqs:[ 'sulfurTech' ],                 productionLevel:0,    time:2,	    output:2,   inputs:{ petroleumGas:30, water:30 }, },
+    {	id:'sulfuricAcid',          type:'item', reqs:[ 'sulfurTech' ],                 productionLevel:0,    time:1,	    output:50,  inputs:{ ironPlate:1, sulfur:5, water:100 }, },
+    {	id:'battery',               type:'item', reqs:[ 'batteryTech' ],                productionLevel:0,    time:1,	    output:50,  inputs:{ copperPlate:1, ironPlate:1, sulfuricAcid:20 }, },
+    {	id:'explosive',             type:'item', reqs:[ 'sulfurTech', 'explosives' ],   productionLevel:0,    time:4,	    output:2,   inputs:{ coal:1, sulfur:1, water:10 }, },
+    {	id:'rocketFuel',            type:'item', reqs:[ 'rocketFuelTech' ],             productionLevel:0,    time:30,	    output:1,   inputs:{ lightOil:10, solidFuel:10 }, },
+    {	id:'rocketPart',            type:'item', reqs:[ 'rocketTech' ],                 productionLevel:0,    time:1200,	output:1,   inputs:{ copperPlate:525, ironPlate:150, plasticBar:150, processingUnit:10, rocketFuel:10, steelPlate:20 }, },
+    {	id:'redPack',               type:'item',                                        productionLevel:1,    time:6,	    output:1,   inputs:{ ironPlate:2, copperPlate:1 }, },
+    {	id:'greenPack',             type:'item', reqs:[ 'greenScience' ],               productionLevel:1,    time:9,	    output:1,   inputs:{ ironPlate:6, copperPlate:2 }, },
+    {	id:'bluePack',              type:'item', reqs:[ 'blueScience' ],                productionLevel:1,    time:53,	    output:2,   inputs:{ ironPlate:6, copperPlate:15, engine:2, plasticBar:6, sulfur:1 }, },
+    {	id:'purplePack',            type:'item', reqs:[ 'purpleScience' ],              productionLevel:1,    time:154,	    output:3,   inputs:{ ironPlate:33, copperPlate:58, steelPlate:25, plasticBar:20, stone:15, stoneBrick:10, alienEgg:1 }, },
+    {	id:'yellowPack',            type:'item', reqs:[ 'yellowScience' ],              productionLevel:1,    time:105,	    output:3,   inputs:{ ironPlate:3, copperPlate:65, steelPlate:7, plasticBar:15, battery:2, processingUnit:2, electricEngine:1 }, },
+    {	id:'grayPack',              type:'item', reqs:[ 'grayScience' ],                productionLevel:1,    time:23,	    output:2,   inputs:{ coal:10, ironPlate:9, copperPlate:5, steelPlate:1, stoneBrick:10 }, },
     {	id:'alienEgg',              type:'item', reqs:[ 'alienTech' ],                  productionLevel:0,    },
 ]
 
@@ -967,7 +1018,7 @@ var easyStorageData = [
     {	id:'artilleryShellS1',      type:'storage', reqs:[ 'military4', 'automation1' ],                icon:'ironChest',               name:'ironChest',       ammoId:'artilleryShell',    storage:50,    time:10,    costs:{ artilleryShell:50 }, },
 ]
 
-var easyLabData = { id:'lab', type:'lab', reqs:[], time:22,	costs:{ copperPlate:15, ironPlate:36 }, }
+var easyLabData = { id:'lab', type:'lab', icon:'lab', name:'lab', time:22, costs:{ copperPlate:15, ironPlate:36 }, }
 
 var easyTechData = [
 
@@ -1133,11 +1184,12 @@ class Item extends Base {
         this.time = data.time
         this.desc = data.desc
         this.inputs = data.inputs
-        this.outputs = data.outputs
+        this.output = data.output
         this.productionLevel = data.productionLevel
         
         this.auto = false
         this.state = 'paused'
+        this.deltaCount = 0
         this.remainingSeconds = this.getTime()
         
         this.storage = null
@@ -1179,17 +1231,12 @@ class Item extends Base {
         return ret
     }
     
-    getOutputs() {
+    getOutput() {
     
-        let ret = {}
+        let ret = this.output
         
-        let bCount = Math.max(1, this.building.count)
-        
-        for (let id in this.outputs) {
-            let output = this.outputs[id]
-            
-            ret[id] = output * bCount
-        }
+        let bCount = Math.max(1, this.building.count)        
+        ret *= bCount
         
         return ret
     }
@@ -1198,13 +1245,9 @@ class Item extends Base {
         
         if (this.productionLevel == 0) return false
         
-        let outputs = this.getOutputs()
-        for (let id in outputs) {
-            let output = outputs[id]
-            
-            if (this.game.items[id].count >= this.game.items[id].getMax()) {            
-                return false
-            }
+        let output = this.getOutput()
+        if (this.count >= this.getMax()) {            
+            return false
         }
         
         let inputs = this.getInputs()
@@ -1219,6 +1262,35 @@ class Item extends Base {
         }
         
         return true
+    }
+    
+    getProd() {
+    
+        let ret = 0
+        for (let id in this.game.items) {
+            let item = this.game.items[id]
+            if (item.state == 'running') {
+                
+                let time = item.getTime()
+                
+                let inputs = item.getInputs()
+                if (inputs != null) {
+                    for (let inputId in inputs) {
+                        if (inputId == this.id) {                            
+                            ret -= inputs[inputId] / time
+                        }
+                    }
+                }                
+            }
+        }
+        
+        if (this.state == 'running') {
+        
+            let output = this.getOutput()
+            ret += output / this.getTime()
+        }
+        
+        return ret
     }
     
     //---
@@ -1276,15 +1348,8 @@ class Item extends Base {
             let time = this.remainingSeconds - delta            
             if (time <= 0) {
                                 
-                let outputs = this.getOutputs()
-                for (let id in outputs) {
-                    let output = outputs[id]
-                    
-                    this.game.items[id].count += output
-                    if (this.game.items[id].count > this.game.items[id].getMax()) this.game.items[id].count = this.game.items[id].getMax()
-                    
-                    this.game.items[id].onProduce()
-                }
+                let output = this.getOutput()
+                this.deltaCount += output
                 
                 if (this.auto == true) {
                 
@@ -1303,7 +1368,7 @@ class Item extends Base {
             }
         }
     }
-    
+
     onProduce() {
     
         if (this.id == 'iron' && this.count >= 5) {
@@ -1513,6 +1578,9 @@ class Lab extends Buildable {
 
     constructor(game, data) {
         super(game, data)
+        
+        this.icon = data.icon
+        this.name = data.name
         
         this.coeff = 1.5
         
@@ -2287,7 +2355,7 @@ class Game {
             
             if (delta > 1) {
                 
-                cycleCount = Math.floor(delta) + 1
+                cycleCount = Math.min(Math.floor(delta) + 1, 24 * 3600)
                 cycleDelta = 1
             }
             
@@ -2295,12 +2363,37 @@ class Game {
             
             if (this.currentMode == 'easy') this.stats.easyMode.totalTimePlayed = this.timePlayed
             
+            for (let id in this.items) {
+                let item = this.items[id]
+                
+                item.deltaCount = 0
+            }
+            
             for (let i = 0; i < cycleCount; i++) {    
                                 
                 for (let id in this.items) {
                     let item = this.items[id]
                     
                     item.produce(cycleDelta)
+                }
+
+                for (let id in this.weapons) {
+                    let weapon = this.weapons[id]
+                    
+                    weapon.fire(delta)
+                }
+            }
+            
+            for (let id in this.items) {
+                let item = this.items[id]                
+                if (item.deltaCount != 0) {
+                
+                    item.count += item.deltaCount
+                    
+                    let max = item.getMax()
+                    if (item.count > max) item.count = max
+                    
+                    item.onProduce()
                 }
             }
             
@@ -2328,7 +2421,6 @@ class Game {
                 let weapon = this.weapons[id]
                 
                 weapon.build(delta)
-                weapon.fire(delta)
             }
         }
         
@@ -2390,6 +2482,7 @@ export default {
             popupWipe: null,
             popupVictory: null,            
             popupSupport: null,
+            popupOffline: null,
             popupTutorial: null,
             
             //---
@@ -2405,6 +2498,8 @@ export default {
             catElectronicOpen: true,
             catChemistryOpen: true,
             catRocketOpen: true,
+            catTechOpen: true,
+            catAmmunitionOpen: true,
             
             currentProductionPageId: 'iron',
             currentTechPageId: 'lab',
@@ -2496,6 +2591,8 @@ export default {
                 this.popupTutorial = tut
             }
         },
+        
+        showOfflinePopup(delta) { this.popupOffline = delta },
         
         //---
         
@@ -2592,6 +2689,8 @@ export default {
                     this.processTutorial()
                 }
             }
+            
+            if (deltaTimeMs > 15 * 60 * 100) this.showOfflinePopup(deltaTimeMs)
         },
         
         load() {
@@ -2615,6 +2714,8 @@ export default {
                 if (loadedData.catElectronicOpen != null) this.catElectronicOpen = loadedData.catElectronicOpen
                 if (loadedData.catChemistryOpen != null) this.catChemistryOpen = loadedData.catChemistryOpen
                 if (loadedData.catRocketOpen != null) this.catRocketOpen = loadedData.catRocketOpen
+                if (loadedData.catTechOpen != null) this.catTechOpen = loadedData.catTechOpen
+                if (loadedData.catAmmunitionOpen != null) this.catAmmunitionOpen = loadedData.catAmmunitionOpen
                 
                 if (loadedData.currentProductionPageId != null) this.currentProductionPageId = loadedData.currentProductionPageId
                 if (loadedData.currentTechPageId != null) this.currentTechPageId = loadedData.currentTechPageId
@@ -2636,6 +2737,8 @@ export default {
             savedData.catElectronicOpen = this.catElectronicOpen
             savedData.catChemistryOpen = this.catChemistryOpen
             savedData.catRocketOpen = this.catRocketOpen
+            savedData.catTechOpen = this.catTechOpen
+            savedData.catAmmunitionOpen = this.catAmmunitionOpen
             
             savedData.currentProductionPageId = this.currentProductionPageId
             savedData.currentTechPageId = this.currentTechPageId
