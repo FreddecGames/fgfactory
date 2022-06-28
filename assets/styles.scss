@@ -131,8 +131,6 @@ body { width: 100%; height: 100%; overflow: hidden; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { border-radius: .25rem; background: rgba(255, 255, 255, .125); }
 
-@media (min-width: 1200px) { .container-xl, .container-lg, .container-md, .container-sm, .container { max-width: 960px; } }
-
 .scrollbar { height: 100%; overflow-y: auto; scrollbar-color: $border-color rgba(255, 255, 255, .075); scrollbar-width: thin; }
 
 .text-normal { color: $normal!important; }

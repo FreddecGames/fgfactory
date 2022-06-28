@@ -1,5 +1,5 @@
 <template>
-    <div class="col scrollbar">
+    <div class="col-auto scrollbar" style="width:500px;">
         <div class="row g-3">
             <CardProduction :item="item" />
             <CardBuildable v-if="item.storage.unlocked == true" :buildable="item.storage" />

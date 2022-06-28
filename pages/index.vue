@@ -583,7 +583,7 @@
             <div v-if="currentTabId == 'production'" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
-                        <div class="col-auto scrollbar" style="width:425px;">
+                        <div class="col scrollbar">
                             <div v-if="game.currentMode == 'easy'" class="row g-3">
                             
                                 <Category v-if="gameItem('iron').unlocked == true" id="ironwork" :show="catIronworkOpen" @click="catIronworkOpen = !catIronworkOpen;">
@@ -774,10 +774,6 @@
                                             <tr>
                                                 <td>Win the game</td>
                                                 <td nowrap class="text-end"><i class="fas fa-fw fa-trophy" :class="{ 'text-success':game.trophies.easyMode.win, 'text-muted opacity-25':!game.trophies.easyMode.win }"></i></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Research Oil Processing 1</td>
-                                                <td nowrap class="text-end"><i class="fas fa-fw fa-trophy" :class="{ 'text-success':game.trophies.easyMode.oilProcessing, 'text-muted opacity-25':!game.trophies.easyMode.oilProcessing }"></i></td>
                                             </tr>
                                             <tr>
                                                 <td>Research All Techs</td>
@@ -979,6 +975,7 @@ var easyData = [
     {	id:'explosive',             type:'item', reqs:[ 'sulfurTech', 'explosives' ],                   productionLevel:0,    time:4,	    output:2,   inputs:{ coal:1, sulfur:1, water:10 }, },
     {	id:'rocketFuel',            type:'item', reqs:[ 'rocketFuelTech' ],                             productionLevel:0,    time:30,	    output:1,   inputs:{ lightOil:10, solidFuel:10 }, },
     {	id:'rocketPart',            type:'item', reqs:[ 'rocketTech' ],                                 productionLevel:0,    time:1200,	output:1,   inputs:{ copperPlate:525, ironPlate:150, plasticBar:150, processingUnit:10, rocketFuel:10, steelPlate:20 }, },
+
     {	id:'redPack',               type:'item',                                                        productionLevel:1,    time:6,	    output:1,   inputs:{ ironPlate:2, copperPlate:1 }, },
     {	id:'greenPack',             type:'item', reqs:[ 'greenScience' ],                               productionLevel:1,    time:9,	    output:1,   inputs:{ ironPlate:6, copperPlate:2 }, },
     {	id:'bluePack',              type:'item', reqs:[ 'blueScience' ],                                productionLevel:1,    time:53,	    output:2,   inputs:{ ironPlate:6, copperPlate:15, engine:2, plasticBar:6, sulfur:1 }, },
@@ -1128,6 +1125,8 @@ var easyData = [
 
 var hardcoreData = [
     
+    {	id:'satellite',             type:'item', reqs:[ 'spaceScience' ],                               productionLevel:0,    time:5,	output:1,   inputs:{ electricity:375, accumulator:100, lowDensityStructure:100, processingUnit:100, radar:5, rocketFuel:50, solarPanel:100 }, },
+    {	id:'rocketPart',            type:'item', reqs:[ 'rocketTech' ],                                 productionLevel:0,    time:3,	output:1,   inputs:{ electricity:4000, lowDensityStructure:10, rocketControlUnit:10, rocketFuel:10 }, },
 ]
 
 //------------------------------------------------------------------------------
@@ -2054,6 +2053,8 @@ class Game {
             if (data.stats.easyMode.totalAlienEggs != null) this.stats.easyMode.totalAlienEggs = data.stats.easyMode.totalAlienEggs
         }
         
+        if (data.alienEggCount != null) this.bases['alienEgg'].connt = data.alienEggCount
+        
         for (let id in data.items) {
             let dataItem = data.items[id]
             
@@ -2183,6 +2184,8 @@ class Game {
             victory: this.victory,
             timePlayed: this.timePlayed,
             currentMode: this.currentMode,
+            
+            alienEggCount: this.bases['alienEgg'].connt,
             
             lab: {
                 unlocked: this.lab.unlocked,
