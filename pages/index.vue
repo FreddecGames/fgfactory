@@ -1308,7 +1308,7 @@ class Item extends Base {
                 for (let id in inputs) {
                     let input = inputs[id]
                     
-                    this.game.items[id].count -= input
+                    this.game.bases[id].count -= input
                 }
             }
         }
@@ -1328,8 +1328,12 @@ class Item extends Base {
                 for (let id in inputs) {
                     let input = inputs[id]
                     
-                    this.game.items[id].count += input
-                    if (this.game.items[id].count > this.game.items[id].getMax()) this.game.items[id].count = this.game.items[id].getMax()
+                    this.game.bases[id].count += input
+                    
+                    if (this.game.bases[id].max) {
+                        let max = this.game.bases[id].getMax()
+                        if (max && this.game.bases[id].count > max) this.game.bases[id].count = max
+                    }
                 }
             }
         }
@@ -2053,7 +2057,8 @@ class Game {
             if (data.stats.easyMode.totalAlienEggs != null) this.stats.easyMode.totalAlienEggs = data.stats.easyMode.totalAlienEggs
         }
         
-        if (data.alienEggCount != null) this.bases['alienEgg'].connt = data.alienEggCount
+        console.log(data)
+        if (data.alienEggCount != null) this.bases['alienEgg'].count = data.alienEggCount
         
         for (let id in data.items) {
             let dataItem = data.items[id]
@@ -2185,7 +2190,7 @@ class Game {
             timePlayed: this.timePlayed,
             currentMode: this.currentMode,
             
-            alienEggCount: this.bases['alienEgg'].connt,
+            alienEggCount: this.bases['alienEgg'].count,
             
             lab: {
                 unlocked: this.lab.unlocked,
