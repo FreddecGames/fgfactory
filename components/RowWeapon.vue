@@ -44,7 +44,7 @@
             </div>
             <div class="col">
                 <div class="text-normal">{{ $t('name_' + weapon.id) }}</div>
-                <div>{{ $t('desc_' + weapon.id) }}</div>
+                <div class="small">{{ $t('desc_' + weapon.id) }}</div>
             </div>
             <div class="col-auto">
                 <div class="row gx-2 align-items-center justify-content-end">
@@ -65,7 +65,7 @@
                 </div>
             </div>
             <div class="col-auto">
-                <button v-if="weapon.state == 'paused'" type="button" class="btn btn-primary" :class="{ 'disabled':weapon.productionLevel < 1 }" @click="run()">
+                <button v-if="weapon.state == 'paused'" type="button" class="btn btn-primary" :class="{ 'disabled':weapon.canBuild() == false }" @click="run()">
                     <span><i class="fas fa-fw fa-plus-square"></i></span>
                 </button>
                 <button v-if="weapon.state != 'paused'" type="button" class="btn btn-primary" @click="pause()">

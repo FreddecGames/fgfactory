@@ -117,7 +117,7 @@ export default {
     'desc_artilleryTurret': 'Auto',
     'desc_assembler1': 'Automate and increase production',
     'desc_automation1': 'Unlocks Assembler and Chest',
-    'desc_automation2': 'Unlocks Concrete production',
+    'desc_automation2': 'Unlocks Concrete Tech research',
     'desc_barrel': 'Double storage',
     'desc_batteryTech': 'Unlocks Battery production',
     'desc_blueScience': 'Unlocks Blue Pack production',

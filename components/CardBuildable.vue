@@ -21,7 +21,7 @@
                     <div v-for="(count, itemId) in buildable.getCosts()" class="col-auto">
                         <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('name_' + itemId)" >
                             <img :src="require(`~/assets/vignets/${itemId}.png`)" width="24px" height="24px" :alt="$t('name_' + itemId)" />
-                            <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow" :class="{ 'text-danger':count > buildable.game.items[itemId].count, 'text-normal':count <= buildable.game.items[itemId].count }"><FormatNumber :value="count" /></span>
+                            <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow" :class="{ 'text-danger':count > buildable.game.bases[itemId].count, 'text-normal':count <= buildable.game.bases[itemId].count }"><FormatNumber :value="count" /></span>
                         </div>
                     </div>
                     <div class="col-auto">

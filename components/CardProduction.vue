@@ -24,7 +24,7 @@
                     <div v-for="(count, itemId) in item.getInputs()" class="col-auto">
                         <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('name_' + itemId)" >
                             <img :src="require(`~/assets/vignets/${itemId}.png`)" width="24px" height="24px" :alt="$t('name_' + itemId)" />
-                            <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow" :class="{ 'text-danger':count > item.game.items[itemId].count, 'text-normal':count <= item.game.items[itemId].count }"><FormatNumber :value="count" /></span>
+                            <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow" :class="{ 'text-danger':count > item.game.bases[itemId].count, 'text-normal':count <= item.game.bases[itemId].count }"><FormatNumber :value="count" /></span>
                         </div>
                     </div>
                     <div v-if="item.getInputs()" class="col-auto">
@@ -106,7 +106,7 @@ export default {
         
         alienEggUnlocked() { return this.item.game.techs['military1'].unlocked },
         
-        alienEggCount() { return this.item.game.items['alienEgg'].count },
+        alienEggCount() { return this.item.game.bases['alienEgg'].count },
         
         speedBonus() {
         
@@ -130,7 +130,7 @@ export default {
                 this.item.alienEggCount += 1                
                 this.item.remainingSeconds *= .99
                 
-                this.item.game.items['alienEgg'].count -= 1
+                this.item.game.bases['alienEgg'].count -= 1
             }
         },
     },
