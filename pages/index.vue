@@ -958,6 +958,18 @@
 
 <script>
 
+var easyMachines = {
+
+    drill:          { icon:'drill',             name:'drill',           time:4,	    costs:{ ironPlate:9, stone:5 }, },
+    furnace:        { icon:'furnace',           name:'furnace',         time:1,	    costs:{ stone:5 }, },
+    assembler:      { icon:'assembler',         name:'assembler',       time:7,	    costs:{ copperPlate:5, ironPlate:22 }, },
+    offshorePump:   { icon:'offshorePump',      name:'offshorePump',    time:4,	    costs:{ copperPlate:3, ironPlate:5 }, },
+    pumpjack:       { icon:'pumpjack',          name:'pumpjack',        time:21,    costs:{ copperPlate:8, ironPlate:35, steelPlate:5 }, },
+    oilRefinery:    { icon:'oilRefinery',       name:'oilRefinery',     time:31,    costs:{ copperPlate:15, ironPlate:40, steelPlate:15, stoneBrick:10 }, },
+    chemicalPlant:  { icon:'chemicalPlant',     name:'chemicalPlant',   time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
+    rocketSilo:     { icon:'rocketSilo',        name:'rocketSilo',      time:80,	costs:{ concrete:1000, electricEngine:200, ironPlate:100, processingUnit:200, steelPlate:1000 }, },
+}
+
 var easyData = [
 
     {	id:'pistol',                type:'weapon', reqs:[ 'military1' ],                                auto:false,     fireTime:.25,   time:5,	        costs:{ ironPlate:5, copperPlate:5 }, },
@@ -1010,47 +1022,63 @@ var easyData = [
     {	id:'grayPack',              type:'item', reqs:[ 'grayScience' ],                                productionLevel:1,    time:23,	    output:2,   inputs:{ coal:10, ironPlate:9, copperPlate:5, steelPlate:1, stoneBrick:10 }, },
     
     {	id:'alienEgg',              type:'base', reqs:[ 'military1' ],                                  productionLevel:0,    },
+    
+    {   id:'biter1',                type:'alien', reqs:[ 'military1' ],                                 genCount:150,   health:15,      shield:{ physical:0,  explosion:0  },  armor:{ physical:0,   explosion:0  },  eggCoeff:.7,  },
+    {   id:'biter2',                type:'alien', reqs:[ 'military2' ],                                 genCount:100,   health:75,      shield:{ physical:4,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.6,  },
+    {   id:'biter3',                type:'alien', reqs:[ 'military3' ],                                 genCount:50,    health:375,     shield:{ physical:8,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.5,  },
+    {   id:'biter4',                type:'alien', reqs:[ 'military4' ],                                 genCount:30,    health:3000,    shield:{ physical:12, explosion:12 },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.4,  },
 
-    {	id:'coalT1',                type:'building', reqs:[ 'explosives' ],                             icon:'drill',                   name:'drill',               itemId:'coal',              time:4,	    costs:{ ironPlate:9, stone:5 }, },
-    {	id:'ironT1',                type:'building',                                                    icon:'drill',                   name:'drill',               itemId:'iron',              time:4,	    costs:{ ironPlate:9, stone:5 }, },
-    {	id:'ironPlateT1',           type:'building',                                                    icon:'furnace',                 name:'furnace',             itemId:'ironPlate',         time:1,	    costs:{ stone:5 }, },
-    {	id:'steelPlateT1',          type:'building', reqs:[ 'steelTech' ],                              icon:'furnace',                 name:'furnace',             itemId:'steelPlate',        time:1,	    costs:{ stone:5 }, },
-    {	id:'engineT1',              type:'building', reqs:[ 'engineTech', 'automation1' ],              icon:'assembler',               name:'assembler',           itemId:'engine',            time:7,	    costs:{ copperPlate:5, ironPlate:22 }, },
-    {	id:'electricEngineT1',      type:'building', reqs:[ 'electricEngineTech', 'automation1' ],      icon:'assembler',               name:'assembler',           itemId:'electricEngine',    time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'stoneT1',               type:'building',                                                    icon:'drill',                   name:'drill',               itemId:'stone',             time:4,	    costs:{ ironPlate:9, stone:5 }, },
-    {	id:'stoneBrickT1',          type:'building', reqs:[ 'automation1' ],                            icon:'furnace',                 name:'furnace',             itemId:'stoneBrick',        time:1,	    costs:{ stone:5 }, },
-    {	id:'concreteT1',            type:'building', reqs:[ 'concreteTech', 'automation1' ],            icon:'assembler',               name:'assembler',           itemId:'concrete',          time:7,	    costs:{ copperPlate:5, ironPlate:22 }, },
-    {	id:'copperT1',              type:'building',                                                    icon:'drill',                   name:'drill',               itemId:'copper',            time:4,	    costs:{ ironPlate:9, stone:5 }, },
-    {	id:'copperPlateT1',         type:'building',                                                    icon:'furnace',                 name:'furnace',             itemId:'copperPlate',       time:1,	    costs:{ stone:5 }, },
-    {	id:'processingUnitT1',      type:'building', reqs:[ 'electronics', 'automation1' ],             icon:'assembler',               name:'assembler',           itemId:'processingUnit',    time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'waterT1',               type:'building', reqs:[ 'fluidHandling' ],                          icon:'offshorePump',            name:'offshorePump',        itemId:'water',             time:4,	    costs:{ copperPlate:3, ironPlate:5 }, },
-    {	id:'oilT1',                 type:'building', reqs:[ 'oilTech1' ],                               icon:'pumpjack',                name:'pumpjack',            itemId:'oil',               time:21,    costs:{ copperPlate:8, ironPlate:35, steelPlate:5 }, },
-    {	id:'heavyOilT1',            type:'building', reqs:[ 'oilTech1' ],                               icon:'oilRefinery',             name:'oilRefinery',         itemId:'heavyOil',          time:31,    costs:{ copperPlate:15, ironPlate:40, steelPlate:15, stoneBrick:10 }, },
-    {	id:'lubricantT1',           type:'building', reqs:[ 'lubricantTech' ],                          icon:'chemicalPlant',           name:'chemicalPlant',       itemId:'lubricant',         time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
-    {	id:'lightOilT1',            type:'building', reqs:[ 'oilTech1' ],                               icon:'chemicalPlant',           name:'chemicalPlant',       itemId:'lightOil',          time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
-    {	id:'petroleumGasT1',        type:'building', reqs:[ 'oilTech1' ],                               icon:'oilRefinery',             name:'oilRefinery',         itemId:'petroleumGas',      time:31,    costs:{ copperPlate:15, ironPlate:40, steelPlate:15, stoneBrick:10 }, },
-    {	id:'plasticBarT1',          type:'building', reqs:[ 'plastics', 'oilTech1' ],                   icon:'chemicalPlant',           name:'chemicalPlant',       itemId:'plasticBar',        time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
-    {	id:'solidFuelT1',           type:'building', reqs:[ 'oilTech2', 'oilTech1' ],                   icon:'chemicalPlant',           name:'chemicalPlant',       itemId:'solidFuel',         time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
-    {	id:'sulfurT1',              type:'building', reqs:[ 'sulfurTech', 'oilTech1' ],                 icon:'chemicalPlant',           name:'chemicalPlant',       itemId:'sulfur',            time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
-    {	id:'sulfuricAcidT1',        type:'building', reqs:[ 'sulfurTech', 'oilTech1' ],                 icon:'chemicalPlant',           name:'chemicalPlant',       itemId:'sulfuricAcid',      time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
-    {	id:'batteryT1',             type:'building', reqs:[ 'batteryTech' ],                            icon:'chemicalPlant',           name:'chemicalPlant',       itemId:'battery',           time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
-    {	id:'explosiveT1',           type:'building', reqs:[ 'sulfurTech', 'explosives' ],               icon:'chemicalPlant',           name:'chemicalPlant',       itemId:'explosive',         time:16,    costs:{ copperPlate:8, ironPlate:20, steelPlate:5 }, },
-    {	id:'rocketFuelT1',          type:'building', reqs:[ 'rocketFuelTech', 'automation1' ],          icon:'assembler',               name:'assembler',           itemId:'rocketFuel',        time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'rocketPartT1',          type:'building', reqs:[ 'rocketTech' ],                             icon:'rocketSilo',              name:'rocketSilo',          itemId:'rocketPart',        time:80,	costs:{ concrete:1000, electricEngine:200, ironPlate:100, processingUnit:200, steelPlate:1000 }, },
-    {	id:'redPackT1',             type:'building', reqs:[ 'automation1' ],                            icon:'assembler',               name:'assembler',           itemId:'redPack',           time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'greenPackT1',           type:'building', reqs:[ 'greenScience', 'automation1' ],            icon:'assembler',               name:'assembler',           itemId:'greenPack',         time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'bluePackT1',            type:'building', reqs:[ 'blueScience', 'automation1' ],             icon:'assembler',               name:'assembler',           itemId:'bluePack',          time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'purplePackT1',          type:'building', reqs:[ 'purpleScience', 'automation1' ],           icon:'assembler',               name:'assembler',           itemId:'purplePack',        time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'yellowPackT1',          type:'building', reqs:[ 'yellowScience', 'automation1' ],           icon:'assembler',               name:'assembler',           itemId:'yellowPack',        time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'grayPackT1',            type:'building', reqs:[ 'grayScience', 'automation1' ],             icon:'assembler',               name:'assembler',           itemId:'grayPack',          time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
+    {   id:'lab',                   type:'lab',                                                         icon:'lab',                 name:'lab',             time:22,        costs:{ copperPlate:15, ironPlate:36 }, },
 
-    {	id:'bulletT1',              type:'building', reqs:[ 'military1', 'automation1' ],               icon:'assembler',               name:'assembler',          ammoId:'bullet',            time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'piercingT1',            type:'building', reqs:[ 'military2', 'automation1' ],               icon:'assembler',               name:'assembler',          ammoId:'piercing',          time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'shotgunShellT1',        type:'building', reqs:[ 'military1', 'automation1' ],               icon:'assembler',               name:'assembler',          ammoId:'shotgunShell',      time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'piercingShellT1',       type:'building', reqs:[ 'military4', 'automation1' ],               icon:'assembler',               name:'assembler',          ammoId:'piercingShell',     time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'rocketT1',              type:'building', reqs:[ 'rocketry1', 'automation1' ],               icon:'assembler',               name:'assembler',          ammoId:'rocket',            time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'explosiveRocketT1',     type:'building', reqs:[ 'rocketry2', 'automation1' ],               icon:'assembler',               name:'assembler',          ammoId:'explosiveRocket',   time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
-    {	id:'artilleryShellT1',      type:'building', reqs:[ 'military4', 'automation1' ],               icon:'assembler',               name:'assembler',          ammoId:'artilleryShell',    time:7,	    costs:{ copperPlate:8, ironPlate:22 }, },
+    {	id:'bulletT1',              type:'building', reqs:[ 'military1', 'automation1' ],               baseId:'bullet',            machine:easyMachines.assembler, },
+    {	id:'piercingT1',            type:'building', reqs:[ 'military2', 'automation1' ],               baseId:'piercing',          machine:easyMachines.assembler, },
+    {	id:'shotgunShellT1',        type:'building', reqs:[ 'military1', 'automation1' ],               baseId:'shotgunShell',      machine:easyMachines.assembler, },
+    {	id:'piercingShellT1',       type:'building', reqs:[ 'military4', 'automation1' ],               baseId:'piercingShell',     machine:easyMachines.assembler, },
+    {	id:'rocketT1',              type:'building', reqs:[ 'rocketry1', 'automation1' ],               baseId:'rocket',            machine:easyMachines.assembler, },
+    {	id:'explosiveRocketT1',     type:'building', reqs:[ 'rocketry2', 'automation1' ],               baseId:'explosiveRocket',   machine:easyMachines.assembler, },
+    {	id:'artilleryShellT1',      type:'building', reqs:[ 'military4', 'automation1' ],               baseId:'artilleryShell',    machine:easyMachines.assembler, },
+    
+    {	id:'coalT1',                type:'building', reqs:[ 'explosives' ],                             baseId:'coal',              machine:easyMachines.drill, },
+    {	id:'ironT1',                type:'building',                                                    baseId:'iron',              machine:easyMachines.drill, },
+    {	id:'ironPlateT1',           type:'building',                                                    baseId:'ironPlate',         machine:easyMachines.furnace, },
+    {	id:'steelPlateT1',          type:'building', reqs:[ 'steelTech' ],                              baseId:'steelPlate',        machine:easyMachines.furnace, },
+    {	id:'engineT1',              type:'building', reqs:[ 'engineTech', 'automation1' ],              baseId:'engine',            machine:easyMachines.assembler, },
+    {	id:'electricEngineT1',      type:'building', reqs:[ 'electricEngineTech', 'automation1' ],      baseId:'electricEngine',    machine:easyMachines.assembler, },
+    {	id:'stoneT1',               type:'building',                                                    baseId:'stone',             machine:easyMachines.drill, },
+    {	id:'stoneBrickT1',          type:'building', reqs:[ 'automation1' ],                            baseId:'stoneBrick',        machine:easyMachines.furnace, },
+    {	id:'concreteT1',            type:'building', reqs:[ 'concreteTech', 'automation1' ],            baseId:'concrete',          machine:easyMachines.assembler, },
+    {	id:'copperT1',              type:'building',                                                    baseId:'copper',            machine:easyMachines.drill, },
+    {	id:'copperPlateT1',         type:'building',                                                    baseId:'copperPlate',       machine:easyMachines.furnace, },
+    {	id:'processingUnitT1',      type:'building', reqs:[ 'electronics', 'automation1' ],             baseId:'processingUnit',    machine:easyMachines.assembler, },
+    {	id:'waterT1',               type:'building', reqs:[ 'fluidHandling' ],                          baseId:'water',             machine:easyMachines.offshorePump, },
+    {	id:'oilT1',                 type:'building', reqs:[ 'oilTech1' ],                               baseId:'oil',               machine:easyMachines.pumpjack, },
+    {	id:'heavyOilT1',            type:'building', reqs:[ 'oilTech1' ],                               baseId:'heavyOil',          machine:easyMachines.oilRefinery, },
+    {	id:'lubricantT1',           type:'building', reqs:[ 'lubricantTech' ],                          baseId:'lubricant',         machine:easyMachines.chemicalPlant, },
+    {	id:'lightOilT1',            type:'building', reqs:[ 'oilTech1' ],                               baseId:'lightOil',          machine:easyMachines.chemicalPlant, },
+    {	id:'petroleumGasT1',        type:'building', reqs:[ 'oilTech1' ],                               baseId:'petroleumGas',      machine:easyMachines.oilRefinery, },
+    {	id:'plasticBarT1',          type:'building', reqs:[ 'plastics', 'oilTech1' ],                   baseId:'plasticBar',        machine:easyMachines.chemicalPlant, },
+    {	id:'solidFuelT1',           type:'building', reqs:[ 'oilTech2', 'oilTech1' ],                   baseId:'solidFuel',         machine:easyMachines.chemicalPlant, },
+    {	id:'sulfurT1',              type:'building', reqs:[ 'sulfurTech', 'oilTech1' ],                 baseId:'sulfur',            machine:easyMachines.chemicalPlant, },
+    {	id:'sulfuricAcidT1',        type:'building', reqs:[ 'sulfurTech', 'oilTech1' ],                 baseId:'sulfuricAcid',      machine:easyMachines.chemicalPlant, },
+    {	id:'batteryT1',             type:'building', reqs:[ 'batteryTech' ],                            baseId:'battery',           machine:easyMachines.chemicalPlant, },
+    {	id:'explosiveT1',           type:'building', reqs:[ 'sulfurTech', 'explosives' ],               baseId:'explosive',         machine:easyMachines.chemicalPlant, },
+    {	id:'rocketFuelT1',          type:'building', reqs:[ 'rocketFuelTech', 'automation1' ],          baseId:'rocketFuel',        machine:easyMachines.assembler, },
+    {	id:'rocketPartT1',          type:'building', reqs:[ 'rocketTech' ],                             baseId:'rocketPart',        machine:easyMachines.rocketSilo, },
+    
+    {	id:'redPackT1',             type:'building', reqs:[ 'automation1' ],                            baseId:'redPack',           machine:easyMachines.assembler, },
+    {	id:'greenPackT1',           type:'building', reqs:[ 'greenScience', 'automation1' ],            baseId:'greenPack',         machine:easyMachines.assembler, },
+    {	id:'bluePackT1',            type:'building', reqs:[ 'blueScience', 'automation1' ],             baseId:'bluePack',          machine:easyMachines.assembler, },
+    {	id:'purplePackT1',          type:'building', reqs:[ 'purpleScience', 'automation1' ],           baseId:'purplePack',        machine:easyMachines.assembler, },
+    {	id:'yellowPackT1',          type:'building', reqs:[ 'yellowScience', 'automation1' ],           baseId:'yellowPack',        machine:easyMachines.assembler, },
+    {	id:'grayPackT1',            type:'building', reqs:[ 'grayScience', 'automation1' ],             baseId:'grayPack',          machine:easyMachines.assembler, },
+
+    {	id:'bulletS1',              type:'storage', reqs:[ 'military1', 'automation1' ],                icon:'chest',               name:'chest',           ammoId:'bullet',            storage:50,    time:10,    costs:{ bullet:50 }, },
+    {	id:'piercingS1',            type:'storage', reqs:[ 'military2', 'automation1' ],                icon:'chest',               name:'chest',           ammoId:'piercing',          storage:50,    time:10,    costs:{ piercing:50 }, },
+    {	id:'shotgunShellS1',        type:'storage', reqs:[ 'military1', 'automation1' ],                icon:'chest',               name:'chest',           ammoId:'shotgunShell',      storage:50,    time:10,    costs:{ shotgunShell:50 }, },
+    {	id:'piercingShellS1',       type:'storage', reqs:[ 'military4', 'automation1' ],                icon:'chest',               name:'chest',           ammoId:'piercingShell',     storage:50,    time:10,    costs:{ piercingShell:50 }, },
+    {	id:'rocketS1',              type:'storage', reqs:[ 'rocketry1', 'automation1' ],                icon:'chest',               name:'chest',           ammoId:'rocket',            storage:50,    time:10,    costs:{ rocket:50 }, },
+    {	id:'explosiveRocketS1',     type:'storage', reqs:[ 'rocketry2', 'automation1' ],                icon:'chest',               name:'chest',           ammoId:'explosiveRocket',   storage:50,    time:10,    costs:{ explosiveRocket:50 }, },
+    {	id:'artilleryShellS1',      type:'storage', reqs:[ 'military4', 'automation1' ],                icon:'chest',               name:'chest',           ammoId:'artilleryShell',    storage:50,    time:10,    costs:{ artilleryShell:50 }, },
 
     {	id:'coalS1',                type:'storage', reqs:[ 'explosives', 'automation1' ],               icon:'chest',               name:'chest',           itemId:'coal',              storage:50,    time:10,    costs:{ coal:50 }, },
     {	id:'ironS1',                type:'storage', reqs:[ 'automation1' ],                             icon:'chest',               name:'chest',           itemId:'iron',              storage:50,    time:10,    costs:{ iron:50 }, },
@@ -1078,22 +1106,13 @@ var easyData = [
     {	id:'explosiveS1',           type:'storage', reqs:[ 'sulfurTech', 'explosives', 'automation1' ], icon:'chest',               name:'chest',           itemId:'explosive',         storage:50,    time:10,    costs:{ explosive:50 }, },
     {	id:'rocketFuelS1',          type:'storage', reqs:[ 'rocketFuelTech', 'automation1' ],           icon:'chest',               name:'chest',           itemId:'rocketFuel',        storage:50,    time:10,    costs:{ rocketFuel:50 }, },
     {	id:'rocketPartS1',          type:'storage', reqs:[ 'automation1' ],                             icon:'chest',               name:'chest',           itemId:'rocketPart',        storage:50,    time:10,    costs:{ rocketPart:50 }, },
+
     {	id:'redPackS1',             type:'storage', reqs:[ 'automation1' ],                             icon:'chest',               name:'chest',           itemId:'redPack',           storage:50,    time:10,    costs:{ redPack:50 }, },
     {	id:'greenPackS1',           type:'storage', reqs:[ 'greenScience', 'automation1' ],             icon:'chest',               name:'chest',           itemId:'greenPack',         storage:50,    time:10,    costs:{ greenPack:50 }, },
     {	id:'bluePackS1',            type:'storage', reqs:[ 'blueScience', 'automation1' ],              icon:'chest',               name:'chest',           itemId:'bluePack',          storage:50,    time:10,    costs:{ bluePack:50 }, },
     {	id:'purplePackS1',          type:'storage', reqs:[ 'purpleScience', 'automation1' ],            icon:'chest',               name:'chest',           itemId:'purplePack',        storage:50,    time:10,    costs:{ purplePack:50 }, },
     {	id:'yellowPackS1',          type:'storage', reqs:[ 'yellowScience', 'automation1' ],            icon:'chest',               name:'chest',           itemId:'yellowPack',        storage:50,    time:10,    costs:{ yellowPack:50 }, },
     {	id:'grayPackS1',            type:'storage', reqs:[ 'grayScience', 'automation1' ],              icon:'chest',               name:'chest',           itemId:'grayPack',          storage:50,    time:10,    costs:{ grayPack:50 }, },
-
-    {	id:'bulletS1',              type:'storage', reqs:[ 'military1', 'automation1' ],                icon:'chest',               name:'chest',           ammoId:'bullet',            storage:50,    time:10,    costs:{ bullet:50 }, },
-    {	id:'piercingS1',            type:'storage', reqs:[ 'military2', 'automation1' ],                icon:'chest',               name:'chest',           ammoId:'piercing',          storage:50,    time:10,    costs:{ piercing:50 }, },
-    {	id:'shotgunShellS1',        type:'storage', reqs:[ 'military1', 'automation1' ],                icon:'chest',               name:'chest',           ammoId:'shotgunShell',      storage:50,    time:10,    costs:{ shotgunShell:50 }, },
-    {	id:'piercingShellS1',       type:'storage', reqs:[ 'military4', 'automation1' ],                icon:'chest',               name:'chest',           ammoId:'piercingShell',     storage:50,    time:10,    costs:{ piercingShell:50 }, },
-    {	id:'rocketS1',              type:'storage', reqs:[ 'rocketry1', 'automation1' ],                icon:'chest',               name:'chest',           ammoId:'rocket',            storage:50,    time:10,    costs:{ rocket:50 }, },
-    {	id:'explosiveRocketS1',     type:'storage', reqs:[ 'rocketry2', 'automation1' ],                icon:'chest',               name:'chest',           ammoId:'explosiveRocket',   storage:50,    time:10,    costs:{ explosiveRocket:50 }, },
-    {	id:'artilleryShellS1',      type:'storage', reqs:[ 'military4', 'automation1' ],                icon:'chest',               name:'chest',           ammoId:'artilleryShell',    storage:50,    time:10,    costs:{ artilleryShell:50 }, },
-
-    {   id:'lab',                   type:'lab',                                                         icon:'lab',                 name:'lab',             time:22,        costs:{ copperPlate:15, ironPlate:36 }, },
 
     {	id:'rocketTech',            type:'tech', reqs:[ 'rocketFuelTech' ],                             time:60000,     costs:{ redPack:1000, greenPack:1000, bluePack:1000, purplePack:1000, yellowPack:1000 }, },
     {	id:'military4',             type:'tech', reqs:[ 'military3' ],                                  time:6750,      costs:{ redPack:150, greenPack:150, bluePack:150, grayPack:150, yellowPack:150 }, },
@@ -1123,11 +1142,6 @@ var easyData = [
     {	id:'steelTech',             type:'tech', reqs:[ 'automation1' ],                                time:250,       costs:{ redPack:50 }, },
     {	id:'military1',             type:'tech', reqs:[ 'automation1' ],                                time:150,	    costs:{ redPack:10 }, },
     {	id:'automation1',           type:'tech',                                                        time:100,	    costs:{ redPack:10 }, },
-    
-    {   id:'biter1',                type:'alien', reqs:[ 'military1' ],                                 genCount:150,   health:15,      shield:{ physical:0,  explosion:0  },  armor:{ physical:0,   explosion:0  },  eggCoeff:.7,  },
-    {   id:'biter2',                type:'alien', reqs:[ 'military2' ],                                 genCount:100,   health:75,      shield:{ physical:4,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.6,  },
-    {   id:'biter3',                type:'alien', reqs:[ 'military3' ],                                 genCount:50,    health:375,     shield:{ physical:8,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.5,  },
-    {   id:'biter4',                type:'alien', reqs:[ 'military4' ],                                 genCount:30,    health:3000,    shield:{ physical:12, explosion:12 },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.4,  },
 
     {   id:'tut0',                  type:'tutorial',                                                    check: function() { return false },                                                                                 action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('iron'); }, },
     {   id:'tut1',                  type:'tutorial',                                                    check: function() { return this.game.bases['iron'].count >= 5 },                                                    action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('iron'); }, },
@@ -1144,6 +1158,18 @@ var easyData = [
 ]
 
 //------------------------------------------------------------------------------
+
+var hardcoreMachines = {
+
+    drill:          { icon:'drill',             name:'drill',           time:5,	    costs:{ ironGearWheel:6, ironPlate:6, stone:10 }, },
+    furnace:        { icon:'furnace',           name:'furnace',         time:1,	    costs:{ stone:5 }, },
+    assembler:      { icon:'assembler',         name:'assembler',       time:1,	    costs:{ electronicCircuit:3, ironGearWheel:5, ironPlate:9 }, },
+    offshorePump:   { icon:'offshorePump',      name:'offshorePump',    time:1,	    costs:{ electronicCircuit:2, ironGearWheel:1, pipe:1 }, },
+    pumpjack:       { icon:'pumpjack',          name:'pumpjack',        time:5,     costs:{ electronicCircuit:5, ironGearWheel:10, pipe:10, steelPlate:5 }, },
+    oilRefinery:    { icon:'oilRefinery',       name:'oilRefinery',     time:8,     costs:{ electronicCircuit:10, ironGearWheel:10, pipe:10, steelPlate:15, stoneBrick:10 }, },
+    chemicalPlant:  { icon:'chemicalPlant',     name:'chemicalPlant',   time:16,    costs:{ electronicCircuit:5, ironGearWheel:5, pipe:5, steelPlate:5 }, },
+    rocketSilo:     { icon:'rocketSilo',        name:'rocketSilo',      time:30,	costs:{ concrete:1000, electricEngine:200, pipe:100, processingUnit:200, steelPlate:1000 }, },
+}
 
 var hardcoreData = [
     
@@ -1605,18 +1631,15 @@ class Building extends Buildable {
     constructor(game, data) {
         super(game, data)
         
-        this.icon = data.icon
-        this.name = data.name
+        this.time = data.machine.time
+        this.costs = data.machine.costs
         
-        if (data.itemId) {
+        this.icon = data.machine.icon
+        this.name = data.machine.name
         
-            this.item = this.game.items[data.itemId]
-            this.item.building = this
-        }
+        if (data.baseId) {
         
-        if (data.ammoId) {
-        
-            this.item = this.game.ammunitions[data.ammoId]
+            this.item = this.game.bases[data.baseId]
             this.item.building = this
         }
     }

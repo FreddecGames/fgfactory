@@ -27,7 +27,7 @@
                         </div>
                     </button>
                 </div>
-                <div v-if="item.game.options.upgradeStorageShortcut" class="col-auto">
+                <div v-if="item.game.options.upgradeStorageShortcut && item.storage.unlocked == true" class="col-auto">
                     <button v-if="item.storage.state != 'running'" type="button" class="btn btn-sm p-1 btn-primary" :class="{ 'disabled':item.storage.canBuild() == false }" @click="build()">
                         <span><i class="fas fa-fw fa-level-up-alt"></i></span>
                     </button>
