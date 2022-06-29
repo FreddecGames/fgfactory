@@ -183,3 +183,6 @@ thead, tbody, tfoot, tr, td, th { border-color: #505050; }
 .subtitle { font-size: $small-font-size; color: $text-muted; text-transform: uppercase; margin-bottom: .25rem; }
 
 .collapsed .fa-caret-down { transform: rotate(-90deg); }
+
+.form-check { margin-bottom: 0; display: flex; align-items: center; }
+.form-check > label { margin-left: .5rem; }

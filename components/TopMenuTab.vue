@@ -1,5 +1,5 @@
 <template>
-    <div class="col-auto nav-item">
+    <div class="col-auto nav-item position-relative" style="width:90px;">
         <button type="button" class="w-100 btn nav-link pt-2 pb-1 justify-content-center" :class="{ 'active':$parent.currentTabId == tabId }" @click="$parent.setCurrentTabId(tabId)">
             <div class="row g-0 align-items-center">
                 <div class="col-12">
@@ -9,6 +9,7 @@
                     <span class="small text-uppercase">{{ $t('tab_' + tabId) }}</span>
                 </div>
             </div>
+            <slot />
         </button>
     </div>
 </template>
