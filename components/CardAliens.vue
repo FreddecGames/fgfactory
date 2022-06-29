@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div v-if="item.game.getAlienCount() > 0" class="card-body">
-                <div class="row g-2 alien-items-center justify-content-center">
+                <div class="row gx-3 alien-items-center justify-content-center">
                     <BlockAlien v-for="alien in item.game.aliens" :key="alien.id" :alien="alien" />
                 </div>
             </div>

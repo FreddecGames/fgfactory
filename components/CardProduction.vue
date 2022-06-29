@@ -20,14 +20,14 @@
                 </div>                
             </div>
             <div class="card-body">
-                <div class="row gx-2 align-items-center justify-content-end">
+                <div class="row gx-3 align-items-center justify-content-end">
                     <div v-for="(count, itemId) in item.getInputs()" class="col-auto">
                         <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('name_' + itemId)" >
                             <img :src="require(`~/assets/vignets/${itemId}.png`)" width="24px" height="24px" :alt="$t('name_' + itemId)" />
                             <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow" :class="{ 'text-danger':count > item.game.bases[itemId].count, 'text-normal':count <= item.game.bases[itemId].count }"><FormatNumber :value="count" /></span>
                         </div>
                     </div>
-                    <div v-if="item.getInputs()" class="col-auto">
+                    <div v-if="item.getInputs()" class="col-auto px-0">
                         <i class="text-muted fas fa-fw fa-long-arrow-alt-right"></i>
                     </div>
                     <div class="col-auto">
@@ -61,7 +61,7 @@
                         <span>{{ speedBonus }}%</span>
                     </div>
                     <div v-if="item.alienEggCount < 100" class="col-auto">
-                        <div class="row gx-2 align-items-center">
+                        <div class="row gx-3 align-items-center">
                             <div class="col-auto">
                                 <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('name_alienEgg')" >
                                     <img :src="require(`~/assets/vignets/alienEgg.png`)" width="18px" height="18px" :alt="$t('name_alienEgg')" />

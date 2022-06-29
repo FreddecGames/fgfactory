@@ -17,7 +17,7 @@
                 </div>                
             </div>
             <div class="card-body">
-                <div class="row gx-2 align-items-center justify-content-end">
+                <div class="row gx-3 align-items-center justify-content-end">
                     <div v-for="(count, itemId) in buildable.getCosts()" class="col-auto">
                         <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('name_' + itemId)" >
                             <img :src="require(`~/assets/vignets/${itemId}.png`)" width="24px" height="24px" :alt="$t('name_' + itemId)" />
@@ -34,7 +34,7 @@
                     </div>
                     <div class="col-auto">
                         <button v-if="buildable.state != 'running'" type="button" class="btn btn-primary" :class="{ 'disabled':buildable.canBuild() == false }" @click="build()">
-                            <span><i class="fas fa-fw fa-plus-square"></i></span>
+                            <span><i class="fas fa-fw" :class="{ 'fa-plus-square':buildable.type != 'storage', 'fa-level-up-alt':buildable.type == 'storage' }"></i></span>
                         </button>
                         <button v-if="buildable.state == 'running'" type="button" class="btn btn-primary" @click="cancel()">
                             <span><i class="fas fa-fw fa-times-circle"></i></span>

@@ -1107,26 +1107,90 @@ var easyData = [
     {   id:'biter3',                type:'alien', reqs:[ 'military3' ],                                 genCount:50,    health:375,     shield:{ physical:8,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.5,  },
     {   id:'biter4',                type:'alien', reqs:[ 'military4' ],                                 genCount:30,    health:3000,    shield:{ physical:12, explosion:12 },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.4,  },
 
-    {   id:'tut0',                  type:'tutorial',                                                    check: function() { return false },                                                                                         action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('iron'); }, },
-    {   id:'tut1',                  type:'tutorial',                                                    check: function() { return this.game.items['iron'].count >= 5 },                                                            action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('iron'); }, },
-    {   id:'tut2',                  type:'tutorial',                                                    check: function() { return this.game.items['stone'].count >= 5 },                                                           action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('stone'); }, },
-    {   id:'tut3',                  type:'tutorial',                                                    check: function() { return this.game.buildings['ironPlateT1'].count >= 1 },                                                 action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('ironPlate'); }, },
-    {   id:'tut4',                  type:'tutorial',                                                    check: function() { return this.game.buildings['ironT1'].count >= 1 },                                                      action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('iron'); }, },
-    {   id:'tut5',                  type:'tutorial',                                                    check: function() { return this.game.buildings['stoneT1'].count >= 1 },                                                     action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('stone'); }, },
-    {   id:'tut6',                  type:'tutorial',                                                    check: function() { return this.game.buildings['copperPlateT1'].count >= 1 && this.game.buildings['copperT1'].count >= 1},  action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('copper'); }, },
-    {   id:'tut7',                  type:'tutorial',                                                    check: function() { return this.game.lab.count >= 1 },                                                                      action: function(app) { app.setCurrentTabId('techs');         app.setCurrentTechPageId('lab'); }, },
-    {   id:'tut8',                  type:'tutorial',                                                    check: function() { return this.game.techs['automation1'].count >= 1 },                                                     action: function(app) { app.setCurrentTabId('techs');         app.setCurrentTechPageId('lab'); }, },
-    {   id:'tut9',                  type:'tutorial',                                                    check: function() { return this.game.techs['military1'].count >= 1 },                                                       action: function(app) { app.setCurrentTabId('techs');         app.setCurrentTechPageId('lab'); }, },
-    {   id:'tut10',                 type:'tutorial',                                                    check: function() { return this.game.items['alienEgg'].count >= 1 },                                                        action: function(app) { app.setCurrentTabId('weapons');       app.setCurrentWeaponsPageId('alienEgg'); }, },
-    {   id:'tut11',                 type:'tutorial',                                                    check: function() { return false },                                                                                         action: function(app) { app.setCurrentTabId('techs');         app.setCurrentTechPageId('lab'); }, },
+    {   id:'tut0',                  type:'tutorial',                                                    check: function() { return false },                                                                                 action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('iron'); }, },
+    {   id:'tut1',                  type:'tutorial',                                                    check: function() { return this.game.bases['iron'].count >= 5 },                                                    action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('iron'); }, },
+    {   id:'tut2',                  type:'tutorial',                                                    check: function() { return this.game.bases['stone'].count >= 5 },                                                   action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('stone'); }, },
+    {   id:'tut3',                  type:'tutorial',                                                    check: function() { return this.game.bases['ironPlateT1'].count >= 1 },                                             action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('ironPlate'); }, },
+    {   id:'tut4',                  type:'tutorial',                                                    check: function() { return this.game.bases['ironT1'].count >= 1 },                                                  action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('iron'); }, },
+    {   id:'tut5',                  type:'tutorial',                                                    check: function() { return this.game.bases['stoneT1'].count >= 1 },                                                 action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('stone'); }, },
+    {   id:'tut6',                  type:'tutorial',                                                    check: function() { return this.game.bases['copperPlateT1'].count >= 1 && this.game.bases['copperT1'].count >= 1},  action: function(app) { app.setCurrentTabId('production');    app.setCurrentProductionPageId('copper'); }, },
+    {   id:'tut7',                  type:'tutorial',                                                    check: function() { return this.game.lab.count >= 1 },                                                              action: function(app) { app.setCurrentTabId('techs');         app.setCurrentTechPageId('lab'); }, },
+    {   id:'tut8',                  type:'tutorial',                                                    check: function() { return this.game.bases['automation1'].count >= 1 },                                             action: function(app) { app.setCurrentTabId('techs');         app.setCurrentTechPageId('lab'); }, },
+    {   id:'tut9',                  type:'tutorial',                                                    check: function() { return this.game.bases['military1'].count >= 1 },                                               action: function(app) { app.setCurrentTabId('techs');         app.setCurrentTechPageId('lab'); }, },
+    {   id:'tut10',                 type:'tutorial',                                                    check: function() { return this.game.bases['alienEgg'].count >= 1 },                                                action: function(app) { app.setCurrentTabId('weapons');       app.setCurrentWeaponsPageId('alienEgg'); }, },
+    {   id:'tut11',                 type:'tutorial',                                                    check: function() { return false },                                                                                 action: function(app) { app.setCurrentTabId('techs');         app.setCurrentTechPageId('lab'); }, },
 ]
 
 //------------------------------------------------------------------------------
 
 var hardcoreData = [
     
-    {	id:'satellite',             type:'item', reqs:[ 'spaceScience' ],                               productionLevel:0,    time:5,	output:1,   inputs:{ electricity:375, accumulator:100, lowDensityStructure:100, processingUnit:100, radar:5, rocketFuel:50, solarPanel:100 }, },
-    {	id:'rocketPart',            type:'item', reqs:[ 'rocketTech' ],                                 productionLevel:0,    time:3,	output:1,   inputs:{ electricity:4000, lowDensityStructure:10, rocketControlUnit:10, rocketFuel:10 }, },
+    {	id:'pistol',                type:'weapon',      reqs:[ 'military1' ],           auto:false,     fireTime:.25,   time:5,	        costs:{ copperPlate:5, ironPlate:5 }, },
+    {	id:'submachine',            type:'weapon',      reqs:[ 'military1' ],           auto:true,      fireTime:.1,    time:10,	    costs:{ copperPlate:5, ironGearWheel:10, ironPlate:10 }, },
+    {	id:'shotgun',               type:'weapon',      reqs:[ 'military1' ],           auto:false,     fireTime:1,     time:10,	    costs:{ copperPlate:10, ironGearWheel:5, ironPlate:15 }, },
+    {	id:'car',                   type:'weapon',      reqs:[ 'automobilism' ],        auto:true,      fireTime:0.06,  time:2,	        costs:{ engine:8, ironPlate:20, steelPlate:5 }, },
+    {	id:'combatShotgun',         type:'weapon',      reqs:[ 'military3' ],           auto:true,      fireTime:.5,    time:10,	    costs:{ copperPlate:10, ironGearWheel:5, steelPlate:15 }, },
+    {	id:'rocketLauncher',        type:'weapon',      reqs:[ 'rocketry1' ],           auto:false,     fireTime:1,     time:10,	    costs:{ electronicCircuit:5, ironGearWheel:5, ironPlate:5 }, },
+    {	id:'tank',                  type:'weapon',      reqs:[ 'tankTech' ],            auto:true,      fireTime:1.5,   time:5,	        costs:{ advancedCircuit:10, engine:32, ironGearWheel:15, steelPlate:50 }, },
+    {	id:'artilleryTurret',       type:'weapon',      reqs:[ 'military4' ],           auto:true,      fireTime:4,     time:40,	    costs:{ advancedCircuit:20, concrete:60, ironGearWheel:40, steelPlate:60 }, },
+    {	id:'spidertron',            type:'weapon',      reqs:[ 'spidertronTech' ],      auto:true,      fireTime:1,     time:10,	    costs:{ efficiencyModule:2, exoskeleton:4, portableReactor:2, lowDensityStructure:150, radar:2, rocketControlUnit:16, rocketLauncher:4 }, },
+    
+    {	id:'coal',                  type:'item',                                            productionLevel:1,    time:.25,     output:1,   },
+    {	id:'steam',                 type:'item',                                            productionLevel:0,    time:1,       output:60,  inputs:{ water:60 }, },
+    {	id:'electricity',           type:'item',                                            productionLevel:0,    time:1,       output:900, inputs:{ steam:30 }, },
+    {	id:'iron',                  type:'item',                                            productionLevel:1,    time:.25,     output:1,   },
+    {	id:'ironPlate',             type:'item',                                            productionLevel:0,    time:3.2,     output:1,   inputs:{ iron:1 }, },
+    {	id:'ironStick',             type:'item',                                            productionLevel:0,    time:.5,      output:2,   inputs:{ ironPlate:1 }, },
+    {	id:'steelPlate',            type:'item',    reqs:[ 'steelProcessing' ],             productionLevel:0,    time:32,      output:1,   inputs:{ ironPlate:10 }, },
+    {	id:'pipe',                  type:'item',                                            productionLevel:0,    time:.5,      output:1,   inputs:{ ironPlate:2 }, },
+    {	id:'ironGearWheel',         type:'item',                                            productionLevel:0,    time:.5,      output:1,   inputs:{ ironPlate:4 }, },
+    {	id:'engine',                type:'item',    reqs:[ 'engineTech' ],                  productionLevel:0,    time:10,      output:1,   inputs:{ ironGearWheel:1, pipe:2, steelPlate:1 }, },
+    {	id:'rail',                  type:'item',    reqs:[ 'railway' ],                     productionLevel:0,    time:.5,      output:2,   inputs:{ ironStick:1, steelPlate:1, stone:1 }, },
+    {	id:'electricEngine',        type:'item',    reqs:[ 'electricEngineTech' ],          productionLevel:0,    time:10,      output:1,   inputs:{ electronicCircuit:2, engine:1, lubricant:15 }, },
+    {	id:'grenade',               type:'item',    reqs:[ 'military2' ],                   productionLevel:0,    time:8,       output:1,   inputs:{ coal:10, ironPlate:5 }, },
+    {	id:'radar',                 type:'item',                                            productionLevel:0,    time:.5,      output:1,   inputs:{ electronicCircuit:5, ironGearWheel:5, ironPlate:10 }, },
+    {	id:'exoskeleton',           type:'item',    reqs:[ 'exoskeletonTech' ],             productionLevel:0,    time:10,      output:1,   inputs:{ electricEngine:30, processingUnit:10, steelPlate:20 }, },
+    {	id:'water',                 type:'item',                                            productionLevel:0,    time:.25,     output:10,  },
+    {	id:'oil',                   type:'item',    reqs:[ 'oilProcessing1' ],              productionLevel:0,    time:.25,     output:1,   },
+    {	id:'heavyOil',              type:'item',    reqs:[ 'oilProcessing1' ],              productionLevel:0,    time:5,       output:25,  inputs:{ oil:100, water:50 }, },
+    {	id:'petroleumGas',          type:'item',    reqs:[ 'oilProcessing1' ],              productionLevel:0,    time:5,       output:45,  inputs:{ oil:100 }, },
+    {	id:'lightOil',              type:'item',    reqs:[ 'oilProcessing2' ],              productionLevel:0,    time:2,       output:30,  inputs:{ heavyOil:40, water:30 }, },
+    {	id:'solidFuel',             type:'item',    reqs:[ 'oilProcessing2' ],              productionLevel:0,    time:2,       output:1,   inputs:{ petroleumGas:20 }, },
+    {	id:'lubricant',             type:'item',    reqs:[ 'lubricantTech' ],               productionLevel:0,    time:1,       output:10,  inputs:{ heavyOil:10 }, },
+    {	id:'platicBar',             type:'item',    reqs:[ 'plastics' ],                    productionLevel:0,    time:1,       output:2,   inputs:{ coal:1, petroleumGas:20 }, },
+    {	id:'sulfur',                type:'item',    reqs:[ 'sulfurProcessing' ],            productionLevel:0,    time:1,       output:2,   inputs:{ petroleumGas:30, water:30 }, },
+    {	id:'sulfuricAcid',          type:'item',    reqs:[ 'sulfurProcessing' ],            productionLevel:0,    time:1,       output:50,  inputs:{ ironPlate:1, sulfur:5, water:100 }, },
+    {	id:'explosive',             type:'item',    reqs:[ 'explosives' ],                  productionLevel:0,    time:5,       output:2,   inputs:{ coal:2, sulfur:2, water:10 }, },
+    {	id:'battery',               type:'item',    reqs:[ 'batteryTech' ],                 productionLevel:0,    time:5,       output:1,   inputs:{ copperPlate:1, ironPlate:1, sulfuricAcid:40 }, },
+    {	id:'accumulator',           type:'item',    reqs:[ 'accumulatorTech' ],             productionLevel:0,    time:10,      output:1,   inputs:{ battery:5, ironPlate:2 }, },
+    {	id:'copper',                type:'item',                                            productionLevel:1,    time:.25,     output:1,   },
+    {	id:'copperPlate',           type:'item',                                            productionLevel:0,    time:3.2,     output:1,   inputs:{ copper:1 }, },
+    {	id:'copperCable',           type:'item',                                            productionLevel:0,    time:.5,      output:2,   inputs:{ copperPlate:1 }, },
+    {	id:'electronicCircuit',     type:'item',    reqs:[ 'electronics1' ],                productionLevel:0,    time:.5,      output:1,   inputs:{ copperCable:8, ironPlate:2 }, },
+    {	id:'advancedCircuit',       type:'item',    reqs:[ 'electronics2' ],                productionLevel:0,    time:6,       output:1,   inputs:{ copperCable:8, electronicCircuit:2, plasticBar:4 }, },
+    {	id:'processingUnit',        type:'item',    reqs:[ 'electronics3' ],                productionLevel:0,    time:10,      output:1,   inputs:{ advancedCircuit:2, electronicCircuit:20, sulfuricAcid:10 }, },
+    {	id:'solarPanel',            type:'item',    reqs:[ 'solarEnergy' ],                 productionLevel:0,    time:10,      output:1,   inputs:{ copperPlate:5, electronicCircuit:15, steelPlate:5 }, },
+    {	id:'flyingRobot',           type:'item',    reqs:[ 'robotics' ],                    productionLevel:0,    time:20,      output:1,   inputs:{ battery:2, electricEngine:1, electronicCircuit:3, steelPlate:1 }, },
+    {	id:'portableReactor',       type:'item',    reqs:[ 'portableReactorTech' ],         productionLevel:0,    time:10,      output:1,   inputs:{ lowDensityStructure:50, processingUnit:200 }, },
+    {	id:'stone',                 type:'item',                                            productionLevel:1,    time:.25,     output:1,   },
+    {	id:'stoneBrick',            type:'item',                                            productionLevel:0,    time:3.2,     output:1,   inputs:{ stone:2 }, },
+    {	id:'wall',                  type:'item',    reqs:[ 'wallTech' ],                    productionLevel:0,    time:.5,      output:1,   inputs:{ stoneBrick:5 }, },
+    {	id:'concrete',              type:'item',    reqs:[ 'concreteTech' ],                productionLevel:0,    time:10,      output:10,  inputs:{ iron:1, stoneBrick:5, water:100 }, },
+    {	id:'speedModule',           type:'item',    reqs:[ 'speed' ],                       productionLevel:0,    time:15,      output:1,   inputs:{ advancedCircuit:5, electronicCircuit:5 }, },
+    {	id:'efficiencyModule',      type:'item',    reqs:[ 'efficiency' ],                  productionLevel:0,    time:15,      output:1,   inputs:{ advancedCircuit:5, electronicCircuit:5 }, },
+    {	id:'productivityModule',    type:'item',    reqs:[ 'productivity' ],                productionLevel:0,    time:15,      output:1,   inputs:{ advancedCircuit:5, electronicCircuit:5 }, },
+    {	id:'rocketFuel',            type:'item',    reqs:[ 'rocketFuelTech' ],              productionLevel:0,    time:30,      output:1,   inputs:{ lightOil:10, solidFuel:10 }, },
+    {	id:'rocketControlUnit',     type:'item',    reqs:[ 'rocketControlUnitTech' ],       productionLevel:0,    time:30,      output:1,   inputs:{ processingUnit:1, speedModule:1 }, },
+    {	id:'lowDensityStructure',   type:'item',    reqs:[ 'lowDensityStructureTech' ],     productionLevel:0,    time:20,      output:1,   inputs:{ copperPlate:20, plasticBar:30, steelPlate:2 }, },
+    {	id:'rocketPart',            type:'item',    reqs:[ 'rocketTech' ],                  productionLevel:0,    time:3,	    output:1,   inputs:{ electricity:4000, lowDensityStructure:10, rocketControlUnit:10, rocketFuel:10 }, },
+    {	id:'satellite',             type:'item',    reqs:[ 'spaceScience' ],                productionLevel:0,    time:5,	    output:1,   inputs:{ electricity:375, accumulator:100, lowDensityStructure:100, processingUnit:100, radar:5, rocketFuel:50, solarPanel:100 }, },
+
+    {	id:'redPack',               type:'item',                                productionLevel:1,    time:5,	    output:1,   inputs:{ copperPlate:1, ironGearWheel:1 }, },
+    {	id:'greenPack',             type:'item',    reqs:[ 'greenScience' ],    productionLevel:1,    time:7,	    output:1,   inputs:{ electronicCircuit:1, ironGearWheel:2, ironPlate:2 }, },
+    {	id:'grayPack',              type:'item',    reqs:[ 'grayScience' ],     productionLevel:1,    time:10,	    output:2,   inputs:{ grenade:1, bullet:1, wall:2 }, },
+    {	id:'bluePack',              type:'item',    reqs:[ 'blueScience' ],     productionLevel:1,    time:24,	    output:2,   inputs:{ advancedCircuit:3, engine:2, sulfur:1 }, },
+    {	id:'purplePack',            type:'item',    reqs:[ 'purpleScience' ],   productionLevel:1,    time:26,	    output:3,   inputs:{ advancedCircuit:5, steelPlate:10, stoneBrick:10, productivityModule:1, rail:30, alienEgg:1 }, },
+    {	id:'yellowPack',            type:'item',    reqs:[ 'yellowScience' ],   productionLevel:1,    time:21,	    output:3,   inputs:{ flyingRobot:1, lowDensityStructure:3, processingUnit:2 }, },
 ]
 
 //------------------------------------------------------------------------------
@@ -1355,17 +1419,6 @@ class Item extends Base {
                                 
                 let output = this.getOutput()
                 this.deltaCount += output
-                
-                if (this.auto == true) {
-                
-                    this.remainingSeconds = this.getTime()
-                    this.startProducing()
-                }
-                else {
-                
-                    this.state = 'paused'
-                    this.remainingSeconds = this.getTime()
-                }
             }
             else {
             
@@ -2057,7 +2110,6 @@ class Game {
             if (data.stats.easyMode.totalAlienEggs != null) this.stats.easyMode.totalAlienEggs = data.stats.easyMode.totalAlienEggs
         }
         
-        console.log(data)
         if (data.alienEggCount != null) this.bases['alienEgg'].count = data.alienEggCount
         
         for (let id in data.items) {
@@ -2357,6 +2409,17 @@ class Game {
                     if (item.count > max) item.count = max
                     
                     item.onProduce()
+                    
+                    if (item.auto == true) {
+                    
+                        item.remainingSeconds = item.getTime()
+                        item.startProducing()
+                    }
+                    else {
+                    
+                        item.state = 'paused'
+                        item.remainingSeconds = item.getTime()
+                    }
                 }
             }
             

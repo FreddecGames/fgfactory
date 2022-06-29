@@ -1,6 +1,6 @@
 <template>
     <div v-if="weapon.unlocked == true" class="list-group-item">
-        <div v-if="weapon.count >= 1" class="row gx-2 align-items-center">
+        <div v-if="weapon.count >= 1" class="row gx-3 align-items-center">
             <div class="col-auto">
                 <img :src="require(`~/assets/vignets/${weapon.id}.png`)" width="24px" height="24px" :title="$t('name_' + weapon.id)" :alt="$t('name_' + weapon.id)" />
             </div>
@@ -12,7 +12,7 @@
                 <div class="small">{{ $t('desc_' + weapon.id) }}</div>
             </div>
             <div class="col-auto">
-                <div class="row gx-2 align-items-center">
+                <div class="row gx-3 align-items-center">
                     <div v-for="ammunition in ammunitions" class="col-auto">
                         <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('name_' + ammunition.id)" >
                             <img :src="require(`~/assets/vignets/${ammunition.id}.png`)" width="24px" height="24px" :alt="$t('name_' + ammunition.id)" />
@@ -38,7 +38,7 @@
                 </button>
             </div>
         </div>
-        <div v-if="weapon.count < 1" class="row gx-2 align-items-center justify-content-end">
+        <div v-if="weapon.count < 1" class="row gx-3 align-items-center justify-content-end">
             <div class="col-auto">
                 <img :src="require(`~/assets/vignets/${weapon.id}.png`)" width="24px" height="24px" :title="$t('name_' + weapon.id)" :alt="$t('name_' + weapon.id)" />
             </div>
@@ -47,7 +47,7 @@
                 <div class="small">{{ $t('desc_' + weapon.id) }}</div>
             </div>
             <div class="col-auto">
-                <div class="row gx-2 align-items-center justify-content-end">
+                <div class="row gx-3 align-items-center justify-content-end">
                     <div v-for="(count, itemId) in weapon.getCosts()" class="col-auto">
                         <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('name_' + itemId)" >
                             <img :src="require(`~/assets/vignets/${itemId}.png`)" width="24px" height="24px" :alt="$t('name_' + itemId)" />
