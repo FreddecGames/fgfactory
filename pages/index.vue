@@ -1677,6 +1677,8 @@ class Building extends Buildable {
             this.item = this.game.bases[data.baseId]
             this.item.building = this
         }
+
+        this.remainingSeconds = this.getTime()
     }
     
     //---
@@ -1970,7 +1972,7 @@ class Weapon extends Buildable {
                         totalDamage = totalDamage * (1 - armor)
                     }
                     
-                    ammunition.count -= 1
+                    ammunition.deltaCount -= 1
                     
                     let kill = alien.doDamage(totalDamage)
                     if (kill > 0) {

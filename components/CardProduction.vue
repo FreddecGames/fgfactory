@@ -33,7 +33,7 @@
                     <div class="col-auto">
                         <div class="position-relative rounded d-flex align-items-center justify-content-center" style="width:28px; height:28px;" :title="$t('name_' + item.id)" >
                             <img :src="require(`~/assets/vignets/${item.id}.png`)" width="24px" height="24px" :alt="$t('name_' + item.id)" />
-                            <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow" :class="{ 'text-primary':item.count + output > max, 'text-normal':item.count + output <= max }" :title="$t('name_' + item.id)"><FormatNumber :value="output" /></span>
+                            <span class="position-absolute bottom-0 end-0 fw-bold fs-medium text-shadow" :class="{ 'text-full':item.count + output > max, 'text-normal':item.count + output <= max }" :title="$t('name_' + item.id)"><FormatNumber :value="output" /></span>
                         </div>
                     </div>
                     <div class="col-auto">
@@ -49,7 +49,7 @@
                             <span><i class="fas fa-fw fa-play"></i></span>
                         </button>
                         <button v-if="item.state != 'paused'" type="button" class="btn btn-primary" @click="pause()">
-                            <span :class="{ 'text-danger':item.state == 'waiting' && item.count < item.getMax(), 'text-primary':item.state == 'waiting' && item.count >= item.getMax() }"><i class="fas fa-fw fa-stop"></i></span>
+                            <span :class="{ 'text-danger':item.state == 'waiting' && item.count < item.getMax(), 'text-full':item.state == 'waiting' && item.count >= item.getMax() }"><i class="fas fa-fw fa-stop"></i></span>
                         </button>
                     </div>
                 </div>
@@ -75,9 +75,18 @@
                                 <span class="text-success">+1%</span>
                             </div>
                             <div class="col-auto">
-                                <button type="button" class="btn btn-sm p-1 btn-primary" :class="{ 'disabled':alienEggCount < 1 || item.alienEggCount >= 100 }" @click="addAlienEgg()">
-                                    <span><i class="fas fa-fw fa-plus-square"></i></span>
-                                </button>
+                                <div class="row gx-2 align-items-center">
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-sm p-1 btn-primary" :class="{ 'disabled':alienEggCount < 1 || item.alienEggCount >= 100 }" @click="addAlienEgg(1)">
+                                            <span><i class="fas fa-fw fa-plus-square"></i> 1</span>
+                                        </button>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-sm p-1 btn-primary" :class="{ 'disabled':alienEggCount < 10 || item.alienEggCount >= 90 }" @click="addAlienEgg(10)">
+                                            <span><i class="fas fa-fw fa-plus-square"></i> 10</span>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -98,9 +107,11 @@ export default {
         
         output() { return this.item.getOutput() },
         
+        time() { return this.item.getTime() },
+        
         percent() {
             
-            if (this.item.remainingSeconds > 0) return 100 - 100 * (this.item.remainingSeconds / this.item.getTime())
+            if (this.item.remainingSeconds > 0) return 100 - 100 * (this.item.remainingSeconds / this.time)
             else return 0
         },
         
@@ -123,14 +134,14 @@ export default {
         
         pause() { this.item.pauseProducing() },
         
-        addAlienEgg() {
+        addAlienEgg(count) {
         
-            if (this.alienEggCount > 0 && this.item.alienEggCount < 100) {
+            if (this.alienEggCount >= count && this.item.alienEggCount < (101 - count)) {
             
-                this.item.alienEggCount += 1                
-                this.item.remainingSeconds *= .99
+                this.item.alienEggCount += count                
+                this.item.remainingSeconds *= Math.pow(.99, count)
                 
-                this.item.game.bases['alienEgg'].count -= 1
+                this.item.game.bases['alienEgg'].count -= count
             }
         },
     },

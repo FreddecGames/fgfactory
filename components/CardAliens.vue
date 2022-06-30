@@ -10,11 +10,11 @@
             </div>
             <div v-if="item.game.getAlienCount() < 1" class="card-body">
                 <div class="text-center">
-                    <span class="text-muted">Generate a new Alien wave to collect Alien Eggs</span>
+                    <span class="text-muted">Hunt aliens to collect their eggs</span>
                 </div>
                 <div class="mt-2 d-flex justify-content-center">
                     <button type="button" class="btn btn-primary" @click="generate()">
-                        <span>Generate</span>
+                        <span>Hunt</span>
                     </button>
                 </div>
             </div>
