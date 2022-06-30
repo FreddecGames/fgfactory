@@ -576,12 +576,12 @@
                         <TopMenuTab v-if="gameAmmunition('bullet').unlocked == true" tabId="weapons" icon="fa-burn">
                             <div class="position-absolute top-0 end-0">
                                 <div class="badge">
-                                    <div class="row g-1 align-items-center">
+                                    <div class="row g-0 align-items-center">
                                         <div class="col-auto">
                                             <img :src="require(`~/assets/vignets/alienEgg.png`)" width="12px" height="12px" :title="$t('name_alienEgg')" :alt="$t('name_alienEgg')" />
                                         </div>
                                         <div class="col-auto">
-                                            <span class="text-shadow"><FormatNumber :value="game.bases['alienEgg'].count" /></span>
+                                            <span class="text-shadow"><FormatNumber :value="game.bases['alienEgg'].count" :class="{ 'text-full':game.bases['alienEgg'].count >= game.getAlienEggMax() }" /></span>
                                         </div>
                                     </div>
                                 </div>
@@ -738,7 +738,7 @@
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="row g-3">
-                                        <ButtonItemCount :item="game.bases['alienEgg']" @click="setCurrentWeaponsPageId('alienEgg')" :active="currentWeaponsPageId == 'alienEgg'" />
+                                        <ButtonAlienEgg :item="game.bases['alienEgg']" @click="setCurrentWeaponsPageId('alienEgg')" :active="currentWeaponsPageId == 'alienEgg'" />
                                     </div>
                                 </div>
                             </div>
@@ -1254,7 +1254,7 @@ var hardcoreData = [
     {	id:'purplePack',            type:'item',        reqs:[ 'purpleScience' ],                   productionLevel:1,    time:26,	    output:3,   inputs:{ advancedCircuit:5, steelPlate:10, stoneBrick:10, productivityModule:1, rail:30, alienEgg:1 }, },
     {	id:'yellowPack',            type:'item',        reqs:[ 'yellowScience' ],                   productionLevel:1,    time:21,	    output:3,   inputs:{ flyingRobot:1, lowDensityStructure:3, processingUnit:2 }, },
     
-    {	id:'alienEgg',              type:'base',        reqs:[ 'military1' ],                       productionLevel:0,    },
+    {	id:'alienEgg',              type:'base',        reqs:[ 'military1' ],                       },
     
     {   id:'spitter1',              type:'alien',       reqs:[ 'military1' ],                       genCount:150,   health:10,      shield:{ physical:0,  explosion:0  },  armor:{ physical:0,   explosion:0   },  eggCoeff:.9,  },
     {   id:'biter1',                type:'alien',       reqs:[ 'military1' ],                       genCount:150,   health:15,      shield:{ physical:0,  explosion:0  },  armor:{ physical:0,   explosion:0   },  eggCoeff:.9,  },
@@ -1392,7 +1392,7 @@ class Item extends Base {
         if (this.productionLevel == 0) return false
         
         let output = this.getOutput()
-        if (this.count >= this.getMax()) {            
+        if (this.count + this.deltaCount >= this.getMax()) {            
             return false
         }
 
@@ -1402,30 +1402,10 @@ class Item extends Base {
         for (let id in inputs) {
             let input = inputs[id]
             
-            if (input > this.game.bases[id].count) {            
+            if (id == 'alienEgg' && input > this.game.bases[id].count) {
                 return false
             }
-        }
-        
-        return true
-    }
-    
-    canDeltaProduce() {
-        
-        if (this.productionLevel == 0) return false
-        
-        let output = this.getOutput()
-        if (this.deltaCount >= this.getMax()) {            
-            return false
-        }
-
-        let inputs = this.getInputs()
-        if (inputs == null) return true
-        
-        for (let id in inputs) {
-            let input = inputs[id]
-            
-            if (input > this.game.bases[id].deltaCount) {            
+            else if (input > (this.game.bases[id].count + this.game.bases[id].deltaCount)) {            
                 return false
             }
         }
@@ -1466,7 +1446,7 @@ class Item extends Base {
     
     startProducing() {
         
-        if (this.canDeltaProduce() == true) {
+        if (this.canProduce() == true) {
         
             this.state = 'running'
             this.remainingSeconds = this.getTime()
@@ -1476,7 +1456,7 @@ class Item extends Base {
                 for (let id in inputs) {
                     let input = inputs[id]
                     
-                    this.game.bases[id].deltaCount -= input
+                    this.game.bases[id].count -= input
                 }
             }
         }
@@ -1502,6 +1482,10 @@ class Item extends Base {
                         let max = this.game.bases[id].getMax()
                         if (max && this.game.bases[id].count > max) this.game.bases[id].count = max
                     }
+                    else if (id == 'alienEgg') {
+                        let max = this.game.getAlienEggMax()
+                        if (max && this.game.bases[id].count > max) this.game.bases[id].count = max
+                    }
                 }
             }
         }
@@ -1523,10 +1507,7 @@ class Item extends Base {
                                 
                 let output = this.getOutput()
                 this.deltaCount += output
-                
-                let max = this.getMax()
-                if (this.deltaCount >= max) this.deltaCount = max
-                
+                                
                 if (this.auto == true) {
                 
                     this.remainingSeconds = this.getTime()
@@ -1978,10 +1959,9 @@ class Weapon extends Buildable {
                     if (kill > 0) {
                     
                         let dice = Math.random()
-                        if (dice * kill > alien.eggCoeff) {
-                        
-                            this.game.bases['alienEgg'].count += 1
+                        if (dice * kill > alien.eggCoeff && this.game.bases['alienEgg'].count < this.game.getAlienEggMax()) {
                             
+                            this.game.bases['alienEgg'].count += 1                                
                             if (this.game.currentMode == 'easy') this.game.stats.easyMode.totalAlienEggs += 1
                         }
                     }                
@@ -2157,6 +2137,12 @@ class Game {
             ret += alien.count
         }
         
+        return ret
+    }
+    
+    getAlienEggMax() {
+        
+        let ret = 10
         return ret
     }
     
@@ -2471,7 +2457,18 @@ class Game {
     
         for (let id in this.aliens) {
             let alien = this.aliens[id]
-            if (alien.unlocked == true) {
+            if (alien.unlocked == true && alien.id != 'nest') {
+            
+                alien.setCount(Math.ceil(Math.random() * alien.genCount))
+            }
+        }
+    }
+
+    generateNests() {
+    
+        for (let id in this.aliens) {
+            let alien = this.aliens[id]
+            if (alien.unlocked == true && alien.id == 'nest') {
             
                 alien.setCount(Math.ceil(Math.random() * alien.genCount))
             }
@@ -2502,7 +2499,7 @@ class Game {
             for (let id in this.items) {
                 let item = this.items[id]
                 
-                item.deltaCount = item.count
+                item.deltaCount = 0
             }
             
             for (let i = 0; i < cycleCount; i++) {    
@@ -2522,9 +2519,13 @@ class Game {
             
             for (let id in this.items) {
                 let item = this.items[id]                
-                if (item.deltaCount != item.count) {
+                if (item.deltaCount != 0) {
                 
-                    item.count = item.deltaCount                    
+                    item.count += item.deltaCount
+                    
+                    let max = item.getMax()
+                    if (item.count >= max) item.count = max
+
                     item.onProduce()
                 }
             }

@@ -82,7 +82,7 @@
                                         </button>
                                     </div>
                                     <div class="col-auto">
-                                        <button type="button" class="btn btn-sm p-1 btn-primary" :class="{ 'disabled':alienEggCount < 10 || item.alienEggCount >= 90 }" @click="addAlienEgg(10)">
+                                        <button type="button" class="btn btn-sm p-1 btn-primary" :class="{ 'disabled':alienEggCount < 10 || item.alienEggCount > 90 }" @click="addAlienEgg(10)">
                                             <span><i class="fas fa-fw fa-plus-square"></i> 10</span>
                                         </button>
                                     </div>

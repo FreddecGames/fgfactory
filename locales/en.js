@@ -137,7 +137,7 @@ export default {
     'desc_chest': 'Double storage',
     'desc_lab': 'Decrease research time',
     'desc_lubricantTech': 'Unlocks Lubricant production',
-    'desc_military1': 'Unlocks Submachine Gun and Shotgun weapons',
+    'desc_military1': 'Unlocks Submachine Gun weapon',
     'desc_military2': 'Unlocks Piercing ammunition',
     'desc_military3': 'Unlocks Combat Shotgun weapon',
     'desc_military4': 'Unlocks Artillery Turret weapon and Artillery Shell ammunition',

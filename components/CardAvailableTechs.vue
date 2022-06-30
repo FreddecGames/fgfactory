@@ -10,7 +10,7 @@
             </div>
             <div class="list-group list-group-flush">
                 <div v-if="techs.length <= 0" class="list-group-item text-center">
-                    <span>No more research available - check the Tutorial"</span>
+                    <span>No more research available - check the "Tutorial"</span>
                 </div>
                 <RowTech v-for="tech in techs" :key="tech.id" :tech="tech" />
             </div>
