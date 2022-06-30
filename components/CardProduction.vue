@@ -14,7 +14,7 @@
                         <small class="fw-bold" :class="{ 'text-danger':item.productionLevel == 0, 'text-primary':item.productionLevel == 1, 'text-success':item.productionLevel == 2, }">{{ $t('productionState_' + item.productionLevel) }}</small>
                     </div>
                     <div class="col-auto">
-                        <span :class="{ 'text-primary':item.count >= item.getMax(), 'text-muted':item.count < 1 }"><FormatNumber :value="item.count" /></span>
+                        <span :class="{ 'text-full':item.count >= item.getMax(), 'text-muted':item.count < 1 }"><FormatNumber :value="item.count" /></span>
                         <small class="text-muted">/<FormatNumber :value="item.getMax()" /></small>
                     </div>
                 </div>                

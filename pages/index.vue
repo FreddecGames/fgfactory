@@ -731,7 +731,7 @@
                 </div>
             </div>            
 
-            <div v-if="game.currentMode == 'easy' && currentTabId == 'weapons' && gameWeapon('pistol').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
+            <div v-if="game.currentMode == 'easy' && currentTabId == 'weapons' && gameWeapon('submachine').unlocked == true" class="position-fixed top-0 bottom-0 start-0 end-0" style="margin-top:105px; margin-bottom:50px;">
                 <div class="container py-3 scrollbar">
                     <div class="row gx-4 scrollbar">
                         <div class="col-auto scrollbar" style="width:425px;">
@@ -783,7 +783,7 @@
                                     <table class="table">
                                         <tbody>
                                             <tr>
-                                                <td>Win the game</td>
+                                                <td>Escape the planet</td>
                                                 <td nowrap class="text-end"><i class="fas fa-fw fa-trophy" :class="{ 'text-success':game.trophies.easyMode.win, 'text-muted opacity-25':!game.trophies.easyMode.win }"></i></td>
                                             </tr>
                                             <tr>
@@ -972,20 +972,18 @@ var easyMachines = {
 
 var easyData = [
 
-    {	id:'pistol',                type:'weapon', reqs:[ 'military1' ],                                auto:false,     fireTime:.25,   time:5,	        costs:{ ironPlate:5, copperPlate:5 }, },
     {	id:'submachine',            type:'weapon', reqs:[ 'military1' ],                                auto:true,      fireTime:.1,    time:15,	    costs:{ ironPlate:30, copperPlate:5 }, },
-    {	id:'shotgun',               type:'weapon', reqs:[ 'military1' ],                                auto:false,     fireTime:1,     time:13,	    costs:{ ironPlate:10, copperPlate:25 }, },
     {	id:'combatShotgun',         type:'weapon', reqs:[ 'military3' ],                                auto:true,      fireTime:.5,    time:13,	    costs:{ ironPlate:10, copperPlate:10, steelPlate:15 }, },
-    {	id:'rocketLauncher',        type:'weapon', reqs:[ 'rocketry1' ],                                auto:false,     fireTime:1,     time:19,	    costs:{ ironPlate:20, copperPlate:8 }, },
+    {	id:'rocketLauncher',        type:'weapon', reqs:[ 'rocketry1' ],                                auto:true,      fireTime:1,     time:19,	    costs:{ ironPlate:20, copperPlate:8 }, },
     {	id:'artilleryTurret',       type:'weapon', reqs:[ 'military4' ],                                auto:true,      fireTime:4,     time:250,	    costs:{ concrete:60, copperPlate:100, ironPlate:120, plasticBar:40, steelPlate:60 }, },
 
-    {   id:'bullet',                type:'ammunition', reqs:[ 'military1' ],                            weaponIds:[ 'pistol', 'submachine' ],       desc:true,  damages:{ physical:5 },                     productionLevel:1,    time:1,	    output:10,  inputs:{ ironPlate:4 }, },
-    {   id:'piercing',              type:'ammunition', reqs:[ 'military2' ],                            weaponIds:[ 'pistol', 'submachine' ],       desc:true,  damages:{ physical:8 },                     productionLevel:1,    time:4,	    output:10,  inputs:{ copperPlate:5, ironPlate:4, steelPlate:1 }, },
-    {   id:'shotgunShell',          type:'ammunition', reqs:[ 'military1' ],                            weaponIds:[ 'shotgun', 'combatShotgun' ],   desc:true,  damages:{ physical:60 },                    productionLevel:1,    time:3,       output:2,   inputs:{ copperPlate:2, ironPlate:2 }, },
-    {   id:'piercingShell',         type:'ammunition', reqs:[ 'military4' ],                            weaponIds:[ 'shotgun', 'combatShotgun' ],   desc:true,  damages:{ physical:128 },                   productionLevel:1,    time:14,      output:1,   inputs:{ copperPlate:9, ironPlate:4, steelPlate:2 }, },
-    {   id:'rocket',                type:'ammunition', reqs:[ 'rocketry1' ],                            weaponIds:[ 'rocketLauncher' ],             desc:true,  damages:{ explosion:200 },                  productionLevel:1,    time:9,       output:1,   inputs:{ copperPlate:2, explosive:1, ironPlate:3 }, },
-    {   id:'explosiveRocket',       type:'ammunition', reqs:[ 'rocketry2' ],                            weaponIds:[ 'rocketLauncher' ],             desc:true,  damages:{ explosion:650 },                  productionLevel:1,    time:17,      output:1,   inputs:{ copperPlate:2, explosive:3, ironPlate:3 }, },
-    {   id:'artilleryShell',        type:'ammunition', reqs:[ 'military4' ],                            weaponIds:[ 'artilleryTurret' ],            desc:true,  damages:{ physical:500, explosion:500 },    productionLevel:1,    time:56,      output:1,   inputs:{ copperPlate:8, explosive:16, ironPlate:25, plasticBar:8, steelPlate:8 }, },
+    {   id:'bullet',                type:'ammunition', reqs:[ 'military1' ],                            weaponIds:[ 'submachine' ],         desc:true,  damages:{ physical:5 },                     productionLevel:1,    time:1,	    output:10,  inputs:{ ironPlate:4 }, },
+    {   id:'piercing',              type:'ammunition', reqs:[ 'military2' ],                            weaponIds:[ 'submachine' ],         desc:true,  damages:{ physical:8 },                     productionLevel:1,    time:4,	    output:10,  inputs:{ copperPlate:5, ironPlate:4, steelPlate:1 }, },
+    {   id:'shotgunShell',          type:'ammunition', reqs:[ 'military1' ],                            weaponIds:[ 'combatShotgun' ],      desc:true,  damages:{ physical:60 },                    productionLevel:1,    time:3,       output:2,   inputs:{ copperPlate:2, ironPlate:2 }, },
+    {   id:'piercingShell',         type:'ammunition', reqs:[ 'military4' ],                            weaponIds:[ 'combatShotgun' ],      desc:true,  damages:{ physical:128 },                   productionLevel:1,    time:14,      output:1,   inputs:{ copperPlate:9, ironPlate:4, steelPlate:2 }, },
+    {   id:'rocket',                type:'ammunition', reqs:[ 'rocketry1' ],                            weaponIds:[ 'rocketLauncher' ],     desc:true,  damages:{ explosion:200 },                  productionLevel:1,    time:9,       output:1,   inputs:{ copperPlate:2, explosive:1, ironPlate:3 }, },
+    {   id:'explosiveRocket',       type:'ammunition', reqs:[ 'rocketry2' ],                            weaponIds:[ 'rocketLauncher' ],     desc:true,  damages:{ explosion:650 },                  productionLevel:1,    time:17,      output:1,   inputs:{ copperPlate:2, explosive:3, ironPlate:3 }, },
+    {   id:'artilleryShell',        type:'ammunition', reqs:[ 'military4' ],                            weaponIds:[ 'artilleryTurret' ],    desc:true,  damages:{ physical:500, explosion:500 },    productionLevel:1,    time:56,      output:1,   inputs:{ copperPlate:8, explosive:16, ironPlate:25, plasticBar:8, steelPlate:8 }, },
     
     {	id:'coal',                  type:'item', reqs:[ 'explosives' ],                                 productionLevel:1,    time:4,	    output:1,   },
     {	id:'iron',                  type:'item',                                                        productionLevel:1,    time:4,	    output:1,   },
@@ -1412,6 +1410,29 @@ class Item extends Base {
         return true
     }
     
+    canDeltaProduce() {
+        
+        if (this.productionLevel == 0) return false
+        
+        let output = this.getOutput()
+        if (this.deltaCount >= this.getMax()) {            
+            return false
+        }
+
+        let inputs = this.getInputs()
+        if (inputs == null) return true
+        
+        for (let id in inputs) {
+            let input = inputs[id]
+            
+            if (input > this.game.bases[id].deltaCount) {            
+                return false
+            }
+        }
+        
+        return true
+    }
+    
     getProd() {
     
         let ret = 0
@@ -1445,7 +1466,7 @@ class Item extends Base {
     
     startProducing() {
         
-        if (this.canProduce() == true) {
+        if (this.canDeltaProduce() == true) {
         
             this.state = 'running'
             this.remainingSeconds = this.getTime()
@@ -1455,7 +1476,7 @@ class Item extends Base {
                 for (let id in inputs) {
                     let input = inputs[id]
                     
-                    this.game.bases[id].count -= input
+                    this.game.bases[id].deltaCount -= input
                 }
             }
         }
@@ -1502,6 +1523,20 @@ class Item extends Base {
                                 
                 let output = this.getOutput()
                 this.deltaCount += output
+                
+                let max = this.getMax()
+                if (this.deltaCount >= max) this.deltaCount = max
+                
+                if (this.auto == true) {
+                
+                    this.remainingSeconds = this.getTime()
+                    this.startProducing()
+                }
+                else {
+                
+                    this.state = 'paused'
+                    this.remainingSeconds = this.getTime()
+                }
             }
             else {
             
@@ -2465,7 +2500,7 @@ class Game {
             for (let id in this.items) {
                 let item = this.items[id]
                 
-                item.deltaCount = 0
+                item.deltaCount = item.count
             }
             
             for (let i = 0; i < cycleCount; i++) {    
@@ -2485,25 +2520,10 @@ class Game {
             
             for (let id in this.items) {
                 let item = this.items[id]                
-                if (item.deltaCount != 0) {
+                if (item.deltaCount != item.count) {
                 
-                    item.count += item.deltaCount
-                    
-                    let max = item.getMax()
-                    if (item.count > max) item.count = max
-                    
+                    item.count = item.deltaCount                    
                     item.onProduce()
-                    
-                    if (item.auto == true) {
-                    
-                        item.remainingSeconds = item.getTime()
-                        item.startProducing()
-                    }
-                    else {
-                    
-                        item.state = 'paused'
-                        item.remainingSeconds = item.getTime()
-                    }
                 }
             }
             

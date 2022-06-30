@@ -10,7 +10,7 @@
                         <div class="col-auto small text-start">
                             <span class="fw-bold text-shadow" :class="{ 'text-muted':prod == 0, 'text-success':prod > 0, 'text-danger':prod < 0 }"><span v-if="prod > 0">+</span><FormatNumber :value="prod" /> <small>/s</small></span>
                             <div class="">
-                                <span class="fw-bold text-shadow" :class="{ 'text-muted':item.count <= 0, 'text-normal':item.count > 0 && item.count < item.getMax(), 'text-primary':item.count >= item.getMax() }"><FormatNumber :value="item.count" /></span>
+                                <span class="fw-bold text-shadow" :class="{ 'text-muted':item.count <= 0, 'text-normal':item.count > 0 && item.count < item.getMax(), 'text-full':item.count >= item.getMax() }"><FormatNumber :value="item.count" /></span>
                                 <small class="text-muted fw-bold text-shadow">/<FormatNumber :value="item.getMax()" /></small>
                             </div>
                         </div>
@@ -21,7 +21,7 @@
                         <span><i class="fas fa-fw fa-play"></i></span>
                     </button>
                     <button v-if="item.state != 'paused'" type="button" class="position-relative btn btn-sm p-1 btn-primary" @click="pause()">
-                        <span :class="{ 'text-danger':item.state == 'waiting' && item.count < item.getMax(), 'text-primary':item.state == 'waiting' && item.count >= item.getMax() }"><i class="fas fa-fw fa-stop"></i></span>
+                        <span :class="{ 'text-danger':item.state == 'waiting' && item.count < item.getMax(), 'text-full':item.state == 'waiting' && item.count >= item.getMax() }"><i class="fas fa-fw fa-stop"></i></span>
                         <div class="w-100 position-absolute progress" style="bottom:-1px; left:0; height:3px; border-radius: 0 0 6px 6px;">
                             <div class="progress-bar" role="progressbar" :style="'width:' + percent + '%;'" :aria-valuenow="percent" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
