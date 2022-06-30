@@ -1021,10 +1021,11 @@ var easyData = [
     
     {	id:'alienEgg',              type:'base', reqs:[ 'military1' ],                                  productionLevel:0,    },
     
-    {   id:'biter1',                type:'alien', reqs:[ 'military1' ],                                 genCount:150,   health:15,      shield:{ physical:0,  explosion:0  },  armor:{ physical:0,   explosion:0  },  eggCoeff:.7,  },
-    {   id:'biter2',                type:'alien', reqs:[ 'military2' ],                                 genCount:100,   health:75,      shield:{ physical:4,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.6,  },
-    {   id:'biter3',                type:'alien', reqs:[ 'military3' ],                                 genCount:50,    health:375,     shield:{ physical:8,  explosion:0  },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.5,  },
-    {   id:'biter4',                type:'alien', reqs:[ 'military4' ],                                 genCount:30,    health:3000,    shield:{ physical:12, explosion:12 },  armor:{ physical:.1,  explosion:.1 },  eggCoeff:.4,  },
+    {   id:'biter1',                type:'alien', reqs:[ 'military1' ],                                 genCount:150,   health:15,      shield:{ physical:0,  explosion:0  },  armor:{ physical:0,   explosion:0   }, eggCoeff:.7,  },
+    {   id:'biter2',                type:'alien', reqs:[ 'military2' ],                                 genCount:100,   health:75,      shield:{ physical:4,  explosion:0  },  armor:{ physical:.1,  explosion:.1  }, eggCoeff:.6,  },
+    {   id:'biter3',                type:'alien', reqs:[ 'military3' ],                                 genCount:50,    health:375,     shield:{ physical:8,  explosion:0  },  armor:{ physical:.1,  explosion:.1  }, eggCoeff:.5,  },
+    {   id:'biter4',                type:'alien', reqs:[ 'military4' ],                                 genCount:30,    health:3000,    shield:{ physical:12, explosion:12 },  armor:{ physical:.1,  explosion:.1  }, eggCoeff:.4,  },
+    {   id:'nest',                  type:'alien', reqs:[ 'military4' ],                                 genCount:1,     health:30000,   shield:{ physical:2,  explosion:5  },  armor:{ physical:.15, explosion:.15 }, eggCoeff:1.1, },
 
     {   id:'lab',                   type:'lab',                                                         icon:'lab',                 name:'lab',             time:22,        costs:{ copperPlate:15, ironPlate:36 }, },
 
@@ -1956,6 +1957,10 @@ class Weapon extends Buildable {
                     ammunition.deltaCount -= 1
                     
                     let kill = alien.doDamage(totalDamage)
+                    if (alien.id == 'nest' && kill > 0) {
+                    
+                         this.game.alienNestKilled += kill
+                    }
                     if (kill > 0) {
                     
                         let dice = Math.random()
@@ -2067,6 +2072,7 @@ class Game {
         this.victory = false
         this.timePlayed = 0
         this.currentMode = null
+        this.alienNestKilled = 0
         
         this.loadMode('easy')
         
@@ -2142,7 +2148,7 @@ class Game {
     
     getAlienEggMax() {
         
-        let ret = 10
+        let ret = 10 + (10 * this.alienNestKilled)
         return ret
     }
     
@@ -2203,6 +2209,7 @@ class Game {
         if (data.paused != null) this.paused = data.paused
         if (data.victory != null) this.victory = data.victory
         if (data.timePlayed != null) this.timePlayed = data.timePlayed
+        if (data.alienNestKilled != null) this.alienNestKilled = data.alienNestKilled
         
         if (data.options != null) {
         
@@ -2348,6 +2355,7 @@ class Game {
             victory: this.victory,
             timePlayed: this.timePlayed,
             currentMode: this.currentMode,
+            alienNestKilled: this.alienNestKilled,
             
             alienEggCount: this.bases['alienEgg'].count,
             
@@ -2457,24 +2465,13 @@ class Game {
     
         for (let id in this.aliens) {
             let alien = this.aliens[id]
-            if (alien.unlocked == true && alien.id != 'nest') {
+            if (alien.unlocked == true) {
             
                 alien.setCount(Math.ceil(Math.random() * alien.genCount))
             }
         }
     }
 
-    generateNests() {
-    
-        for (let id in this.aliens) {
-            let alien = this.aliens[id]
-            if (alien.unlocked == true && alien.id == 'nest') {
-            
-                alien.setCount(Math.ceil(Math.random() * alien.genCount))
-            }
-        }
-    }
-    
     //---
     
     mainLoop(deltaTimeMs) {
