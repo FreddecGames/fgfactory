@@ -1022,10 +1022,10 @@ var easyData = [
     {	id:'alienEgg',              type:'base', reqs:[ 'military1' ],                                  productionLevel:0,    },
     
     {   id:'biter1',                type:'alien', reqs:[ 'military1' ],                                 genCount:150,   health:15,      shield:{ physical:0,  explosion:0  },  armor:{ physical:0,   explosion:0   }, eggCoeff:.7,  },
-    {   id:'biter2',                type:'alien', reqs:[ 'military2' ],                                 genCount:100,   health:75,      shield:{ physical:4,  explosion:0  },  armor:{ physical:.1,  explosion:.1  }, eggCoeff:.6,  },
-    {   id:'biter3',                type:'alien', reqs:[ 'military3' ],                                 genCount:50,    health:375,     shield:{ physical:8,  explosion:0  },  armor:{ physical:.1,  explosion:.1  }, eggCoeff:.5,  },
-    {   id:'biter4',                type:'alien', reqs:[ 'military4' ],                                 genCount:30,    health:3000,    shield:{ physical:12, explosion:12 },  armor:{ physical:.1,  explosion:.1  }, eggCoeff:.4,  },
-    {   id:'nest',                  type:'alien', reqs:[ 'military4' ],                                 genCount:1,     health:30000,   shield:{ physical:2,  explosion:5  },  armor:{ physical:.15, explosion:.15 }, eggCoeff:1.1, },
+    {   id:'biter2',                type:'alien', reqs:[ 'military1' ],                                 genCount:100,   health:75,      shield:{ physical:4,  explosion:0  },  armor:{ physical:.1,  explosion:.1  }, eggCoeff:.6,  },
+    {   id:'biter3',                type:'alien', reqs:[ 'military1' ],                                 genCount:50,    health:375,     shield:{ physical:8,  explosion:0  },  armor:{ physical:.1,  explosion:.1  }, eggCoeff:.5,  },
+    {   id:'biter4',                type:'alien', reqs:[ 'military2' ],                                 genCount:30,    health:3000,    shield:{ physical:12, explosion:12 },  armor:{ physical:.1,  explosion:.1  }, eggCoeff:.4,  },
+    {   id:'nest',                  type:'alien', reqs:[ 'military3' ],                                 genCount:1,     health:30000,   shield:{ physical:2,  explosion:5  },  armor:{ physical:.15, explosion:.15 }, eggCoeff:1.1, },
 
     {   id:'lab',                   type:'lab',                                                         icon:'lab',                 name:'lab',             time:22,        costs:{ copperPlate:15, ironPlate:36 }, },
 
