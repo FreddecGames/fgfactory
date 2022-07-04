@@ -1,12 +1,13 @@
 <template>
     <div v-if="alien.count > 0" class="col-auto">
-        <div class="position-relative rounded d-flex align-items-center justify-content-center" :title="$t('alien_' + alien.id)" >
+        <button type="button" class="position-relative btn btn-primary p-1 align-items-center justify-content-center" :title="$t('alien_' + alien.id)" @click="$parent.$parent.$parent.showAlienPopup(alien)">
             <img :src="require(`~/assets/aliens/${alien.id}.png`)" width="48px" height="48px" :alt="$t('alien_' + alien.id)" />
-            <span class="position-absolute top-0 end-0 fw-bold fs-medium text-shadow ext-normal"><FormatNumber :value="alien.count" /></span>
+            <span class="position-absolute top-0 start-0 fs-medium text-muted"><i class="fas fa-fw fa-info-circle"></i></span>
+            <span class="position-absolute top-0 end-0 fw-bold fs-medium text-shadow text-normal" style="margin-right:2px;"><FormatNumber :value="alien.count" /></span>
             <div class="w-100 position-absolute progress" style="bottom:-1px; left:0; height:3px; border-radius: 0 0 6px 6px;">
                 <div class="progress-bar" role="progressbar" :style="'width:' + percent + '%;'" :aria-valuenow="percent" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
-        </div>
+        </button>
     </div>
 </template>
 

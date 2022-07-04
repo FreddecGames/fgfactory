@@ -1,6 +1,6 @@
 <template>
-    <div v-if="item.unlocked == true" class="col-12 col-lg-6 col-xl-4 col-xxl-3">
-        <div class="list-group-item list-group-item-action py-0 px-1" :class="{ 'active':active }">
+    <div v-if="item && item.unlocked == true" class="col-12 col-lg-6 col-xl-4 col-xxl-3">
+        <div class="list-group-item list-group-item-action py-0 px-2" :class="{ 'active':active }">
             <div class="row gx-1 align-items-center">
                 <div class="col">
                     <button type="button" class="w-100 position-relative btn py-1 px-0 align-items-center justify-content-start" @click="$emit('click')">
@@ -9,7 +9,7 @@
                         </div>
                         <div class="col-auto small text-start">
                             <span class="fw-bold text-shadow" :class="{ 'text-muted':prod == 0, 'text-success':prod > 0, 'text-danger':prod < 0 }"><span v-if="prod > 0">+</span><FormatNumber :value="prod" /> <small>/s</small></span>
-                            <div class="">
+                            <div class="mt-1">
                                 <span class="fw-bold text-shadow" :class="{ 'text-muted':item.count <= 0, 'text-normal':item.count > 0 && item.count < item.getMax(), 'text-full':item.count >= item.getMax() }"><FormatNumber :value="item.count" /></span>
                                 <small class="text-muted fw-bold text-shadow">/<FormatNumber :value="item.getMax()" /></small>
                             </div>
