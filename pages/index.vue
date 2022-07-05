@@ -1287,7 +1287,7 @@ var hardcoreMachines = {
     drill1:         { icon:'drill1',            name:'drill1',          time:5,	    costs:{ ironGearWheel:6, ironPlate:6, stone:10 }, },
     drill2:         { icon:'drill2',            name:'drill2',          time:2,	    costs:{ electronicCircuit:5, ironGearWheel:10, ironPlate:20 }, },
     furnace:        { icon:'furnace',           name:'furnace',         time:1,	    costs:{ stone:5 }, },
-    boiler:         { icon:'boiler',            name:'boiler',          time:1,	    costs:{ pipe:4, stone:5 }, },
+    boiler:         { icon:'boiler',            name:'boiler',          time:1,	    costs:{ ironPlate:4, stone:5 }, },
     steamEngine:    { icon:'steamEngine',       name:'steamEngine',     time:1,	    costs:{ ironGearWheel:10, ironPlate:50, pipe:5 }, },
     assembler1:     { icon:'assembler1',        name:'assembler1',      time:1,	    costs:{ electronicCircuit:3, ironGearWheel:5, ironPlate:9 }, },
     assembler2:     { icon:'assembler2',        name:'assembler2',      time:2,	    costs:{ electronicCircuit:6, ironGearWheel:10, ironPlate:9, steelPlate:2 }, },
@@ -1311,26 +1311,26 @@ var hardcoreData = [
     {	id:'artilleryTurret',           type:'weapon',      reqs:[ 'military4' ],                                   auto:true,      fireTime:4,     time:40,	    costs:{ advancedCircuit:20, concrete:60, ironGearWheel:40, steelPlate:60 }, },
     {	id:'spidertron',                type:'weapon',      reqs:[ 'spidertronTech' ],                              auto:true,      fireTime:1,     time:10,	    costs:{ efficiencyModule:2, exoskeleton:4, portableReactor:2, lowDensityStructure:150, radar:2, rocketControlUnit:16, rocketLauncher:4 }, },
     
-    {   id:'bullet',                    type:'ammunition',  reqs:[ 'military1' ],                                   weaponIds:[ 'pistol', 'submachine', 'car' ],        desc:true,      damages:{ physical:5 },                     productionLevel:1,    time:1,       output:10,  inputs:{ ironPlate:4 }, },
-    {   id:'bulletPiercing',            type:'ammunition',  reqs:[ 'military2' ],                                   weaponIds:[ 'pistol', 'submachine', 'car' ],        desc:true,      damages:{ physical:8 },                     productionLevel:1,    time:4,       output:10,  inputs:{ copperPlate:5, ironPlate:4, steelPlate:1 }, },
-    {   id:'bulletUranium',             type:'ammunition',  reqs:[ 'uraniumAmmo' ],                                 weaponIds:[ 'pistol', 'submachine', 'car' ],        desc:true,      damages:{ physical:24 },                    productionLevel:1,    time:14,      output:10,  inputs:{ copperPlate:5, ironPlate:4, steelPlate:1, uranium238:1 }, },
-    {   id:'shotgunShell',              type:'ammunition',  reqs:[ 'military1' ],                                   weaponIds:[ 'shotgun', 'combatShotgun' ],           desc:true,      damages:{ physical:60 },                    productionLevel:1,    time:3,       output:2,   inputs:{ copperPlate:2, ironPlate:2 }, },
-    {   id:'piercingShell',             type:'ammunition',  reqs:[ 'military4' ],                                   weaponIds:[ 'shotgun', 'combatShotgun' ],           desc:true,      damages:{ physical:128 },                   productionLevel:1,    time:14,      output:1,   inputs:{ copperPlate:9, ironPlate:4, steelPlate:2 }, },
-    {   id:'cannonShell',               type:'ammunition',  reqs:[ 'tankTech' ],                                    weaponIds:[ 'tank' ],                               desc:true,      damages:{ physical:200, explosion:100 },    productionLevel:1,    time:8,       output:1,   inputs:{ explosive:1, plasticBar:4, steelPlate:4 }, },
-    {   id:'explosiveShell',            type:'ammunition',  reqs:[ 'tankTech' ],                                    weaponIds:[ 'tank' ],                               desc:true,      damages:{ physical:180, explosion:300 },    productionLevel:1,    time:8,       output:1,   inputs:{ explosive:2, plasticBar:4, steelPlate:4 }, },
-    {   id:'uraniumShell',              type:'ammunition',  reqs:[ 'uraniumAmmo' ],                                 weaponIds:[ 'tank' ],                               desc:true,      damages:{ physical:400, explosion:200 },    productionLevel:1,    time:12,      output:1,   inputs:{ explosive:1, plasticBar:4, steelPlate:4, uranium238:1 }, },
-    {   id:'rocket',                    type:'ammunition',  reqs:[ 'rocketry1' ],                                   weaponIds:[ 'rocketLauncher', 'spidertron' ],       desc:true,      damages:{ explosion:200 },                  productionLevel:1,    time:8,       output:1,   inputs:{ electronicCircuit:1, explosive:1, ironPlate:2 }, },
-    {   id:'explosiveRocket',           type:'ammunition',  reqs:[ 'rocketry2' ],                                   weaponIds:[ 'rocketLauncher', 'spidertron' ],       desc:true,      damages:{ explosion:650 },                  productionLevel:1,    time:16,      output:1,   inputs:{ electronicCircuit:1, explosive:3, ironPlate:2 }, },
-    {   id:'atomicBomb',                type:'ammunition',  reqs:[ 'rocketry3' ],                                   weaponIds:[ 'rocketLauncher', 'spidertron' ],       desc:true,      damages:{ explosion:4000 },                 productionLevel:1,    time:50,      output:1,   inputs:{ explosive:10, rocketControlUnit:10, uranium235:30 }, },
-    {   id:'artilleryShell',            type:'ammunition',  reqs:[ 'military4' ],                                   weaponIds:[ 'artilleryTurret' ],                    desc:true,      damages:{ physical:500, explosion:500 },    productionLevel:1,    time:15,      output:1,   inputs:{ explosive:16, plasticBar:16, steelPlate:16, radar:1 }, },
+    {   id:'bullet',                    type:'ammunition',  reqs:[ 'military1' ],                                   weaponIds:[ 'pistol', 'submachine', 'car' ],        desc:true,      damages:{ physical:5 },                     productionLevel:1,    time:1,       output:10,  inputs:{ electricity:75, ironPlate:4 }, },
+    {   id:'bulletPiercing',            type:'ammunition',  reqs:[ 'military2' ],                                   weaponIds:[ 'pistol', 'submachine', 'car' ],        desc:true,      damages:{ physical:8 },                     productionLevel:1,    time:4,       output:10,  inputs:{ electricity:75, copperPlate:5, ironPlate:4, steelPlate:1 }, },
+    {   id:'bulletUranium',             type:'ammunition',  reqs:[ 'uraniumAmmo' ],                                 weaponIds:[ 'pistol', 'submachine', 'car' ],        desc:true,      damages:{ physical:24 },                    productionLevel:1,    time:14,      output:10,  inputs:{ electricity:75, copperPlate:5, ironPlate:4, steelPlate:1, uranium238:1 }, },
+    {   id:'shotgunShell',              type:'ammunition',  reqs:[ 'military1' ],                                   weaponIds:[ 'shotgun', 'combatShotgun' ],           desc:true,      damages:{ physical:60 },                    productionLevel:1,    time:3,       output:2,   inputs:{ electricity:75, copperPlate:2, ironPlate:2 }, },
+    {   id:'piercingShell',             type:'ammunition',  reqs:[ 'military4' ],                                   weaponIds:[ 'shotgun', 'combatShotgun' ],           desc:true,      damages:{ physical:128 },                   productionLevel:1,    time:14,      output:1,   inputs:{ electricity:75, copperPlate:9, ironPlate:4, steelPlate:2 }, },
+    {   id:'cannonShell',               type:'ammunition',  reqs:[ 'tankTech' ],                                    weaponIds:[ 'tank' ],                               desc:true,      damages:{ physical:200, explosion:100 },    productionLevel:1,    time:8,       output:1,   inputs:{ electricity:75, explosive:1, plasticBar:4, steelPlate:4 }, },
+    {   id:'explosiveShell',            type:'ammunition',  reqs:[ 'tankTech' ],                                    weaponIds:[ 'tank' ],                               desc:true,      damages:{ physical:180, explosion:300 },    productionLevel:1,    time:8,       output:1,   inputs:{ electricity:75, explosive:2, plasticBar:4, steelPlate:4 }, },
+    {   id:'uraniumShell',              type:'ammunition',  reqs:[ 'uraniumAmmo' ],                                 weaponIds:[ 'tank' ],                               desc:true,      damages:{ physical:400, explosion:200 },    productionLevel:1,    time:12,      output:1,   inputs:{ electricity:75, explosive:1, plasticBar:4, steelPlate:4, uranium238:1 }, },
+    {   id:'rocket',                    type:'ammunition',  reqs:[ 'rocketry1' ],                                   weaponIds:[ 'rocketLauncher', 'spidertron' ],       desc:true,      damages:{ explosion:200 },                  productionLevel:1,    time:8,       output:1,   inputs:{ electricity:75, electronicCircuit:1, explosive:1, ironPlate:2 }, },
+    {   id:'explosiveRocket',           type:'ammunition',  reqs:[ 'rocketry2' ],                                   weaponIds:[ 'rocketLauncher', 'spidertron' ],       desc:true,      damages:{ explosion:650 },                  productionLevel:1,    time:16,      output:1,   inputs:{ electricity:75, electronicCircuit:1, explosive:3, ironPlate:2 }, },
+    {   id:'atomicBomb',                type:'ammunition',  reqs:[ 'rocketry3' ],                                   weaponIds:[ 'rocketLauncher', 'spidertron' ],       desc:true,      damages:{ explosion:4000 },                 productionLevel:1,    time:50,      output:1,   inputs:{ electricity:75, explosive:10, rocketControlUnit:10, uranium235:30 }, },
+    {   id:'artilleryShell',            type:'ammunition',  reqs:[ 'military4' ],                                   weaponIds:[ 'artilleryTurret' ],                    desc:true,      damages:{ physical:500, explosion:500 },    productionLevel:1,    time:15,      output:1,   inputs:{ electricity:75, explosive:16, plasticBar:16, steelPlate:16, radar:1 }, },
     
-    {	id:'steam',                     type:'item',                                                                productionLevel:0,    time:1,       output:60,  inputs:{ water:60 }, },
+    {	id:'steam',                     type:'item',                                                                productionLevel:0,    time:1,       output:60,  inputs:{ coal:5, water:60 }, },
     {	id:'electricity',               type:'item',                                                                productionLevel:0,    time:1,       output:900, inputs:{ steam:30 }, },
     {	id:'coal',                      type:'item',                                                                productionLevel:1,    time:4,       output:1,   },
     {	id:'iron',                      type:'item',                                                                productionLevel:1,    time:45,      output:11,  inputs:{ coal:1 }, },
-    {	id:'ironPlate',                 type:'item',                                                                productionLevel:0,    time:3.2,     output:1,   inputs:{ iron:1 }, },
+    {	id:'ironPlate',                 type:'item',                                                                productionLevel:0,    time:45,      output:14,  inputs:{ coal:1, iron:14 }, },
     {	id:'ironStick',                 type:'item',                                                                productionLevel:0,    time:.5,      output:2,   inputs:{ ironPlate:1 }, },
-    {	id:'steelPlate',                type:'item',        reqs:[ 'steelProcessing' ],                             productionLevel:0,    time:32,      output:1,   inputs:{ ironPlate:10 }, },
+    {	id:'steelPlate',                type:'item',        reqs:[ 'steelProcessing' ],                             productionLevel:0,    time:45,      output:3,   inputs:{ coal:1, ironPlate:30 }, },
     {	id:'pipe',                      type:'item',                                                                productionLevel:0,    time:.5,      output:1,   inputs:{ ironPlate:2 }, },
     {	id:'ironGearWheel',             type:'item',                                                                productionLevel:1,    time:.5,      output:1,   inputs:{ ironPlate:4 }, },
     {	id:'engine',                    type:'item',        reqs:[ 'engineTech' ],                                  productionLevel:0,    time:10,      output:1,   inputs:{ ironGearWheel:1, pipe:2, steelPlate:1 }, },
@@ -1339,11 +1339,11 @@ var hardcoreData = [
     {	id:'grenade',                   type:'item',        reqs:[ 'military2' ],                                   productionLevel:0,    time:8,       output:1,   inputs:{ coal:10, ironPlate:5 }, },
     {	id:'radar',                     type:'item',                                                                productionLevel:0,    time:.5,      output:1,   inputs:{ electronicCircuit:5, ironGearWheel:5, ironPlate:10 }, },
     {	id:'exoskeleton',               type:'item',        reqs:[ 'exoskeletonTech' ],                             productionLevel:0,    time:10,      output:1,   inputs:{ electricEngine:30, processingUnit:10, steelPlate:20 }, },
-    {	id:'uranium',                   type:'item',                                                                productionLevel:1,    time:8,       output:1,   },
-    {	id:'uranium235',                type:'item',        reqs:[ 'kovarex', 'uraniumProcessing' ],                productionLevel:0,    time:12,      output:1,   inputs:{ uranium:993 }, },
-    {	id:'uranium238',                type:'item',        reqs:[ 'kovarex', 'uraniumProcessing' ],                productionLevel:0,    time:12,      output:1,   inputs:{ uranium:7 }, },
+    {	id:'uranium',                   type:'item',                                                                productionLevel:1,    time:8,       output:1,   inputs:{ electricity:90 }, },
+    {	id:'uranium235',                type:'item',        reqs:[ 'kovarex', 'uraniumProcessing' ],                productionLevel:0,    time:12,      output:1,   inputs:{ electricity:350, uranium:993 }, },
+    {	id:'uranium238',                type:'item',        reqs:[ 'kovarex', 'uraniumProcessing' ],                productionLevel:0,    time:12,      output:1,   inputs:{ electricity:350, uranium:7 }, },
     {	id:'water',                     type:'item',                                                                productionLevel:0,    time:.25,     output:10,  },
-    {	id:'oil',                       type:'item',        reqs:[ 'oilProcessing1' ],                              productionLevel:0,    time:.25,     output:1,   },
+    {	id:'oil',                       type:'item',        reqs:[ 'oilProcessing1' ],                              productionLevel:0,    time:.25,     output:1,   inputs:{ electricity:90 }, },
     {	id:'heavyOil',                  type:'item',        reqs:[ 'oilProcessing1' ],                              productionLevel:0,    time:5,       output:25,  inputs:{ oil:100, water:50 }, },
     {	id:'petroleumGas',              type:'item',        reqs:[ 'oilProcessing1' ],                              productionLevel:0,    time:5,       output:45,  inputs:{ oil:100 }, },
     {	id:'lightOil',                  type:'item',        reqs:[ 'oilProcessing2' ],                              productionLevel:0,    time:2,       output:30,  inputs:{ heavyOil:40, water:30 }, },
@@ -1356,7 +1356,7 @@ var hardcoreData = [
     {	id:'battery',                   type:'item',        reqs:[ 'batteryTech' ],                                 productionLevel:0,    time:5,       output:1,   inputs:{ copperPlate:1, ironPlate:1, sulfuricAcid:40 }, },
     {	id:'accumulator',               type:'item',        reqs:[ 'accumulatorTech' ],                             productionLevel:0,    time:10,      output:1,   inputs:{ battery:5, ironPlate:2 }, },
     {	id:'copper',                    type:'item',                                                                productionLevel:1,    time:45,      output:11,  inputs:{ coal:1 }, },
-    {	id:'copperPlate',               type:'item',                                                                productionLevel:0,    time:3.2,     output:1,   inputs:{ copper:1 }, },
+    {	id:'copperPlate',               type:'item',                                                                productionLevel:0,    time:45,      output:14,  inputs:{ coal:1, copper:14 }, },
     {	id:'copperCable',               type:'item',                                                                productionLevel:1,    time:.5,      output:2,   inputs:{ copperPlate:1 }, },
     {	id:'electronicCircuit',         type:'item',        reqs:[ 'electronics1' ],                                productionLevel:1,    time:.5,      output:1,   inputs:{ copperCable:8, ironPlate:2 }, },
     {	id:'advancedCircuit',           type:'item',        reqs:[ 'electronics2' ],                                productionLevel:0,    time:6,       output:1,   inputs:{ copperCable:8, electronicCircuit:2, plasticBar:4 }, },
@@ -1365,7 +1365,7 @@ var hardcoreData = [
     {	id:'flyingRobot',               type:'item',        reqs:[ 'robotics' ],                                    productionLevel:0,    time:20,      output:1,   inputs:{ battery:2, electricEngine:1, electronicCircuit:3, steelPlate:1 }, },
     {	id:'portableReactor',           type:'item',        reqs:[ 'portableReactorTech' ],                         productionLevel:0,    time:10,      output:1,   inputs:{ lowDensityStructure:50, processingUnit:200 }, },
     {	id:'stone',                     type:'item',                                                                productionLevel:1,    time:45,      output:11,  inputs:{ coal:1 }, },
-    {	id:'stoneBrick',                type:'item',                                                                productionLevel:0,    time:3.2,     output:1,   inputs:{ stone:2 }, },
+    {	id:'stoneBrick',                type:'item',                                                                productionLevel:0,    time:45,      output:14,  inputs:{ coal:1, stone:28 }, },
     {	id:'wall',                      type:'item',        reqs:[ 'wallTech' ],                                    productionLevel:0,    time:.5,      output:1,   inputs:{ stoneBrick:5 }, },
     {	id:'concrete',                  type:'item',        reqs:[ 'concreteTech' ],                                productionLevel:0,    time:10,      output:10,  inputs:{ iron:1, stoneBrick:5, water:100 }, },
     {	id:'speedModule',               type:'item',        reqs:[ 'speed' ],                                       productionLevel:0,    time:15,      output:1,   inputs:{ advancedCircuit:5, electronicCircuit:5 }, },
@@ -1377,12 +1377,12 @@ var hardcoreData = [
     {	id:'rocketPart',                type:'item',        reqs:[ 'rocketTech' ],                                  productionLevel:0,    time:3,	    output:1,   inputs:{ electricity:4000, lowDensityStructure:10, rocketControlUnit:10, rocketFuel:10 }, },
     {	id:'satellite',                 type:'item',        reqs:[ 'spaceScience' ],                                productionLevel:0,    time:5,	    output:1,   inputs:{ electricity:375, accumulator:100, lowDensityStructure:100, processingUnit:100, radar:5, rocketFuel:50, solarPanel:100 }, },
 
-    {	id:'redPack',                   type:'item',                                                                productionLevel:1,    time:5,	    output:1,   inputs:{ copperPlate:1, ironGearWheel:1 }, },
-    {	id:'greenPack',                 type:'item',        reqs:[ 'greenScience' ],                                productionLevel:1,    time:7,	    output:1,   inputs:{ electronicCircuit:1, ironGearWheel:2, ironPlate:2 }, },
-    {	id:'grayPack',                  type:'item',        reqs:[ 'grayScience' ],                                 productionLevel:1,    time:10,	    output:2,   inputs:{ grenade:1, bullet:1, wall:2 }, },
-    {	id:'bluePack',                  type:'item',        reqs:[ 'blueScience' ],                                 productionLevel:1,    time:24,	    output:2,   inputs:{ advancedCircuit:3, engine:2, sulfur:1 }, },
-    {	id:'purplePack',                type:'item',        reqs:[ 'purpleScience' ],                               productionLevel:1,    time:26,	    output:3,   inputs:{ advancedCircuit:5, steelPlate:10, stoneBrick:10, productivityModule:1, rail:30, alienEgg:1 }, },
-    {	id:'yellowPack',                type:'item',        reqs:[ 'yellowScience' ],                               productionLevel:1,    time:21,	    output:3,   inputs:{ flyingRobot:1, lowDensityStructure:3, processingUnit:2 }, },
+    {	id:'redPack',                   type:'item',                                                                productionLevel:1,    time:5,	    output:1,   inputs:{ electricity:75, copperPlate:1, ironGearWheel:1 }, },
+    {	id:'greenPack',                 type:'item',        reqs:[ 'greenScience' ],                                productionLevel:1,    time:7,	    output:1,   inputs:{ electricity:75, electronicCircuit:1, ironGearWheel:2, ironPlate:2 }, },
+    {	id:'grayPack',                  type:'item',        reqs:[ 'grayScience' ],                                 productionLevel:1,    time:10,	    output:2,   inputs:{ electricity:75, grenade:1, bullet:1, wall:2 }, },
+    {	id:'bluePack',                  type:'item',        reqs:[ 'blueScience' ],                                 productionLevel:1,    time:24,	    output:2,   inputs:{ electricity:75, advancedCircuit:3, engine:2, sulfur:1 }, },
+    {	id:'purplePack',                type:'item',        reqs:[ 'purpleScience' ],                               productionLevel:1,    time:26,	    output:3,   inputs:{ electricity:75, advancedCircuit:5, steelPlate:10, stoneBrick:10, productivityModule:1, rail:30, alienEgg:1 }, },
+    {	id:'yellowPack',                type:'item',        reqs:[ 'yellowScience' ],                               productionLevel:1,    time:21,	    output:3,   inputs:{ electricity:75, flyingRobot:1, lowDensityStructure:3, processingUnit:2 }, },
     
     {	id:'alienEgg',                  type:'base',        reqs:[ 'military1' ],                                   },
     
@@ -1832,7 +1832,7 @@ class Item extends Base {
     }
     
     produce(delta) {
-
+        
         if (this.state == 'waiting') {
         
             this.startProducing()
@@ -1968,12 +1968,12 @@ class Buildable extends Base {
                 this.state = 'paused'
                 this.remainingSeconds = this.getTime()
                 
-                this.onBuild()
+                this.onBuild(true)
             }
         }
     }
     
-    onBuild() {}
+    onBuild(automatic) {}
 }
 
 //------------------------------------------------------------------------------
@@ -1994,12 +1994,13 @@ class Building extends Buildable {
     
     //---
     
-    onBuild() {
-        super.onBuild()
+    onBuild(automatic) {
+        super.onBuild(automatic)
         
         if (this.id == 'ironPlateT1' && this.count >= 1) {
             
             this.game.bases['ironT1'].unlocked = true
+            if (this.game.currentMode == 'hardcore') this.game.bases['coalT1'].unlocked = true
             if (this.game.currentMode == 'hardcore') this.game.bases['ironGearWheel'].unlocked = true
         }
 
@@ -2025,7 +2026,7 @@ class Building extends Buildable {
         this.item.auto = true
         this.item.productionLevel = 2
         
-        if (this.item.building.count == 1) {
+        if (automatic == true && this.item.building.count == 1) {
             this.item.startProducing()
         }
     }
@@ -2063,8 +2064,8 @@ class Lab extends Buildable {
     
     //---
     
-    onBuild() {
-        super.onBuild()
+    onBuild(automatic) {
+        super.onBuild(automatic)
         
         if (this.count >= 1) {
         
@@ -2116,8 +2117,8 @@ class Tech extends Buildable {
     
     //---
     
-    onBuild() {
-        super.onBuild()
+    onBuild(automatic) {
+        super.onBuild(automatic)
         
         for (let id in this.game.bases) {
             let base = this.game.bases[id]
@@ -2482,8 +2483,6 @@ class Game {
 
             if (this.bases['coal'].unlocked == false) this.bases['coal'].unlocked = true
             if (this.bases['iron'].unlocked == false) this.bases['iron'].unlocked = true
-            if (this.bases['steam'].unlocked == false) this.bases['steam'].unlocked = true
-            if (this.bases['steamT1'].unlocked == false) this.bases['steamT1'].unlocked = true
         }
         
         this.checkTrophies()
@@ -2785,14 +2784,14 @@ class Game {
         
         for (let id in this.buildings) {
             let building = this.buildings[id]
-            if (building.count > 0) building.onBuild()
+            if (building.count > 0) building.onBuild(false)
         }
         
-        if (this.lab.count > 0) this.lab.onBuild()
+        if (this.lab.count > 0) this.lab.onBuild(false)
         
         for (let id in this.techs) {
             let tech = this.techs[id]
-            if (tech.count > 0) tech.onBuild()
+            if (tech.count > 0) tech.onBuild(false)
         }
     }
     
@@ -2824,7 +2823,6 @@ class Game {
             storages: {},
             buildings: {},
             tutorials: {},
-            ammunitions: {},
         }
         
         for (let id in this.items) {
@@ -2837,7 +2835,7 @@ class Game {
                 unlocked: item.unlocked,
                 alienEggCount: item.alienEggCount,
                 remainingSeconds: item.remainingSeconds,
-            }
+            }            
         }
         
         for (let id in this.buildings) {
