@@ -172,7 +172,7 @@ scenario_1.elems = [
 	{ id:'copper_plate', type:'item', label:'sc1_copper_plate', img:'/fgfactory/sc1/copper_plate.png', max:100 },
 		
 		{ id:'copper_plate_storage', type:'storage', itemId:'copper_plate', assignId:'chest', stack:100 },
-		{ id:'copper_plate_production', type:'production', itemId:'copper_plate', assignId:'furnace', output:1, seconds:3.2, inputs:[{ id:'coal', count:0.07 },{ id:'iron', count:1 }] },
+		{ id:'copper_plate_production', type:'production', itemId:'copper_plate', assignId:'furnace', output:1, seconds:3.2, inputs:[{ id:'coal', count:0.07 },{ id:'copper', count:1 }] },
 
 	{ id:'steel', type:'item', label:'sc1_steel', img:'/fgfactory/sc1/steel.png', max:100, reqs:[{ id:'mission_steel_tech', count:1 }] },
 		

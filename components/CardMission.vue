@@ -25,7 +25,18 @@
 
 <template>
 	
-	<UCard v-if="elem.unlocked == false" variant="outline">
+	<UCard v-if="elem.count > 0" variant="outline">
+		<div class="grid gap-6">
+		
+			<div class="flex items-center gap-2">				
+				<span class="text-lg font-semibold text-success opacity-50">{{ $t(elem.label) }}</span>				
+				<UBadge variant="subtle" color="success" icon="i-lucide-check" class="ms-auto" />
+			</div>
+			
+		</div>
+	</UCard>
+	
+	<UCard v-else-if="elem.unlocked == false" variant="outline">
 		<div class="grid gap-6">
 		
 			<div class="flex items-center gap-2">				
@@ -36,7 +47,7 @@
 		</div>
 	</UCard>
 		
-	<UCard v-else-if="elem.unlocked == true" variant="outline">
+	<UCard v-else variant="outline">
 		<div class="grid gap-6">
 		
 			<div class="grid gap-2">

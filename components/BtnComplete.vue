@@ -35,7 +35,7 @@
 		
 			costs.forEach(cost => {
 				
-				let costElem = store.elems.find(e => e.id == input.id)
+				let costElem = store.elems.find(e => e.id == cost.id)
 				costElem.count -= cost.count
 			})
 		}

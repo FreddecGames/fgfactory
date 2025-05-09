@@ -32,7 +32,7 @@
 		<template #content>
 			<div class="w-48 p-2 grid gap-2">
 				
-				<span class="text-xs font-semibold opacity-75">{{ $t('word_requirements') }}</span>							
+				<span class="text-xs font-semibold opacity-75">{{ $t('word_requirements') }}</span>				
 				<span v-for="req in reqs" :key="req.id">{{ $t(req.label) }}</span>
 				
 			</div>
