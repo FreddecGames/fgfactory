@@ -55,9 +55,6 @@
 	"sc1_scenario_title": "Escape!",
 	"sc1_scenario_desc": "In this scenario, you crashed on an hostile planet and you have to escape from there. To do so you have to build and launch a Rocket into Space to travel to your Home. To build a Rocket you will collect resources, build machines and craft items until all you complete all the missions. Good luck!",
 
-	"sc1_mission_lab_tech": "Laboratory",
-	"sc1_mission_lab_tech_desc": "You need science packs to progress. And to build these science packs you need lab ;)",
-
 	"sc1_mission_steam_tech": "Steam research",
 	"sc1_mission_steam_tech_desc": "Steam is a gas created by heating Water in a Boiler. After being distributed, Steam can be used to generate Elec via Steam engines. So many machines require Elec to work!",
 

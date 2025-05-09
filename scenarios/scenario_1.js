@@ -7,9 +7,8 @@ scenario_1.desc = 'sc1_scenario_desc'
 
 scenario_1.elems = [
 		
-	{ id:'mission_lab_tech', type:'mission', label:'sc1_mission_lab_tech', desc:'sc1_mission_lab_tech_desc', costs:[{ id:'copper_plate', count:10 }] },
 	{ id:'mission_steam_tech', type:'mission', label:'sc1_mission_steam_tech', desc:'sc1_mission_steam_tech_desc', costs:[{ id:'iron_plate', count:50 }] },
-	{ id:'mission_red_science', type:'mission', label:'sc1_mission_red_science', desc:'sc1_mission_red_science_desc', costs:[{ id:'iron_plate', count:36 },{ id:'copper_plate', count:15 }], reqs:[{ id:'mission_lab_tech', count:1 },{ id:'mission_steam_tech', count:1 }] },
+	{ id:'mission_red_science', type:'mission', label:'sc1_mission_red_science', desc:'sc1_mission_red_science_desc', costs:[{ id:'iron_plate', count:36 },{ id:'copper_plate', count:15 }], reqs:[{ id:'mission_steam_tech', count:1 }] },
 	{ id:'mission_automation_1_tech', type:'mission', label:'sc1_mission_automation_1_tech', desc:'sc1_mission_automation_1_tech_desc', costs:[{ id:'red_pack', count:10 }], reqs:[{ id:'mission_red_science', count:1 }] },
 	{ id:'mission_steel_tech', type:'mission', label:'sc1_mission_steel_tech', desc:'sc1_mission_steel_tech_desc', costs:[{ id:'red_pack', count:50 }], reqs:[{ id:'mission_red_science', count:1 }] },
 	{ id:'mission_green_science', type:'mission', label:'sc1_mission_green_science', desc:'sc1_mission_green_science_desc', costs:[{ id:'red_pack', count:75 }], reqs:[{ id:'mission_red_science', count:1 }] },
@@ -351,7 +350,7 @@ scenario_1.elems = [
 		{ id:'chemical_plant_manual', type:'manual', itemId:'chemical_plant', output:1, seconds:5, inputs:[{ id:'iron_plate', count:20 },{ id:'copper_plate', count:8 },{ id:'steel', count:5 }] },
 		{ id:'chemical_plant_production', type:'production', itemId:'chemical_plant', assignId:'assembler_1', output:1, seconds:5, inputs:[{ id:'elec', count:5*75 },{ id:'iron_plate', count:20 },{ id:'copper_plate', count:8 },{ id:'steel', count:5 }] },
 		
-	{ id:'lab', type:'machine', label:'sc1_lab', img:'/fgfactory/sc1/lab.png', reqs:[{ id:'mission_lab_tech', count:1 }] },
+	{ id:'lab', type:'machine', label:'sc1_lab', img:'/fgfactory/sc1/lab.png', reqs:[{ id:'mission_red_science', count:1 }] },
 		
 		{ id:'lab_manual', type:'manual', itemId:'lab', output:1, seconds:2, inputs:[{ id:'iron_plate', count:36 },{ id:'copper_plate', count:15 }] },
 		{ id:'lab_production', type:'production', itemId:'lab', assignId:'assembler_1', output:1, seconds:2, inputs:[{ id:'elec', count:2*75 },{ id:'iron_plate', count:36 },{ id:'copper_plate', count:15 }] },
