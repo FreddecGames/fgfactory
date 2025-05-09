@@ -41,6 +41,8 @@
 		}
 		
 		elem.value.count = 1
+		
+		store.refreshAll()
 	}
 
 </script>
