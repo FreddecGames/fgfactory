@@ -59,70 +59,70 @@
 	"sc1_mission_steam_tech_desc": "Steam is a gas created by heating Water in a Boiler. After being distributed, Steam can be used to generate Elec via Steam engines. So many machines require Elec to work!",
 
 	"sc1_mission_red_science": "Red science",
-	"sc1_mission_red_science_desc": "",
+	"sc1_mission_red_science_desc": "Science packs are items which are built by Labs to perform research. Performing researches requires a certain number of different types of science packs. Red pack is the first type of them.",
 
 	"sc1_mission_automation_1_tech": "Automation 1",
-	"sc1_mission_automation_1_tech_desc": "",
+	"sc1_mission_automation_1_tech_desc": "Automation is one of the essential parts of a factory. Assembler 1 is the most basic assembling machine available. Start with it then progress further.",
 
 	"sc1_mission_steel_tech": "Steel research",
-	"sc1_mission_steel_tech_desc": "",
+	"sc1_mission_steel_tech_desc": "The Steel is an advanced material made by smelting Iron plates again. It is used in many advanced recipes.",
 
 	"sc1_mission_green_science": "Green science",
-	"sc1_mission_green_science_desc": "",
+	"sc1_mission_green_science_desc": "Green pack is the second tier of science pack. Combined with Red pack, it is used in Labs to complete many missions.",
 
 	"sc1_mission_automation_2_tech": "Automation 2",
-	"sc1_mission_automation_2_tech_desc": "",
+	"sc1_mission_automation_2_tech_desc": "This reserch allows you to craft the Assembler 2, an essential part of more advanced auto-crafting.",
 
 	"sc1_mission_engine_1_tech": "Engine research",
-	"sc1_mission_engine_1_tech_desc": "",
+	"sc1_mission_engine_1_tech_desc": "An Engine is used for building various items. Engine must be built using an Assembler 1, and cannot be made by hand.",
 
 	"sc1_mission_concrete_tech": "Concrete research",
-	"sc1_mission_concrete_tech_desc": "",
+	"sc1_mission_concrete_tech_desc": "Concrete is an ingredient utilized for facilities relating to many more advanced machines.",
 
 	"sc1_mission_fluid_tech": "Fluid research",
-	"sc1_mission_fluid_tech_desc": "",
+	"sc1_mission_fluid_tech_desc": "Fluid is a research that gives you access to more advanced ways to interact with liquids. It also enables Barrels with the ability to store liquids.",
 
 	"sc1_mission_oil_tech_1": "Oil research 1",
-	"sc1_mission_oil_tech_1_desc": "",
+	"sc1_mission_oil_tech_1_desc": "Pumpjacks extract Oil from resource fields. Oil can be converted into other items by a Refinery.",
 
 	"sc1_mission_oil_tech_2": "Oil research 2",
-	"sc1_mission_oil_tech_2_desc": "",
+	"sc1_mission_oil_tech_2_desc": "Oil processing is a large part of a factory. Oil processing may refer to the researches, the recipes used in a Refinery, or the overall workings of Oil.",
 
 	"sc1_mission_plastic_tech": "Plastic research",
-	"sc1_mission_plastic_tech_desc": "",
+	"sc1_mission_plastic_tech_desc": "Plastic is a requirement for the production of Circuits which are highly used to build a Rocket and win the game.",
 
 	"sc1_mission_sulfur_tech": "Sulfur research",
-	"sc1_mission_sulfur_tech_desc": "",
+	"sc1_mission_sulfur_tech_desc": "Sulfur is a component in the production of Sulfuric acid also being intermediate products used in higher-level recipes.",
 
 	"sc1_mission_battery_tech": "Battery research",
-	"sc1_mission_battery_tech_desc": "",
+	"sc1_mission_battery_tech_desc": "The battery is an intermediate product used in several key recipes used for later-game researches.",
 
 	"sc1_mission_accumulator_tech": "Accumulator research",
-	"sc1_mission_accumulator_tech_desc": "",
+	"sc1_mission_accumulator_tech_desc": "The Accumulator stores a limited amount of Elec when available production exceeds demand. Then stored Elec could be used when demand exceeds production.",
 
 	"sc1_mission_blue_science": "Blue science",
-	"sc1_mission_blue_science_desc": "",
+	"sc1_mission_blue_science_desc": "Blue pack is the third tier of science pack. It is used in Labs to complete many missions.",
 
 	"sc1_mission_oil_tech_3": "Oil research 3",
-	"sc1_mission_oil_tech_3_desc": "",
+	"sc1_mission_oil_tech_3_desc": "Oil research 3 allows you to obtain better refined items based on Oil. Then these items wil be used in the most complex items used in Rocket building.",
 
 	"sc1_mission_circuit_tech": "Circuit research",
-	"sc1_mission_circuit_tech_desc": "",
+	"sc1_mission_circuit_tech_desc": "Circuits is mainly used for making parts for the Rocket",
 
 	"sc1_mission_rocket_fuel_tech": "Rocket fuel research",
-	"sc1_mission_rocket_fuel_tech_desc": "",
+	"sc1_mission_rocket_fuel_tech_desc": "Used in the production of Rocket parts, Rocket fuel is the most long-lasting of all the fuel.",
 
 	"sc1_mission_lubricant_tech": "Lubricant research",
-	"sc1_mission_lubricant_tech_desc": "",
+	"sc1_mission_lubricant_tech_desc": "Lubricant is a fluid converted from Heavy oil in a Chemical plant. It is used in the production of Engine 2.",
 
 	"sc1_mission_engine_2_tech": "Electric engine research",
-	"sc1_mission_engine_2_tech_desc": "",
+	"sc1_mission_engine_2_tech_desc": "An Electric engine is the advanced counterpart of the Engine, and is used in some higher end recipes.",
 
 	"sc1_mission_purple_science": "Purple science",
-	"sc1_mission_purple_science_desc": "",
+	"sc1_mission_purple_science_desc": "The Purple pack is one of the two late-game science packs in the this scenario. The other one is Yellow pack.",
 
 	"sc1_mission_yellow_science": "Yellow science",
-	"sc1_mission_yellow_science_desc": "",
+	"sc1_mission_yellow_science_desc": "The Yellow pack is one of the two late-game science packs in the this scenario. The other one is Purple pack.",
 	
 	"sc1_mission_rocket_tech": "Rocket research",
 	"sc1_mission_rocket_tech_desc": "The Rocket research is the final research to beat this scenario. It will unlock all what you need to build and laounch the Rocket.",
