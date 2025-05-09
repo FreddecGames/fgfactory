@@ -216,8 +216,13 @@ export const useAppStore = defineStore('app', {
 			
 			this.refreshUnlocked()
 			
-			let elems = this.elems.filter(e => (e.type == 'storer' || e.type == 'machine') && e.count > 0)
+			let elems
+			
+			elems = this.elems.filter(e => (e.type == 'storer' || e.type == 'machine') && e.count > 0)
 			elems.forEach(e => this.refreshAvailableCount(e))
+
+			elems = this.elems.filter(e => e.type == 'storage' && e.assignCount > 0)
+			elems.forEach(e => this.refreshMax(e))
 		},
 		
 		refreshUnlocked() {
@@ -249,6 +254,12 @@ export const useAppStore = defineStore('app', {
 			
 			let elems = this.elems.filter(e => e.assignId == elem.id && e.assignCount > 0)
 			elems.forEach(e => elem.availableCount -= e.assignCount)
+		},
+		
+		refreshMax(elem) {
+			
+			let item = this.elems.find(e => e.id == elem.itemId)
+			item.max = elem.stack * (1 + elem.assignCount)
 		},
 		
 		onAssign(elem, count) {

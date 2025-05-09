@@ -85,38 +85,7 @@
 			</div>
 		</UCard>
 
-		<UCard v-if="production" variant="outline">
-			<div class="grid gap-6">
-
-				<span class="text-lg font-semibold">{{ $t('word_production') }}</span>
-				
-				<div class="grid lg:grid-cols-2 gap-6 items-start">
-				
-					<div class="grid gap-2">
-					
-						<span class="text-xs font-semibold opacity-75">{{ $t('word_assignment') }}</span>
-						
-						<div class="p-2 rounded bg-zinc-800 grid gap-2">
-							<line-assignment :id="production.id" />
-						</div>
-						
-					</div>
-				
-					<div class="grid gap-2">
-					
-						<span class="text-xs font-semibold opacity-75">{{ $t('word_crafting') }}</span>					
-						
-						<div class="p-2 rounded bg-zinc-800 grid gap-2">
-							<line-recipe :id="production.id" />
-							<line-start :id="production.id" />
-						</div>
-						
-					</div>
-					
-				</div>
-				
-			</div>
-		</UCard>
+		<card-production v-if="production" :id="production.id" />
 		
 	</div>
 
