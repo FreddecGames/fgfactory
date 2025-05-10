@@ -285,88 +285,105 @@ scenario_1.elems = [
 	
 	//////
 
-	{ id:'chest', type:'storer', label:'sc1_chest', img:'/fgfactory/sc1/chest.png'  },
+	{ id:'chest', type:'storer', label:'sc1_chest', img:'/fgfactory/sc1/chest.png', max:50  },
 		
 		{ id:'chest_manual', type:'manual', itemId:'chest', output:1, seconds:0.5, inputs:[{ id:'iron_plate', count:8 }] },
+		{ id:'chest_storage', type:'storage', itemId:'chest', assignId:'chest', stack:50 },
 		{ id:'chest_production', type:'production', itemId:'chest', assignId:'assembler_1', output:1, seconds:0.5, inputs:[{ id:'elec', count:37.5 },{ id:'iron_plate', count:8 }] },
 		
-	{ id:'tank', type:'storer', label:'sc1_tank', img:'/fgfactory/sc1/tank.png', reqs:[{ id:'mission_fluid_tech', count:1 }] },
+	{ id:'tank', type:'storer', label:'sc1_tank', img:'/fgfactory/sc1/tank.png', max:50, reqs:[{ id:'mission_fluid_tech', count:1 }] },
 		
 		{ id:'tank_manual', type:'manual', itemId:'tank', output:1, seconds:3, inputs:[{ id:'iron_plate', count:20 },{ id:'steel', count:5 }] },
+		{ id:'tank_storage', type:'storage', itemId:'tank', assignId:'chest', stack:50 },
 		{ id:'tank_production', type:'production', itemId:'tank', assignId:'assembler_1', output:1, seconds:3, inputs:[{ id:'elec', count:225 },{ id:'iron_plate', count:20 },{ id:'steel', count:5 }] },
 		
-	{ id:'pipe', type:'storer', label:'sc1_pipe', img:'/fgfactory/sc1/pipe.png', reqs:[{ id:'mission_steam_tech', count:1 }] },
+	{ id:'pipe', type:'storer', label:'sc1_pipe', img:'/fgfactory/sc1/pipe.png', max:100, reqs:[{ id:'mission_steam_tech', count:1 }] },
 		
 		{ id:'pipe_manual', type:'manual', itemId:'pipe', output:1, seconds:0.5, inputs:[{ id:'iron_plate', count:1 }] },
+		{ id:'pipe_storage', type:'storage', itemId:'pipe', assignId:'chest', stack:100 },
 		{ id:'pipe_production', type:'production', itemId:'pipe', assignId:'assembler_1', output:1, seconds:0.5, inputs:[{ id:'elec', count:37.5 },{ id:'iron_plate', count:1 }] },
 		
-	{ id:'accumulator', type:'storer', label:'sc1_accumulator', img:'/fgfactory/sc1/accumulator.png', reqs:[{ id:'mission_accumulator_tech', count:1 }] },
+	{ id:'accumulator', type:'storer', label:'sc1_accumulator', img:'/fgfactory/sc1/accumulator.png', max:50, reqs:[{ id:'mission_accumulator_tech', count:1 }] },
 		
 		{ id:'accumulator_manual', type:'manual', itemId:'accumulator', output:1, seconds:10, inputs:[{ id:'iron_plate', count:2 },{ id:'battery', count:5 }] },
+		{ id:'accumulator_storage', type:'storage', itemId:'accumulator', assignId:'chest', stack:50 },
 		{ id:'accumulator_production', type:'production', itemId:'accumulator', assignId:'assembler_1', output:1, seconds:10, inputs:[{ id:'elec', count:750 },{ id:'iron_plate', count:2 },{ id:'battery', count:5 }] },
 		
-	{ id:'barrel', type:'storer', label:'sc1_barrel', img:'/fgfactory/sc1/barrel.png', reqs:[{ id:'mission_fluid_tech', count:1 }] },
+	{ id:'barrel', type:'storer', label:'sc1_barrel', img:'/fgfactory/sc1/barrel.png', max:50, reqs:[{ id:'mission_fluid_tech', count:1 }] },
 		
 		{ id:'barrel_manual', type:'manual', itemId:'barrel', output:1, seconds:1, inputs:[{ id:'steel', count:1 }] },
+		{ id:'barrel_storage', type:'storage', itemId:'barrel', assignId:'chest', stack:50 },
 		{ id:'barrel_production', type:'production', itemId:'barrel', assignId:'assembler_1', output:1, seconds:1, inputs:[{ id:'elec', count:75 },{ id:'steel', count:1 }] },
 		
-	{ id:'furnace', type:'machine', label:'sc1_furnace', img:'/fgfactory/sc1/furnace.png' },
+	{ id:'furnace', type:'machine', label:'sc1_furnace', img:'/fgfactory/sc1/furnace.png', max:50 },
 		
 		{ id:'furnace_manual', type:'manual', itemId:'furnace', output:1, seconds:0.5, inputs:[{ id:'stone', count:5 }] },
+		{ id:'furnace_storage', type:'storage', itemId:'furnace', assignId:'chest', stack:50 },
 		{ id:'furnace_production', type:'production', itemId:'furnace', assignId:'assembler_1', output:1, seconds:0.5, inputs:[{ id:'elec', count:0.5*75 },{ id:'stone', count:5 }] },
 		
-	{ id:'miner', type:'machine', label:'sc1_miner', img:'/fgfactory/sc1/miner.png' },
+	{ id:'miner', type:'machine', label:'sc1_miner', img:'/fgfactory/sc1/miner.png', max:50 },
 		
 		{ id:'miner_manual', type:'manual', itemId:'miner', output:1, seconds:4, inputs:[{ id:'stone', count:5 },{ id:'iron_plate', count:9 }] },
+		{ id:'miner_storage', type:'storage', itemId:'miner', assignId:'chest', stack:50 },
 		{ id:'miner_production', type:'production', itemId:'miner', assignId:'assembler_1', output:1, seconds:1, inputs:[{ id:'elec', count:300 },{ id:'stone', count:5 },{ id:'iron_plate', count:9 }] },
 		
-	{ id:'pump', type:'machine', label:'sc1_pump', img:'/fgfactory/sc1/pump.png', reqs:[{ id:'mission_steam_tech', count:1 }] },
+	{ id:'pump', type:'machine', label:'sc1_pump', img:'/fgfactory/sc1/pump.png', max:20, reqs:[{ id:'mission_steam_tech', count:1 }] },
 		
 		{ id:'pump_manual', type:'manual', itemId:'pump', output:1, seconds:3, inputs:[{ id:'iron_plate', count:7 }] },
+		{ id:'pump_storage', type:'storage', itemId:'pump', assignId:'chest', stack:20 },
 		{ id:'pump_production', type:'production', itemId:'pump', assignId:'assembler_1', output:1, seconds:3, inputs:[{ id:'elec', count:3*75 },{ id:'iron_plate', count:7 }] },
 		
-	{ id:'boiler', type:'machine', label:'sc1_boiler', img:'/fgfactory/sc1/boiler.png', reqs:[{ id:'mission_steam_tech', count:1 }] },
+	{ id:'boiler', type:'machine', label:'sc1_boiler', img:'/fgfactory/sc1/boiler.png', max:50, reqs:[{ id:'mission_steam_tech', count:1 }] },
 		
 		{ id:'boiler_manual', type:'manual', itemId:'boiler', output:1, seconds:3, inputs:[{ id:'stone', count:5 },{ id:'iron_plate', count:4 }] },
+		{ id:'boiler_storage', type:'storage', itemId:'boiler', assignId:'chest', stack:50 },
 		{ id:'boiler_production', type:'production', itemId:'boiler', assignId:'assembler_1', output:1, seconds:3, inputs:[{ id:'elec', count:3*75 },{ id:'stone', count:5 },{ id:'iron_plate', count:4 }] },
 		
-	{ id:'steam_engine', type:'machine', label:'sc1_steam_engine', img:'/fgfactory/sc1/steam_engine.png', reqs:[{ id:'mission_steam_tech', count:1 }] },
+	{ id:'steam_engine', type:'machine', label:'sc1_steam_engine', img:'/fgfactory/sc1/steam_engine.png', max:10, reqs:[{ id:'mission_steam_tech', count:1 }] },
 		
 		{ id:'steam_engine_manual', type:'manual', itemId:'steam_engine', output:1, seconds:7, inputs:[{ id:'iron_plate', count:31 }] },
+		{ id:'steam_engine_storage', type:'storage', itemId:'steam_engine', assignId:'chest', stack:10 },
 		{ id:'steam_engine_production', type:'production', itemId:'steam_engine', assignId:'assembler_1', output:1, seconds:7, inputs:[{ id:'elec', count:7*75 },{ id:'iron_plate', count:31 }] },
 		
-	{ id:'pumpjack', type:'machine', label:'sc1_pumpjack', img:'/fgfactory/sc1/pumpjack.png', reqs:[{ id:'mission_oil_tech_1', count:1 }] },
+	{ id:'pumpjack', type:'machine', label:'sc1_pumpjack', img:'/fgfactory/sc1/pumpjack.png', max:20, reqs:[{ id:'mission_oil_tech_1', count:1 }] },
 		
 		{ id:'pumpjack_manual', type:'manual', itemId:'pumpjack', output:1, seconds:5, inputs:[{ id:'iron_plate', count:8 },{ id:'copper_plate', count:35 },{ id:'steel', count:5 }] },
+		{ id:'pumpjack_storage', type:'storage', itemId:'pumpjack', assignId:'chest', stack:20 },
 		{ id:'pumpjack_production', type:'production', itemId:'pumpjack', assignId:'assembler_1', output:1, seconds:5, inputs:[{ id:'elec', count:5*75 },{ id:'iron_plate', count:8 },{ id:'copper_plate', count:35 },{ id:'steel', count:5 }] },
 		
-	{ id:'refinery', type:'machine', label:'sc1_refinery', img:'/fgfactory/sc1/refinery.png', reqs:[{ id:'mission_oil_tech_2', count:1 }] },
+	{ id:'refinery', type:'machine', label:'sc1_refinery', img:'/fgfactory/sc1/refinery.png', max:10, reqs:[{ id:'mission_oil_tech_2', count:1 }] },
 		
 		{ id:'refinery_manual', type:'manual', itemId:'refinery', output:1, seconds:8, inputs:[{ id:'brick', count:10 },{ id:'iron_plate', count:40 },{ id:'copper_plate', count:15 },{ id:'steel', count:15 }] },
+		{ id:'refinery_storage', type:'storage', itemId:'refinery', assignId:'chest', stack:10 },
 		{ id:'refinery_production', type:'production', itemId:'refinery', assignId:'assembler_1', output:1, seconds:8, inputs:[{ id:'elec', count:8*75 },{ id:'brick', count:10 },{ id:'iron_plate', count:40 },{ id:'copper_plate', count:15 },{ id:'steel', count:15 }] },
 		
-	{ id:'chemical_plant', type:'machine', label:'sc1_chemical_plant', img:'/fgfactory/sc1/chemical_plant.png', reqs:[{ id:'mission_oil_tech_2', count:1 }] },
+	{ id:'chemical_plant', type:'machine', label:'sc1_chemical_plant', img:'/fgfactory/sc1/chemical_plant.png', max:10, reqs:[{ id:'mission_oil_tech_2', count:1 }] },
 		
 		{ id:'chemical_plant_manual', type:'manual', itemId:'chemical_plant', output:1, seconds:5, inputs:[{ id:'iron_plate', count:20 },{ id:'copper_plate', count:8 },{ id:'steel', count:5 }] },
+		{ id:'chemical_plant_storage', type:'storage', itemId:'chemical_plant', assignId:'chest', stack:10 },
 		{ id:'chemical_plant_production', type:'production', itemId:'chemical_plant', assignId:'assembler_1', output:1, seconds:5, inputs:[{ id:'elec', count:5*75 },{ id:'iron_plate', count:20 },{ id:'copper_plate', count:8 },{ id:'steel', count:5 }] },
 		
-	{ id:'lab', type:'machine', label:'sc1_lab', img:'/fgfactory/sc1/lab.png', reqs:[{ id:'mission_red_science', count:1 }] },
+	{ id:'lab', type:'machine', label:'sc1_lab', img:'/fgfactory/sc1/lab.png', max:10, reqs:[{ id:'mission_red_science', count:1 }] },
 		
 		{ id:'lab_manual', type:'manual', itemId:'lab', output:1, seconds:2, inputs:[{ id:'iron_plate', count:36 },{ id:'copper_plate', count:15 }] },
+		{ id:'lab_storage', type:'storage', itemId:'lab', assignId:'chest', stack:10 },
 		{ id:'lab_production', type:'production', itemId:'lab', assignId:'assembler_1', output:1, seconds:2, inputs:[{ id:'elec', count:2*75 },{ id:'iron_plate', count:36 },{ id:'copper_plate', count:15 }] },
 		
-	{ id:'assembler_1', type:'machine', label:'sc1_assembler_1', img:'/fgfactory/sc1/assembler_1.png', reqs:[{ id:'mission_automation_1_tech', count:1 }] },
+	{ id:'assembler_1', type:'machine', label:'sc1_assembler_1', img:'/fgfactory/sc1/assembler_1.png', max:50, reqs:[{ id:'mission_automation_1_tech', count:1 }] },
 		
 		{ id:'assembler_1_manual', type:'manual', itemId:'assembler_1', output:1, seconds:0.5, inputs:[{ id:'iron_plate', count:22 },{ id:'copper_plate', count:5 }] },
+		{ id:'assembler_1_storage', type:'storage', itemId:'assembler_1', assignId:'chest', stack:50 },
 		{ id:'assembler_1_production', type:'production', itemId:'assembler_1', assignId:'assembler_1', output:1, seconds:0.5, inputs:[{ id:'elec', count:0.5*75 },{ id:'iron_plate', count:22 },{ id:'copper_plate', count:5 }] },
 		
-	{ id:'assembler_2', type:'machine', label:'sc1_assembler_2', img:'/fgfactory/sc1/assembler_2.png', reqs:[{ id:'mission_automation_2_tech', count:1 }] },
+	{ id:'assembler_2', type:'machine', label:'sc1_assembler_2', img:'/fgfactory/sc1/assembler_2.png', max:50, reqs:[{ id:'mission_automation_2_tech', count:1 }] },
 		
 		{ id:'assembler_2_manual', type:'manual', itemId:'assembler_2', output:1, seconds:0.5, inputs:[{ id:'iron_plate', count:35 },{ id:'copper_plate', count:9 },{ id:'steel', count:2 }] },
+		{ id:'assembler_2_storage', type:'storage', itemId:'assembler_2', assignId:'chest', stack:50 },
 		{ id:'assembler_2_production', type:'production', itemId:'assembler_2', assignId:'assembler_1', output:1, seconds:0.5, inputs:[{ id:'elec', count:0.5*75 },{ id:'iron_plate', count:35 },{ id:'copper_plate', count:9 },{ id:'steel', count:2 }] },
 		
-	{ id:'rocket_silo', type:'machine', label:'sc1_rocket_silo', img:'/fgfactory/sc1/rocket_silo.png', reqs:[{ id:'mission_rocket_tech', count:1 }] },
+	{ id:'rocket_silo', type:'machine', label:'sc1_rocket_silo', img:'/fgfactory/sc1/rocket_silo.png', max:1, reqs:[{ id:'mission_rocket_tech', count:1 }] },
 		
 		{ id:'rocket_silo_manual', type:'manual', itemId:'rocket_silo', output:1, seconds:30, inputs:[{ id:'iron_plate', count:100 },{ id:'steel', count:1000 },{ id:'concrete', count:1000 },{ id:'engine_2', count:200 },{ id:'circuit', count:200 }] },
+		{ id:'rocket_silo_storage', type:'storage', itemId:'rocket_silo', assignId:'chest', stack:1 },
 		{ id:'rocket_silo_production', type:'production', itemId:'rocket_silo', assignId:'assembler_1', output:1, seconds:30, inputs:[{ id:'elec', count:30*75 },{ id:'iron_plate', count:100 },{ id:'steel', count:1000 },{ id:'concrete', count:1000 },{ id:'engine_2', count:200 },{ id:'circuit', count:200 }] },
 ]

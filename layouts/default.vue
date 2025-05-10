@@ -91,7 +91,7 @@
 			
 				<UPopover mode="hover">
 				
-					<UButton icon="i-lucide-badge-alert" color="error" variant="subtle" />
+					<UButton icon="i-lucide-badge-alert" color="error" variant="subtle" label="v0.06" />
 					
 					<template #content>
 						<div class="w-48 p-2 text-xs text-error text-center">
