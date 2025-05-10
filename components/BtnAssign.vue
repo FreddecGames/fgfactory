@@ -12,7 +12,7 @@
 		if (elem.value.status && elem.value.status != 'stopped') return false
 		
 		let assignee = store.elems.find(e => e.id == elem.value.assignId)
-		if (assignee.availableCount <= 0) return false
+		if (assignee.availableCount < elem.value.selectCount) return false
 		
 		return true
 	})
