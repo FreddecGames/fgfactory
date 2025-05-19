@@ -37,12 +37,17 @@ class Elem {
 		if (data.type == 'mission') {
 
 			this.count = this.count ? this.count : 0
-			this.max = 1
+			this.max = this.max ? this.max : Infinity
+		}
+		else if (data.type == 'tech') {
+
+			this.count = this.count ? this.count : 0
+			this.max = this.max ? this.max : Infinity
 		}
 		else if (data.type == 'item') {
 			
 			this.count = this.count ? this.count : 0
-			this.max = this.max ? this.max : Infinity
+			this.max = this.stack ? this.stack : Infinity
 		}
 		else if (data.type == 'storer') {
 			
@@ -64,6 +69,7 @@ class Elem {
 		else if (data.type == 'manual') {
 			
 			this.assignCount = this.assignCount ? this.assignCount : 1
+			this.counts = this.counts ? this.counts : [ 1 ]
 			this.remainingSeconds = this.seconds ? this.seconds : 0
 			this.status = this.status ? this.status : 'stopped'
 		}
@@ -97,9 +103,10 @@ class Elem {
         return data
     }
 	
-	getOutputs() {
+	getOutputs(startedCount) {
 		
 		let assignCount = this.assignCount ? this.assignCount : 1
+		if (startedCount) assignCount = startedCount
 		
 		let ret = []		
 		ret.push({ id:this.itemId, count:this.output * assignCount })
@@ -259,7 +266,7 @@ export const useAppStore = defineStore('app', {
 		refreshMax(elem) {
 			
 			let item = this.elems.find(e => e.id == elem.itemId)
-			item.max = elem.stack * (1 + elem.assignCount)
+			item.max = item.stack * (1 + (elem.assignCount * elem.slots))
 		},
 		
 		onAssign(elem, count) {
@@ -334,7 +341,7 @@ export const useAppStore = defineStore('app', {
 					})
 					
 					manual.status = 'stopped'
-					manual.remainingSeconds = manual.seconds
+					manual.remainingSeconds = manual.seconds * manual.assignCount
 				}
 			})
 			
@@ -342,13 +349,13 @@ export const useAppStore = defineStore('app', {
 			productions.forEach(production => {
 				
 				if (production.status == 'waiting' && this.canStartProduction(production)) this.startProduction(production)
-					
+				
 				if (production.status == 'started') {
 					
 					production.remainingSeconds -= delay
 					if (production.remainingSeconds <= 0) {
 						
-						let outputs = production.getOutputs()
+						let outputs = production.getOutputs(production.startedCount)
 						outputs.forEach(output => {
 							
 							let outputElem = this.elems.find(e => e.id == output.id)
@@ -361,7 +368,9 @@ export const useAppStore = defineStore('app', {
 						if (this.canStartProduction(production)) this.startProduction(production)
 						else {
 							
-							production.status = 'waiting'
+							if (production.assignCount <= 0) production.status = 'stopped'
+							else production.status = 'waiting'
+						
 							production.remainingSeconds = production.seconds
 						}
 					}
@@ -371,7 +380,9 @@ export const useAppStore = defineStore('app', {
 		
 		canStartProduction(production) {
 			
-			let ret = true
+			if (production.assignCount <= 0) return false
+			
+			let ret = true			
 			
 			let outputs = production.getOutputs()
 			outputs.forEach(output => {
@@ -403,6 +414,7 @@ export const useAppStore = defineStore('app', {
 			
 			production.status = 'started'
 			production.remainingSeconds = production.seconds
+			production.startedCount = production.assignCount
 		},
 	},
 })

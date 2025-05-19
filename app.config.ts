@@ -11,6 +11,7 @@ export default defineAppConfig({
 			
 			slots:{
 				
+				root: 'relative overflow-hidden w-full rounded-lg p-3 flex gap-2',
 				wrapper:'flex-initial min-w-0 flex flex-col',
 			},
 		},
@@ -36,6 +37,14 @@ export default defineAppConfig({
 					'rounded-md font-medium inline-flex items-center disabled:cursor-not-allowed aria-disabled:cursor-not-allowed disabled:opacity-25 aria-disabled:opacity-25',
 					'transition-colors'
 				],
+			},
+		},
+
+		card: {
+			
+			slots: {
+				
+				body: 'p-3 sm:p-3',
 			},
 		},
 	}

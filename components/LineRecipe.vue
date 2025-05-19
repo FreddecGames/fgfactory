@@ -20,8 +20,11 @@
 		<div v-if="inputs" class="flex flex-wrap items-center gap-2">
 			<btn-input v-for="input in inputs" :key="input.id" :id="input.id" :count="input.count" />
 		</div>
+		<div v-else class="opacity-75" style="line-height:32px;">
+			<UIcon name="i-lucide-circle-slash-2" />
+		</div>
 		
-		<div v-if="inputs" class="opacity-75" style="line-height:32px;">
+		<div class="opacity-75" style="line-height:32px;">
 			<UIcon name="i-lucide-move-right" />
 		</div>
 		

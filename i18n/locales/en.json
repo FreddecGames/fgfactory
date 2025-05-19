@@ -48,18 +48,27 @@
 	"word_start": "Start",
 	"word_stop": "Stop",
 	"word_storage": "Storage",
+    "word_techs": "Techs",
 	"word_timePlayed": "Time played",
 	"word_unassign": "Unassign",
     "word_wipe": "Wipe",
 	
+	"group_power": "Electricity generation",
+	"group_science": "Science packs",
+	"group_production": "Production",
+	"group_items": "Item unlocking",
+	
 	"sc1_scenario_title": "Escape!",
-	"sc1_scenario_desc": "In this scenario, you crashed on an hostile planet and you have to escape from there. To do so you have to build and launch a Rocket into Space to travel to your Home. To build a Rocket you will collect resources, build machines and craft items until all you complete all the missions. Good luck!",
+	"sc1_scenario_desc": "In this scenario, you crashed on an hostile planet and you have to escape from there by launching a Rocket to Space to come back to Home. To be able to launch a Rocket you will mine resources, build machines and craft items until all you complete all the missions. Good luck!",
+	
+	"sc1_mission_rocket_launch": "Launch the Rocket",
+	"sc1_mission_rocket_launch_desc": "To launch the Rocket you have to build 100 Rocket parts. Launching the Rocket is the final step to escape from this hostile planet. After that you will be free! ",
 
 	"sc1_mission_steam_tech": "Steam research",
-	"sc1_mission_steam_tech_desc": "Steam is a gas created by heating Water in a Boiler. After being distributed, Steam can be used to generate Elec via Steam engines. So many machines require Elec to work!",
+	"sc1_mission_steam_tech_desc": "Steam is a gas created by heating Water in a Boiler. After being distributed, Steam can be used to generate Electricity via Steam engines.",
 
 	"sc1_mission_red_science": "Red science",
-	"sc1_mission_red_science_desc": "Science packs are items which are built by Labs to perform research. Performing researches requires a certain number of different types of science packs. Red pack is the first type of them.",
+	"sc1_mission_red_science_desc": "Science packs are items which are built by Labs to perform researches. Performing researches requires a certain number of different types of science packs. Red pack is the first type of them.",
 
 	"sc1_mission_automation_1_tech": "Automation 1",
 	"sc1_mission_automation_1_tech_desc": "Automation is one of the essential parts of a factory. Assembler 1 is the most basic assembling machine available. Start with it then progress further.",
@@ -82,11 +91,11 @@
 	"sc1_mission_fluid_tech": "Fluid research",
 	"sc1_mission_fluid_tech_desc": "Fluid is a research that gives you access to more advanced ways to interact with liquids. It also enables Barrels with the ability to store liquids.",
 
-	"sc1_mission_oil_tech_1": "Oil research 1",
+	"sc1_mission_oil_tech_1": "Oil extracting research",
 	"sc1_mission_oil_tech_1_desc": "Pumpjacks extract Oil from resource fields. Oil can be converted into other items by a Refinery.",
 
-	"sc1_mission_oil_tech_2": "Oil research 2",
-	"sc1_mission_oil_tech_2_desc": "Oil processing is a large part of a factory. Oil processing may refer to the researches, the recipes used in a Refinery, or the overall workings of Oil.",
+	"sc1_mission_oil_tech_2": "Oil refining research",
+	"sc1_mission_oil_tech_2_desc": "Oil refining is a large part of a factory. Oil refining may refer to the researches, the recipes used in a Refinery, or the overall workings of Oil.",
 
 	"sc1_mission_plastic_tech": "Plastic research",
 	"sc1_mission_plastic_tech_desc": "Plastic is a requirement for the production of Circuits which are highly used to build a Rocket and win the game.",
@@ -103,8 +112,8 @@
 	"sc1_mission_blue_science": "Blue science",
 	"sc1_mission_blue_science_desc": "Blue pack is the third tier of science pack. It is used in Labs to complete many missions.",
 
-	"sc1_mission_oil_tech_3": "Oil research 3",
-	"sc1_mission_oil_tech_3_desc": "Oil research 3 allows you to obtain better refined items based on Oil. Then these items wil be used in the most complex items used in Rocket building.",
+	"sc1_mission_oil_tech_3": "Solid fuel research",
+	"sc1_mission_oil_tech_3_desc": "Solid fuel research allows you to obtain Solid fuel items based on Oil. These items will be used in the most complex items used in Rocket building.",
 
 	"sc1_mission_circuit_tech": "Circuit research",
 	"sc1_mission_circuit_tech_desc": "Circuits is mainly used for making parts for the Rocket",
@@ -126,9 +135,6 @@
 	
 	"sc1_mission_rocket_tech": "Rocket research",
 	"sc1_mission_rocket_tech_desc": "The Rocket research is the final research to beat this scenario. It will unlock all what you need to build and laounch the Rocket.",
-	
-	"sc1_mission_rocket_launch": "Launch the Rocket",
-	"sc1_mission_rocket_launch_desc": "To launch the Rocket you have to build 100 Rocket parts. Launching the Rocket is the final step to escape from this hostile planet. After that you will be free! ",
 	
 	"sc1_tab_items": "Items",
 		"sc1_entry_energy": "Energy",

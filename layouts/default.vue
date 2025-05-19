@@ -21,6 +21,7 @@
 		let menu = []
 		
 		menu.push({ label:t('word_missions'), icon:'i-lucide-list-checks', to:'/missions', onSelect:function() { sidebarOpen.value = false } })
+		menu.push({ label:t('word_techs'), icon:'i-lucide-flask-conical', to:'/techs', onSelect:function() { sidebarOpen.value = false } })
 		
 		return menu
 	})
@@ -87,11 +88,11 @@
 				<span class="truncate text-xl font-bold">{{ $t('game_title') }}</span>				
 			</div>
 			
-			<div class="flex items-center gap-3">
+			<div class="flex items-center gap-2">
 			
 				<UPopover mode="hover">
 				
-					<UButton icon="i-lucide-badge-alert" color="error" variant="subtle" label="v0.06" />
+					<UButton icon="i-lucide-badge-alert" color="error" variant="subtle" label="v0.07" />
 					
 					<template #content>
 						<div class="w-48 p-2 text-xs text-error text-center">
@@ -118,7 +119,7 @@
 			
 			<div class="flex-1 overflow-y-auto">
 				
-				<UNavigationMenu :items="sideItems" class="w-full justify-center" />
+				<UNavigationMenu :items="sideItems" class="mt-1" :ui="{ root:'relative block', item:'flex-1', link:'justify-center' }" />
 				
 				<UTabs variant="link" :items="tabItems" v-model="store.activeTab" class="gap-0 w-full border-zinc-700" :ui="{ trigger:'flex-1' }">
 					<template #content="{ item }">
@@ -147,7 +148,7 @@
 			</div>
 			
 			<div class="border-t border-zinc-700 h-(--ui-header-height)">
-				<div class="w-full px-3 flex items-center gap-3 h-full">
+				<div class="w-full px-3 flex items-center gap-2 h-full">
 				
 					<div class="grid gap-0">
 						<span class="text-xs text-zinc-400 font-semibold">{{ $t('word_timePlayed') }}</span>
@@ -173,7 +174,7 @@
 
 		<div id="content" class="relative grid grid-cols-subgrid overflow-y-auto">
 			<div class="mx-auto w-full max-w-2xl">
-				<div class="px-3 py-6 lg:px-6">				
+				<div class="px-3 py-6">				
 					<slot />
 				</div>
 			</div>

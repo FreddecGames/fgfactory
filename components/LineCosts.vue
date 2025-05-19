@@ -7,13 +7,13 @@
 	
 	const elem = computed(() => store.elems.find(e => e.id == props.id))
 	
-	const costs = computed(() => elem.value.getCosts())
+	const costs = computed(() => elem.value.getInputs())
 	
 </script>
 
 <template>
 	
-	<div class="flex flex-wrap items-center gap-1">
+	<div class="flex flex-wrap items-center gap-2">
 		<btn-cost v-for="cost in costs" :key="cost.id" :id="cost.id" :count="cost.count" />
 	</div>
 	

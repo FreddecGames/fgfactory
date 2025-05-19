@@ -29,26 +29,22 @@
 
 <template>
 
-	<UCard v-if="item.unlocked == false" variant="outline">
-		<div class="grid gap-6">
-		
-			<div class="flex items-center gap-2">				
-				<btn-requirements :id="item.id" />
-				<span class="text-lg font-semibold opacity-50">{{ $t(item.label) }}</span>				
-			</div>
-			
+	<UCard v-if="item.unlocked == false" variant="outline">		
+		<div class="flex items-center gap-2">				
+			<btn-requirements :id="item.id" />
+			<span class="text-lg font-semibold opacity-50">{{ $t(item.label) }}</span>				
 		</div>
 	</UCard>
 
 	<div v-else class="grid gap-6">
-				
+		
 		<UCard variant="outline">
-			<div class="grid gap-6">
+			<div class="grid gap-3">
 			
 				<div class="flex items-center gap-2">
 				
 					<img :src="item.img" width="24" height="24" />
-					<span class="truncate text-lg font-semibold">{{ $t(item.label) }}</span>
+					<span class="truncate text-lg font-bold">{{ $t(item.label) }}</span>
 					
 					<div class="ms-auto flex items-center gap-2">
 						<elem-available-page v-if="item.type == 'machine' || item.type == 'storer'" :id="item.id" />
@@ -57,23 +53,23 @@
 					
 				</div>
 				
-				<div class="grid lg:grid-cols-2 gap-6 items-start">
+				<div class="grid lg:grid-cols-2 gap-3 items-start">
 				
-					<div v-if="storage" class="grid gap-2">
+					<div v-if="storage" class="p-3 rounded bg-zinc-800 grid gap-3">
 
-						<span class="text-xs font-semibold opacity-75">{{ $t('word_storage') }}</span>
+						<span class="text-xs font-semibold opacity-75">{{ $t('word_storage') }} <upgrade-storage-value :id="storage.id" /></span>
 						
-						<div class="p-2 rounded bg-zinc-800 grid gap-2">		
+						<div class="grid gap-3">		
 							<line-assignment :id="storage.id" />
 						</div>
 						
 					</div>
 				
-					<div v-if="manual" class="grid gap-2">
+					<div v-if="manual" class="p-3 rounded bg-zinc-800 grid gap-3">
 
 						<span class="text-xs font-semibold opacity-75">{{ $t('word_manual') }}</span>
 
-						<div class="p-2 rounded bg-zinc-800 grid gap-2">
+						<div class="grid gap-3">
 							<line-recipe :id="manual.id" class="flex-1" />
 							<line-start :id="manual.id" />
 						</div>

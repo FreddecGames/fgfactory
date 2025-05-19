@@ -58,7 +58,9 @@
 		}
 		
 		elem.value.status = 'waiting'
-		elem.value.remainingSeconds = elem.value.seconds
+		
+		if (elem.value.type == 'manual') elem.value.remainingSeconds = elem.value.seconds * elem.value.assignCount
+		else elem.value.remainingSeconds = elem.value.seconds
 	}
 
 </script>

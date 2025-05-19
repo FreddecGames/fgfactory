@@ -23,6 +23,6 @@
 
 <template>
 	
-	<USelectMenu v-model="elem.selectCount" value-key="value" :items="values" :search-input="false" class="justify-center w-24" />
+	<USelectMenu v-model="elem.selectCount" value-key="value" :items="values" :search-input="false" class="justify-center" />
 	
 </template>

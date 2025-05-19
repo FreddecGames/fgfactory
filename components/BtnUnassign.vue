@@ -9,8 +9,6 @@
 
 	const can = computed(() => {
 		
-		if (elem.value.status && elem.value.status != 'stopped') return false
-		
 		if (elem.value.assignCount <= 0) return false
 		
 		if (elem.value.type == 'storage') {
