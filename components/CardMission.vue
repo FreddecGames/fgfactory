@@ -64,8 +64,8 @@
 
 				<span class="text-xs font-semibold opacity-75">{{ $t('word_costs') }}</span>
 
-				<div class="grid gap-3 lg:grid-cols-4">
-					<line-costs :id="manual.id" class="lg:col-span-3" />
+				<div class="grid gap-3 lg:grid-cols-3">
+					<line-costs :id="manual.id" class="lg:col-span-2" />
 					<line-start :id="manual.id" />
 				</div>
 				

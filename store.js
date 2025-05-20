@@ -149,7 +149,7 @@ export const useAppStore = defineStore('app', {
 
 	state: () => ({
 		
-		activeTab: '1',
+		activeTab: '0',
 		currentScenarioId: null,
 		lastFrameTimeMs: null,
 		lastSavedTime: performance.now(),	
@@ -160,6 +160,7 @@ export const useAppStore = defineStore('app', {
 		version: 0.01,
 		
         scenarios: [ scenario_1 ],
+		completedScenarios: [],
 
 		elems: [],
 		
@@ -207,7 +208,7 @@ export const useAppStore = defineStore('app', {
 		load(data) {
 			
 			this.activeTab = data.activeTab ?? this.activeTab
-			this.lastFrameTimeMs = data.lastFrameTimeMs ?? this.lastSavedTime
+			this.completedScenarios = data.completedScenarios ?? this.completedScenarios
 			this.lastSavedTime = data.lastSavedTime ?? this.lastSavedTime
 			this.paused = data.paused ?? this.paused
 			this.timePlayed = data.timePlayed ?? this.timePlayed
@@ -296,6 +297,7 @@ export const useAppStore = defineStore('app', {
 		save(data) {
 
 			data.activeTab = this.activeTab
+			data.completedScenarios = this.completedScenarios
 			data.currentScenarioId = this.currentScenarioId
 			data.lastSavedTime = this.lastSavedTime
 			data.paused = this.paused
@@ -311,18 +313,61 @@ export const useAppStore = defineStore('app', {
         pause() { this.paused = true },
         resume() { this.paused = false },
 		
-		doTick() {
+		computeOfflineProgress(delay) {
 			
-			let currentTimeMs = performance.now()
-			
-			let delay = (currentTimeMs - this.lastFrameTimeMs) / 1000		
-			if (delay < 1 / 60) return
-			
-			this.lastFrameTimeMs = currentTimeMs
-
 			if (this.paused) return
 			
 			this.timePlayed += delay
+			
+			this.processManuals(delay)
+
+			let productions = this.elems.filter(e => e.type == 'production' && e.assignCount > 0 && e.status != 'stopped')
+			productions.forEach(production => {
+				
+				let nLoop = Math.floor(delay / production.seconds)
+				if (nLoop > 0) {
+					
+					let inputs = production.getInputs()
+					if (inputs) {
+						
+						inputs.forEach(input => {
+							
+							let inputElem = this.elems.find(e => e.id == input.id)
+							nLoop = Math.min(nLoop, Math.floor(inputElem.count / (input.count * nLoop)))
+						})
+					}
+					
+					if (nLoop > 0) {
+						
+						let inputs = production.getOutputs()
+						if (inputs) {
+							
+							inputs.forEach(input => {
+								
+								let inputElem = this.elems.find(e => e.id == input.id)
+								inputElem.count = inputElem.count - (input.count * nLoop)
+								inputElem.count = parseFloat(inputElem.count.toFixed(10))
+							})
+						}
+						
+						let outputs = production.getOutputs()
+						outputs.forEach(output => {
+							
+							let outputElem = this.elems.find(e => e.id == output.id)
+							outputElem.count = outputElem.count + (output.count * nLoop)
+							outputElem.count = parseFloat(outputElem.count.toFixed(10))
+							
+							if (outputElem.type == 'storer' || outputElem.type == 'machine') this.refreshAvailableCount(outputElem)
+						})
+					}
+				}
+			})
+
+			let elems = this.elems.filter(e => e.max && e.count && e.count > e.max)
+			elems.forEach(elem => { elem.count = elem.max })
+		},
+		
+		processManuals(delay) {
 			
 			let manuals = this.elems.filter(e => e.type == 'manual' && e.status == 'waiting')
 			manuals.forEach(manual => {
@@ -344,6 +389,22 @@ export const useAppStore = defineStore('app', {
 					manual.remainingSeconds = manual.seconds * manual.assignCount
 				}
 			})
+		},
+		
+		doTick() {
+			
+			let currentTimeMs = performance.now()
+			
+			let delay = (currentTimeMs - this.lastFrameTimeMs) / 1000		
+			if (delay < 1 / 60) return
+			
+			this.lastFrameTimeMs = currentTimeMs
+
+			if (this.paused) return
+			
+			this.timePlayed += delay
+			
+			this.processManuals(delay)
 			
 			let productions = this.elems.filter(e => e.type == 'production' && e.assignCount > 0 && e.status != 'stopped')
 			productions.forEach(production => {

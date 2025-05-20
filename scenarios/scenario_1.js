@@ -5,6 +5,8 @@ scenario_1.id = 'scenario_1'
 scenario_1.title = 'sc1_scenario_title'
 scenario_1.desc = 'sc1_scenario_desc'
 
+scenario_1.victoryReqs = [{ id:'mission_rocket_launch', count:1 }]
+
 scenario_1.elems = [
 	
 	//////

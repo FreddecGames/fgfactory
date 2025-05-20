@@ -32,7 +32,7 @@
 	
 	<div class="flex items-center gap-2">
 	
-		<btn-manual v-if="elem.type == 'manual' && elem.counts.length > 1" :id="elem.id" />
+		<btn-manual v-if="elem.type == 'manual' && elem.counts.length > 1" :id="elem.id" class="w-20" />
 		
 		<div class="flex-1 grid gap-1 text-end" style="width:75px;">
 			<span class="text-xs">{{ seconds }}</span>

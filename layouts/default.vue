@@ -11,6 +11,7 @@
 	
 		let menu = []
 		
+		menu.push({ label:t('word_scenarios'), icon:'i-lucide-trophy', to:'/scenarios', onSelect:function() { sidebarOpen.value = false } })
 		menu.push({ label:t('word_options'), icon:'i-lucide-settings', to:'/options', onSelect:function() { sidebarOpen.value = false } })
 		
 		return menu
@@ -92,7 +93,7 @@
 			
 				<UPopover mode="hover">
 				
-					<UButton icon="i-lucide-badge-alert" color="error" variant="subtle" label="v0.07" />
+					<UButton icon="i-lucide-badge-alert" color="error" variant="subtle" label="v0.08" />
 					
 					<template #content>
 						<div class="w-48 p-2 text-xs text-error text-center">

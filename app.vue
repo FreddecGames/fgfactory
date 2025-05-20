@@ -31,10 +31,9 @@
 	
 		if (!store.resetInProgress) {
 		
-			store.lastSavedTime = Date.now()
+			store.lastSavedTime = performance.now()
 			
-			let state = {}
-			
+			let state = {}			
 			store.save(state)
 			
 			let text = JSON.stringify(state)
@@ -52,11 +51,24 @@
 		window.removeEventListener('beforeunload', handleBeforeUnload)		
 	}
 	
+	import ModalOffline from '~/components/ModalOffline.vue'
+	import ModalVictory from '~/components/ModalVictory.vue'
+
+	const overlay = useOverlay()
+	
 	const mainLoop = () => {
 	
 		requestAnimationFrame(mainLoop)
 		
-		store.doTick()		
+		store.doTick()
+
+		if (store.isVictoryReached) {
+		
+			store.victory = true
+			
+			let modalVictory = overlay.create(ModalVictory)
+			modalVictory.open()
+		}
 	}
 	
 	import LZString from 'lz-string'
@@ -75,6 +87,17 @@
 				
 				store.init(loadedData.currentScenarioId)
 				store.load(loadedData)
+
+				let currentTimeMs = performance.now()				
+				let delay = (store.lastSavedTime - currentTimeMs) / 1000		
+				
+				if (delay > 60 * 15) {
+				
+					store.computeOfflineProgress(delay)
+					
+					let modalOffline = overlay.create(ModalOffline, { props:{ seconds:delay } })
+					modalOffline.open()
+				}
 			}
 			else {
 
@@ -103,7 +126,7 @@
 			
 			console.error(error)
 		}
-	}, 2000)
+	}, 500)
 	
 </script>
 

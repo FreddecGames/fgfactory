@@ -12,6 +12,15 @@
     "wipe_text": "Are you sure to want to wipe your local data?",
     "wipe_text_2": "You will lose all your progression and restart from the beginning.",
 	
+	"victory_title": "Congratulations",
+	"victory_text": "You beat this scenario. You could try another one.",
+	
+    "offline_title": "Welcome back!",
+    "offline_text": "You were away for",
+	
+    "scenarios_text": "Available scenarios",
+	"scenarios_disclaimer": "You will lose your current progression and you will start this scenario at the beginning.",
+	
     "options_about": "About",
     "options_love": "This game has been designed and built with all the love in the world by Freddec. It was inspired by several famous factory games. You could support the dev by clicking on one of the following links.",
 	"options_iconsBy": "Icons provided by ",
@@ -27,6 +36,7 @@
 	"word_assign": "Assign",
 	"word_assignment": "Assignment",
 	"word_available": "Available",
+	"word_close": "Close",
 	"word_complete": "Complete",
 	"word_costs": "Costs",
 	"word_crafting": "Crafting",
@@ -45,6 +55,8 @@
 	"word_production": "Automation",
 	"word_requirements": "Requirements",
 	"word_resume": "Resume",
+	"word_scenarios": "Scenarios",
+	"word_select": "Select",
 	"word_start": "Start",
 	"word_stop": "Stop",
 	"word_storage": "Storage",
