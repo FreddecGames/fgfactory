@@ -73,6 +73,12 @@
 	"sc1_scenario_title": "Escape!",
 	"sc1_scenario_desc": "In this scenario, you crashed on an hostile planet and you have to escape from there by launching a Rocket to Space to come back to Home. To be able to launch a Rocket you will mine resources, build machines and craft items until all you complete all the missions. Good luck!",
 	
+	"sc1_satellite": "Build a Satellite",
+	"sc1_satellite_desc": "A Satellite will allow you to communicate and explore the Space to retrieve the road to your Home.",
+	
+	"sc1_armor": "Wear your Armor",
+	"sc1_armor_desc": "To protect you against radiations during your travel, you have to wear a solid Armor.",
+	
 	"sc1_mission_rocket_launch": "Launch the Rocket",
 	"sc1_mission_rocket_launch_desc": "To launch the Rocket you have to build 100 Rocket parts. Launching the Rocket is the final step to escape from this hostile planet. After that you will be free! ",
 

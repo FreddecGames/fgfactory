@@ -152,7 +152,7 @@ export const useAppStore = defineStore('app', {
 		activeTab: '0',
 		currentScenarioId: null,
 		lastFrameTimeMs: null,
-		lastSavedTime: performance.now(),	
+		lastSavedTime: Date.now(),	
 		localStorageName: 'fgfactory',
         paused: false,
 		resetInProgress: false,
@@ -275,11 +275,7 @@ export const useAppStore = defineStore('app', {
 			let assignee = this.elems.find(e => e.id == elem.assignId)
 			assignee.availableCount -= count
 			
-			if (elem.type == 'storage') {
-				
-				let item = this.elems.find(e => e.id == elem.itemId)
-				item.max += elem.stack * count
-			}
+			if (elem.type == 'storage') this.refreshMax(elem)
 		},
 		
 		onUnassign(elem, count) {
@@ -287,11 +283,7 @@ export const useAppStore = defineStore('app', {
 			let assignee = this.elems.find(e => e.id == elem.assignId)
 			assignee.availableCount += count
 			
-			if (elem.type == 'storage') {
-				
-				let item = this.elems.find(e => e.id == elem.itemId)
-				item.max -= elem.stack * count
-			}
+			if (elem.type == 'storage') this.refreshMax(elem)
 		},
 		
 		save(data) {
@@ -383,6 +375,7 @@ export const useAppStore = defineStore('app', {
 						outputElem.count = parseFloat(outputElem.count.toFixed(10))
 						
 						if (outputElem.type == 'storer' || outputElem.type == 'machine') this.refreshAvailableCount(outputElem)
+						if (outputElem.type == 'mission' || outputElem.type == 'tech') this.refreshUnlocked()
 					})
 					
 					manual.status = 'stopped'
@@ -393,7 +386,7 @@ export const useAppStore = defineStore('app', {
 		
 		doTick() {
 			
-			let currentTimeMs = performance.now()
+			let currentTimeMs = Date.now()
 			
 			let delay = (currentTimeMs - this.lastFrameTimeMs) / 1000		
 			if (delay < 1 / 60) return

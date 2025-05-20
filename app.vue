@@ -31,10 +31,11 @@
 	
 		if (!store.resetInProgress) {
 		
-			store.lastSavedTime = performance.now()
+			store.lastSavedTime = Date.now()
 			
 			let state = {}			
 			store.save(state)
+			console.log(state)
 			
 			let text = JSON.stringify(state)
 			let compressed = LZString.compressToBase64(text)
@@ -88,7 +89,7 @@
 				store.init(loadedData.currentScenarioId)
 				store.load(loadedData)
 
-				let currentTimeMs = performance.now()				
+				let currentTimeMs = Date.now()				
 				let delay = (store.lastSavedTime - currentTimeMs) / 1000		
 				
 				if (delay > 60 * 15) {
@@ -106,7 +107,7 @@
 			
 			store.refreshAll()
 			
-			store.lastFrameTimeMs = performance.now()
+			store.lastFrameTimeMs = Date.now()
 
 			autoSaveInterval = setInterval(() => { save() }, 30000)
 			
