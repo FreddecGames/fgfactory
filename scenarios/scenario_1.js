@@ -10,12 +10,12 @@ scenario_1.victoryReqs = [{ id:'mission_rocket_launch', count:1 }]
 scenario_1.elems = [
 	
 	//////
-	
-	{ id:'satellite', type:'mission', label:'sc1_satellite', desc:'sc1_satellite_desc', max:1 },
-		{ id:'satellite_manual', type:'manual', itemId:'satellite', output:1, seconds:5, inputs:[{ id:'iron_plate', count:1800 },{ id:'copper_plate', count:4800 },{ id:'steel', count:700 },{ id:'battery', count:500 },{ id:'plastic', count:500 },{ id:'circuit', count:100 },{ id:'rocket_fuel', count:50 }] },
 
 	{ id:'armor', type:'mission', label:'sc1_armor', desc:'sc1_armor_desc', max:1 },
 		{ id:'armor_manual', type:'manual', itemId:'armor', output:1, seconds:25, inputs:[{ id:'iron_plate', count:3500 },{ id:'copper_plate', count:8400 },{ id:'steel', count:60 },{ id:'plastic', count:2700 },{ id:'engine_2', count:40 },{ id:'circuit', count:310 }] },
+	
+	{ id:'satellite', type:'mission', label:'sc1_satellite', desc:'sc1_satellite_desc', max:1 },
+		{ id:'satellite_manual', type:'manual', itemId:'satellite', output:1, seconds:5, inputs:[{ id:'iron_plate', count:1800 },{ id:'copper_plate', count:4800 },{ id:'steel', count:700 },{ id:'battery', count:500 },{ id:'plastic', count:500 },{ id:'circuit', count:100 },{ id:'rocket_fuel', count:50 }] },
 	
 	{ id:'mission_rocket_launch', type:'mission', label:'sc1_mission_rocket_launch', desc:'sc1_mission_rocket_launch_desc', max:1 },
 		{ id:'mission_rocket_launch_manual', type:'manual', itemId:'mission_rocket_launch', output:1, seconds:120, inputs:[{ id:'rocket_part', count:100 }] },

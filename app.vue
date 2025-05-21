@@ -35,7 +35,6 @@
 			
 			let state = {}			
 			store.save(state)
-			console.log(state)
 			
 			let text = JSON.stringify(state)
 			let compressed = LZString.compressToBase64(text)

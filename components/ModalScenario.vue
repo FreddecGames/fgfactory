@@ -20,8 +20,13 @@
 		store.paused = false
 		store.resetInProgress = false
 		store.timePlayed = 0
+
+		store.elems = []
 		
-        window.location.replace('/missions')
+		store.victory = false
+		store.victoryReqs = null
+		
+        window.location.replace('/fgfactory/')
 	}
 	
 </script>
