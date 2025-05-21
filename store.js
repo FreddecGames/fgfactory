@@ -53,13 +53,13 @@ class Elem {
 			
 			this.availableCount = this.count ? this.count : 0
 			this.count = this.count ? this.count : 0
-			this.max = this.max ? this.max : Infinity
+			this.max = this.stack ? this.stack : Infinity
 		}
 		else if (data.type == 'machine') {
 			
 			this.availableCount = this.count ? this.count : 0
 			this.count = this.count ? this.count : 0
-			this.max = this.max ? this.max : Infinity
+			this.max = this.stack ? this.stack : Infinity
 		}
 		else if (data.type == 'storage') {
 			
