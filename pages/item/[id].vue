@@ -25,6 +25,8 @@
 
 	const production = computed(() => store.elems.find(e => e.type == 'production' && e.itemId == route.params.id))
 	
+	const usages = computed(() => store.elems.filter(e => e.type == 'production' && e.assignCount > 0 && e.inputs && e.inputs.find(i => i.id == route.params.id)))
+	
 </script>
 
 <template>
@@ -82,6 +84,18 @@
 		</UCard>
 
 		<card-production v-if="production" :id="production.id" />
+		
+		<UCard v-if="usages.length > 0" variant="outline">
+			<div class="grid gap-3">
+				
+				<div class="flex items-center gap-2">
+					<span class="truncate text-lg font-semibold">{{ $t('word_usages') }}</span>
+				</div>
+				
+				<block-usage v-for="usage in usages" :key="usage.id" :id="usage.id" />
+				
+			</div>
+		</UCard>
 		
 	</div>
 
