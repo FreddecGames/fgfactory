@@ -1,0 +1,53 @@
+{
+    "title": "FG Factory",
+
+    "errors": {
+        "title": "Erreur de chargement",
+        "fetch_failed": "Échec du chargement des fichiers de données.",
+        "unknown": "Une erreur inconnue s'est produite."
+    },
+
+    "victory": {
+        "title": "Félicitations !",
+        "message": "Vous avez terminé ce scénario ! Vous pouvez continuer à jouer en mode infini ou choisir un autre scénario à jouer.",
+        "close": "Fermer"
+    },
+
+    "options": {
+        "title": "Options",
+        "language": "Langue",
+        "game_name": "Nom de votre usine",
+        "game_name_placeholder": "Saisissez un nom pour votre usine",
+        "local_storage": "Données locales",
+        "export": "Copier les données dans le presse-papier",
+        "copied": "Données copiées",
+        "import_placeholder": "Copier/coller ici les données d'une autre sauvegarde",
+        "import": "Importer",
+        "wipe": "Effacer toutes les données"
+    },
+
+    "labels": {
+        "mission_inprogress": "Mission en cours",
+        "mission_completed": "Mission accomplie",
+        "objectives": "Objectifs",
+        "requirements": "Pré-requis",
+        "stock": "Stock",
+        "production": "Production",
+        "per_cycle": "par cycle",
+        "purchase": "Fabrication",
+        "costs": "Ingrédients",
+        "no_cost": "Aucun ingrédient nécessaire",
+        "automation": "Automatisation",
+        "inputs": "Entrées",
+        "no_input": "Aucune entrée nécessaire",
+        "outputs": "Sorties",
+        "current_scenario": "Scénario en cours",
+        "play_time": "Temp de jeu",
+        "status_paused": "En pause",
+        "status_running": "En cours",
+        "no_victory": "Aucune victoire pour le moment",
+        "scenarios": "Scénarios disponibles",
+        "victories": "Victoires",
+        "reset": "Réinitialiser"
+    }
+}

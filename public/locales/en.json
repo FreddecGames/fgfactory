@@ -1,0 +1,62 @@
+{
+    "title": "FG Factory",
+
+    "errors": {
+        "title": "Loading Error",
+        "fetch_failed": "Failed to load data files.",
+        "unknown": "An unknown error occurred."
+    },
+
+    "victory": {
+        "title": "Congratulations!",
+        "message": "You have completed this scenario! You can continue to play in infinite mode or choose another scenario to play.",
+        "close": "Close"
+    },
+
+    "options": {
+        "title": "Options",
+        "language": "Language",
+        "game_name": "Game Name",
+        "game_name_placeholder": "Enter a name for your factory",
+        "local_storage": "Local Data",
+        "export": "Copy Data to Clipboard",
+        "copied": "Data copied",
+        "import_placeholder": "Copy/paste data from another save",
+        "import": "Import",
+        "wipe": "Wipe All Data",
+        "wipe_confirm": "Are you sure you want to wipe all data? This will erase all progress and cannot be undone."
+    },
+
+    "groups": {
+        "admin": "Scenarios"
+    },
+
+    "labels": {
+        "mission_inprogress": "Mission in Progress",
+        "mission_completed": "Mission Completed",
+        "objectives": "Objectives",
+        "requirements": "Requirements",
+        "stock": "Stock",
+        "production": "Production",
+        "available": "Available",
+        "per_cycle": "/s",
+        "crafting": "Crafting",
+        "costs": "Ingredients",
+        "no_cost": "No ingredients required",
+        "inputs": "Inputs",
+        "no_input": "No inputs required",
+        "outputs": "Outputs",
+        "assignments": "Assignments",
+        "current_scenario": "Current Scenario",
+        "play_time": "Play Time",
+        "status_paused": "Paused",
+        "status_running": "Running",
+        "no_victory": "No victory yet",
+        "scenarios": "Available Scenarios",
+        "victories": "Victories",
+        "reset": "Reset",
+        "reset_confirm": "Are you sure you want to reset this scenario? This will erase all progress and cannot be undone.",
+        "confirm": "Confirm",
+        "storage": "Storage"
+    }
+}

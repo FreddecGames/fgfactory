@@ -1,0 +1,52 @@
+{
+    "groups": {
+        "missions": "Missions",
+        "items": "Items",
+        "machines": "Machines"
+    },
+
+    "subgroups": {
+        "onboarding": "Installation",
+        "project": "Final Project",
+        "raw": "Extraction",
+        "energy": "Energy",
+        "refined": "Refining",
+        "assembled_1": "Tier #1",
+        "assembled_2": "Tier #2",
+        "assembled_3": "Tier #3",
+        "generators": "Generators",
+        "extractors": "Extractors",
+        "smelters": "Smelters",
+        "assemblers": "Assemblers",
+        "storers": "Storers"
+    },
+
+    "items": {
+        "onboarding_1": "Step #1",
+        "onboarding_2": "Step #2",
+        "onboarding_3": "Step #3",
+        "onboarding_4": "Step #4",
+        "onboarding_5": "Step #5",
+        "space_elevator": "Space Elevator",
+        "biomass": "Biomass",
+        "iron_ore": "Iron Ore",
+        "copper_ore": "Copper Ore",
+        "limestone": "Limestone",
+        "energy": "Energy",
+        "iron_ingot": "Iron Ingot",
+        "copper_ingot": "Copper Ingot",
+        "iron_rod": "Iron Rod",
+        "iron_plate": "Iron Plate",
+        "wire": "Wire",
+        "concrete": "Concrete",
+        "cable": "Cable",
+        "screws": "Screws",
+        "iron_plate_reinforced": "Reinforced Iron Plate",
+        "miner_1": "Portable Miner",
+        "miner_2": "Miner Mk.1",
+        "biomass_generator": "Biomass Generator",
+        "smelter_1": "Smelter",
+        "assembler_1": "Constructor",
+        "solid_storer_1": "Storage Container"
+    }
+}
