@@ -1,4 +1,8 @@
 {
+    "scenarios":{
+		"satisfactory": "Satisfactory"
+	},
+
     "groups": {
         "missions": "Missions",
         "items": "Items",

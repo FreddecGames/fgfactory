@@ -105,6 +105,7 @@ export const useGameStore = defineStore('game', () => {
 
             localeTranslations.value = {
                 ...generalJson,
+                scenarios: { ...generalJson.scenarios, ...specificJson.scenarios },
                 groups: { ...generalJson.groups, ...specificJson.groups },
                 subgroups: { ...generalJson.subgroups, ...specificJson.subgroups },
                 items: { ...generalJson.items, ...specificJson.items }
@@ -248,8 +249,9 @@ export const useGameStore = defineStore('game', () => {
 
             currentDatasetId.value = savedState?.currentDatasetId || DEFAULT_DATASET_ID
 
-            const scenariosList = await $fetch<Array<{ id: string; name: string }>>('/api/scenarios')
-            availableDatasets.value = scenariosList || []
+            availableDatasets.value = [
+				{ id: "satisfactory", name: "scenarios.satisfactory" },
+			]
 
             if (availableDatasets.value.length > 0 && !availableDatasets.value.some(d => d.id === currentDatasetId.value)) {
                 currentDatasetId.value = availableDatasets.value[0].id

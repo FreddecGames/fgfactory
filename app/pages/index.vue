@@ -178,12 +178,12 @@
 
     <!-- Main Screen -->
 
-    <div v-else class="h-screen w-full flex flex-col overflow-hidden flex flex-col">
-        <UContainer class="max-w-3xl mx-auto flex-1 overflow-y-auto bg-zinc-900/70 ">
+    <div v-else class="min-h-screen w-full flex flex-col">
 
-            <!-- Page Header -->
+		<!-- Page Header -->
 
-            <div class="sticky top-0 z-50 backdrop-blur-sm pt-2">
+        <UContainer class="fixed top-0 z-50 backdrop-blur">
+            <div class="max-w-3xl mx-auto pt-2 bg-zinc-900/70">
                     
                 <header v-if="!gameStore.isLoading" class="flex justify-between gap-3">
 
@@ -201,6 +201,11 @@
                     variant="link" :ui="{ list: 'justify-center' }" />
 
             </div>
+		</UContainer>
+
+		<!-- Page Content -->
+
+        <UContainer class="pt-[88px] flex-1 max-w-3xl mx-auto bg-zinc-900/70">
 
             <!-- Scenario Tab -->
 
@@ -242,7 +247,7 @@
 
 									</UPopover>
 
-	                                <h2 class="text-lg font-bold text-primary">{{ getDatasetName(gameStore.currentDatasetId) }}</h2>
+	                                <h2 class="text-lg font-bold text-primary">{{ gameStore.t(getDatasetName(gameStore.currentDatasetId)) }}</h2>
 
 								</div>
 
@@ -297,7 +302,7 @@
                                 variant="subtle" :color="gameStore.currentDatasetId === dataset.id ? 'primary' : 'neutral'" class="justify-center"
                                 :disabled="gameStore.currentDatasetId === dataset.id"
                                 @click="gameStore.switchScenario(dataset.id)">
-                                <span>{{ dataset.name }}</span>
+                                <span>{{ gameStore.t(dataset.name) }}</span>
                             </UButton>
 
                         </div>
@@ -394,6 +399,7 @@
             </div>
 
         </UContainer>
+
     </div>
 
     <!-- Options Modal -->
