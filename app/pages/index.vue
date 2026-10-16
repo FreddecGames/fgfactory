@@ -182,8 +182,8 @@
 
 		<!-- Page Header -->
 
-        <UContainer class="fixed top-0 z-50 backdrop-blur">
-            <div class="max-w-3xl mx-auto pt-2 bg-zinc-900/70">
+        <UContainer class="fixed top-0 z-50 backdrop-blur bg-zinc-900/70 px-3">
+            <div class="max-w-3xl mx-auto pt-2">
                     
                 <header v-if="!gameStore.isLoading" class="flex justify-between gap-3">
 
@@ -205,7 +205,7 @@
 
 		<!-- Page Content -->
 
-        <UContainer class="pt-[88px] flex-1 max-w-3xl mx-auto bg-zinc-900/70">
+        <UContainer class="pt-[88px] flex-1 max-w-3xl mx-auto bg-zinc-900/70 px-3">
 
             <!-- Scenario Tab -->
 
