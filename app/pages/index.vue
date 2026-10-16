@@ -182,26 +182,26 @@
 
 		<!-- Page Header -->
 
-        <UContainer class="fixed top-0 z-50 backdrop-blur bg-zinc-900/70 px-3">
-            <div class="max-w-3xl mx-auto pt-2">
-                    
-                <header v-if="!gameStore.isLoading" class="flex justify-between gap-3">
+        <div class="fixed top-0 z-50 w-full">
+			<UContainer class="backdrop-blur max-w-3xl mx-auto bg-zinc-900/70 px-3">
+						
+				<header v-if="!gameStore.isLoading" class="pt-2 flex justify-between gap-3">
 
-                    <h1 class="text-xl font-bold text-gray-900 dark:text-white flex items-center justify-center gap-2">
-                        <UIcon name="i-lucide-factory" class="w-6 h-6 text-primary" />
-                        {{ gameStore.customGameName || gameStore.t('title') }}
-                    </h1>
+					<h1 class="text-xl font-bold text-gray-900 dark:text-white flex items-center justify-center gap-2">
+						<UIcon name="i-lucide-factory" class="w-6 h-6 text-primary" />
+						{{ gameStore.customGameName || gameStore.t('title') }}
+					</h1>
 
-                    <UButton color="primary" variant="ghost" icon="i-lucide-settings-2" square size="md"
-                        @click="isOptionsOpen = true" />
+					<UButton color="primary" variant="ghost" icon="i-lucide-settings-2" square size="md"
+						@click="isOptionsOpen = true" />
 
-                </header>
+				</header>
 
-                <UTabs v-model="activeGroup" :items="groupTabs" 
-                    variant="link" :ui="{ list: 'justify-center' }" />
+				<UTabs v-model="activeGroup" :items="groupTabs" 
+					variant="link" :ui="{ list: 'justify-center' }" />
 
-            </div>
-		</UContainer>
+			</UContainer>
+		</div>
 
 		<!-- Page Content -->
 
