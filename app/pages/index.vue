@@ -205,7 +205,7 @@
 
 		<!-- Page Content -->
 
-        <UContainer class="pt-[88px] flex-1 max-w-3xl mx-auto bg-zinc-900/70 px-3">
+        <UContainer class="pt-[88px] pb-[44px] flex-1 max-w-3xl mx-auto bg-zinc-900/70 px-3">
 
             <!-- Scenario Tab -->
 
@@ -257,7 +257,16 @@
 
                             <div class="flex-1 flex flex-col gap-1">
                                 
-                                <span class="text-xs font-semibold text-zinc-400">{{ gameStore.t('labels.play_time') }}</span>
+								<div class="flex items-center justify-between flex-wrap gap-3">
+
+	                                <span class="text-xs font-semibold text-zinc-400">{{ gameStore.t('labels.play_time') }}</span>
+
+                                    <span class="text-xs font-semibold flex items-center gap-1.5" :class="gameStore.isPaused ? 'text-primary' : 'text-success'">
+                                        <span class="h-2 w-2 rounded-full bg-current" :class="gameStore.isPaused ? '' : 'animate-ping'"></span>
+                                        {{ gameStore.isPaused ? gameStore.t('labels.status_paused') : gameStore.t('labels.status_running') }}
+                                    </span>
+
+								</div>
 
                                 <div class="flex items-center flex-wrap gap-3">
 
@@ -267,11 +276,6 @@
                                         @click="gameStore.togglePause()" />
 
                                     <h2 class="text-lg font-bold font-mono">{{ gameStore.formatTime(gameStore.totalPlayTime) }}</h2>
-
-                                    <span class="text-xs font-semibold flex items-center gap-1.5" :class="gameStore.isPaused ? 'text-primary' : 'text-success'">
-                                        <span class="h-2 w-2 rounded-full bg-current" :class="gameStore.isPaused ? '' : 'animate-ping'"></span>
-                                        {{ gameStore.isPaused ? gameStore.t('labels.status_paused') : gameStore.t('labels.status_running') }}
-                                    </span>
 
                                 </div>
                                 
@@ -346,11 +350,15 @@
                 <div v-for="(subgroupItems, subgroupKey) in activeSubgroups" :key="subgroupKey"
                     class="flex flex-col space-y-4">
 
+					<!-- Subgroup -->
+
 					<h3 class="text-xs text-center font-semibold text-gray-400">
 						{{ gameStore.t(`subgroups.${subgroupKey}`) }}
 					</h3>
 
-                    <div class="flex justify-center gap-3">
+					<!-- Item List -->
+
+                    <div class="flex justify-center gap-2">
 
                         <UButton v-for="item in subgroupItems" :key="item.id"
                             @click="openItemModal(item)"
@@ -404,7 +412,7 @@
 
     <!-- Options Modal -->
 
-    <UModal v-model:open="isOptionsOpen">
+    <UModal v-model:open="isOptionsOpen" scrollable>
         <template #content>
             <UCard :ui="{ body: 'sm:py-3 py-3' }">
             
@@ -575,29 +583,34 @@
                         <h4 class="text-xs italic text-zinc-500">{{ gameStore.t('labels.requirements') }}</h4>
 
                         <UCard variant="subtle">
-                            <div class="flex flex-col space-y-1">
-                                <div v-for="req in selectedItem.requires" :key="req.id" class="flex items-center justify-between text-xs">
+                            <div class="grid grid-cols-2 gap-3 text-xs items-end">
+								
+								<UButton v-for="req in selectedItem.requires" :key="req.id" color="neutral" variant="soft" size="xs" class="justify-between gap-4"
+									@click="openItemModal(gameStore.getItemById(req.id))">
 
-                                    <div class="flex items-center space-x-2">
-                                        <img :src="gameStore.getItemImage(req.id)" :alt="gameStore.t(`items.${req.id}`)" class="w-4 h-4" />
-                                        <span>{{ gameStore.t(`items.${req.id}`) }}</span>
-                                    </div>
+									<div class="flex items-center space-x-2">
+										<img :src="gameStore.getItemImage(req.id)" :alt="gameStore.t(`items.${req.id}`)" class="w-4 h-4" />
+										<span>{{ gameStore.t(`items.${req.id}`) }}</span>
+									</div>
 
-                                    <span :class="gameStore.getItemStock(req.id) >= req.quantity ? 'text-success' : 'text-error'">{{ gameStore.getItemStock(req.id) }} / {{ req.quantity }}</span>
+									<span v-if="req.quantity > 1 && gameStore.getItemStock(req.id) < req.quantity" class="text-error">{{ gameStore.getItemStock(req.id) }} / {{ req.quantity }}</span>
 
-                                </div>
+									<UBadge v-else-if="gameStore.getItemStock(req.id) < req.quantity" size="sm" color="neutral" variant="subtle"
+										class="font-bold shadow-sm rounded-full px-1.5 min-w-[20px] justify-center">
+										<UIcon name="i-lucide-check" class="w-2 h-2" />
+									</UBadge>
+
+									<UBadge v-else size="sm" color="success" variant="solid"
+										class="font-bold shadow-sm rounded-full px-1.5 min-w-[20px] justify-center">
+										<UIcon name="i-lucide-check" class="w-2 h-2" />
+									</UBadge>
+
+								</UButton>
+
                             </div>
                         </UCard>
 
                     </div>
-
-                    <!-- Mission Completed -->
-
-                    <UBadge v-if="gameStore.isItemUnlocked(selectedItem) && selectedItem.type == 'mission' && gameStore.isItemStorageFull(selectedItem.id)"
-                        variant="subtle" size="lg" color="success" class="w-full px-4 py-2 flex justify-center">
-                        <UIcon name="i-lucide-award" class="w-4 h-4" />
-                        <span>{{ gameStore.t('labels.mission_completed') }}</span>
-                    </UBadge>
 
                     <!-- Item Stock & Production -->
 
@@ -690,7 +703,7 @@
 																			<img :src="gameStore.getItemImage(input.id)" :alt="gameStore.t(`items.${input.id}`)" class="w-4 h-4" />
 																			<span class="truncate">{{ gameStore.t(`items.${input.id}`) }}</span>
 																		</div>
-																		<span :class="gameStore.getItemProds[input.id] >= input.rate ? 'text-success' : 'text-error'">{{ input.rate }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
+																		<span :class="gameStore.getItemProds[input.id] >= input.prod ? 'text-success' : 'text-error'">{{ input.prod }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
 																	</UButton>
 																</div>
 
@@ -711,7 +724,7 @@
 																			<img :src="gameStore.getItemImage(output.id)" :alt="gameStore.t(`items.${output.id}`)" class="w-4 h-4" />
 																			<span class="truncate">{{ gameStore.t(`items.${output.id}`) }}</span>
 																		</div>
-																		<span class="text-success">{{ output.rate }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
+																		<span class="text-success">{{ output.prod }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
 																	</UButton>
 																</div>
 
@@ -853,7 +866,6 @@
                         <h4 v-if="selectedItem.type !== 'mission'" class="text-xs italic text-zinc-500">{{ gameStore.t('labels.crafting') }}</h4>
 
                         <UCard variant="subtle">
-
                             <div class="grid grid-cols-2 gap-3 text-xs items-end">
                                 
                                 <!-- Building Costs -->
@@ -880,9 +892,17 @@
 
                                 </div>
 
+								<!-- Mission Completed -->
+
+								<UBadge v-if="gameStore.isItemUnlocked(selectedItem) && selectedItem.type == 'mission' && gameStore.isItemStorageFull(selectedItem.id)"
+									variant="subtle" size="md" color="success" class="w-full px-4 py-2 flex justify-center">
+									<UIcon name="i-lucide-award" class="w-4 h-4" />
+									<span>{{ gameStore.t('labels.mission_completed') }}</span>
+								</UBadge>
+
                                 <!-- Building Progress -->
 
-                                <div class="flex items-center justify-end gap-3">
+                                <div v-else class="flex items-center justify-end gap-3">
 
                                     <div v-if="selectedItem.purchase.time > 0" class="flex-auto flex flex-col gap-1">
 
@@ -894,16 +914,13 @@
                                         <UProgress v-model="selectedItemBuildProgress" size="sm" color="primary" class="flex-1" />
 
                                     </div>
-                                    
-                                    <UButton v-if="selectedItem.type === 'mission' && gameStore.isItemStorageFull(selectedItem.id)"
-                                        color="success" variant="subtle" icon="i-lucide-check" square size="md"
-                                        :disabled="true"
-                                        @click="gameStore.startItemBuilding(selectedItem)" />
 
-                                    <UButton v-else-if="selectedItem.type === 'mission' && !gameStore.isItemStorageFull(selectedItem.id)"
+                                    <UButton v-if="selectedItem.type === 'mission' && !gameStore.isItemStorageFull(selectedItem.id)"
                                         color="primary" variant="subtle" icon="i-lucide-check" square size="md"
                                         :disabled="!gameStore.canBuildItem(selectedItem)"
-                                        @click="gameStore.startItemBuilding(selectedItem)" />
+                                        @click="gameStore.startItemBuilding(selectedItem)">
+										<span>{{ gameStore.t('labels.complete') }}</span>
+									</UButton>
 
                                     <UButton v-else-if="gameStore.activeItemBuildings[selectedItem.id]"
                                         color="error" variant="subtle" icon="i-lucide-square" square size="md"
@@ -917,7 +934,6 @@
                                 </div>
 
                             </div>
-
                         </UCard>
 
                     </div>
@@ -959,7 +975,7 @@
 																			<img :src="gameStore.getItemImage(input.id)" :alt="gameStore.t(`items.${input.id}`)" class="w-4 h-4" />
 																			<span class="truncate">{{ gameStore.t(`items.${input.id}`) }}</span>
 																		</div>
-                                                                        <span :class="gameStore.getItemProds[input.id] >= input.rate ? 'text-success' : 'text-error'">{{ input.rate }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
+                                                                        <span :class="gameStore.getItemProds[input.id] >= input.prod ? 'text-success' : 'text-error'">{{ input.prod }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
                                                                     </UButton>
                                                                 </div>
 
@@ -980,7 +996,7 @@
 																			<img :src="gameStore.getItemImage(output.id)" :alt="gameStore.t(`items.${output.id}`)" class="w-4 h-4" />
 																			<span class="truncate">{{ gameStore.t(`items.${output.id}`) }}</span>
 																		</div>
-                                                                        <span class="text-success">{{ output.rate }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
+                                                                        <span class="text-success">{{ output.prod }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
                                                                     </UButton>
                                                                 </div>
 
@@ -1068,7 +1084,7 @@
 																	<img :src="gameStore.getItemImage(storage.itemId)" :alt="gameStore.t(`items.${storage.itemId}`)" class="w-4 h-4" />
 																	<span class="truncate">{{ gameStore.t(`items.${storage.itemId}`) }}</span>
 																</div>
-                                                                <span>+{{ storage.stock }}</span>
+                                                                <span class="text-success">+{{ storage.stock }}</span>
                                                             </UButton>
 
                                                         </div>
@@ -1127,7 +1143,7 @@
 
     <!-- Victory Modal -->
 
-    <UModal v-model:open="gameStore.hasWon" prevent-close>
+    <UModal v-model:open="gameStore.hasWon" scrollable prevent-close>
         <template #content>
             <UCard :ui="{ body: 'sm:py-3 py-3' }">
 

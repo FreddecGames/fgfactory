@@ -23,6 +23,8 @@
         "copied": "Data copied",
         "import_placeholder": "Copy/paste data from another save",
         "import": "Import",
+        "import_success": "Data imported",
+		"import_error": "An error occured",
         "wipe": "Wipe All Data",
         "wipe_confirm": "Are you sure you want to wipe all data? This will erase all progress and cannot be undone."
     },
@@ -57,6 +59,7 @@
         "reset": "Reset",
         "reset_confirm": "Are you sure you want to reset this scenario? This will erase all progress and cannot be undone.",
         "confirm": "Confirm",
-        "storage": "Storage"
+        "storage": "Storage",
+		"complete": "Complete"
     }
 }

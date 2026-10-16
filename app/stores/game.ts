@@ -18,7 +18,7 @@ export interface Purchase {
 
 export interface InputOutput {
     id: string
-    rate: number
+    prod: number
 }
 
 export interface Recipe {
@@ -38,7 +38,6 @@ export interface Item {
     subgroup: string
     id: string
     type: 'item' | 'mission' | 'machine'
-    image?: string
     stack?: number
     initialQuantity?: number
     requires?: Requirement[]
@@ -69,6 +68,7 @@ export const useGameStore = defineStore('game', () => {
     const isPaused = ref<boolean>(false)
     const isLoading = ref<boolean>(true)
     const loadingError = ref<string | null>(null)
+    const isRestarting = ref<boolean>(false)
     const isInitialized = ref<boolean>(false)
 
     // Localization
@@ -176,14 +176,18 @@ export const useGameStore = defineStore('game', () => {
 
     function wipeLocalStorage() {
 
+		isRestarting.value = true
+
         if (typeof window !== 'undefined') localStorage.removeItem('factory_game_save')
-            
+
         window.location.reload()
     }
     
     async function importEncryptedData(code: string): Promise<boolean> {
 
         if (!code || code.trim() === '') return false
+
+		isRestarting.value = true
         
         localStorage.setItem('factory_game_save', code)
         
@@ -195,6 +199,8 @@ export const useGameStore = defineStore('game', () => {
     let saveTimeout: ReturnType<typeof setTimeout> | null = null
 
     function persistGame() {
+
+		if (isRestarting.value) return
 
         if (typeof window === 'undefined' || !isInitialized.value) return
 
@@ -468,12 +474,12 @@ export const useGameStore = defineStore('game', () => {
 
                 if (recipe.inputs) {
                     recipe.inputs.forEach((input: any) => {
-                        if (prods[input.id] !== undefined) prods[input.id] -= input.rate * machineCount
+                        if (prods[input.id] !== undefined) prods[input.id] -= input.prod * machineCount
                     })
                 }
 
                 recipe.outputs.forEach((output: any) => {
-                    if (prods[output.id] !== undefined) prods[output.id] += output.rate * machineCount
+                    if (prods[output.id] !== undefined) prods[output.id] += output.prod * machineCount
                 })
             })
         })
@@ -649,7 +655,7 @@ export const useGameStore = defineStore('game', () => {
 
         if (recipe.inputs) {
             return recipe.inputs.every((input: any) => {
-                return getItemProds.value[input.id] >= input.rate
+                return getItemProds.value[input.id] >= input.prod
             })
         }
 
@@ -661,7 +667,7 @@ export const useGameStore = defineStore('game', () => {
         if (getAssignedMachineCount(itemId, machineId) <= 0) return false
 
         return recipe.outputs.every((output: any) => {
-            return getItemProds.value[output.id] - output.rate >= 0
+            return getItemProds.value[output.id] - output.prod >= 0
         })
     }
 
