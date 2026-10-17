@@ -8,7 +8,7 @@
 
     "subgroups": {
         "onboarding": "Installation",
-        "raw": "Extraction",
+        "ore": "Extraction",
         "refined": "Raffinage",
         "assembled_1": "Tier #1",
         "refining": "Raffineurs"
@@ -16,7 +16,7 @@
 
     "items": {
         "onboarding_1": "Etape #1",
-        "iron_ore": "Minerai de fer",
+        "iron": "Minerai de fer",
         "iron_ingot": "Lingot de fer",
         "iron_rod": "Barre de fer",
         "iron_plate": "Iron Plate",

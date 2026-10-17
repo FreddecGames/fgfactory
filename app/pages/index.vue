@@ -153,14 +153,14 @@
     <div v-if="gameStore.isLoading" class="flex flex-col items-center justify-center py-12">
 
         <UCard>
-            <div class="flex flex-col space-y-4">
+            <div class="flex flex-col space-y-2">
 
-                <h1 class="text-xl font-bold text-gray-900 dark:text-white flex items-center justify-center gap-2">
+                <h1 class="text-xl font-bold text-white flex items-center justify-center gap-2">
                     <UIcon name="i-lucide-factory" class="w-6 h-6 text-primary" />
                     FG Factory
                 </h1>
 
-                <UProgress size="sm" animation="carousel" class="w-64" />
+				<UProgress size="sm" animation="carousel" class="w-64" />
 
             </div>
         </UCard>
@@ -197,7 +197,7 @@
 
 				</header>
 
-				<UTabs v-model="activeGroup" :items="groupTabs" 
+				<UTabs v-model="activeGroup" :items="groupTabs" size="sm"
 					variant="link" :ui="{ list: 'justify-center' }" />
 
 			</UContainer>
@@ -205,7 +205,7 @@
 
 		<!-- Page Content -->
 
-        <UContainer class="pt-[88px] pb-[44px] flex-1 max-w-3xl mx-auto bg-zinc-900/70 px-3">
+        <UContainer class="pt-[84px] pb-[42px] flex-1 max-w-3xl mx-auto bg-zinc-900/70 px-3">
 
             <!-- Scenario Tab -->
 
@@ -346,60 +346,61 @@
 
             <!-- Item Tab -->
 
-            <div v-else class="pt-2 flex flex-col space-y-4">
+            <div v-else class="pt-2 flex flex-col space-y-6">
                 <div v-for="(subgroupItems, subgroupKey) in activeSubgroups" :key="subgroupKey"
-                    class="flex flex-col space-y-4">
+                    class="flex flex-col space-y-2">
 
 					<!-- Subgroup -->
 
-					<h3 class="text-xs text-center font-semibold text-gray-400">
+					<h3 class="text-[10px] uppercase text-center font-semibold text-gray-400">
 						{{ gameStore.t(`subgroups.${subgroupKey}`) }}
 					</h3>
 
 					<!-- Item List -->
 
-                    <div class="flex justify-center gap-2">
+                    <div class="flex flex-wrap justify-center gap-2">
 
-                        <UButton v-for="item in subgroupItems" :key="item.id"
-                            @click="openItemModal(item)"
-                            color="neutral" variant="outline" class="w-14 relative aspect-square flex flex-col justify-center gap-1">
+						<UTooltip v-for="item in subgroupItems" :key="item.id" :delay-duration="0" :text="gameStore.t(`items.${item.id}`)">
+							<UButton @click="openItemModal(item)"
+								color="neutral" variant="outline" class="w-12 relative aspect-square flex flex-col justify-center gap-1">
 
-                            <img v-if="gameStore.isItemUnlocked(item)" :src="item.image" :alt="gameStore.t(`items.${item.id}`)" class="w-8 h-8" />
-                            <UIcon v-else name="i-lucide-lock" class="w-8 h-8 text-gray-600" />
+								<img v-if="gameStore.isItemUnlocked(item)" :src="item.image" :alt="gameStore.t(`items.${item.id}`)" class="w-6 h-6" />
+								<UIcon v-else name="i-lucide-lock" class="w-6 h-6 text-gray-600" />
 
-                            <UBadge v-if="gameStore.hasNewUnlock(item.id)" size="sm" color="primary" variant="solid"
-                                class="absolute -top-1 -left-1 z-10 rounded-full px-1 justify-center">
-                                <UIcon name="i-lucide-sparkles" class="w-2 h-2" />
-                            </UBadge>
-                            
-                            <UIcon v-if="gameStore.activeItemBuildings[item.id]" name="i-lucide-hammer" class="absolute top-1 left-1 w-2 h-2 text-primary animate-spin" />
+								<UBadge v-if="gameStore.hasNewUnlock(item.id)" size="xs" color="primary" variant="solid"
+									class="absolute -top-0.5 -right-0.5 z-10">
+									<UIcon name="i-lucide-sparkles" class="w-2 h-2" />
+								</UBadge>
+								
+								<UIcon v-if="gameStore.activeItemBuildings[item.id]" name="i-lucide-hammer" class="absolute top-1 left-1 w-2 h-2 text-primary animate-spin" />
 
-                            <UBadge v-if="gameStore.isItemUnlocked(item) && item.type === 'mission'" size="sm" :color="gameStore.isItemStorageFull(item.id) ? 'success' : 'neutral'" :variant="gameStore.isItemStorageFull(item.id) ? 'solid' : 'subtle'"
-                                class="absolute -top-1 -right-1 font-bold shadow-sm z-10 rounded-full px-1.5 min-w-[20px] justify-center">
-                                <UIcon name="i-lucide-check" class="w-2 h-2" />
-                            </UBadge>
+								<UBadge v-if="gameStore.isItemUnlocked(item) && item.type === 'mission'" size="xs" :color="gameStore.isItemStorageFull(item.id) ? 'success' : 'neutral'" :variant="gameStore.isItemStorageFull(item.id) ? 'solid' : 'subtle'"
+									class="absolute -top-0.5 -right-0.5 z-10">
+									<UIcon name="i-lucide-check" class="w-2 h-2" />
+								</UBadge>
 
-                            <UBadge v-else-if="gameStore.isItemUnlocked(item)" size="sm" color="neutral" variant="subtle"
-                                class="absolute -top-1 -right-1 font-bold shadow-sm z-10 rounded-full px-1.5 min-w-[20px] justify-center">
-                                <span :class="gameStore.isItemStorageFull(item.id) ? 'text-error' : ''">{{ gameStore.getItemStock(item.id) }}</span>
-                            </UBadge>
+								<UBadge v-else-if="gameStore.isItemUnlocked(item)" size="xs" color="neutral" variant="subtle"
+									class="absolute -top-0.5 -right-0.5 z-10">
+									<span :class="gameStore.isItemStorageFull(item.id) ? 'text-error' : ''">{{ gameStore.getItemStock(item.id) }}</span>
+								</UBadge>
 
-                            <UBadge v-if="gameStore.isItemUnlocked(item) && item.recipes && item.recipes.length > 0" size="sm" color="neutral" variant="subtle"
-                                class="absolute -bottom-1 -right-1 font-bold shadow-sm z-10 rounded-full px-1.5 min-w-[20px] justify-center">
-                                <span :class="gameStore.getItemProds[item.id] > 0 ? 'text-success' : 'text-error'">{{ gameStore.getItemProds[item.id] > 0 ? '+' : '' }}{{ gameStore.getItemProds[item.id] }}</span>
-                            </UBadge>
+								<UBadge v-if="gameStore.isItemUnlocked(item) && item.recipes && item.recipes.length > 0" size="xs" color="neutral" variant="subtle"
+									class="absolute -top-0.5 -right-0.5 z-10">
+									<span :class="gameStore.getItemProds[item.id] > 0 ? 'text-success' : 'text-error'">{{ gameStore.getItemProds[item.id] > 0 ? '+' : '' }}{{ gameStore.getItemProds[item.id] }}</span>
+								</UBadge>
 
-                            <UBadge v-if="gameStore.isItemUnlocked(item) && item.type === 'machine'" size="sm" color="neutral" variant="subtle"
-                                class="absolute -bottom-1 -right-1 font-bold shadow-sm z-10 rounded-full px-1.5 min-w-[20px] justify-center">
-                                <span :class="gameStore.getFreeMachineCount(item.id) > 0 ? 'text-success' : 'text-error'">{{ gameStore.getFreeMachineCount(item.id) }}</span>
-                            </UBadge>
+								<UBadge v-if="gameStore.isItemUnlocked(item) && item.type === 'machine'" size="xs" color="neutral" variant="subtle"
+									class="absolute -top-0.5 -right-0.5 z-10">
+									<span :class="gameStore.getFreeMachineCount(item.id) > 0 ? 'text-success' : 'text-error'">{{ gameStore.getFreeMachineCount(item.id) }}</span>
+								</UBadge>
 
-                            <UBadge v-if="gameStore.isItemUnlocked(item) && item.type === 'storer'" size="sm" color="neutral" variant="subtle"
-                                class="absolute -bottom-1 -right-1 font-bold shadow-sm z-10 rounded-full px-1.5 min-w-[20px] justify-center">
-                                <span :class="gameStore.getFreeStorerCount(item.id) > 0 ? 'text-success' : 'text-error'">{{ gameStore.getFreeStorerCount(item.id) }}</span>
-                            </UBadge>
+								<UBadge v-if="gameStore.isItemUnlocked(item) && item.type === 'storer'" size="xs" color="neutral" variant="subtle"
+									class="absolute -top-0.5 -right-0.5 z-10">
+									<span :class="gameStore.getFreeStorerCount(item.id) > 0 ? 'text-success' : 'text-error'">{{ gameStore.getFreeStorerCount(item.id) }}</span>
+								</UBadge>
 
-                        </UButton>
+							</UButton>
+						</UTooltip>
 
                     </div>
 
@@ -574,7 +575,7 @@
                     </div>
                 </template>
 
-                <div class="flex flex-col space-y-4">
+                <div class="flex flex-col space-y-6">
 
                     <!-- Item Requirements -->
 
@@ -582,33 +583,27 @@
 
                         <h4 class="text-xs italic text-zinc-500">{{ gameStore.t('labels.requirements') }}</h4>
 
-                        <UCard variant="subtle">
-                            <div class="grid grid-cols-2 gap-3 text-xs items-end">
-								
-								<UButton v-for="req in selectedItem.requires" :key="req.id" color="neutral" variant="soft" size="xs" class="justify-between gap-4"
-									@click="openItemModal(gameStore.getItemById(req.id))">
+						<UButton v-for="req in selectedItem.requires" :key="req.id" color="neutral" variant="soft" size="sm" class="justify-between gap-4"
+							@click="openItemModal(gameStore.getItemById(req.id))">
 
-									<div class="flex items-center space-x-2">
-										<img :src="gameStore.getItemImage(req.id)" :alt="gameStore.t(`items.${req.id}`)" class="w-4 h-4" />
-										<span>{{ gameStore.t(`items.${req.id}`) }}</span>
-									</div>
+							<div class="flex items-center space-x-2">
+								<img :src="gameStore.getItemImage(req.id)" :alt="gameStore.t(`items.${req.id}`)" class="w-4 h-4" />
+								<span>{{ gameStore.t(`items.${req.id}`) }}</span>
+							</div>
 
-									<span v-if="req.quantity > 1 && gameStore.getItemStock(req.id) < req.quantity" class="text-error">{{ gameStore.getItemStock(req.id) }} / {{ req.quantity }}</span>
+							<span v-if="req.quantity > 1 && gameStore.getItemStock(req.id) < req.quantity" class="text-error">{{ gameStore.getItemStock(req.id) }} / {{ req.quantity }}</span>
 
-									<UBadge v-else-if="gameStore.getItemStock(req.id) < req.quantity" size="sm" color="neutral" variant="subtle"
-										class="font-bold shadow-sm rounded-full px-1.5 min-w-[20px] justify-center">
-										<UIcon name="i-lucide-check" class="w-2 h-2" />
-									</UBadge>
+							<UBadge v-else-if="gameStore.getItemStock(req.id) < req.quantity" size="sm" color="neutral" variant="subtle"
+								class="font-bold shadow-sm rounded-full px-1.5 min-w-[20px] justify-center">
+								<UIcon name="i-lucide-check" class="w-2 h-2" />
+							</UBadge>
 
-									<UBadge v-else size="sm" color="success" variant="solid"
-										class="font-bold shadow-sm rounded-full px-1.5 min-w-[20px] justify-center">
-										<UIcon name="i-lucide-check" class="w-2 h-2" />
-									</UBadge>
+							<UBadge v-else size="sm" color="success" variant="solid"
+								class="font-bold shadow-sm rounded-full px-1.5 min-w-[20px] justify-center">
+								<UIcon name="i-lucide-check" class="w-2 h-2" />
+							</UBadge>
 
-								</UButton>
-
-                            </div>
-                        </UCard>
+						</UButton>
 
                     </div>
 
@@ -616,53 +611,45 @@
 
                     <div v-else-if="gameStore.isItemUnlocked(selectedItem) && selectedItem.type != 'mission'" class="grid grid-cols-2 gap-3">
 
-                        <UCard variant="subtle">
-                            <div class="flex flex-col space-y-1">
+						<div class="flex flex-col space-y-2">
 
-                                <span class="text-xs font-semibold text-zinc-400">{{ gameStore.t('labels.stock') }}</span>
+							<h4 class="text-xs italic text-zinc-500">{{ gameStore.t('labels.stock') }}</h4>
 
-                                <div class="text-xs">
-                                    <span :class="gameStore.getItemStock(selectedItem.id) >= gameStore.getItemStorages[selectedItem.id] ? 'text-xl text-error' : 'text-xl'">{{ gameStore.getItemStock(selectedItem.id) }}{{ gameStore.getItemStorages[selectedItem.id] !== Infinity ? ' / ' + gameStore.getItemStorages[selectedItem.id] : '' }}</span>
-                                </div>
+							<UCard variant="subtle">
+								<span :class="gameStore.getItemStock(selectedItem.id) >= gameStore.getItemStorages[selectedItem.id] ? 'text-xl text-error' : 'text-xl'">{{ gameStore.getItemStock(selectedItem.id) }}{{ gameStore.getItemStorages[selectedItem.id] !== Infinity ? ' / ' + gameStore.getItemStorages[selectedItem.id] : '' }}</span>
+							</UCard>
 
-                            </div>
-                        </UCard>
+						</div>
 
-                        <UCard v-if="selectedItem.type === 'item'" variant="subtle">
-                            <div class="flex flex-col space-y-1">
+						<div v-if="selectedItem.type === 'item'" class="flex flex-col space-y-2">
 
-                                <span class="text-xs font-semibold text-zinc-400">{{ gameStore.t('labels.production') }}</span>
+							<h4 class="text-xs italic text-zinc-500">{{ gameStore.t('labels.balance') }}</h4>
 
-                                <div class="text-xs">
-                                    <span :class="gameStore.getItemProds[selectedItem.id] > 0 ? 'text-xl text-success' : 'text-xl text-error'">{{ gameStore.getItemProds[selectedItem.id] > 0 ? '+' : '' }}{{ gameStore.getItemProds[selectedItem.id] }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
-                                </div>
+							<UCard variant="subtle">
+								<span :class="gameStore.getItemProds[selectedItem.id] > 0 ? 'text-xl text-success' : 'text-xl text-error'">{{ gameStore.getItemProds[selectedItem.id] > 0 ? '+' : '' }}{{ gameStore.getItemProds[selectedItem.id] }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
+							</UCard>
 
-                            </div>
-                        </UCard>
+						</div>
 
-                        <UCard v-else-if="selectedItem.type === 'machine'" variant="subtle">
-                            <div class="flex flex-col space-y-1">
+						<div v-else-if="selectedItem.type === 'machine'" class="flex flex-col space-y-2">
 
-                                <span class="text-xs font-semibold text-zinc-400">{{ gameStore.t('labels.available') }}</span>
+							<h4 class="text-xs italic text-zinc-500">{{ gameStore.t('labels.available') }}</h4>
 
-                                <div class="text-xs">
-                                    <span :class="gameStore.getFreeMachineCount(selectedItem.id) > 0 ? 'text-xl text-success' : 'text-xl text-error'">{{ gameStore.getFreeMachineCount(selectedItem.id) }}</span>
-                                </div>
+							<UCard variant="subtle">
+								<span :class="gameStore.getFreeMachineCount(selectedItem.id) > 0 ? 'text-xl text-success' : 'text-xl text-error'">{{ gameStore.getFreeMachineCount(selectedItem.id) }}</span>
+							</UCard>
 
-                            </div>
-                        </UCard>
+						</div>
 
-                        <UCard v-else-if="selectedItem.type === 'storer'" variant="subtle">
-                            <div class="flex flex-col space-y-1">
+						<div v-else-if="selectedItem.type === 'storer'" class="flex flex-col space-y-2">
 
-                                <span class="text-xs font-semibold text-zinc-400">{{ gameStore.t('labels.available') }}</span>
+							<h4 class="text-xs italic text-zinc-500">{{ gameStore.t('labels.available') }}</h4>
 
-                                <div class="text-xs">
-                                    <span :class="gameStore.getFreeStorerCount(selectedItem.id) > 0 ? 'text-xl text-success' : 'text-xl text-error'">{{ gameStore.getFreeStorerCount(selectedItem.id) }}</span>
-                                </div>
+							<UCard variant="subtle">
+								<span :class="gameStore.getFreeStorerCount(selectedItem.id) > 0 ? 'text-xl text-success' : 'text-xl text-error'">{{ gameStore.getFreeStorerCount(selectedItem.id) }}</span>
+							</UCard>
 
-                            </div>
-                        </UCard>
+						</div>
 
                     </div>
 
@@ -672,107 +659,96 @@
 
                         <h4 class="text-xs italic text-zinc-500">{{ gameStore.t('labels.production') }}</h4>
 
-                        <UCard variant="subtle">
-                            <div class="flex flex-col space-y-2">
-								<div v-for="(recipe, index) in selectedItem.recipes" :key="index">
+						<div class="flex flex-col space-y-2">
+							<div v-for="(recipe, index) in selectedItem.recipes" :key="index">
 
-									<!-- Machine assignment -->
+								<!-- Machine assignment -->
 
-									<div v-if="gameStore.isRecipeUnlocked(recipe)" class="grid grid-cols-2 gap-3 text-xs items-start">
+								<UFieldGroup v-if="gameStore.isRecipeUnlocked(recipe)" size="sm" class="w-full">
 
-										<div class="flex items-center gap-2">
+									<!-- Recipe Inputs & Outputs -->
 
-											<!-- Recipe Inputs & Outputs -->
-
-											<UPopover :content="{ align: 'start' }">
-												
-												<UButton color="neutral" variant="soft" icon="i-lucide-info" size="xs" class="text-gray-400" />
-
-												<template #content>
-													<UCard>
-														<div class="grid grid-cols-2 gap-3 text-xs items-start">
-
-															<div class="flex flex-col space-y-2">
-
-																<span class="text-xs font-semibold text-zinc-400">{{ gameStore.t('labels.inputs') }}</span>
-
-																<div v-if="recipe.inputs && recipe.inputs.length > 0" class="flex flex-col space-y-1">
-																	<UButton v-for="input in recipe.inputs" :key="input.id" color="neutral" variant="soft" size="xs" class="justify-between gap-4"
-																		@click="openItemModal(gameStore.getItemById(input.id))">
-																		<div class="flex items-center gap-2">
-																			<img :src="gameStore.getItemImage(input.id)" :alt="gameStore.t(`items.${input.id}`)" class="w-4 h-4" />
-																			<span class="truncate">{{ gameStore.t(`items.${input.id}`) }}</span>
-																		</div>
-																		<span :class="gameStore.getItemProds[input.id] >= input.prod ? 'text-success' : 'text-error'">{{ input.prod }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
-																	</UButton>
-																</div>
-
-																<div v-else class="text-xs text-zinc-400 italic">
-																	<span class="text-xs italic text-zinc-500">{{ gameStore.t('labels.no_input') }}</span>
-																</div>
-
-															</div>
-
-															<div class="flex flex-col space-y-2">
-
-																<span class="text-gray-400 font-medium">{{ gameStore.t('labels.outputs') }}</span>
-
-																<div class="flex flex-col space-y-1">
-																	<UButton v-for="output in recipe.outputs" :key="output.id" color="neutral" variant="soft" size="xs" class="justify-between gap-4"
-																		@click="openItemModal(gameStore.getItemById(output.id))">
-																		<div class="flex items-center gap-2">
-																			<img :src="gameStore.getItemImage(output.id)" :alt="gameStore.t(`items.${output.id}`)" class="w-4 h-4" />
-																			<span class="truncate">{{ gameStore.t(`items.${output.id}`) }}</span>
-																		</div>
-																		<span class="text-success">{{ output.prod }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
-																	</UButton>
-																</div>
-
-															</div>
-
-														</div>
-													</UCard>
-												</template>
-
-											</UPopover>
-
-											<UButton color="neutral" variant="soft" size="xs" class="flex-1 flex justify-start gap-2"
-												@click="openItemModal(gameStore.getItemById(recipe.machineId))">
-												<img :src="gameStore.getItemImage(recipe.machineId)" :alt="gameStore.t(`items.${recipe.machineId}`)" class="w-4 h-4" />
-												<span class="truncate">{{ gameStore.t(`items.${recipe.machineId}`) }}</span>
-												<span :class="gameStore.getFreeMachineCount(recipe.machineId) > 0 ? 'text-success' : 'text-error'">{{ gameStore.getFreeMachineCount(recipe.machineId) }}</span>
-											</UButton>
-
-										</div>
+									<UPopover :content="{ align: 'start' }">
 										
-										<UFieldGroup size="xs" class="ms-auto">
+										<UButton color="neutral" variant="soft" icon="i-lucide-info" class="px-2.5 text-gray-400" />
 
-											<UButton color="error" variant="subtle" icon="i-lucide-minus"
-												:disabled="!gameStore.canUnassignMachine(selectedItem.id, recipe.machineId, recipe)"
-												@click="gameStore.changeMachineAssignment(selectedItem.id, recipe.machineId, recipe, -1)" />
+										<template #content>
+											<UCard>
+												<div class="grid grid-cols-2 gap-3 text-xs items-start">
 
-											<UBadge color="neutral" variant="subtle" class=" text-xs w-12 justify-center">
-												{{ gameStore.getAssignedMachineCount(selectedItem.id, recipe.machineId) }}
-											</UBadge>
+													<div class="flex flex-col space-y-2">
 
-											<UButton color="primary" variant="subtle" icon="i-lucide-plus"
-												:disabled="!gameStore.canAssignMachine(recipe.machineId, recipe)"
-												@click="gameStore.changeMachineAssignment(selectedItem.id, recipe.machineId, recipe, 1)" />
+														<span class="text-xs font-semibold text-zinc-400">{{ gameStore.t('labels.inputs') }}</span>
 
-										</UFieldGroup>
+														<div v-if="recipe.inputs && recipe.inputs.length > 0" class="flex flex-col space-y-1">
+															<UButton v-for="input in recipe.inputs" :key="input.id" color="neutral" variant="soft" size="xs" class="justify-between gap-4"
+																@click="openItemModal(gameStore.getItemById(input.id))">
+																<div class="flex items-center gap-2">
+																	<img :src="gameStore.getItemImage(input.id)" :alt="gameStore.t(`items.${input.id}`)" class="w-4 h-4" />
+																	<span class="truncate">{{ gameStore.t(`items.${input.id}`) }}</span>
+																</div>
+																<span :class="gameStore.getItemProds[input.id] >= input.prod ? 'text-success' : 'text-error'">{{ input.prod }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
+															</UButton>
+														</div>
 
-									</div>
+														<div v-else class="text-xs text-zinc-400 italic">
+															<span class="text-xs italic text-zinc-500">{{ gameStore.t('labels.no_input') }}</span>
+														</div>
 
-									<!-- Recipe Locked -->
+													</div>
 
-									<div v-else class="flex items-center gap-2 text-xs text-zinc-400">
-										<UIcon name="i-lucide-lock" class="w-4 h-4" />
-										<span>{{ gameStore.t(`items.${recipe.machineId}`) }}</span>
-									</div>                                
-								
-								</div>
-                            </div>
-                        </UCard>
+													<div class="flex flex-col space-y-2">
+
+														<span class="text-gray-400 font-medium">{{ gameStore.t('labels.outputs') }}</span>
+
+														<div class="flex flex-col space-y-1">
+															<UButton v-for="output in recipe.outputs" :key="output.id" color="neutral" variant="soft" size="xs" class="justify-between gap-4"
+																@click="openItemModal(gameStore.getItemById(output.id))">
+																<div class="flex items-center gap-2">
+																	<img :src="gameStore.getItemImage(output.id)" :alt="gameStore.t(`items.${output.id}`)" class="w-4 h-4" />
+																	<span class="truncate">{{ gameStore.t(`items.${output.id}`) }}</span>
+																</div>
+																<span class="text-success">{{ output.prod }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
+															</UButton>
+														</div>
+
+													</div>
+
+												</div>
+											</UCard>
+										</template>
+
+									</UPopover>
+
+									<UButton color="neutral" variant="soft" class="flex-1 flex justify-start gap-2"
+										@click="openItemModal(gameStore.getItemById(recipe.machineId))">
+										<img :src="gameStore.getItemImage(recipe.machineId)" :alt="gameStore.t(`items.${recipe.machineId}`)" class="w-4 h-4" />
+										<span class="truncate">{{ gameStore.t(`items.${recipe.machineId}`) }}</span>
+									</UButton>
+
+									<UButton color="error" variant="subtle" icon="i-lucide-minus"
+										:disabled="!gameStore.canUnassignMachine(selectedItem.id, recipe.machineId, recipe)"
+										@click="gameStore.changeMachineAssignment(selectedItem.id, recipe.machineId, recipe, -1)" />
+
+									<UBadge color="neutral" variant="soft" class=" text-xs w-12 justify-center">
+										{{ gameStore.getAssignedMachineCount(selectedItem.id, recipe.machineId) }}
+									</UBadge>
+
+									<UButton color="primary" variant="subtle" icon="i-lucide-plus"
+										:disabled="!gameStore.canAssignMachine(recipe.machineId, recipe)"
+										@click="gameStore.changeMachineAssignment(selectedItem.id, recipe.machineId, recipe, 1)" />
+
+								</UFieldGroup>
+
+								<!-- Recipe Locked -->
+
+								<UButton v-else block color="neutral" variant="soft" size="sm" icon="i-lucide-lock"	class="justify-start text-neutral-500"								
+									@click="openItemModal(gameStore.getItemById(recipe.machineId))">
+									<span>{{ gameStore.t(`items.${recipe.machineId}`) }}</span>
+								</UButton>
+							
+							</div>
+						</div>
 
                     </div>
                     
@@ -782,80 +758,78 @@
 
                         <h4 class="text-xs italic text-zinc-500">{{ gameStore.t('labels.storage') }}</h4>
 
-                        <UCard variant="subtle">
-                            <div class="flex flex-col space-y-2">
-								<div v-for="(storage, index) in selectedItem.storages" :key="index">
+						<div class="flex flex-col space-y-2">
+							<div v-for="(storage, index) in selectedItem.storages" :key="index">
 
-									<!-- Storer assignment -->
+								<!-- Storer assignment -->
 
-									<div v-if="gameStore.isStorageUnlocked(storage)" class="grid grid-cols-2 gap-3 text-xs items-start">
+								<div v-if="gameStore.isStorageUnlocked(storage)" class="grid grid-cols-2 gap-3 text-xs items-start">
 
-										<div class="flex items-center gap-2">
+									<div class="flex items-center gap-2">
 
-											<!-- Storage -->
+										<!-- Storage -->
 
-											<UPopover :content="{ align: 'start' }">
-												
-												<UButton color="neutral" variant="soft" icon="i-lucide-info" size="xs" class="text-gray-400" />
+										<UPopover :content="{ align: 'start' }">
+											
+											<UButton color="neutral" variant="soft" icon="i-lucide-info" size="xs" class="text-gray-400" />
 
-												<template #content>
-													<UCard>
-														<div class="flex flex-col space-y-2">
+											<template #content>
+												<UCard>
+													<div class="flex flex-col space-y-2">
 
-															<span class="text-xs font-semibold text-zinc-400">{{ gameStore.t('labels.storage') }}</span>
+														<span class="text-xs font-semibold text-zinc-400">{{ gameStore.t('labels.storage') }}</span>
 
-															<UButton color="neutral" variant="soft" size="xs" class="justify-between gap-4"
-																@click="openItemModal(gameStore.getItemById(storage.itemId))">
-																<div class="flex items-center gap-2">
-																	<img :src="gameStore.getItemImage(storage.itemId)" :alt="gameStore.t(`items.${storage.itemId}`)" class="w-4 h-4" />
-																	<span class="truncate">{{ gameStore.t(`items.${storage.itemId}`) }}</span>
-																</div>
-																<span class="text-success">+{{ storage.stock }}</span>
-															</UButton>
+														<UButton color="neutral" variant="soft" size="xs" class="justify-between gap-4"
+															@click="openItemModal(gameStore.getItemById(storage.itemId))">
+															<div class="flex items-center gap-2">
+																<img :src="gameStore.getItemImage(storage.itemId)" :alt="gameStore.t(`items.${storage.itemId}`)" class="w-4 h-4" />
+																<span class="truncate">{{ gameStore.t(`items.${storage.itemId}`) }}</span>
+															</div>
+															<span class="text-success">+{{ storage.stock }}</span>
+														</UButton>
 
-														</div>
-													</UCard>
-												</template>
+													</div>
+												</UCard>
+											</template>
 
-											</UPopover>
+										</UPopover>
 
-											<UButton color="neutral" variant="soft" size="xs" class="flex-1 flex justify-start gap-2"
-												@click="openItemModal(gameStore.getItemById(storage.storerId))">
-												<img :src="gameStore.getItemImage(storage.storerId)" :alt="gameStore.t(`items.${storage.storerId}`)" class="w-4 h-4" />
-												<span class="truncate">{{ gameStore.t(`items.${storage.storerId}`) }}</span>
-												<span :class="gameStore.getFreeStorerCount(storage.storerId) > 0 ? 'text-success' : 'text-error'">{{ gameStore.getFreeStorerCount(storage.storerId) }}</span>
-											</UButton>
-
-										</div>
-										
-										<UFieldGroup size="xs" class="ms-auto">
-
-											<UButton color="error" variant="subtle" icon="i-lucide-minus"
-												:disabled="!gameStore.canUnassignStorer(selectedItem.id, storage.storerId)"
-												@click="gameStore.changeStorerAssignment(selectedItem.id, storage.storerId, -1)" />
-
-											<UBadge color="neutral" variant="subtle" class=" text-xs w-12 justify-center">
-												{{ gameStore.getAssignedStorerCount(selectedItem.id, storage.storerId) }}
-											</UBadge>
-
-											<UButton color="primary" variant="subtle" icon="i-lucide-plus"
-												:disabled="!gameStore.canAssignStorer(storage.storerId, selectedItem.id)"
-												@click="gameStore.changeStorerAssignment(selectedItem.id, storage.storerId, 1)" />
-
-										</UFieldGroup>
+										<UButton color="neutral" variant="soft" size="xs" class="flex-1 flex justify-start gap-2"
+											@click="openItemModal(gameStore.getItemById(storage.storerId))">
+											<img :src="gameStore.getItemImage(storage.storerId)" :alt="gameStore.t(`items.${storage.storerId}`)" class="w-4 h-4" />
+											<span class="truncate">{{ gameStore.t(`items.${storage.storerId}`) }}</span>
+											<span :class="gameStore.getFreeStorerCount(storage.storerId) > 0 ? 'text-success' : 'text-error'">{{ gameStore.getFreeStorerCount(storage.storerId) }}</span>
+										</UButton>
 
 									</div>
+									
+									<UFieldGroup size="xs" class="ms-auto">
 
-									<!-- Storage Locked -->
+										<UButton color="error" variant="subtle" icon="i-lucide-minus"
+											:disabled="!gameStore.canUnassignStorer(selectedItem.id, storage.storerId)"
+											@click="gameStore.changeStorerAssignment(selectedItem.id, storage.storerId, -1)" />
 
-									<div v-else class="flex items-center gap-2 text-xs text-zinc-400">
-										<UIcon name="i-lucide-lock" class="w-4 h-4" />
-										<span>{{ gameStore.t(`items.${storage.storerId}`) }}</span>
-									</div>                                
+										<UBadge color="neutral" variant="subtle" class=" text-xs w-12 justify-center">
+											{{ gameStore.getAssignedStorerCount(selectedItem.id, storage.storerId) }}
+										</UBadge>
+
+										<UButton color="primary" variant="subtle" icon="i-lucide-plus"
+											:disabled="!gameStore.canAssignStorer(storage.storerId, selectedItem.id)"
+											@click="gameStore.changeStorerAssignment(selectedItem.id, storage.storerId, 1)" />
+
+									</UFieldGroup>
 
 								</div>
-                            </div>
-                        </UCard>
+
+								<!-- Storage Locked -->
+
+								<UButton v-else block color="neutral" variant="soft" size="sm" icon="i-lucide-lock"	class="justify-start text-neutral-500"								
+									@click="openItemModal(gameStore.getItemById(storage.storerId))">
+									<span>{{ gameStore.t(`items.${storage.storerId}`) }}</span>
+								</UButton>
+
+							</div>
+						</div>
 
                     </div>
 
@@ -863,78 +837,65 @@
 
                     <div v-if="gameStore.isItemUnlocked(selectedItem) && selectedItem.purchase" class="flex flex-col space-y-2">
 
-                        <h4 v-if="selectedItem.type !== 'mission'" class="text-xs italic text-zinc-500">{{ gameStore.t('labels.crafting') }}</h4>
+                        <h4 v-if="selectedItem.type === 'mission'" class="text-xs italic text-zinc-500">{{ gameStore.t('labels.objectives') }}</h4>
+                        <h4 v-else class="text-xs italic text-zinc-500">{{ gameStore.t('labels.crafting') }}</h4>
 
-                        <UCard variant="subtle">
-                            <div class="grid grid-cols-2 gap-3 text-xs items-end">
-                                
-                                <!-- Building Costs -->
+						<!-- Building Costs -->
 
-                                <div class="flex flex-col space-y-2">
+						<div v-if="selectedItem.purchase.costs && selectedItem.purchase.costs.length > 0" class="flex flex-col space-y-2">
+							<UButton v-for="cost in selectedItem.purchase.costs" :key="cost.id" color="neutral" variant="soft" size="sm" class="justify-between gap-4"
+								@click="openItemModal(gameStore.getItemById(cost.id))">
 
-                                    <span v-if="selectedItem.type === 'mission'" class="text-xs font-semibold text-zinc-400">{{ gameStore.t('labels.objectives') }}</span>
-                                    <span v-else class="text-xs font-semibold text-zinc-400">{{ gameStore.t('labels.costs') }}</span>
+								<div class="flex items-center gap-2">
+									<img :src="gameStore.getItemImage(cost.id)" :alt="gameStore.t(`items.${cost.id}`)" class="w-4 h-4" />
+									<span class="truncate">{{ gameStore.t(`items.${cost.id}`) }}</span>
+								</div>
 
-                                    <div v-if="selectedItem.purchase.costs && selectedItem.purchase.costs.length > 0" class="flex flex-col space-y-2">
-                                        <UButton v-for="cost in selectedItem.purchase.costs" :key="cost.id" color="neutral" variant="soft" size="xs" class="justify-between gap-4"
-                                            @click="openItemModal(gameStore.getItemById(cost.id))">
-											<div class="flex items-center gap-2">
-												<img :src="gameStore.getItemImage(cost.id)" :alt="gameStore.t(`items.${cost.id}`)" class="w-4 h-4" />
-												<span class="truncate">{{ gameStore.t(`items.${cost.id}`) }}</span>
-											</div>
-                                            <span :class="gameStore.getItemStock(cost.id) >= cost.quantity ? 'text-success' : 'text-error'">{{ cost.quantity }}</span>
-                                        </UButton>
-                                    </div>
+								<span :class="gameStore.getItemStock(cost.id) >= cost.quantity ? 'text-success' : 'text-error'">{{ cost.quantity }}</span>
 
-                                    <div v-else class="text-xs text-zinc-400 italic">
-                                        <span class="text-xs italic text-zinc-500">{{ gameStore.t('labels.no_cost') }}</span>
-                                    </div>
+							</UButton>
+						</div>
 
-                                </div>
+						<!-- Mission Completed -->
 
-								<!-- Mission Completed -->
+						<UBadge v-if="gameStore.isItemUnlocked(selectedItem) && selectedItem.type == 'mission' && gameStore.isItemStorageFull(selectedItem.id)"
+							variant="subtle" size="md" color="success" class="w-full px-4 py-2 flex justify-center">
+							<UIcon name="i-lucide-award" class="w-4 h-4" />
+							<span>{{ gameStore.t('labels.mission_completed') }}</span>
+						</UBadge>
 
-								<UBadge v-if="gameStore.isItemUnlocked(selectedItem) && selectedItem.type == 'mission' && gameStore.isItemStorageFull(selectedItem.id)"
-									variant="subtle" size="md" color="success" class="w-full px-4 py-2 flex justify-center">
-									<UIcon name="i-lucide-award" class="w-4 h-4" />
-									<span>{{ gameStore.t('labels.mission_completed') }}</span>
-								</UBadge>
+						<!-- Building Progress -->
 
-                                <!-- Building Progress -->
+						<div v-else class="flex items-center justify-end gap-2">
 
-                                <div v-else class="flex items-center justify-end gap-3">
+							<div v-if="selectedItem.purchase.time > 0" class="flex-auto flex flex-col gap-1">
 
-                                    <div v-if="selectedItem.purchase.time > 0" class="flex-auto flex flex-col gap-1">
+								<div class="flex items-center justify-between gap-2">
+									<span class="text-xs text-zinc-500">{{ gameStore.activeItemBuildings[selectedItem.id] ? gameStore.formatTime(gameStore.activeItemBuildings[selectedItem.id].timeLeft) : gameStore.formatTime(selectedItem.purchase.time) }}</span>
+									<span class="text-xs text-success">+{{ selectedItem.purchase.output }}</span>
+								</div>
 
-                                        <div class="flex items-center justify-between gap-2">
-                                            <span class="text-xs text-zinc-400">{{ gameStore.activeItemBuildings[selectedItem.id] ? gameStore.formatTime(gameStore.activeItemBuildings[selectedItem.id].timeLeft) : gameStore.formatTime(selectedItem.purchase.time) }}</span>
-                                            <span class="text-success">+{{ selectedItem.purchase.output }}</span>
-                                        </div>
+								<UProgress v-model="selectedItemBuildProgress" size="sm" color="primary" class="flex-1" />
 
-                                        <UProgress v-model="selectedItemBuildProgress" size="sm" color="primary" class="flex-1" />
+							</div>
 
-                                    </div>
+							<UButton v-if="selectedItem.type === 'mission' && !gameStore.isItemStorageFull(selectedItem.id)"
+								color="primary" variant="subtle" icon="i-lucide-check" square size="sm"
+								:disabled="!gameStore.canBuildItem(selectedItem)"
+								@click="gameStore.startItemBuilding(selectedItem)">
+								<span>{{ gameStore.t('labels.complete') }}</span>
+							</UButton>
 
-                                    <UButton v-if="selectedItem.type === 'mission' && !gameStore.isItemStorageFull(selectedItem.id)"
-                                        color="primary" variant="subtle" icon="i-lucide-check" square size="md"
-                                        :disabled="!gameStore.canBuildItem(selectedItem)"
-                                        @click="gameStore.startItemBuilding(selectedItem)">
-										<span>{{ gameStore.t('labels.complete') }}</span>
-									</UButton>
+							<UButton v-else-if="gameStore.activeItemBuildings[selectedItem.id]"
+								color="error" variant="subtle" icon="i-lucide-square" square size="sm"
+								@click="gameStore.cancelItemBuilding(selectedItem.id)" />
 
-                                    <UButton v-else-if="gameStore.activeItemBuildings[selectedItem.id]"
-                                        color="error" variant="subtle" icon="i-lucide-square" square size="md"
-                                        @click="gameStore.cancelItemBuilding(selectedItem.id)" />
+							<UButton v-else
+								color="primary" variant="subtle" icon="i-lucide-play" square size="sm"
+								:disabled="!gameStore.canBuildItem(selectedItem) || gameStore.isItemStorageFull(selectedItem.id)"
+								@click="gameStore.startItemBuilding(selectedItem)" />
 
-                                    <UButton v-else
-                                        color="primary" variant="subtle" icon="i-lucide-play" square size="md"
-                                        :disabled="!gameStore.canBuildItem(selectedItem) || gameStore.isItemStorageFull(selectedItem.id)"
-                                        @click="gameStore.startItemBuilding(selectedItem)" />
-
-                                </div>
-
-                            </div>
-                        </UCard>
+						</div>
 
                     </div>
 
@@ -1039,9 +1000,12 @@
 
                                     <!-- Recipe Locked -->
 
-                                    <div v-else class="flex items-center gap-2 text-xs text-zinc-400">
-                                        <UIcon name="i-lucide-lock" class="w-4 h-4" />
-                                        <span>{{ gameStore.t(`items.${recipe.outputs[0].id}`) }}</span>
+                                    <div v-else class="grid grid-cols-2 gap-3 text-xs items-start">
+										<UButton color="neutral" variant="soft" size="xs" class="flex-1 flex justify-start gap-2 text-zinc-400"
+												@click="openItemModal(gameStore.getItemById(recipe.outputs[0].id))">
+											<UIcon name="i-lucide-lock" class="w-4 h-4" />
+											<span>{{ gameStore.t(`items.${recipe.outputs[0].id}`) }}</span>
+										</UButton>
                                     </div>
 
                                 </div>
@@ -1124,9 +1088,12 @@
 
                                     <!-- Storage Locked -->
 
-                                    <div v-else class="flex items-center gap-2 text-xs text-zinc-400">
-                                        <UIcon name="i-lucide-lock" class="w-4 h-4" />
-                                        <span>{{ gameStore.t(`items.${storage.itemId}`) }}</span>
+                                    <div v-else class="grid grid-cols-2 gap-3 text-xs items-start">
+										<UButton color="neutral" variant="soft" size="xs" class="flex-1 flex justify-start gap-2 text-zinc-400"
+												 @click="openItemModal(gameStore.getItemById(storage.itemId))">
+											<UIcon name="i-lucide-lock" class="w-4 h-4" />
+											<span class="truncate">{{ gameStore.t(`items.${storage.itemId}`) }}</span>
+										</UButton>
                                     </div>
 
                                 </div>

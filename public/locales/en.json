@@ -34,6 +34,7 @@
     },
 
     "labels": {
+		"loading": "Loading...",
         "mission_inprogress": "Mission in Progress",
         "mission_completed": "Mission Completed",
         "objectives": "Objectives",

@@ -25,25 +25,63 @@
           "purchase": { "time": 0, "output": 1, "costs": [{ "id": "iron_rod", "quantity": 100 },{ "id": "iron_plate", "quantity": 100 },{ "id": "wire", "quantity": 100 },{ "id": "concrete", "quantity": 50 }] }
         },
 
-        { "group": "missions", "subgroup": "intermediate", "id": "part_assembly", "type": "mission", "stack": 1,
-          "requires": [{ "id": "onboarding_5", "quantity": 1 }],
-          "purchase": { "time": 0, "output": 1, "costs": [{ "id": "iron_rod", "quantity": 200 },{ "id": "iron_plate", "quantity": 300 },{ "id": "cable", "quantity": 200 },{ "id": "screws", "quantity": 500 }] }
-        },
-        { "group": "missions", "subgroup": "intermediate", "id": "coal_power", "type": "mission", "stack": 1,
+        { "group": "missions", "subgroup": "power", "id": "coal_power", "type": "mission", "stack": 1,
           "requires": [{ "id": "part_assembly", "quantity": 1 }],
           "purchase": { "time": 0, "output": 1, "costs": [{ "id": "cable", "quantity": 500 },{ "id": "iron_plate_reinforced", "quantity": 150 },{ "id": "rotor", "quantity": 50 }] }
         },
+        { "group": "missions", "subgroup": "power", "id": "fuel_power", "type": "mission", "stack": 1,
+          "purchase": { "time": 600, "output": 1, "costs": [{ "id": "plastic", "quantity": 200 },{ "id": "rubber", "quantity": 200 },{ "id": "encased_industrial_beam", "quantity": 100 },{ "id": "motor", "quantity": 100 }] }
+		},
+        { "group": "missions", "subgroup": "power", "id": "nuclear_power", "type": "mission", "stack": 1
+		},
 
-        { "group": "missions", "subgroup": "project", "id": "space_elevator", "type": "mission", "stack": 1,
+		{ "group": "missions", "subgroup": "industry", "id": "part_assembly", "type": "mission", "stack": 1,
+          "requires": [{ "id": "onboarding_5", "quantity": 1 }],
+          "purchase": { "time": 0, "output": 1, "costs": [{ "id": "iron_rod", "quantity": 200 },{ "id": "iron_plate", "quantity": 300 },{ "id": "cable", "quantity": 200 },{ "id": "screws", "quantity": 500 }] }
+        },
+        { "group": "missions", "subgroup": "industry", "id": "steel_prod_1", "type": "mission", "stack": 1
+		},
+        { "group": "missions", "subgroup": "industry", "id": "steel_prod_2", "type": "mission", "stack": 1
+		},
+        { "group": "missions", "subgroup": "industry", "id": "oil_prod", "type": "mission", "stack": 1
+		},
+        { "group": "missions", "subgroup": "industry", "id": "manufacturing", "type": "mission", "stack": 1
+		},
+        { "group": "missions", "subgroup": "industry", "id": "bauxite_refinement", "type": "mission", "stack": 1
+		},
+        { "group": "missions", "subgroup": "industry", "id": "control_system", "type": "mission", "stack": 1
+		},
+        { "group": "missions", "subgroup": "industry", "id": "aluminum_prod", "type": "mission", "stack": 1
+		},
+        { "group": "missions", "subgroup": "industry", "id": "leading_edge_prod", "type": "mission", "stack": 1
+		},
+        { "group": "missions", "subgroup": "industry", "id": "particle_enrichment", "type": "mission", "stack": 1
+		},
+        { "group": "missions", "subgroup": "industry", "id": "matter_conversion", "type": "mission", "stack": 1
+		},
+        { "group": "missions", "subgroup": "industry", "id": "quantum_encoding", "type": "mission", "stack": 1
+		},
+        { "group": "missions", "subgroup": "industry", "id": "spatial_regulation", "type": "mission", "stack": 1
+		},
+
+        { "group": "missions", "subgroup": "project", "id": "phase_0", "type": "mission", "stack": 1,
           "requires": [{ "id": "onboarding_5", "quantity": 1 }],
           "purchase": { "time": 0, "output": 1, "costs": [{ "id": "iron_rod", "quantity": 400 },{ "id": "iron_plate", "quantity": 250 },{ "id": "wire", "quantity": 1500 },{ "id": "concrete", "quantity": 500 }] }
         },
         { "group": "missions", "subgroup": "project", "id": "phase_1", "type": "mission", "stack": 1,
-          "requires": [{ "id": "part_assembly", "quantity": 1 },{ "id": "space_elevator", "quantity": 1 }],
+          "requires": [{ "id": "part_assembly", "quantity": 1 },{ "id": "phase_0", "quantity": 1 }],
           "purchase": { "time": 0, "output": 1, "costs": [{ "id": "smart_plating", "quantity": 50 }] }
         },
+        { "group": "missions", "subgroup": "project", "id": "phase_2", "type": "mission", "stack": 1
+		},
+        { "group": "missions", "subgroup": "project", "id": "phase_3", "type": "mission", "stack": 1
+		},
+        { "group": "missions", "subgroup": "project", "id": "phase_4", "type": "mission", "stack": 1
+		},
+        { "group": "missions", "subgroup": "project", "id": "phase_5", "type": "mission", "stack": 1
+		},
 
-        { "group": "items", "subgroup": "raw", "id": "biomass", "type": "item", "stack": 100,
+        { "group": "items", "subgroup": "ore", "id": "biomass", "type": "item", "stack": 100,
           "requires": [{ "id": "onboarding_2", "quantity": 1 }],
           "purchase": { "time": 0.5, "output": 1 },
           "recipes": [
@@ -54,28 +92,28 @@
             { "storerId": "solid_storer_1", "itemId": "biomass", "stock": 100 }
           ]
         },
-        { "group": "items", "subgroup": "raw", "id": "iron_ore", "type": "item", "stack": 100,
+        { "group": "items", "subgroup": "ore", "id": "iron", "type": "item", "stack": 100,
           "purchase": { "time": 0.5, "output": 1 },
           "recipes": [
-            { "machineId": "miner_1", "outputs": [{ "id": "iron_ore", "prod": 0.25 }] },
-            { "machineId": "miner_2", "outputs": [{ "id": "iron_ore", "prod": 0.5 }], "inputs": [{ "id": "energy", "prod": 5 }] }
+            { "machineId": "miner_1", "outputs": [{ "id": "iron", "prod": 0.25 }] },
+            { "machineId": "miner_2", "outputs": [{ "id": "iron", "prod": 0.5 }], "inputs": [{ "id": "energy", "prod": 5 }] }
           ],
           "storages": [
-            { "storerId": "solid_storer_1", "itemId": "iron_ore", "stock": 100 }
+            { "storerId": "solid_storer_1", "itemId": "iron", "stock": 100 }
           ]
         },
-        { "group": "items", "subgroup": "raw", "id": "copper_ore", "type": "item", "stack": 100,
+        { "group": "items", "subgroup": "ore", "id": "copper", "type": "item", "stack": 100,
           "requires": [{ "id": "onboarding_2", "quantity": 1 }],
           "purchase": { "time": 0.5, "output": 1 },
           "recipes": [
-            { "machineId": "miner_1", "outputs": [{ "id": "copper_ore", "prod": 0.25 }] },
-            { "machineId": "miner_2", "outputs": [{ "id": "copper_ore", "prod": 0.5 }], "inputs": [{ "id": "energy", "prod": 5 }] }
+            { "machineId": "miner_1", "outputs": [{ "id": "copper", "prod": 0.25 }] },
+            { "machineId": "miner_2", "outputs": [{ "id": "copper", "prod": 0.5 }], "inputs": [{ "id": "energy", "prod": 5 }] }
           ],
           "storages": [
-            { "storerId": "solid_storer_1", "itemId": "copper_ore", "stock": 100 }
+            { "storerId": "solid_storer_1", "itemId": "copper", "stock": 100 }
           ]
         },
-        { "group": "items", "subgroup": "raw", "id": "limestone", "type": "item", "stack": 100,
+        { "group": "items", "subgroup": "ore", "id": "limestone", "type": "item", "stack": 100,
           "requires": [{ "id": "onboarding_3", "quantity": 1 }],
           "purchase": { "time": 0.5, "output": 1 },
           "recipes": [
@@ -86,7 +124,7 @@
             { "storerId": "solid_storer_1", "itemId": "limestone", "stock": 100 }
           ]
         },
-        { "group": "items", "subgroup": "raw", "id": "coal", "type": "item", "stack": 100,
+        { "group": "items", "subgroup": "ore", "id": "coal", "type": "item", "stack": 100,
           "requires": [{ "id": "coal_power", "quantity": 1 }],
           "purchase": { "time": 0.5, "output": 1 },
           "recipes": [
@@ -97,16 +135,36 @@
             { "storerId": "solid_storer_1", "itemId": "coal", "stock": 100 }
           ]
         },
-        { "group": "items", "subgroup": "raw", "id": "water", "type": "item", "stack": 400,
-          "requires": [{ "id": "coal_power", "quantity": 1 }],
-          "purchase": { "time": 0.5, "output": 1 },
+        { "group": "items", "subgroup": "ore", "id": "caterium", "type": "item", "stack": 100
+		},
+        { "group": "items", "subgroup": "ore", "id": "bauxite", "type": "item", "stack": 100
+		},
+        { "group": "items", "subgroup": "ore", "id": "quartz", "type": "item", "stack": 100
+		},
+        { "group": "items", "subgroup": "ore", "id": "sam", "type": "item", "stack": 100
+		},
+
+        { "group": "items", "subgroup": "smelted", "id": "iron_ingot", "type": "item", "stack": 100,
+          "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "iron", "quantity": 1 }] },
           "recipes": [
-            { "machineId": "pump_water", "outputs": [{ "id": "water", "prod": 0.5 }], "inputs": [{ "id": "energy", "prod": 20 }] }
+            { "machineId": "smelter", "outputs": [{ "id": "iron_ingot", "prod": 0.5 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "iron", "prod": 0.5 }] }
           ],
           "storages": [
-            { "storerId": "fluid_storer_1", "itemId": "water", "stock": 400 }
+            { "storerId": "solid_storer_1", "itemId": "iron_ingot", "stock": 100 }
           ]
         },
+        { "group": "items", "subgroup": "smelted", "id": "copper_ingot", "type": "item", "stack": 100,
+          "requires": [{ "id": "onboarding_2", "quantity": 1 }],
+          "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "copper", "quantity": 1 }] },
+          "recipes": [
+            { "machineId": "smelter", "outputs": [{ "id": "copper_ingot", "prod": 0.5 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "copper", "prod": 0.5 }] }
+          ],
+          "storages": [
+            { "storerId": "solid_storer_1", "itemId": "copper_ingot", "stock": 100 }
+          ]
+        },
+        { "group": "items", "subgroup": "smelted", "id": "caterium_ingot", "type": "item", "stack": 100
+		},
 
         { "group": "items", "subgroup": "energy", "id": "energy", "type": "item", "stack": 100,
           "requires": [{ "id": "onboarding_2", "quantity": 1 }],
@@ -116,138 +174,248 @@
           ]
         },
 
-        { "group": "items", "subgroup": "refined", "id": "iron_ingot", "type": "item", "stack": 100,
-          "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "iron_ore", "quantity": 1 }] },
-          "recipes": [
-            { "machineId": "smelter_1", "outputs": [{ "id": "iron_ingot", "prod": 0.5 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "iron_ore", "prod": 0.5 }] }
-          ],
-          "storages": [
-            { "storerId": "solid_storer_1", "itemId": "iron_ingot", "stock": 100 }
-          ]
-        },
-        { "group": "items", "subgroup": "refined", "id": "copper_ingot", "type": "item", "stack": 100,
-          "requires": [{ "id": "onboarding_2", "quantity": 1 }],
-          "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "copper_ore", "quantity": 1 }] },
-          "recipes": [
-            { "machineId": "smelter_1", "outputs": [{ "id": "copper_ingot", "prod": 0.5 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "copper_ore", "prod": 0.5 }] }
-          ],
-          "storages": [
-            { "storerId": "solid_storer_1", "itemId": "copper_ingot", "stock": 100 }
-          ]
-        },
-
-        { "group": "items", "subgroup": "assembled_1", "id": "iron_rod", "type": "item", "stack": 200,
+        { "group": "items", "subgroup": "constructed", "id": "iron_rod", "type": "item", "stack": 200,
           "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "iron_ingot", "quantity": 1 }] },
           "recipes": [
-            { "machineId": "assembler_1", "outputs": [{ "id": "iron_rod", "prod": 0.25 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "iron_ingot", "prod": 0.25 }] }
+            { "machineId": "builder", "outputs": [{ "id": "iron_rod", "prod": 0.25 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "iron_ingot", "prod": 0.25 }] }
           ],
           "storages": [
             { "storerId": "solid_storer_1", "itemId": "iron_rod", "stock": 200 }
           ]
         },
-        { "group": "items", "subgroup": "assembled_1", "id": "iron_plate", "type": "item", "stack": 200,
+        { "group": "items", "subgroup": "constructed", "id": "iron_plate", "type": "item", "stack": 200,
           "requires": [{ "id": "onboarding_1", "quantity": 1 }],
           "purchase": { "time": 0.5, "output": 2, "costs": [{ "id": "iron_ingot", "quantity": 3 }] },
           "recipes": [
-            { "machineId": "assembler_1", "outputs": [{ "id": "iron_plate", "prod": 0.6 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "iron_ingot", "prod": 0.5 }] }
+            { "machineId": "builder", "outputs": [{ "id": "iron_plate", "prod": 0.6 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "iron_ingot", "prod": 0.5 }] }
           ],
           "storages": [
             { "storerId": "solid_storer_1", "itemId": "iron_plate", "stock": 200 }
           ]
         },
-        { "group": "items", "subgroup": "assembled_1", "id": "wire", "type": "item", "stack": 500,
-          "requires": [{ "id": "onboarding_2", "quantity": 1 }],
-          "purchase": { "time": 0.5, "output": 2, "costs": [{ "id": "copper_ingot", "quantity": 1 }] },
-          "recipes": [
-            { "machineId": "assembler_1", "outputs": [{ "id": "wire", "prod": 0.5 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "copper_ingot", "prod": 0.25 }] }
-          ],
-          "storages": [
-            { "storerId": "solid_storer_1", "itemId": "wire", "stock": 500 }
-          ]
-        },
-        { "group": "items", "subgroup": "assembled_1", "id": "copper_sheet", "type": "item", "stack": 200,
-          "requires": [{ "id": "coal_power", "quantity": 1 }],
-          "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "copper_ingot", "quantity": 2 }] },
-          "recipes": [
-            { "machineId": "assembler_1", "outputs": [{ "id": "copper_sheet", "prod": 0.16 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "copper_ingot", "prod": 0.33 }] }
-          ],
-          "storages": [
-            { "storerId": "solid_storer_1", "itemId": "concrete", "stock": 200 }
-          ]
-        },
-        { "group": "items", "subgroup": "assembled_1", "id": "concrete", "type": "item", "stack": 500,
-          "requires": [{ "id": "onboarding_3", "quantity": 1 }],
-          "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "limestone", "quantity": 3 }] },
-          "recipes": [
-            { "machineId": "assembler_1", "outputs": [{ "id": "concrete", "prod": 0.25 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "limestone", "prod": 0.75 }] }
-          ],
-          "storages": [
-            { "storerId": "solid_storer_1", "itemId": "concrete", "stock": 500 }
-          ]
-        },
-
-        { "group": "items", "subgroup": "assembled_2", "id": "cable", "type": "item", "stack": 200,
-          "requires": [{ "id": "onboarding_3", "quantity": 1 }],
-          "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "wire", "quantity": 2 }] },
-          "recipes": [
-            { "machineId": "assembler_1", "outputs": [{ "id": "cable", "prod": 0.5 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "wire", "prod": 1 }] }
-          ],
-          "storages": [
-            { "storerId": "solid_storer_1", "itemId": "cable", "stock": 200 }
-          ]
-        },
-        { "group": "items", "subgroup": "assembled_2", "id": "screws", "type": "item", "stack": 500,
+        { "group": "items", "subgroup": "constructed", "id": "screws", "type": "item", "stack": 500,
           "requires": [{ "id": "onboarding_3", "quantity": 1 }],
           "purchase": { "time": 0.5, "output": 4, "costs": [{ "id": "iron_rod", "quantity": 1 }] },
           "recipes": [
-            { "machineId": "assembler_1", "outputs": [{ "id": "screws", "prod": 0.6 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "iron_rod", "prod": 0.1 }] }
+            { "machineId": "builder", "outputs": [{ "id": "screws", "prod": 0.6 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "iron_rod", "prod": 0.1 }] }
           ],
           "storages": [
             { "storerId": "solid_storer_1", "itemId": "screws", "stock": 500 }
           ]
         },
-
-        { "group": "items", "subgroup": "assembled_3", "id": "iron_plate_reinforced", "type": "item", "stack": 100,
+        { "group": "items", "subgroup": "constructed", "id": "wire", "type": "item", "stack": 500,
+          "requires": [{ "id": "onboarding_2", "quantity": 1 }],
+          "purchase": { "time": 0.5, "output": 2, "costs": [{ "id": "copper_ingot", "quantity": 1 }] },
+          "recipes": [
+            { "machineId": "builder", "outputs": [{ "id": "wire", "prod": 0.5 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "copper_ingot", "prod": 0.25 }] }
+          ],
+          "storages": [
+            { "storerId": "solid_storer_1", "itemId": "wire", "stock": 500 }
+          ]
+        },
+        { "group": "items", "subgroup": "constructed", "id": "copper_sheet", "type": "item", "stack": 200,
+          "requires": [{ "id": "coal_power", "quantity": 1 }],
+          "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "copper_ingot", "quantity": 2 }] },
+          "recipes": [
+            { "machineId": "builder", "outputs": [{ "id": "copper_sheet", "prod": 0.16 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "copper_ingot", "prod": 0.33 }] }
+          ],
+          "storages": [
+            { "storerId": "solid_storer_1", "itemId": "copper_sheet", "stock": 200 }
+          ]
+        },
+        { "group": "items", "subgroup": "constructed", "id": "copper_powder", "type": "item", "stack": 500
+		},
+        { "group": "items", "subgroup": "constructed", "id": "concrete", "type": "item", "stack": 500,
           "requires": [{ "id": "onboarding_3", "quantity": 1 }],
-          "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "iron_plate", "quantity": 6 },{ "id": "screws", "quantity": 12 }] },
+          "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "limestone", "quantity": 3 }] },
           "recipes": [
-            { "machineId": "assembler_2", "outputs": [{ "id": "screws", "prod": 0.6 }], "inputs": [{ "id": "energy", "prod": 15 },{ "id": "iron_plate", "prod": 0.5 },{ "id": "screws", "prod": 1 }] }
+            { "machineId": "builder", "outputs": [{ "id": "concrete", "prod": 0.25 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "limestone", "prod": 0.75 }] }
           ],
           "storages": [
-            { "storerId": "solid_storer_1", "itemId": "iron_plate_reinforced", "stock": 100 }
+            { "storerId": "solid_storer_1", "itemId": "concrete", "stock": 500 }
           ]
         },
-        { "group": "items", "subgroup": "assembled_3", "id": "rotor", "type": "item", "stack": 100,
-          "requires": [{ "id": "part_assembly", "quantity": 1 }],
-          "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "iron_rod", "quantity": 5 },{ "id": "screws", "quantity": 25 }] },
-          "recipes": [
-            { "machineId": "assembler_2", "outputs": [{ "id": "rotor", "prod": 0.06 }], "inputs": [{ "id": "energy", "prod": 15 },{ "id": "iron_rod", "prod": 0.3 },{ "id": "screws", "prod": 1.6 }] }
-          ],
-          "storages": [
-            { "storerId": "solid_storer_1", "itemId": "rotor", "stock": 100 }
-          ]
-        },
+        { "group": "items", "subgroup": "constructed", "id": "steel_beam", "type": "item", "stack": 200
+		},
+        { "group": "items", "subgroup": "constructed", "id": "steel_pipe", "type": "item", "stack": 200
+		},
+        { "group": "items", "subgroup": "constructed", "id": "quickwire", "type": "item", "stack": 500
+		},
+        { "group": "items", "subgroup": "constructed", "id": "silica", "type": "item", "stack": 200
+		},
+        { "group": "items", "subgroup": "constructed", "id": "quartz_crystal", "type": "item", "stack": 200
+		},
+        { "group": "items", "subgroup": "constructed", "id": "aluminum_casing", "type": "item", "stack": 200
+		},
+        { "group": "items", "subgroup": "constructed", "id": "reanimated_sam", "type": "item", "stack": 100
+		},
+        { "group": "items", "subgroup": "constructed", "id": "ficsite_ingot", "type": "item", "stack": 100
+		},
+		{ "group": "items", "subgroup": "constructed", "id": "ficsite_trigon", "type": "item", "stack": 200
+		},
 
-        { "group": "items", "subgroup": "assembled_4", "id": "modular_frame", "type": "item", "stack": 50,
+        { "group": "items", "subgroup": "assembled", "id": "cable", "type": "item", "stack": 200,
+          "requires": [{ "id": "onboarding_3", "quantity": 1 }],
+          "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "wire", "quantity": 2 }] },
+          "recipes": [
+            { "machineId": "builder", "outputs": [{ "id": "cable", "prod": 0.5 }], "inputs": [{ "id": "energy", "prod": 4 },{ "id": "wire", "prod": 1 }] }
+          ],
+          "storages": [
+            { "storerId": "solid_storer_1", "itemId": "cable", "stock": 200 }
+          ]
+        },
+        { "group": "items", "subgroup": "assembled", "id": "automated_wiring", "type": "item", "stack": 50
+		},
+        { "group": "items", "subgroup": "assembled", "id": "stator", "type": "item", "stack": 100
+		},
+        { "group": "items", "subgroup": "assembled", "id": "circuit_board", "type": "item", "stack": 200
+		},
+        { "group": "items", "subgroup": "assembled", "id": "encased_industrial_beam", "type": "item", "stack": 100
+		},
+        { "group": "items", "subgroup": "assembled", "id": "alclad_aluminum_sheet", "type": "item", "stack": 200
+		},
+        { "group": "items", "subgroup": "assembled", "id": "ai_limiter", "type": "item", "stack": 100
+		},
+        { "group": "items", "subgroup": "assembled", "id": "heat_sink", "type": "item", "stack": 100
+		},
+        { "group": "items", "subgroup": "assembled", "id": "assembly_director_system", "type": "item", "stack": 50
+		},
+        { "group": "items", "subgroup": "assembled", "id": "electromagnetic_control_rod", "type": "item", "stack": 100
+		},
+        { "group": "items", "subgroup": "assembled", "id": "magnetic_field_generator", "type": "item", "stack": 50
+		},
+        { "group": "items", "subgroup": "assembled", "id": "modular_frame", "type": "item", "stack": 50,
           "requires": [{ "id": "part_assembly", "quantity": 1 }],
           "purchase": { "time": 0.5, "output": 2, "costs": [{ "id": "iron_rod", "quantity": 12 },{ "id": "iron_plate_reinforced", "quantity": 3 }] },
           "recipes": [
-            { "machineId": "assembler_2", "outputs": [{ "id": "modular_frame", "prod": 0.03 }], "inputs": [{ "id": "energy", "prod": 15 },{ "id": "iron_rod", "prod": 0.2 },{ "id": "iron_plate_reinforced", "prod": 0.05 }] }
+            { "machineId": "assembler", "outputs": [{ "id": "modular_frame", "prod": 0.03 }], "inputs": [{ "id": "energy", "prod": 15 },{ "id": "iron_rod", "prod": 0.2 },{ "id": "iron_plate_reinforced", "prod": 0.05 }] }
           ],
           "storages": [
             { "storerId": "solid_storer_1", "itemId": "modular_frame", "stock": 50 }
           ]
         },
-        { "group": "items", "subgroup": "assembled_4", "id": "smart_plating", "type": "item", "stack": 50,
+        { "group": "items", "subgroup": "assembled", "id": "motor", "type": "item", "stack": 50
+		},
+        { "group": "items", "subgroup": "assembled", "id": "iron_plate_reinforced", "type": "item", "stack": 100,
+          "requires": [{ "id": "onboarding_3", "quantity": 1 }],
+          "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "iron_plate", "quantity": 6 },{ "id": "screws", "quantity": 12 }] },
+          "recipes": [
+            { "machineId": "assembler", "outputs": [{ "id": "screws", "prod": 0.6 }], "inputs": [{ "id": "energy", "prod": 15 },{ "id": "iron_plate", "prod": 0.5 },{ "id": "screws", "prod": 1 }] }
+          ],
+          "storages": [
+            { "storerId": "solid_storer_1", "itemId": "iron_plate_reinforced", "stock": 100 }
+          ]
+        },
+        { "group": "items", "subgroup": "assembled", "id": "rotor", "type": "item", "stack": 100,
+          "requires": [{ "id": "part_assembly", "quantity": 1 }],
+          "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "iron_rod", "quantity": 5 },{ "id": "screws", "quantity": 25 }] },
+          "recipes": [
+            { "machineId": "assembler", "outputs": [{ "id": "rotor", "prod": 0.06 }], "inputs": [{ "id": "energy", "prod": 15 },{ "id": "iron_rod", "prod": 0.3 },{ "id": "screws", "prod": 1.6 }] }
+          ],
+          "storages": [
+            { "storerId": "solid_storer_1", "itemId": "rotor", "stock": 100 }
+          ]
+        },
+        { "group": "items", "subgroup": "assembled", "id": "smart_plating", "type": "item", "stack": 50,
           "requires": [{ "id": "part_assembly", "quantity": 1 }],
           "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "iron_plate_reinforced", "quantity": 1 },{ "id": "rotor", "quantity": 1 }] },
           "recipes": [
-            { "machineId": "assembler_2", "outputs": [{ "id": "smart_plating", "prod": 0.03 }], "inputs": [{ "id": "energy", "prod": 15 },{ "id": "iron_plate_reinforced", "prod": 0.03 },{ "id": "rotor", "prod": 0.03 }] }
+            { "machineId": "assembler", "outputs": [{ "id": "smart_plating", "prod": 0.03 }], "inputs": [{ "id": "energy", "prod": 15 },{ "id": "iron_plate_reinforced", "prod": 0.03 },{ "id": "rotor", "prod": 0.03 }] }
           ],
           "storages": [
-            { "storerId": "solid_storer_1", "itemId": "rotor", "stock": 50 }
+            { "storerId": "solid_storer_1", "itemId": "smart_plating", "stock": 50 }
           ]
         },
+        { "group": "items", "subgroup": "assembled", "id": "versatile_framework", "type": "item", "stack": 50
+		},
+        { "group": "items", "subgroup": "assembled", "id": "pressure_conversion_cube", "type": "item", "stack": 50
+		},
+
+        { "group": "items", "subgroup": "fluid", "id": "water", "type": "item", "stack": 400,
+          "requires": [{ "id": "coal_power", "quantity": 1 }],
+          "purchase": { "time": 0.5, "output": 1 },
+          "recipes": [
+            { "machineId": "pump_water", "outputs": [{ "id": "water", "prod": 0.5 }], "inputs": [{ "id": "energy", "prod": 20 }] }
+          ],
+          "storages": [
+            { "storerId": "fluid_storer_1", "itemId": "water", "stock": 400 }
+          ]
+        },
+        { "group": "items", "subgroup": "fluid", "id": "oil", "type": "item", "stack": 400
+		},
+        { "group": "items", "subgroup": "fluid", "id": "nitrogen", "type": "item", "stack": 400
+		},
+
+		{ "group": "items", "subgroup": "founded", "id": "steel_ingot", "type": "item", "stack": 100
+		},
+        { "group": "items", "subgroup": "founded", "id": "aluminum_ingot", "type": "item", "stack": 100
+		},
+
+        { "group": "items", "subgroup": "refined", "id": "fuel", "type": "item", "stack": 400
+		},
+        { "group": "items", "subgroup": "refined", "id": "plastic", "type": "item", "stack": 200
+		},
+        { "group": "items", "subgroup": "refined", "id": "polymer_resin", "type": "item", "stack": 200
+		},
+        { "group": "items", "subgroup": "refined", "id": "rubber", "type": "item", "stack": 200
+		},
+        { "group": "items", "subgroup": "refined", "id": "alumina_solution", "type": "item", "stack": 400
+		},
+        { "group": "items", "subgroup": "refined", "id": "aluminum_scrap", "type": "item", "stack": 500
+		},
+
+        { "group": "items", "subgroup": "manufactured", "id": "computer", "type": "item", "stack": 50
+		},
+        { "group": "items", "subgroup": "manufactured", "id": "high_speed_connector", "type": "item", "stack": 100
+		},
+        { "group": "items", "subgroup": "manufactured", "id": "adaptive_control_unit", "type": "item", "stack": 50
+		},
+        { "group": "items", "subgroup": "manufactured", "id": "supercomputer", "type": "item", "stack": 50
+		},
+        { "group": "items", "subgroup": "manufactured", "id": "crystal_oscillator", "type": "item", "stack": 100
+		},
+        { "group": "items", "subgroup": "manufactured", "id": "heavy_modular_frame", "type": "item", "stack": 50
+		},
+        { "group": "items", "subgroup": "manufactured", "id": "radio_control_unit", "type": "item", "stack": 50
+		},
+        { "group": "items", "subgroup": "manufactured", "id": "modular_engine", "type": "item", "stack": 50
+		},
+        { "group": "items", "subgroup": "manufactured", "id": "turbo_motor", "type": "item", "stack": 50
+		},
+        { "group": "items", "subgroup": "manufactured", "id": "thermal_propulsion_rocket", "type": "item", "stack": 50
+		},
+        { "group": "items", "subgroup": "manufactured", "id": "singularity_cell", "type": "item", "stack": 50
+		},
+        { "group": "items", "subgroup": "manufactured", "id": "ballistic_warp_drive", "type": "item", "stack": 50
+		},
+
+		{ "group": "items", "subgroup": "blended", "id": "cooling_system", "type": "item", "stack": 100
+		},
+        { "group": "items", "subgroup": "blended", "id": "fused_modular_frame", "type": "item", "stack": 50
+		},
+        { "group": "items", "subgroup": "blended", "id": "biochemical_sculptor", "type": "item", "stack": 50
+		},
+
+        { "group": "items", "subgroup": "accelerated", "id": "diamonds", "type": "item", "stack": 200
+		},
+        { "group": "items", "subgroup": "accelerated", "id": "dark_matter_crystal", "type": "item", "stack": 200
+		},
+        { "group": "items", "subgroup": "accelerated", "id": "nuclear_pasta", "type": "item", "stack": 50
+		},
+		
+        { "group": "items", "subgroup": "converted", "id": "time_crystal", "type": "item", "stack": 200
+		},
+        { "group": "items", "subgroup": "converted", "id": "dark_matter_residue", "type": "item", "stack": 400
+		},
+        { "group": "items", "subgroup": "converted", "id": "excited_photonic_matter", "type": "item", "stack": 400
+		},
+
+        { "group": "items", "subgroup": "encoded", "id": "neural_quantum_processor", "type": "item", "stack": 50
+		},
+        { "group": "items", "subgroup": "encoded", "id": "superposition_oscillator", "type": "item", "stack": 100
+		},
+        { "group": "items", "subgroup": "encoded", "id": "ai_expansion_server", "type": "item", "stack": 50
+		},
 
         { "group": "machines", "subgroup": "extractors", "id": "miner_1", "type": "machine", "initialQuantity": 1,
           "requires": [{ "id": "onboarding_1", "quantity": 1 }],
@@ -257,41 +425,71 @@
           "requires": [{ "id": "onboarding_4", "quantity": 1 }],
           "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "iron_rod", "quantity": 4 },{ "id": "iron_plate", "quantity": 14 },{ "id": "concrete", "quantity": 10 }] }
         },
+        { "group": "machines", "subgroup": "extractors", "id": "miner_3", "type": "machine"
+        },
+        { "group": "machines", "subgroup": "extractors", "id": "miner_4", "type": "machine"
+        },
         { "group": "machines", "subgroup": "extractors", "id": "pump_water", "type": "machine",
           "requires": [{ "id": "coal_power", "quantity": 1 }],
           "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "iron_plate_reinforced", "quantity": 10 },{ "id": "rotor", "quantity": 10 },{ "id": "copper_sheet", "quantity": 20 }] }
+        },
+        { "group": "machines", "subgroup": "extractors", "id": "pump_oil", "type": "machine"
+        },
+        { "group": "machines", "subgroup": "extractors", "id": "pump_nitrogen", "type": "machine"
         },
 
         { "group": "machines", "subgroup": "generators", "id": "biomass_generator", "type": "machine", "initialQuantity": 1,
           "requires": [{ "id": "onboarding_2", "quantity": 1 }],
           "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "iron_rod", "quantity": 15 },{ "id": "iron_plate", "quantity": 15 },{ "id": "wire", "quantity": 25 }] }
         },
-        { "group": "machines", "subgroup": "generators", "id": "coal_generator", "type": "machine", "initialQuantity": 1,
+        { "group": "machines", "subgroup": "generators", "id": "coal_generator", "type": "machine",
           "requires": [{ "id": "coal_power", "quantity": 1 }],
           "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "cable", "quantity": 30 },{ "id": "iron_plate_reinforced", "quantity": 20 },{ "id": "rotor", "quantity": 10 }] }
         },
+        { "group": "machines", "subgroup": "generators", "id": "fuel_generator", "type": "machine"
+        },
+        { "group": "machines", "subgroup": "generators", "id": "nuclear_generator", "type": "machine"
+        },
 
-        { "group": "machines", "subgroup": "smelters", "id": "smelter_1", "type": "machine",
+        { "group": "machines", "subgroup": "smelters", "id": "smelter", "type": "machine",
           "requires": [{ "id": "onboarding_2", "quantity": 1 }],
           "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "iron_rod", "quantity": 5 },{ "id": "wire", "quantity": 8 }] }
         },
+        { "group": "machines", "subgroup": "smelters", "id": "foundry", "type": "machine"
+        },
+        { "group": "machines", "subgroup": "smelters", "id": "refinery", "type": "machine"
+        },
 
-        { "group": "machines", "subgroup": "assemblers", "id": "assembler_1", "type": "machine",
+        { "group": "machines", "subgroup": "assemblers", "id": "builder", "type": "machine",
           "requires": [{ "id": "onboarding_3", "quantity": 1 }],
           "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "cable", "quantity": 8 },{ "id": "iron_plate_reinforced", "quantity": 2 }] }
         },
-        { "group": "machines", "subgroup": "assemblers", "id": "assembler_2", "type": "machine",
+        { "group": "machines", "subgroup": "assemblers", "id": "assembler", "type": "machine",
           "requires": [{ "id": "part_assembly", "quantity": 1 }],
           "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "cable", "quantity": 10 },{ "id": "iron_plate_reinforced", "quantity": 8 },{ "id": "rotor", "quantity": 4 }] }
         },
+        { "group": "machines", "subgroup": "assemblers", "id": "manufacturer", "type": "machine"
+		},
+        { "group": "machines", "subgroup": "assemblers", "id": "blender", "type": "machine"
+		},
+        { "group": "machines", "subgroup": "assemblers", "id": "particle_accelerator", "type": "machine"
+		},
+        { "group": "machines", "subgroup": "assemblers", "id": "converter", "type": "machine"
+		},
+        { "group": "machines", "subgroup": "assemblers", "id": "quantum_encoder", "type": "machine"
+		},
 
         { "group": "machines", "subgroup": "storers", "id": "solid_storer_1", "type": "storer",
           "requires": [{ "id": "onboarding_4", "quantity": 1 }],
           "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "iron_rod", "quantity": 10 },{ "id": "iron_plate", "quantity": 10 }] }
         },
+        { "group": "machines", "subgroup": "storers", "id": "solid_storer_2", "type": "storer"
+		},
         { "group": "machines", "subgroup": "storers", "id": "fluid_storer_1", "type": "storer",
           "requires": [{ "id": "coal_power", "quantity": 1 }],
           "purchase": { "time": 0.5, "output": 1, "costs": [{ "id": "modular_frame", "quantity": 5 },{ "id": "copper_sheet", "quantity": 10 }] }
-        }
+        },
+        { "group": "machines", "subgroup": "storers", "id": "fluid_storer_2", "type": "storer"
+		}
     ]
 }
