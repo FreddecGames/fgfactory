@@ -657,7 +657,7 @@
 
 								<UFieldGroup v-if="gameStore.isRecipeUnlocked(recipe)" size="sm" class="w-full">
 
-									<!-- Recipe Inputs & Outputs -->
+									<!-- Recipe Inputs & Output -->
 
 									<UPopover :content="{ align: 'start' }">
 										
@@ -690,16 +690,16 @@
 
 													<div class="flex flex-col space-y-2">
 
-														<span class="text-gray-400 font-medium">{{ gameStore.t('labels.outputs') }}</span>
+														<span class="text-gray-400 font-medium">{{ gameStore.t('labels.output') }}</span>
 
 														<div class="flex flex-col space-y-1">
-															<UButton v-for="output in recipe.outputs" :key="output.id" color="neutral" variant="soft" size="xs" class="justify-between gap-4"
-																@click="openItemModal(gameStore.getItemById(output.id))">
+															<UButton color="neutral" variant="soft" size="xs" class="justify-between gap-4"
+																@click="openItemModal(gameStore.getItemById(recipe.output.id))">
 																<div class="flex items-center gap-2">
-																	<img :src="gameStore.getItemImage(output.id)" :alt="gameStore.t(`items.${output.id}`)" class="w-4 h-4" />
-																	<span class="truncate">{{ gameStore.t(`items.${output.id}`) }}</span>
+																	<img :src="gameStore.getItemImage(recipe.output.id)" :alt="gameStore.t(`items.${recipe.output.id}`)" class="w-4 h-4" />
+																	<span class="truncate">{{ gameStore.t(`items.${recipe.output.id}`) }}</span>
 																</div>
-																<span class="text-success">{{ output.prod }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
+																<span class="text-success">{{ recipe.output.prod }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
 															</UButton>
 														</div>
 
@@ -903,7 +903,7 @@
 
 								<UFieldGroup v-if="gameStore.isRecipeUnlocked(recipe)" size="sm" class="w-full">
 
-									<!-- Recipe Inputs & Outputs -->
+									<!-- Recipe Inputs & Output -->
 
 									<UPopover :content="{ align: 'start' }">
 										
@@ -936,16 +936,16 @@
 
 													<div class="flex flex-col space-y-2">
 
-														<span class="text-gray-400 font-medium">{{ gameStore.t('labels.outputs') }}</span>
+														<span class="text-gray-400 font-medium">{{ gameStore.t('labels.output') }}</span>
 
 														<div class="flex flex-col space-y-1">
-															<UButton v-for="output in recipe.outputs" :key="output.id" color="neutral" variant="soft" size="xs" class="justify-between gap-4"
-																@click="openItemModal(gameStore.getItemById(output.id))">
+															<UButton color="neutral" variant="soft" size="xs" class="justify-between gap-4"
+																@click="openItemModal(gameStore.getItemById(recipe.output.id))">
 																<div class="flex align-items gap-2">
-																	<img :src="gameStore.getItemImage(output.id)" :alt="gameStore.t(`items.${output.id}`)" class="w-4 h-4" />
-																	<span class="truncate">{{ gameStore.t(`items.${output.id}`) }}</span>
+																	<img :src="gameStore.getItemImage(recipe.output.id)" :alt="gameStore.t(`items.${recipe.output.id}`)" class="w-4 h-4" />
+																	<span class="truncate">{{ gameStore.t(`items.${recipe.output.id}`) }}</span>
 																</div>
-																<span class="text-success">{{ output.prod }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
+																<span class="text-success">{{ recipe.output.prod }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
 															</UButton>
 														</div>
 
@@ -958,37 +958,37 @@
 									</UPopover>
 
 									<UButton color="neutral" variant="soft" class="flex-1 flex justify-between gap-4"
-										@click="openItemModal(gameStore.getItemById(recipe.outputs[0].id))">
+										@click="openItemModal(gameStore.getItemById(recipe.output.id))">
 
 										<div class="flex items-center gap-2">
-											<img :src="gameStore.getItemImage(recipe.outputs[0].id)" :alt="gameStore.t(`items.${recipe.outputs[0].id}`)" class="w-4 h-4" />
-											<span class="truncate">{{ gameStore.t(`items.${recipe.outputs[0].id}`) }}</span>
+											<img :src="gameStore.getItemImage(recipe.output.id)" :alt="gameStore.t(`items.${recipe.output.id}`)" class="w-4 h-4" />
+											<span class="truncate">{{ gameStore.t(`items.${recipe.output.id}`) }}</span>
 										</div>
 
-										<span :class="gameStore.getItemProds[recipe.outputs[0].id] > 0 ? 'text-success' : 'text-error'">{{ gameStore.getItemProds[recipe.outputs[0].id] > 0 ? '+' : '' }}{{ gameStore.getItemProds[recipe.outputs[0].id] }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
+										<span :class="gameStore.getItemProds[recipe.output.id] > 0 ? 'text-success' : 'text-error'">{{ gameStore.getItemProds[recipe.output.id] > 0 ? '+' : '' }}{{ gameStore.getItemProds[recipe.output.id] }} <small>{{ gameStore.t('labels.per_cycle') }}</small></span>
 
 									</UButton>
 
 									<UButton color="error" variant="subtle" icon="i-lucide-minus"
-										:disabled="!gameStore.canUnassignMachine(recipe.outputs[0].id, recipe.machineId, recipe)"
-										@click="gameStore.changeMachineAssignment(recipe.outputs[0].id, recipe.machineId, recipe, -1)" />
+										:disabled="!gameStore.canUnassignMachine(recipe.output.id, recipe.machineId, recipe)"
+										@click="gameStore.changeMachineAssignment(recipe.output.id, recipe.machineId, recipe, -1)" />
 
 									<UBadge color="neutral" variant="subtle" class="text-xs w-12 justify-center">
-										{{ gameStore.getAssignedMachineCount(recipe.outputs[0].id, recipe.machineId) }}
+										{{ gameStore.getAssignedMachineCount(recipe.output.id, recipe.machineId) }}
 									</UBadge>
 
 									<UButton color="primary" variant="subtle" icon="i-lucide-plus"
 										:disabled="!gameStore.canAssignMachine(recipe.machineId, recipe)"
-										@click="gameStore.changeMachineAssignment(recipe.outputs[0].id, recipe.machineId, recipe, 1)" />
+										@click="gameStore.changeMachineAssignment(recipe.output.id, recipe.machineId, recipe, 1)" />
 
 								</UFieldGroup>
 
 								<!-- Recipe Locked -->
 
 								<UButton v-else block color="neutral" variant="soft" size="xs" class="flex-1 flex justify-start gap-2 text-zinc-400"
-										@click="openItemModal(gameStore.getItemById(recipe.outputs[0].id))">
+										@click="openItemModal(gameStore.getItemById(recipe.output.id))">
 									<UIcon name="i-lucide-lock" class="w-4 h-4" />
-									<span>{{ gameStore.t(`items.${recipe.outputs[0].id}`) }}</span>
+									<span>{{ gameStore.t(`items.${recipe.output.id}`) }}</span>
 								</UButton>
 
 							</div>

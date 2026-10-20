@@ -52,7 +52,7 @@
         "no_cost": "No ingredients required",
         "inputs": "Inputs",
         "no_input": "No inputs required",
-        "outputs": "Outputs",
+        "output": "Output",
         "assignments": "Assignments",
         "current_scenario": "Current Scenario",
         "play_time": "Play Time",

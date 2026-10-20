@@ -30,8 +30,12 @@ export interface Recipe {
 export interface Storage {
     itemId: string
     storerId: string
-    slot: number
     stock: number
+}
+
+export interface Energy {
+    id: string
+    prod: number
 }
 
 export interface Item {
@@ -41,9 +45,11 @@ export interface Item {
     type: 'item' | 'mission' | 'machine'
     stack?: number
     initialQuantity?: number
+	energy?: Energy
     requires?: {}
     purchase?: Purchase
     recipes?: Recipe[]
+    storers?: string[]
     storages?: Storage[]
 }
 
@@ -304,18 +310,31 @@ export const useGameStore = defineStore('game', () => {
 						isRecipeUnlocked(recipe)
 
 						recipe.output = { id:item.id, prod:recipe.output }
+
+						let machineItem = getItemById(recipe.machineId)
+						if (machineItem.energy) {
+
+							if (!recipe.inputs) recipe.inputs = {}
+
+							recipe.inputs[machineItem.energy.id] = machineItem.energy.prod
+						}
 					})
 				}
 
-                if (item.storages) {
+                if (item.storers) {
 
-					item.storages.forEach(storage => {
+					item.storages = []
 
+					item.storers.forEach(storerId => {
+
+						let storage = { 'itemId': item.id, 'storerId':storerId }
 						isStorageUnlocked(storage)
 
-						storage.itemId = item.id
-						storage.slot = storage.slot ? storage.slot : 1
-						storage.stock = item.stack * storage.slot
+						let storerItem = getItemById(storage.storerId)
+
+						storage.stock = item.stack * storerItem.slot
+
+						item.storages.push(storage)
 					})
 				}
             })
@@ -717,9 +736,7 @@ export const useGameStore = defineStore('game', () => {
 
         if (getAssignedMachineCount(itemId, machineId) <= 0) return false
 
-        return recipe.outputs.every((output: any) => {
-            return getItemProds.value[output.id] - output.prod >= 0
-        })
+    	return getItemProds.value[recipe.output.id] - recipe.output.prod >= 0
     }
 
     function changeMachineAssignment(itemId: string, machineId: string, recipe: any, amount: number) {
