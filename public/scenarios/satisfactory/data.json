@@ -1,7 +1,7 @@
 {
     "id": "satisfactory",
 
-    "winConditions": { "end": 1 },
+    "winConditions": { "phase_5": 1 },
 
     "items": [
 
@@ -172,6 +172,7 @@
           "storers": [ "solid_storer_1", "solid_storer_2" ]
         },
         { "group": "items", "subgroup": "ore", "id": "caterium", "type": "item", "stack": 100,
+          "requires": { "fuel_power": 1 },
           "purchase": { "time": 1 },
           "recipes": [
             { "machineId": "miner_1", "output": 0.25 },
@@ -182,6 +183,7 @@
           "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
         { "group": "items", "subgroup": "ore", "id": "bauxite", "type": "item", "stack": 100,
+          "requires": { "bauxite_refinement": 1 },
           "purchase": { "time": 1 },
           "recipes": [
             { "machineId": "miner_1", "output": 0.25 },
@@ -192,6 +194,7 @@
           "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
         { "group": "items", "subgroup": "ore", "id": "quartz", "type": "item", "stack": 100,
+          "requires": { "bauxite_refinement": 1 },
           "purchase": { "time": 1 },
           "recipes": [
             { "machineId": "miner_1", "output": 0.25 },
@@ -202,6 +205,7 @@
           "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
         { "group": "items", "subgroup": "ore", "id": "sulfur", "type": "item", "stack": 100,
+          "requires": { "control_system": 1 },
           "purchase": { "time": 1 },
           "recipes": [
             { "machineId": "miner_1", "output": 0.25 },
@@ -212,6 +216,7 @@
           "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
         { "group": "items", "subgroup": "ore", "id": "uranium", "type": "item", "stack": 100,
+          "requires": { "nuclear_power": 1 },
           "purchase": { "time": 1 },
           "recipes": [
             { "machineId": "miner_1", "output": 0.25 },
@@ -222,6 +227,7 @@
           "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
         { "group": "items", "subgroup": "ore", "id": "sam", "type": "item", "stack": 100,
+          "requires": { "matter_conversion": 1 },
           "purchase": { "time": 1 },
           "recipes": [
             { "machineId": "miner_1", "output": 0.25 },
@@ -248,9 +254,27 @@
           "storers": [ "solid_storer_1", "solid_storer_2" ]
         },
         { "group": "items", "subgroup": "smelted", "id": "caterium_ingot", "type": "item", "stack": 100,
+          "requires": { "fuel_power": 1 },
  		  "purchase": { "time": 1, "costs": { "caterium": 3 } },
           "recipes": [
             { "machineId": "smelter", "output": 0.25, "inputs": { "caterium": 0.75 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
+		},
+
+		{ "group": "items", "subgroup": "founded", "id": "steel_ingot", "type": "item", "stack": 100,
+          "requires": { "steel_prod_1": 1 },
+ 		  "purchase": { "time": 1, "output": 3, "costs": { "iron": 3, "coal": 3 } },
+          "recipes": [
+            { "machineId": "foundry", "output": 0.75, "inputs": { "iron": 0.75, "coal": 0.75 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
+		},
+        { "group": "items", "subgroup": "founded", "id": "aluminum_ingot", "type": "item", "stack": 100,
+          "requires": { "bauxite_refinement": 1 },
+ 		  "purchase": { "time": 1, "output": 4, "costs": { "aluminum_scrap": 6, "silica": 5 } },
+          "recipes": [
+            { "machineId": "foundry", "output": 1, "inputs": { "aluminum_scrap": 1.5, "silica": 1.25 } }
           ],
           "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
@@ -320,6 +344,7 @@
           "storers": [ "solid_storer_1", "solid_storer_2" ]
         },
         { "group": "items", "subgroup": "constructed", "id": "copper_powder", "type": "item", "stack": 500,
+          "requires": { "particle_enrichment": 1 },
  		  "purchase": { "time": 1, "output": 5, "costs": { "copper_ingot": 30 } },
           "recipes": [
             { "machineId": "builder", "output": 0.83, "inputs": { "copper_ingot":5 } }
@@ -370,16 +395,54 @@
           ],
           "storers": [ "solid_storer_1", "solid_storer_2" ]
         },
-        { "group": "items", "subgroup": "assembled", "id": "automated_wiring", "type": "item", "stack": 50,
+        { "group": "items", "subgroup": "assembled", "id": "iron_plate_reinforced", "type": "item", "stack": 100,
+          "requires": { "onboarding_3": 1 },
+          "purchase": { "time": 1, "costs": { "iron_plate": 6, "screws": 12 } },
+          "recipes": [
+            { "machineId": "assembler", "output": 0.6, "inputs": { "iron_plate": 0.5, "screws": 1 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
+        },
+        { "group": "items", "subgroup": "assembled", "id": "rotor", "type": "item", "stack": 100,
+          "requires": { "part_assembly": 1 },
+          "purchase": { "time": 1, "costs": { "iron_rod": 5, "screws": 25 } },
+          "recipes": [
+            { "machineId": "assembler", "output": 0.06, "inputs": { "iron_rod": 0.3, "screws": 1.6 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
+        },
+        { "group": "items", "subgroup": "assembled", "id": "modular_frame", "type": "item", "stack": 50,
+          "requires": { "part_assembly": 1 },
+          "purchase": { "time": 1, "output": 2, "costs": { "iron_rod": 12, "iron_plate_reinforced": 3 } },
+          "recipes": [
+            { "machineId": "assembler", "output": 0.03, "inputs": { "iron_rod": 0.2, "iron_plate_reinforced": 0.05 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
+        },
+        { "group": "items", "subgroup": "assembled", "id": "smart_plating", "type": "item", "stack": 50,
+          "requires": { "part_assembly": 1 },
+          "purchase": { "time": 1, "costs": { "iron_plate_reinforced": 1, "rotor": 1 } },
+          "recipes": [
+            { "machineId": "assembler", "output": 0.03, "inputs": { "iron_plate_reinforced": 0.03, "rotor": 0.03 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
+        },
+        { "group": "items", "subgroup": "assembled", "id": "versatile_framework", "type": "item", "stack": 50,
+ 		  "purchase": { "time": 1, "costs": {  } }
+		},
+        { "group": "items", "subgroup": "assembled", "id": "encased_industrial_beam", "type": "item", "stack": 100,
  		  "purchase": { "time": 1, "costs": {  } }
 		},
         { "group": "items", "subgroup": "assembled", "id": "stator", "type": "item", "stack": 100,
  		  "purchase": { "time": 1, "costs": {  } }
 		},
-        { "group": "items", "subgroup": "assembled", "id": "circuit_board", "type": "item", "stack": 200,
+        { "group": "items", "subgroup": "assembled", "id": "motor", "type": "item", "stack": 50,
  		  "purchase": { "time": 1, "costs": {  } }
 		},
-        { "group": "items", "subgroup": "assembled", "id": "encased_industrial_beam", "type": "item", "stack": 100,
+        { "group": "items", "subgroup": "assembled", "id": "automated_wiring", "type": "item", "stack": 50,
+ 		  "purchase": { "time": 1, "costs": {  } }
+		},
+        { "group": "items", "subgroup": "assembled", "id": "circuit_board", "type": "item", "stack": 200,
  		  "purchase": { "time": 1, "costs": {  } }
 		},
         { "group": "items", "subgroup": "assembled", "id": "alclad_aluminum_sheet", "type": "item", "stack": 200,
@@ -400,44 +463,6 @@
         { "group": "items", "subgroup": "assembled", "id": "magnetic_field_generator", "type": "item", "stack": 50,
  		  "purchase": { "time": 1, "costs": {  } }
 		},
-        { "group": "items", "subgroup": "assembled", "id": "modular_frame", "type": "item", "stack": 50,
-          "requires": { "part_assembly": 1 },
-          "purchase": { "time": 1, "output": 2, "costs": { "iron_rod": 12, "iron_plate_reinforced": 3 } },
-          "recipes": [
-            { "machineId": "assembler", "output": 0.03, "inputs": { "iron_rod": 0.2, "iron_plate_reinforced": 0.05 } }
-          ],
-          "storers": [ "solid_storer_1", "solid_storer_2" ]
-        },
-        { "group": "items", "subgroup": "assembled", "id": "motor", "type": "item", "stack": 50,
- 		  "purchase": { "time": 1, "costs": {  } }
-		},
-        { "group": "items", "subgroup": "assembled", "id": "iron_plate_reinforced", "type": "item", "stack": 100,
-          "requires": { "onboarding_3": 1 },
-          "purchase": { "time": 1, "costs": { "iron_plate": 6, "screws": 12 } },
-          "recipes": [
-            { "machineId": "assembler", "output": 0.6, "inputs": { "iron_plate": 0.5, "screws": 1 } }
-          ],
-          "storers": [ "solid_storer_1", "solid_storer_2" ]
-        },
-        { "group": "items", "subgroup": "assembled", "id": "rotor", "type": "item", "stack": 100,
-          "requires": { "part_assembly": 1 },
-          "purchase": { "time": 1, "costs": { "iron_rod": 5, "screws": 25 } },
-          "recipes": [
-            { "machineId": "assembler", "output": 0.06, "inputs": { "iron_rod": 0.3, "screws": 1.6 } }
-          ],
-          "storers": [ "solid_storer_1", "solid_storer_2" ]
-        },
-        { "group": "items", "subgroup": "assembled", "id": "smart_plating", "type": "item", "stack": 50,
-          "requires": { "part_assembly": 1 },
-          "purchase": { "time": 1, "costs": { "iron_plate_reinforced": 1, "rotor": 1 } },
-          "recipes": [
-            { "machineId": "assembler", "output": 0.03, "inputs": { "iron_plate_reinforced": 0.03, "rotor": 0.03 } }
-          ],
-          "storers": [ "solid_storer_1", "solid_storer_2" ]
-        },
-        { "group": "items", "subgroup": "assembled", "id": "versatile_framework", "type": "item", "stack": 50,
- 		  "purchase": { "time": 1, "costs": {  } }
-		},
         { "group": "items", "subgroup": "assembled", "id": "pressure_conversion_cube", "type": "item", "stack": 50,
  		  "purchase": { "time": 1, "costs": {  } }
 		},
@@ -454,13 +479,6 @@
  		  "purchase": { "time": 1, "costs": {  } }
 		},
         { "group": "items", "subgroup": "fluid", "id": "nitrogen", "type": "item", "stack": 400,
- 		  "purchase": { "time": 1, "costs": {  } }
-		},
-
-		{ "group": "items", "subgroup": "founded", "id": "steel_ingot", "type": "item", "stack": 100,
- 		  "purchase": { "time": 1, "costs": {  } }
-		},
-        { "group": "items", "subgroup": "founded", "id": "aluminum_ingot", "type": "item", "stack": 100,
  		  "purchase": { "time": 1, "costs": {  } }
 		},
 
@@ -489,25 +507,25 @@
         { "group": "items", "subgroup": "manufactured", "id": "computer", "type": "item", "stack": 50,
  		  "purchase": { "time": 1, "costs": {  } }
 		},
-        { "group": "items", "subgroup": "manufactured", "id": "high_speed_connector", "type": "item", "stack": 100,
+        { "group": "items", "subgroup": "manufactured", "id": "heavy_modular_frame", "type": "item", "stack": 50,
+ 		  "purchase": { "time": 1, "costs": {  } }
+		},
+        { "group": "items", "subgroup": "manufactured", "id": "modular_engine", "type": "item", "stack": 50,
  		  "purchase": { "time": 1, "costs": {  } }
 		},
         { "group": "items", "subgroup": "manufactured", "id": "adaptive_control_unit", "type": "item", "stack": 50,
+ 		  "purchase": { "time": 1, "costs": {  } }
+		},
+        { "group": "items", "subgroup": "manufactured", "id": "high_speed_connector", "type": "item", "stack": 100,
+ 		  "purchase": { "time": 1, "costs": {  } }
+		},
+        { "group": "items", "subgroup": "manufactured", "id": "radio_control_unit", "type": "item", "stack": 50,
  		  "purchase": { "time": 1, "costs": {  } }
 		},
         { "group": "items", "subgroup": "manufactured", "id": "supercomputer", "type": "item", "stack": 50,
  		  "purchase": { "time": 1, "costs": {  } }
 		},
         { "group": "items", "subgroup": "manufactured", "id": "crystal_oscillator", "type": "item", "stack": 100,
- 		  "purchase": { "time": 1, "costs": {  } }
-		},
-        { "group": "items", "subgroup": "manufactured", "id": "heavy_modular_frame", "type": "item", "stack": 50,
- 		  "purchase": { "time": 1, "costs": {  } }
-		},
-        { "group": "items", "subgroup": "manufactured", "id": "radio_control_unit", "type": "item", "stack": 50,
- 		  "purchase": { "time": 1, "costs": {  } }
-		},
-        { "group": "items", "subgroup": "manufactured", "id": "modular_engine", "type": "item", "stack": 50,
  		  "purchase": { "time": 1, "costs": {  } }
 		},
         { "group": "items", "subgroup": "manufactured", "id": "uranium_fuel_rod", "type": "item", "stack": 50,

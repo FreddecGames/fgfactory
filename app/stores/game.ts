@@ -498,7 +498,7 @@ export const useGameStore = defineStore('game', () => {
 
     function getItemStock(itemId: string): number {
 
-        return inventory.value[itemId]?.toFixed(0) || 0
+        return inventory.value[itemId].toFixed(0)
     }
 
     function isItemStorageFull(itemId: string): boolean {

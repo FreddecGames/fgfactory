@@ -376,7 +376,7 @@
 								</UBadge>
 
 								<UBadge v-if="gameStore.isItemUnlocked(item) && item.recipes && item.recipes.length > 0" size="xs" color="neutral" variant="subtle"
-									class="absolute -top-0.5 -right-0.5 z-10">
+									class="absolute -bottom-0.5 -right-0.5 z-10">
 									<span :class="gameStore.getItemProds[item.id] > 0 ? 'text-success' : 'text-error'">{{ gameStore.getItemProds[item.id] > 0 ? '+' : '' }}{{ gameStore.getItemProds[item.id] }}</span>
 								</UBadge>
 
@@ -386,7 +386,7 @@
 								</UBadge>
 
 								<UBadge v-if="gameStore.isItemUnlocked(item) && item.type === 'storer'" size="xs" color="neutral" variant="subtle"
-									class="absolute -top-0.5 -right-0.5 z-10">
+									class="absolute -bottom-0.5 -right-0.5 z-10">
 									<span :class="gameStore.getFreeStorerCount(item.id) > 0 ? 'text-success' : 'text-error'">{{ gameStore.getFreeStorerCount(item.id) }}</span>
 								</UBadge>
 
