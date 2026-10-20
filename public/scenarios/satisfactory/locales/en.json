@@ -3,12 +3,6 @@
 		"satisfactory": "Satisfactory"
 	},
 
-    "groups": {
-        "missions": "Missions",
-        "items": "Items",
-        "machines": "Machines"
-    },
-
     "subgroups": {
         "onboarding": "Installation",
         "power": "Power",
@@ -143,6 +137,7 @@
         "modular_engine": "Modular Engine",
         "turbo_motor": "Turbo Motor",
         "thermal_propulsion_rocket": "Thermal Propulsion Rocket",
+		"sam_fluctuator": "SAM Fluctuator",
         "singularity_cell": "Singularity Cell",
         "ballistic_warp_drive": "Ballistic Warp Drive",
 

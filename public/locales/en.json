@@ -30,16 +30,20 @@
     },
 
     "groups": {
+        "missions": "Missions",
+        "items": "Items",
+        "machines": "Machines",
         "admin": "Scenarios"
     },
 
     "labels": {
 		"loading": "Loading...",
         "mission_inprogress": "Mission in Progress",
-        "mission_completed": "Mission Completed",
+        "mission_completed": "Completed",
         "objectives": "Objectives",
         "requirements": "Requirements",
         "stock": "Stock",
+        "balance": "Balance",
         "production": "Production",
         "available": "Available",
         "per_cycle": "/s",

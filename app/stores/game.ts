@@ -13,7 +13,7 @@ export interface Requirement {
 export interface Purchase {
     time: number
     output: number
-    costs: Requirement[]
+    costs: {}
 }
 
 export interface InputOutput {
@@ -23,13 +23,14 @@ export interface InputOutput {
 
 export interface Recipe {
     machineId: string
-    outputs: InputOutput[]
-    inputs?: InputOutput[]
+    output: {}
+    inputs?: {}
 }
 
 export interface Storage {
     itemId: string
     storerId: string
+    slot: number
     stock: number
 }
 
@@ -40,7 +41,7 @@ export interface Item {
     type: 'item' | 'mission' | 'machine'
     stack?: number
     initialQuantity?: number
-    requires?: Requirement[]
+    requires?: {}
     purchase?: Purchase
     recipes?: Recipe[]
     storages?: Storage[]
@@ -51,14 +52,14 @@ export interface ItemBuildingTask {
     timeLeft: number
     totalTime: number
     intervalId: any
-    costs: Requirement[]
+    costs: {}
 }
 
 export const useGameStore = defineStore('game', () => {
 
     const items = ref<Item[]>([])
     const totalPlayTime = ref<number>(0)
-    const winConditions = ref<WinCondition[]>([])
+    const winConditions = ref()
     const customGameName = ref<string>('')
 
     const hasWon = ref<boolean>(false)
@@ -272,7 +273,7 @@ export const useGameStore = defineStore('game', () => {
 
             items.value = data.items || []
 
-            winConditions.value = data.winConditions || []
+            winConditions.value = data.winConditions || {}
 
             const savedInv = savedState?.inventory || {}
             const tempInventory: Record<string, number> = {}
@@ -290,9 +291,33 @@ export const useGameStore = defineStore('game', () => {
 
                 isItemUnlocked(item)
 
-                if (!item.recipes) return
+				if (item.purchase) {
 
-                item.recipes.forEach(recipe => { isRecipeUnlocked(recipe) })
+					if (!item.purchase.time) item.purchase.time = 0
+					if (!item.purchase.output) item.purchase.output = 1
+				}
+
+                if (item.recipes) {
+
+					item.recipes.forEach(recipe => {
+
+						isRecipeUnlocked(recipe)
+
+						recipe.output = { id:item.id, prod:recipe.output }
+					})
+				}
+
+                if (item.storages) {
+
+					item.storages.forEach(storage => {
+
+						isStorageUnlocked(storage)
+
+						storage.itemId = item.id
+						storage.slot = storage.slot ? storage.slot : 1
+						storage.stock = item.stack * storage.slot
+					})
+				}
             })
 
             assignedMachines.value = savedState?.assignedMachines || {}
@@ -324,6 +349,7 @@ export const useGameStore = defineStore('game', () => {
         catch (err: any) {
 
             loadingError.value = err.message === 'fetch_failed' ? 'fetch_failed' : 'unknown'
+			console.log(err)
         }
         finally {
 
@@ -353,11 +379,15 @@ export const useGameStore = defineStore('game', () => {
 
     function checkVictoryConditions() {
 
-        if (winConditions.value.length === 0 || hasWon.value) return
+        if (!winConditions.value || hasWon.value) return
 
-        const isVictorious = winConditions.value.every(condition => {
-            return (inventory.value[condition.id] || 0) >= condition.quantity
-        })
+        let isVictorious = true
+		
+        for (const [id, condition] of Object.entries(winConditions.value))
+			if (getItemStock(id) < condition) {
+				isVictorious = false;
+				break;
+			}
 
         if (isVictorious && !isCurrentRunWon.value && !hasWon.value) triggerVictory()
         else if (!isVictorious && isCurrentRunWon.value) isCurrentRunWon.value = false
@@ -472,15 +502,11 @@ export const useGameStore = defineStore('game', () => {
                 const machineCount = getAssignedMachineCount(item.id, recipe.machineId)
                 if (machineCount <= 0) return
 
-                if (recipe.inputs) {
-                    recipe.inputs.forEach((input: any) => {
-                        if (prods[input.id] !== undefined) prods[input.id] -= input.prod * machineCount
-                    })
-                }
+                if (recipe.inputs)
+			        for (const [id, prod] of Object.entries(recipe.inputs))
+                        prods[id] -= prod * machineCount
 
-                recipe.outputs.forEach((output: any) => {
-                    if (prods[output.id] !== undefined) prods[output.id] += output.prod * machineCount
-                })
+				prods[recipe.output.id] += recipe.output.prod * machineCount
             })
         })
 
@@ -513,7 +539,7 @@ export const useGameStore = defineStore('game', () => {
 
         if (permanentlyUnlocked.value.includes(item.id)) return true
 
-        if (!item.requires || item.requires.length === 0) {
+        if (!item.requires) {
 
             if (!permanentlyUnlocked.value.includes(item.id))
                 permanentlyUnlocked.value.push(item.id)
@@ -521,14 +547,22 @@ export const useGameStore = defineStore('game', () => {
             return true
         }
 
-        const requirementsMet = item.requires.every((req: any) => getItemStock(req.id) >= req.quantity)
+        let requirementsMet = true
+		
+        for (const [id, req] of Object.entries(item.requires))
+			if (getItemStock(id) < req) {
+				requirementsMet = false;
+				break;
+			}
 
         if (requirementsMet) {
+
             permanentlyUnlocked.value.push(item.id)
-            if (isInitialized.value && !newlyUnlockedItems.value.includes(item.id)) {
+
+			if (isInitialized.value && !newlyUnlockedItems.value.includes(item.id))
                 newlyUnlockedItems.value.push(item.id)
-            }
-            return true
+
+			return true
         }
 
         return false
@@ -550,10 +584,17 @@ export const useGameStore = defineStore('game', () => {
         if (!isItemUnlocked(machineItem)) return false
 
         let result = true
-        if (recipe.inputs) result = recipe.inputs.every((input: any) => permanentlyUnlocked.value.includes(input.id))
-        if (!result) return false
 
-        return recipe.outputs.every((output: any) => permanentlyUnlocked.value.includes(output.id))
+        if (recipe.inputs)
+			for (const [id, prod] of Object.entries(recipe.inputs))
+				if (!permanentlyUnlocked.value.includes(id)) {
+					result = false
+					break
+				}
+
+		if (!result) return false
+
+        return permanentlyUnlocked.value.includes(recipe.output.id)
     }
 
     function isStorageUnlocked(storage: any): boolean {
@@ -574,7 +615,16 @@ export const useGameStore = defineStore('game', () => {
     function canBuildItem(item: Item): boolean {
 
         if (!item.purchase || !item.purchase.costs) return true
-        return item.purchase.costs.every(cost => getItemStock(cost.id) >= cost.quantity)
+
+		let result = true
+
+        for (const [id, cost] of Object.entries(item.purchase.costs))
+			if (getItemStock(id) < cost) {
+				result = false;
+				break;
+			}
+
+		return result
     }
 
     function startItemBuilding(item: GameItem) {
@@ -583,9 +633,8 @@ export const useGameStore = defineStore('game', () => {
 
         if (item.purchase.costs) {
 
-            item.purchase.costs.forEach(cost => {
-                inventory.value[cost.id] -= cost.quantity
-            })
+            for (const [id, cost] of Object.entries(item.purchase.costs))
+                inventory.value[id] -= cost
         }
 
         const totalTime = item.purchase.time
@@ -611,7 +660,7 @@ export const useGameStore = defineStore('game', () => {
             itemId: item.id,
             timeLeft: totalTime,
             totalTime: totalTime,
-            costs: item.purchase.costs ? [...item.purchase.costs] : [],
+            costs: item.purchase.costs ? item.purchase.costs : {},
             intervalId
         }
     }
@@ -621,9 +670,8 @@ export const useGameStore = defineStore('game', () => {
         const task = activeItemBuildings.value[itemId]
         if (!task) return
 
-        task.costs.forEach(cost => {
-            inventory.value[cost.id] += cost.quantity
-        })
+        for (const [id, cost] of Object.entries(task.costs))
+            inventory.value[id] += cost
 
         clearInterval(task.intervalId)
         delete activeItemBuildings.value[itemId]
@@ -653,13 +701,16 @@ export const useGameStore = defineStore('game', () => {
 
         if (getFreeMachineCount(machineId) <= 0) return false
 
-        if (recipe.inputs) {
-            return recipe.inputs.every((input: any) => {
-                return getItemProds.value[input.id] >= input.prod
-            })
-        }
+		let result = true
 
-        return true
+        if (recipe.inputs)
+            for (const [id, prod] of Object.entries(recipe.inputs))
+                if (getItemProds.value[id] >= prod) {
+					result = false
+					break
+				}
+
+        return result
     }
 
     function canUnassignMachine(itemId: string, machineId: string, recipe: any): boolean {
