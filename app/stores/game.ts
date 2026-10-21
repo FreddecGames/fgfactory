@@ -556,6 +556,8 @@ export const useGameStore = defineStore('game', () => {
 
     function isItemUnlocked(item: Item): boolean {
 
+		return true
+
         if (permanentlyUnlocked.value.includes(item.id)) return true
 
         if (!item.requires) {
@@ -599,6 +601,8 @@ export const useGameStore = defineStore('game', () => {
 
     function isRecipeUnlocked(recipe: any): boolean {
 
+		return true
+
         const machineItem = items.value.find(item => item.id === recipe.machineId)
         if (!isItemUnlocked(machineItem)) return false
 
@@ -617,6 +621,8 @@ export const useGameStore = defineStore('game', () => {
     }
 
     function isStorageUnlocked(storage: any): boolean {
+
+		return true
 
         const storerItem = items.value.find(item => item.id === storage.storerId)
         if (!isItemUnlocked(storerItem)) return false
@@ -724,7 +730,7 @@ export const useGameStore = defineStore('game', () => {
 
         if (recipe.inputs)
             for (const [id, prod] of Object.entries(recipe.inputs))
-                if (getItemProds.value[id] >= prod) {
+                if (getItemProds.value[id] < prod) {
 					result = false
 					break
 				}

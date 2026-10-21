@@ -4,24 +4,27 @@
 	},
 
     "subgroups": {
+
         "onboarding": "Installation",
         "power": "Power",
         "industry": "Industry",
         "project": "Final Project",
-        "ore": "Ore",
+
+		"ore": "Ore",
         "smelted": "Smelted",
+        "founded": "Founded",
         "energy": "Energy",
         "constructed": "Constructed",
         "assembled": "Assembled",
         "fluid": "Fluid",
-        "founded": "Founded",
         "refined": "Refined",
         "manufactured": "Manufactured",
         "blended": "Blended",
 		"accelerated": "Accelerated",
 		"converted": "Converted",
 		"encoded": "Encoded",
-        "extractors": "Extractors",
+
+		"extractors": "Extractors",
         "generators": "Generators",
         "smelters": "Smelters",
         "assemblers": "Assemblers",
@@ -69,13 +72,18 @@
         "caterium": "Caterium",
         "bauxite": "Bauxite",
         "quartz": "Quartz",
+        "sulfur": "Sulfur",
+        "uranium": "Uranium",
         "sam": "SAM",
 
         "iron_ingot": "Iron Ingot",
         "copper_ingot": "Copper Ingot",
         "caterium_ingot": "Caterium Ingot",
 
-        "energy": "Energy",
+        "energy_biomass": "Biomass Energy",
+        "energy_coal": "Coal Energy",
+        "energy_fuel": "Fuel Energy",
+        "energy_nuclear": "Nuclear Energy",
 
         "iron_rod": "Iron Rod",
         "iron_plate": "Iron Plate",
@@ -91,7 +99,6 @@
         "quartz_crystal": "Quartz Crystal",
         "aluminum_casing": "Aluminum Casing",
         "reanimated_sam": "Reanimated SAM",
-        "ficsite_ingot": "FICSITE Ingot",
 		"ficsite_trigon": "FICSITE Trigon",
 
         "cable": "Cable",
@@ -126,6 +133,7 @@
         "rubber": "Rubber",
         "alumina_solution": "Alumina Solution",
         "aluminum_scrap": "Alumina Solution",
+        "sulfuric_acid": "Sulfuric Acid",
 
         "computer": "Computer",
         "high_speed_connector": "High Speed Connector",
@@ -135,6 +143,7 @@
         "heavy_modular_frame": "Heavy Modular Frame",
         "radio_control_unit": "Radio Control Unit",
         "modular_engine": "Modular Engine",
+		"uranium_fuel_rod": "Uranium Fuel Rod",
         "turbo_motor": "Turbo Motor",
         "thermal_propulsion_rocket": "Thermal Propulsion Rocket",
 		"sam_fluctuator": "SAM Fluctuator",
@@ -142,6 +151,7 @@
         "ballistic_warp_drive": "Ballistic Warp Drive",
 
 		"cooling_system": "Cooling System",
+		"encased_uranium_cell": "Encased Uranium Cell",
         "fused_modular_frame": "Fused Modular Frame",
         "biochemical_sculptor": "Biochemical Sculptor",
 
@@ -152,6 +162,7 @@
         "time_crystal": "Time Crystal",
         "dark_matter_residue": "Dark Matter Residue",
         "excited_photonic_matter": "Excited Photonic Matter",
+        "ficsite_ingot": "FICSITE Ingot",
 
         "neural_quantum_processor": "Neural Quantum Processor",
         "superposition_oscillator": "Superposition Oscillator",

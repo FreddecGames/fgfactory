@@ -137,7 +137,6 @@
           ],
           "storers": [ "solid_storer_1", "solid_storer_2" ]
         },
-
         { "group": "items", "subgroup": "ore", "id": "biomass", "type": "item", "stack": 100,
           "requires": { "onboarding_2": 1 },
           "purchase": { "time": 1 },
@@ -360,31 +359,68 @@
           "storers": [ "solid_storer_1", "solid_storer_2" ]
         },
         { "group": "items", "subgroup": "constructed", "id": "steel_beam", "type": "item", "stack": 200,
- 		  "purchase": { "time": 1, "costs": {  } }
+          "requires": { "steel_prod_1": 1 },
+ 		  "purchase": { "time": 1, "costs": { "steel_ingot": 4 } },
+          "recipes": [
+            { "machineId": "builder", "output": 0.25, "inputs": { "steel_ingot": 1 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
         { "group": "items", "subgroup": "constructed", "id": "steel_pipe", "type": "item", "stack": 200,
- 		  "purchase": { "time": 1, "costs": {  } }
+          "requires": { "steel_prod_1": 1 },
+ 		  "purchase": { "time": 1, "output": 2, "costs": { "steel_ingot": 3 } },
+          "recipes": [
+            { "machineId": "builder", "output": 0.33, "inputs": { "steel_ingot": 0.5 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
         { "group": "items", "subgroup": "constructed", "id": "quickwire", "type": "item", "stack": 500,
- 		  "purchase": { "time": 1, "costs": {  } }
+          "requires": { "fuel_power": 1 },
+ 		  "purchase": { "time": 1, "output": 5, "costs": { "caterium_ingot": 1 } },
+          "recipes": [
+            { "machineId": "builder", "output": 1, "inputs": { "caterium_ingot": 0.2 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
         { "group": "items", "subgroup": "constructed", "id": "silica", "type": "item", "stack": 200,
- 		  "purchase": { "time": 1, "costs": {  } }
+          "requires": { "bauxite_refinement": 1 },
+ 		  "purchase": { "time": 1, "output": 5, "costs": { "quartz": 3 } },
+          "recipes": [
+            { "machineId": "builder", "output": 0.45, "inputs": { "quartz": 0.375 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
         { "group": "items", "subgroup": "constructed", "id": "quartz_crystal", "type": "item", "stack": 200,
- 		  "purchase": { "time": 1, "costs": {  } }
+          "requires": { "bauxite_refinement": 1 },
+ 		  "purchase": { "time": 1, "output": 5, "costs": { "quartz": 3 } },
+          "recipes": [
+            { "machineId": "builder", "output": 0.45, "inputs": { "quartz": 0.375 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
         { "group": "items", "subgroup": "constructed", "id": "aluminum_casing", "type": "item", "stack": 200,
- 		  "purchase": { "time": 1, "costs": {  } }
+          "requires": { "bauxite_refinement": 1 },
+ 		  "purchase": { "time": 1, "output": 2, "costs": { "aluminum_ingot": 3 } },
+          "recipes": [
+            { "machineId": "builder", "output":1, "inputs": { "quartz": 1.5 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
         { "group": "items", "subgroup": "constructed", "id": "reanimated_sam", "type": "item", "stack": 100,
- 		  "purchase": { "time": 1, "costs": {  } }
-		},
-        { "group": "items", "subgroup": "constructed", "id": "ficsite_ingot", "type": "item", "stack": 100,
- 		  "purchase": { "time": 1, "costs": {  } }
+          "requires": { "matter_conversion": 1 },
+ 		  "purchase": { "time": 1, "costs": { "sam": 4 } },
+          "recipes": [
+            { "machineId": "builder", "output":0.5, "inputs": { "sam": 2 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
 		{ "group": "items", "subgroup": "constructed", "id": "ficsite_trigon", "type": "item", "stack": 200,
- 		  "purchase": { "time": 1, "costs": {  } }
+          "requires": { "matter_conversion": 1 },
+ 		  "purchase": { "time": 1, "output": 3, "costs": { "ficsite_ingot": 1 } },
+          "recipes": [
+            { "machineId": "builder", "output":0.5, "inputs": { "ficsite_ingot": 0.16 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
 
         { "group": "items", "subgroup": "assembled", "id": "cable", "type": "item", "stack": 200,
@@ -428,16 +464,36 @@
           "storers": [ "solid_storer_1", "solid_storer_2" ]
         },
         { "group": "items", "subgroup": "assembled", "id": "versatile_framework", "type": "item", "stack": 50,
- 		  "purchase": { "time": 1, "costs": {  } }
+          "requires": { "steel_prod_1": 1 },
+ 		  "purchase": { "time": 1, "output": 2, "costs": { "modular_frame": 1, "steel_beam": 12 } },
+          "recipes": [
+            { "machineId": "assembler", "output": 0.08, "inputs": { "modular_frame": 0.04, "steel_beam": 0.5 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
         { "group": "items", "subgroup": "assembled", "id": "encased_industrial_beam", "type": "item", "stack": 100,
- 		  "purchase": { "time": 1, "costs": {  } }
+          "requires": { "steel_prod_2": 1 },
+ 		  "purchase": { "time": 1, "costs": { "steel_beam": 3, "concrete": 6 } },
+          "recipes": [
+            { "machineId": "assembler", "output": 0.1, "inputs": { "steel_beam": 0.3, "concrete": 0.6 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
         { "group": "items", "subgroup": "assembled", "id": "stator", "type": "item", "stack": 100,
- 		  "purchase": { "time": 1, "costs": {  } }
+          "requires": { "steel_prod_2": 1 },
+ 		  "purchase": { "time": 1, "costs": { "steel_pipe": 3, "wire": 8 } },
+          "recipes": [
+            { "machineId": "assembler", "output": 0.08, "inputs": { "steel_pipe": 0.25, "wire": 0.66 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
         { "group": "items", "subgroup": "assembled", "id": "motor", "type": "item", "stack": 50,
- 		  "purchase": { "time": 1, "costs": {  } }
+          "requires": { "steel_prod_2": 1 },
+ 		  "purchase": { "time": 1, "costs": { "rotor": 2, "stator": 2 } },
+          "recipes": [
+            { "machineId": "assembler", "output": 0.08, "inputs": { "rotor": 0.16, "stator": 0.16 } }
+          ],
+          "storers": [ "solid_storer_1", "solid_storer_2" ]
 		},
         { "group": "items", "subgroup": "assembled", "id": "automated_wiring", "type": "item", "stack": 50,
  		  "purchase": { "time": 1, "costs": {  } }
@@ -577,6 +633,9 @@
  		  "purchase": { "time": 1, "costs": {  } }
 		},
         { "group": "items", "subgroup": "converted", "id": "excited_photonic_matter", "type": "item", "stack": 400,
+ 		  "purchase": { "time": 1, "costs": {  } }
+		},
+        { "group": "items", "subgroup": "converted", "id": "ficsite_ingot", "type": "item", "stack": 100,
  		  "purchase": { "time": 1, "costs": {  } }
 		},
 
