@@ -574,7 +574,7 @@
 
                         <h4 class="text-xs italic text-neutral-500">{{ gameStore.t('labels.requirements') }}</h4>
 
-						<UButton v-for="(req, id) in selectedItem.requires" :key="id" color="neutral" variant="soft" size="sm" class="justify-between gap-4"
+						<UButton v-for="(req, id) in selectedItem.requirement" :key="id" color="neutral" variant="soft" size="sm" class="justify-between gap-4"
 							@click="openItemModal(gameStore.getItemById(id))">
 
 							<div class="flex items-center space-x-2">

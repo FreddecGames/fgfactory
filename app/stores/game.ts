@@ -46,7 +46,7 @@ export interface Item {
     stack?: number
     initialQuantity?: number
 	energy?: Energy
-    requires?: {}
+    requirement?: {}
     purchase?: Purchase
     recipes?: Recipe[]
     storers?: string[]
@@ -303,22 +303,40 @@ export const useGameStore = defineStore('game', () => {
 					if (!item.purchase.output) item.purchase.output = 1
 				}
 
-                if (item.recipes) {
+                if (item.machines) {
 
-					item.recipes.forEach(recipe => {
+					item.recipes = []
 
-						isRecipeUnlocked(recipe)
+					item.machines.forEach(machineId => {
 
-						recipe.output = { id:item.id, prod:recipe.output }
+						if (machineId === 'manual') {
+							
+							item.purchase = {
+								'time': item.recipe.seconds,
+								'output': item.recipe.output,
+								'costs': item.recipe.inputs
+							}
+						}
+						else {
 
-						let machineItem = getItemById(recipe.machineId)
-						if (machineItem.energy) {
+							let recipe = { 'machineId':machineId, 'output':{}, 'inputs':{} }
+							recipe.output = { id:item.id, prod:(item.recipe.output / item.recipe.seconds) }
 
-							if (!recipe.inputs) recipe.inputs = {}
+							if (item.recipe.inputs)
+								for (const [id, prod] of Object.entries(item.recipe.inputs)) {
+									recipe.inputs[id] = prod / item.recipe.seconds
+								}
 
-							recipe.inputs[machineItem.energy.id] = machineItem.energy.prod
+							let machineItem = getItemById(machineId)
+							if (machineItem.energy) recipe.inputs[machineItem.energy.id] = machineItem.energy.prod
+							
+							isRecipeUnlocked(recipe)
+
+							item.recipes.push(recipe)
 						}
 					})
+
+					if (item.recipes.length <= 0) item.recipes = null
 				}
 
                 if (item.storers) {
@@ -556,11 +574,9 @@ export const useGameStore = defineStore('game', () => {
 
     function isItemUnlocked(item: Item): boolean {
 
-		return true
-
         if (permanentlyUnlocked.value.includes(item.id)) return true
 
-        if (!item.requires) {
+        if (!item.requirement) {
 
             if (!permanentlyUnlocked.value.includes(item.id))
                 permanentlyUnlocked.value.push(item.id)
@@ -570,7 +586,7 @@ export const useGameStore = defineStore('game', () => {
 
         let requirementsMet = true
 		
-        for (const [id, req] of Object.entries(item.requires))
+        for (const [id, req] of Object.entries(item.requirement))
 			if (getItemStock(id) < req) {
 				requirementsMet = false;
 				break;
@@ -601,8 +617,6 @@ export const useGameStore = defineStore('game', () => {
 
     function isRecipeUnlocked(recipe: any): boolean {
 
-		return true
-
         const machineItem = items.value.find(item => item.id === recipe.machineId)
         if (!isItemUnlocked(machineItem)) return false
 
@@ -621,8 +635,6 @@ export const useGameStore = defineStore('game', () => {
     }
 
     function isStorageUnlocked(storage: any): boolean {
-
-		return true
 
         const storerItem = items.value.find(item => item.id === storage.storerId)
         if (!isItemUnlocked(storerItem)) return false
