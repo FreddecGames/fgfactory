@@ -359,7 +359,7 @@
 								<UIcon v-else name="i-lucide-lock" class="w-6 h-6 text-neutral-600" />
 
 								<UBadge v-if="gameStore.hasNewUnlock(item.id)" size="xs" color="primary" variant="solid"
-									class="absolute -top-0.5 -right-0.5 z-10">
+									class="absolute -top-0.5 -left-0.5 z-10">
 									<UIcon name="i-lucide-sparkles" class="w-2 h-2" />
 								</UBadge>
 								
