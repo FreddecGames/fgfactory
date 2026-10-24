@@ -1,6 +1,11 @@
 {
     "title": "FG Factory",
 
+    "scenarios":{
+		"satisfactory": "Satisfactory",
+		"alchemy": "Alchemy"
+	},
+
     "errors": {
         "title": "Loading Error",
         "fetch_failed": "Failed to load data files.",
