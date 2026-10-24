@@ -1,22 +1,23 @@
+// app/utils/gameEngine.ts
 import { BLUEPRINTS } from './blueprints'
 
-/**
- * Calcule l'avancement de la production de toutes les machines pour un tick donné.
- * Cette fonction traite les données brutes sans surcharge réactive.
- */
-export function processGameTick(state: { factories: Record<string, any> }, deltaTime: number) {
+export function processGameTick(state: { factories: Record<string, any>, inventory: Record<string, number> }, deltaTime: number) {
   for (const id in state.factories) {
     const factory = state.factories[id]
-    if (!factory.currentRecipeId || factory.status === 'STANDBY') continue
+    
+    // Sécurité : s'assurer qu'une recette est bien sélectionnée
+    if (!factory.currentRecipeId) continue
 
     const recipe = BLUEPRINTS.recipes[factory.currentRecipeId as keyof typeof BLUEPRINTS.recipes]
     if (!recipe) continue
 
-    // 1. Gestion des entrées / Vérification des ressources du buffer
+    // 1. GESTION DES MACHINES DE TYPE SOURCE (Ex: Miner sans intrant)
     let canRun = true
-    for (const input of recipe.inputs) {
-      if ((factory.bufferIn[input.itemId] || 0) < input.amount) {
-        canRun = false
+    if (recipe.inputs && recipe.inputs.length > 0) {
+      for (const input of recipe.inputs) {
+        if ((factory.bufferIn[input.itemId] || 0) < input.amount) {
+          canRun = false
+        }
       }
     }
 
@@ -25,21 +26,34 @@ export function processGameTick(state: { factories: Record<string, any> }, delta
       continue
     }
 
-    // 2. Avancement du travail
+    // 2. AVANCEMENT DE LA PRODUCTION
     factory.status = 'OPERATIONAL'
     factory.progress += deltaTime / recipe.duration
 
-    // 3. Fin de cycle : Consommation et production interne
+    // 3. ENREGISTREMENT EN FIN DE CYCLE
     if (factory.progress >= 1) {
-      // Consomme le buffer d'entrée
-      for (const input of recipe.inputs) {
-        factory.bufferIn[input.itemId] -= input.amount
+      // Consommation des intrants si existants
+      if (recipe.inputs && recipe.inputs.length > 0) {
+        for (const input of recipe.inputs) {
+          factory.bufferIn[input.itemId] -= input.amount
+        }
       }
-      // Produit dans le buffer de sortie
-      for (const output of recipe.outputs) {
-        factory.bufferOut[output.itemId] = (factory.bufferOut[output.itemId] || 0) + output.amount
+
+      // SOLUTION LOGIQUE TEMPORAIRE :
+      // Si c'est un Miner, on envoie DIRECTEMENT dans l'inventaire global du joueur 
+      // pour que ça s'affiche sur la page /inventory.
+      if (factory.buildingId === 'miner') {
+        for (const output of recipe.outputs) {
+          state.inventory[output.itemId] = (state.inventory[output.itemId] || 0) + output.amount
+        }
+      } else {
+        // Pour les autres machines (Smelter), on stocke dans le bufferOut local
+        for (const output of recipe.outputs) {
+          factory.bufferOut[output.itemId] = (factory.bufferOut[output.itemId] || 0) + output.amount
+        }
       }
-      factory.progress = 0 // Réinitialisation du cycle
+
+      factory.progress = 0 // Réinitialisation pour le cycle suivant
     }
   }
 }

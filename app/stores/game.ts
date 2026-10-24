@@ -34,7 +34,7 @@ export const useGameStore = defineStore('game', {
         buildingId: 'miner',
         currentRecipeId: 'iron_ore_mining',
         progress: 0,
-        status: 'STANDBY',
+        status: 'OPERATIONAL',
         bufferIn: {},
         bufferOut: {},
       }

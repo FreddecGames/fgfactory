@@ -4,35 +4,34 @@ import { computed } from 'vue'
 import { BLUEPRINTS } from '~/utils/blueprints'
 import { useGameStore } from '~/stores/game'
 
-// Initialisation du store Pinia
 const gameStore = useGameStore()
 
-// 1. Préparation des données pour le tableau des stocks (UTable)
-// Transforme le dictionnaire de l'inventaire en un tableau d'objets lisible par le composant
+// 1. Les données passées à la table
 const inventoryRows = computed(() => {
   return Object.entries(gameStore.inventory).map(([itemId, amount]) => {
     const itemBlueprint = BLUEPRINTS.items[itemId as keyof typeof BLUEPRINTS.items]
     return {
       id: itemId,
       name: itemBlueprint?.name || itemId,
-      quantity: amount
+      quantity: amount // Cette propriété sera lue par accessorKey
     }
   })
 })
 
-// Définition des colonnes du tableau Nuxt UI
+// 2. Déclaration stricte des colonnes selon les spécifications Nuxt UI v3
 const columns = [
-  { key: 'name', label: 'Ressource' },
-  { key: 'quantity', label: 'Quantité en Stock', align: 'right' as const }
+  { 
+    id: 'name', 
+    accessorKey: 'name', 
+    header: 'Ressource' 
+  },
+  { 
+    id: 'quantity', 
+    accessorKey: 'quantity', 
+    header: 'Quantité en Stock'
+  }
 ]
 
-// 2. Filtrer les recettes qui peuvent être fabriquées manuellement
-// (Dans Factorio, certaines recettes complexes nécessitent obligatoirement une machine)
-const manualRecipes = computed(() => {
-  return Object.values(BLUEPRINTS.recipes)
-})
-
-// Helper pour récupérer proprement le nom d'un ingrédient depuis les blueprints
 const getItemName = (itemId: string) => {
   return BLUEPRINTS.items[itemId as keyof typeof BLUEPRINTS.items]?.name || itemId
 }
@@ -40,7 +39,6 @@ const getItemName = (itemId: string) => {
 
 <template>
   <div class="p-6 max-w-6xl mx-auto space-y-8">
-    <!-- En-tête de la page -->
     <div class="flex justify-between items-center border-b border-gray-700 pb-4">
       <div>
         <h1 class="text-3xl font-bold tracking-tight">Inventaire & Atelier</h1>
@@ -48,10 +46,9 @@ const getItemName = (itemId: string) => {
       </div>
     </div>
 
-    <!-- Grille principale à deux colonnes -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       
-      <!-- COLONNE GAUCHE : L'Entrepôt des stocks (Prend 5 colonnes sur 12) -->
+      <!-- COLONNE GAUCHE : L'Entrepôt des stocks -->
       <section class="lg:col-span-5 space-y-4">
         <h2 class="text-xl font-semibold text-white flex items-center gap-2">
           <UIcon name="i-heroicons-cube" class="text-primary-500" />
@@ -59,18 +56,24 @@ const getItemName = (itemId: string) => {
         </h2>
 
         <div class="border border-gray-800 rounded-xl bg-gray-900/20 overflow-hidden">
-          <UTable :rows="inventoryRows" :columns="columns" class="w-full">
-            <!-- Personnalisation de la colonne Quantité pour ajouter du style de terminal -->
-            <template #quantity-data="{ row }">
-              <span class="font-mono font-semibold" :class="row.quantity > 0 ? 'text-gray-200' : 'text-gray-600'">
-                {{ row.quantity.toLocaleString() }}
-              </span>
+          <!-- ⚠️ ATTENTION : Remplacement de :rows par :data en v3 -->
+          <UTable :data="inventoryRows" :columns="columns" class="w-full">
+            
+            <!-- ⚠️ ATTENTION : Le slot utilise désormais suffixe "-cell" au lieu de "-data" -->
+            <!-- On extrait la valeur brute directement depuis { cell } -->
+            <template #quantity-cell="{ cell }">
+              <div class="text-right font-mono font-semibold">
+                <span :class="Number(cell.getValue()) > 0 ? 'text-emerald-400' : 'text-gray-600'">
+                  {{ Number(cell.getValue()).toLocaleString() }}
+                </span>
+              </div>
             </template>
+
           </UTable>
         </div>
       </section>
 
-      <!-- COLONNE DROITE : L'Atelier d'Artisanat Manuel (Prend 7 colonnes sur 12) -->
+      <!-- COLONNE DROITE : L'Atelier d'Artisanat Manuel -->
       <section class="lg:col-span-7 space-y-4">
         <h2 class="text-xl font-semibold text-white flex items-center gap-2">
           <UIcon name="i-heroicons-hammer" class="text-primary-500" />
@@ -79,17 +82,15 @@ const getItemName = (itemId: string) => {
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <UCard 
-            v-for="recipe in manualRecipes" 
+            v-for="recipe in Object.values(BLUEPRINTS.recipes)" 
             :key="recipe.id"
             class="bg-gray-900 border-gray-800 hover:border-gray-700 transition-colors flex flex-col justify-between"
           >
-            <!-- Nom de l'objet à fabriquer -->
             <template #header>
               <h3 class="font-semibold text-sm text-white">{{ recipe.name }}</h3>
               <p class="text-xs text-gray-500 mt-0.5">Temps requis : {{ recipe.duration }}s</p>
             </template>
 
-            <!-- Liste des ingrédients nécessaires -->
             <div class="space-y-2 py-1">
               <span class="text-xs font-medium text-gray-400">Coût de fabrication :</span>
               
@@ -113,7 +114,6 @@ const getItemName = (itemId: string) => {
               </p>
             </div>
 
-            <!-- Bouton d'action pour fabriquer -->
             <template #footer>
               <UButton
                 :disabled="!gameStore.canCraftManually(recipe.id)"
