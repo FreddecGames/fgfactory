@@ -587,11 +587,14 @@ export const useGameStore = defineStore('game', {
 
 			// Manual crafting
 
-			this.manuals.filter(m => m.isProcessing).forEach(manual => {
+			for (const manual of this.manuals) {
+				
+				if (!manual.isProcessing) continue
+
 				if (!manual.queueCount || manual.queueCount <= 0) {
 					manual.isProcessing = false
 					manual.progressSeconds = 0
-					return
+					continue
 				}
 
 				manual.progressSeconds += deltaSeconds
@@ -609,27 +612,27 @@ export const useGameStore = defineStore('game', {
 					manual.progressSeconds = 0
 					manual.queueCount = 0
 				}
-			})
+			}
 
 			// Logistic links
 
-			this.links.forEach((link: any) => {
+			for (const link of this.links) {
 
 				const item = this.itemMap[link.sourceItemId]
-				if (!item || item.count <= 0) return
+				if (!item || item.count <= 0) continue
 
 				const targetProd = this.prodMap[link.targetProdId]
-				if (!targetProd) return
+				if (!targetProd) continue
 
 				const targetProdInputMap = this.prodInputMap[link.targetProdId]
 				const targetProdInput = targetProdInputMap ? targetProdInputMap.get(link.targetProdInputId) : undefined
-				if (!targetProdInput) return
+				if (!targetProdInput) continue
 
 				const targetProdInputSpace = targetProdInput.bufferMax - targetProdInput.bufferCount
-				if (targetProdInputSpace <= 0) return
+				if (targetProdInputSpace <= 0) continue
 
 				const maxToTransfer = link.rate * deltaSeconds
-				let countToTransfer = Math.min(maxToTransfer, item.count, targetProdInputSpace)
+				const countToTransfer = Math.min(maxToTransfer, item.count, targetProdInputSpace)
 
 				if (countToTransfer > 0) {
 
@@ -638,53 +641,49 @@ export const useGameStore = defineStore('game', {
 
 					targetProdInput.bufferCount += countToTransfer
 				}
-			})
+			}
 
 			// Production lines
 
-			if (this.prods.length === 0) return
-
-			this.prods.forEach(prod => {
+			for (const prod of this.prods) {
 				
 				// Waiting production lines
 
 				if (!prod.isProcessing) {
 
-					if (!prod.assignedCount || prod.assignedCount <= 0) return
+					if (!prod.assignedCount || prod.assignedCount <= 0) continue
 
 					let runMachineCount = prod.assignedCount
 
-					prod.inputs.forEach((input: any) => {
-
-						if (input.rate <= 0) return
+					for (const input of prod.inputs) {
+						if (input.rate <= 0) continue
 
 						const inputMachineCount = Math.floor(input.bufferCount / input.rate)
 						runMachineCount = Math.min(runMachineCount, inputMachineCount)
-					})
+					}
 
-					prod.outputs.forEach((output: any) => {
-
-						if (output.rate <= 0) return
+					for (const output of prod.outputs) {
+						if (output.rate <= 0) continue
 
 						const outputItem = this.itemMap[output.id]
 						if (!outputItem) {
 							runMachineCount = 0
-							return
+							continue
 						}
 
 						const outputSpace = outputItem.max - outputItem.count
 						const outputMachineCount = Math.floor(outputSpace / output.rate)
 						runMachineCount = Math.min(runMachineCount, outputMachineCount)
-					})
+					}
 
 					if (runMachineCount >= 1) {
 						
 						prod.runMachineCount = runMachineCount
 
-						prod.inputs.forEach((input: any) => {
+						for (const input of prod.inputs) {
 							input.bufferCount -= input.rate * prod.runMachineCount
 							if (input.bufferCount < 0) input.bufferCount = 0
-						})
+						}
 
 						prod.isProcessing = true
 						prod.progressSeconds = 0
@@ -700,21 +699,23 @@ export const useGameStore = defineStore('game', {
 
 						let canDeliver = true
 
-						prod.outputs.forEach((output: any) => {
+						for (const output of prod.outputs) {
 							const outputItem = this.itemMap[output.id]
-							if (!outputItem || (outputItem.max - outputItem.count) < (output.rate * prod.runMachineCount))
+							if (!outputItem || (outputItem.max - outputItem.count) < (output.rate * prod.runMachineCount)) {
 								canDeliver = false
-						})
+								break
+							}
+						}
 
 						if (canDeliver) {
 
-							prod.outputs.forEach((output: any) => {
+							for (const output of prod.outputs) {
 								const outputItem = this.itemMap[output.id]
 								if (outputItem) {
 									outputItem.count += output.rate * prod.runMachineCount
 									if (outputItem.count > outputItem.max) outputItem.count = outputItem.max
 								}
-							})
+							}
 
 							prod.isProcessing = false
 							prod.progressSeconds = 0
@@ -726,7 +727,7 @@ export const useGameStore = defineStore('game', {
 						}
 					}
 				}
-			})
+			}
 
 			// Check victory conditions
 
