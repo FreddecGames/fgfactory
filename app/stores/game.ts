@@ -395,8 +395,8 @@ export const useGameStore = defineStore('game', {
 								progressSeconds: 0,
 								isProcessing: false,
 								queueCount: 0,
-								outputs: recipeData.outputs,
-								inputs: recipeData.inputs,
+								outputs: recipeOutputs,
+								inputs: recipeInputs,
 							})
 						}
 						else {
@@ -584,14 +584,19 @@ export const useGameStore = defineStore('game', {
 			// Manual crafting
 
 			this.manuals.filter(m => m.isProcessing).forEach(manual => {
+				if (!manual.queueCount || manual.queueCount <= 0) {
+					manual.isProcessing = false
+					manual.progressSeconds = 0
+					return
+				}
 
 				manual.progressSeconds += deltaSeconds
 				if (manual.progressSeconds >= (manual.durationSeconds * manual.queueCount)) {
 
-					manual.outputs.forEach((outputId, rate) => {
-						const outputItem = this.itemMap[outputId]
+					manual.outputs.forEach((output: any) => {
+						const outputItem = this.itemMap[output.id]
 						if (outputItem) {
-							outputItem.count += rate * manual.queueCount
+							outputItem.count += output.rate * manual.queueCount
 							if (outputItem.count > outputItem.max) outputItem.count = outputItem.max
 						}
 					})
