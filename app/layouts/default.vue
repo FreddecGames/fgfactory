@@ -213,12 +213,16 @@
 
 						<div class="flex items-center gap-3">
 
-							<UButton color="primary" variant="ghost" icon="i-lucide-settings" square size="md"
-								@click="isOptionsOpen = true" />
+							<UTooltip :text="$t('options.title')">
+								<UButton color="primary" variant="ghost" icon="i-lucide-settings" square size="md"
+									@click="isOptionsOpen = true" />
+							</UTooltip>
 
-							<UButton color="primary" variant="ghost" icon="i-lucide-settings-2" square size="md"
-								@click="isScenariosOpen = true" />
-						
+							<UTooltip :text="$t('scenarios.title')">
+								<UButton color="primary" variant="ghost" icon="i-lucide-settings-2" square size="md"
+									@click="isScenariosOpen = true" />
+							</UTooltip>
+
 						</div>
 
 					</header>
@@ -232,7 +236,7 @@
 
 			<!-- Page Content -->
 			<div class="flex-1 flex flex-col">
-				<UContainer class="pt-[84px] flex-1 sm:px-3 lg:px-3 max-w-3xl mx-auto bg-neutral-900/70 px-3">
+				<UContainer class="pt-[84px] flex-1 sm:px-3 lg:px-3 max-w-3xl mx-auto bg-neutral-900/70 px-3 flex flex-col space-y-6">
 
 					<slot />
 
