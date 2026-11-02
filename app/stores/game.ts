@@ -36,6 +36,7 @@ export const useGameStore = defineStore('game', {
 		
 		itemMap: {} as Record<string, any>,
 		prodMap: {} as Record<string, any>,
+		prodInputMap: {} as Record<string, Map<string, any>>,
 	}),
 
 	getters: {
@@ -529,6 +530,9 @@ export const useGameStore = defineStore('game', {
 			this.prodMap = {}
 			this.prods.forEach(prod => { this.prodMap[prod.id] = prod })
 
+			this.prodInputMap = {}
+			this.prods.forEach(prod => { this.prodInputMap[prod.id] = new Map(prod.inputs.map((input: any) => [input.id, input])) })
+
 			// Offline gains
 
 			if (this.lastSaveDate > 0) this.processOfflineProgress()
@@ -617,7 +621,8 @@ export const useGameStore = defineStore('game', {
 				const targetProd = this.prodMap[link.targetProdId]
 				if (!targetProd) return
 
-				const targetProdInput = targetProd.inputs.find((input: any) => input.id === link.targetProdInputId)
+				const targetProdInputMap = this.prodInputMap[link.targetProdId]
+				const targetProdInput = targetProdInputMap ? targetProdInputMap.get(link.targetProdInputId) : undefined
 				if (!targetProdInput) return
 
 				const targetProdInputSpace = targetProdInput.bufferMax - targetProdInput.bufferCount
