@@ -12,10 +12,24 @@
 
 	const { locales, setLocale, localeProperties } = useI18n()
 
-	let animationFrameId: number
+	let animationFrameId: number | null = null
 	let lastTimestamp = 0
 
+	const scheduleNextTick = () => {
+
+		if (animationFrameId !== null) cancelAnimationFrame(animationFrameId)
+		animationFrameId = requestAnimationFrame(runGameLoop)
+	}
+
 	const runGameLoop = (timestamp: number) => {
+
+		if (gameStore.isPaused || gameStore.items.length === 0) {
+
+			lastTimestamp = 0
+			animationFrameId = null
+			
+			return
+		}
 
 		if (!lastTimestamp) lastTimestamp = timestamp
 
@@ -26,7 +40,7 @@
 
 		gameStore.processGameTick(deltaSeconds)
 
-		animationFrameId = requestAnimationFrame(runGameLoop)
+		scheduleNextTick()
 	}
 
 	const activeTab = computed(() => {
@@ -54,6 +68,12 @@
 	const isLoading = ref<boolean>(true)
 	const loadingError = ref<string | null>(null)
 
+	watch(() => gameStore.isPaused, (isPaused) => {
+		if (!isPaused && animationFrameId === null) {
+			scheduleNextTick()
+		}
+	})
+
 	onMounted(async () => {
 
 		isLoading.value = true
@@ -63,7 +83,7 @@
 
 			await gameStore.loadLocalData()
 		
-			animationFrameId = requestAnimationFrame(runGameLoop)
+			scheduleNextTick()
 
 			gameStore.startAutoSave(30000)
 		}
