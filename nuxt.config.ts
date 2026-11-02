@@ -18,6 +18,10 @@ export default defineNuxtConfig({
         }
     },
 
+	routeRules: {
+		'/': { redirect: { to: '/missions', statusCode: 301 } }
+	},
+
 	i18n: {
 		locales: [
 			{ code: 'en', file: 'en.json' },

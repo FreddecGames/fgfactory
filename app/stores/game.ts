@@ -5,6 +5,7 @@ import { defineStore } from 'pinia'
 const LOCAL_DATA_NAME = 'fgfactory_save'
 
 const AVAILABLE_SCENARIOS = [
+
 	{ id: "satisfactory", name: "scenarios.satisfactory" },
 	{ id: "alchemy", name: "scenarios.alchemy" },
 ]
@@ -17,11 +18,21 @@ export const useGameStore = defineStore('game', {
 		saveIntervalId: null as ReturnType<typeof setInterval> | null,
 
 		currentScenarioId: AVAILABLE_SCENARIOS[0].id as string | null,
+		totalPlayTime: 0,
+		isPaused: false,
+
+		winConditions: null as Record<string, number> | null,
+		hasWon: false,
 
 		items: [] as any[],
+		storers: [] as any[],
+		machines: [] as any[],
+		missions: [] as any[],
+		conveyors: [] as any[],
+
+		links: [] as any[],
 		prods: [] as any[],
 		manuals: [] as any[],
-		machines: [] as any[],
 		
 		itemMap: {} as Record<string, any>,
 		prodMap: {} as Record<string, any>,
@@ -65,16 +76,43 @@ export const useGameStore = defineStore('game', {
 			const localData = {
 
 				lastSaveDate: this.lastSaveDate,
+				hasWon: this.hasWon,
+
 				currentScenarioId: this.currentScenarioId,
+				totalPlayTime: this.totalPlayTime,
+				isPaused: this.isPaused,
 
 				items: this.items.map(i => ({
 					id: i.id,
 					count: i.count
 				})),
 
+				links: this.links.map((link: any) => ({
+					sourceItemId: link.sourceItemId,
+					targetProdId: link.targetProdId,
+					targetProdInputId: link.targetProdInputId,
+					assignedCount: link.assignedCount || 0,
+					rate: link.rate || 0
+				})),
+
+				storers: this.storers.map(s => ({
+					id: s.id,
+					count: s.count
+				})),
+
 				machines: this.machines.map(m => ({
 					id: m.id,
 					count: m.count
+				})),
+
+				missions: this.missions.map(m => ({
+					id: m.id,
+					count: m.count
+				})),
+
+				conveyors: this.conveyors.map(c => ({
+					id: c.id,
+					count: c.count
 				})),
 
 				prods: this.prods.map(p => ({
@@ -137,6 +175,36 @@ export const useGameStore = defineStore('game', {
 			window.location.reload()
 		},
 
+		resetLocalData() {
+
+			if (!import.meta.client) return
+
+			this.stopAutoSave()
+
+			this.lastSaveDate = 0
+
+			this.winConditions = null
+			this.hasWon = false
+
+			this.totalPlayTime = 0
+			this.isPaused = false
+
+			this.items = []
+			this.storers = []
+			this.machines = []
+			this.missions = []
+			this.conveyors = []
+
+			this.links = []
+			this.prods = []
+			this.manuals = []
+
+			const encryptedString = this.getEncryptedData()
+			localStorage.setItem(LOCAL_DATA_NAME, encryptedString)
+
+			window.location.reload()
+		},
+
 		async importLocalData(data: string): Promise<boolean> {
 
 			if (!data || data.trim() === '') return false
@@ -149,6 +217,37 @@ export const useGameStore = defineStore('game', {
 			window.location.reload()
 
 			return true
+		},
+
+		async switchScenario(newScenarioId: string) {
+
+			if (!import.meta.client) return
+
+			this.stopAutoSave()
+
+			this.lastSaveDate = 0
+
+			this.winConditions = null
+			this.hasWon = false
+			
+			this.currentScenarioId = newScenarioId
+			this.totalPlayTime = 0
+			this.isPaused = false
+
+			this.items = []
+			this.storers = []
+			this.machines = []
+			this.missions = []
+			this.conveyors = []
+
+			this.links = []
+			this.prods = []
+			this.manuals = []
+
+			const encryptedString = this.getEncryptedData()
+			localStorage.setItem(LOCAL_DATA_NAME, encryptedString)
+
+			window.location.reload()
 		},
 
 		async loadLocalData() {
@@ -169,6 +268,10 @@ export const useGameStore = defineStore('game', {
 				fetch(`/scenarios/${this.currentScenarioId}/data.json`).then(response => response.json())
 			])
 
+			// Victory conditions
+
+			this.winConditions = scenarioData && scenarioData.winConditions ? scenarioData.winConditions : null	
+
 			// Items
 
 			this.items = []
@@ -181,7 +284,21 @@ export const useGameStore = defineStore('game', {
 						group: itemData.group,
 						max: itemData.stack || Infinity,
 						count: itemData.initialCount || 0,
-						links: [] 
+					})
+				})
+			}
+
+			// Storers
+
+			this.storers = []
+			if (scenarioData && scenarioData.storers) {
+				scenarioData.storers.forEach((storerData: any) => {
+					this.storers.push({
+						id: storerData.id,
+						img: `/scenarios/${this.currentScenarioId}/img/${storerData.id}.png`,
+						name: 'storer_' + storerData.id,
+						group: storerData.group,
+						count: storerData.initialCount || 0,
 					})
 				})
 			}
@@ -201,8 +318,39 @@ export const useGameStore = defineStore('game', {
 				})
 			}
 
+			// Missions
+
+			this.missions = []
+			if (scenarioData && scenarioData.missions) {
+				scenarioData.missions.forEach((missionData: any) => {
+					this.missions.push({
+						id: missionData.id,
+						img: `/scenarios/${this.currentScenarioId}/img/${missionData.id}.png`,
+						name: 'mission_' + missionData.id,
+						group: missionData.group,
+						count: missionData.initialCount || 0,
+					})
+				})
+			}
+
+			// Conveyors
+
+			this.conveyors = []
+			if (scenarioData && scenarioData.conveyors) {
+				scenarioData.conveyors.forEach((conveyorData: any) => {
+					this.conveyors.push({
+						id: conveyorData.id,
+						img: `/scenarios/${this.currentScenarioId}/img/${conveyorData.id}.png`,
+						name: 'conveyor_' + conveyorData.id,
+						group: conveyorData.group,
+						count: conveyorData.initialCount || 0,
+					})
+				})
+			}
+
 			// Recipes
 
+			this.links = []
 			this.prods = []
 			this.manuals = []
 
@@ -235,7 +383,7 @@ export const useGameStore = defineStore('game', {
 
 					compatibleMachineIds.forEach((machineId: string) => {
 
-						if (machineId !== 'manual') {
+						if (machineId === 'manual') {
 
 							const uniqueManualId = `${recipeData.id}_manual`
 
@@ -268,11 +416,12 @@ export const useGameStore = defineStore('game', {
 							const uniqueLineId = `${recipeData.id}_${machineId}`
 
 							lineInputs.forEach((input: any) => {
-								const inputItem = this.items.find(i => i.id === input.id)
-								if (inputItem) {
-									inputItem.links.push({
+								if (this.items.some(item => item.id === input.id)) {
+									this.links.push({
+										sourceItemId: input.id,
 										targetProdId: uniqueLineId,
-										targetInputId: input.id,
+										targetProdInputId: input.id,
+										assignedCount: 0,
 										rate: 0,
 									})
 								}
@@ -302,8 +451,28 @@ export const useGameStore = defineStore('game', {
 			// Saved data
 
 			if (decryptedLocalData) {
+			
+				if (decryptedLocalData.totalPlayTime !== undefined) this.totalPlayTime = decryptedLocalData.totalPlayTime
+
+				if (decryptedLocalData.isPaused !== undefined) this.isPaused = decryptedLocalData.isPaused
+
+				if (decryptedLocalData.hasWon !== undefined) this.hasWon = decryptedLocalData.hasWon
 
 				if (decryptedLocalData.lastSaveDate !== undefined) this.lastSaveDate = decryptedLocalData.lastSaveDate
+
+				if (decryptedLocalData.links) {
+					decryptedLocalData.links.forEach((savedLink: any) => {
+						const link = this.links.find((candidate: any) =>
+							candidate.sourceItemId === savedLink.sourceItemId &&
+							candidate.targetProdId === savedLink.targetProdId &&
+							candidate.targetProdInputId === savedLink.targetProdInputId
+						)
+						if (link) {
+							link.assignedCount = savedLink.assignedCount ?? 0
+							link.rate = savedLink.rate ?? 0
+						}
+					})
+				}
 
 				if (decryptedLocalData.items) {
 					decryptedLocalData.items.forEach((savedItem: any) => {
@@ -384,9 +553,33 @@ export const useGameStore = defineStore('game', {
 
 		// Game tick
 
+		togglePause() {
+
+			this.isPaused = !this.isPaused
+		},
+
+		checkVictoryConditions() {
+
+			if (!this.winConditions || this.hasWon) return
+
+			let isVictorious = true
+			
+			for (const [id, condition] of Object.entries(this.winConditions))
+				if (this.itemMap[id] && this.itemMap[id].count < condition) {
+					isVictorious = false;
+					break;
+				}
+
+			if (isVictorious && !this.hasWon) this.hasWon = true
+		},
+
 		processGameTick(deltaSeconds: number) {
 
 			if (this.items.length === 0) return
+
+			if (this.isPaused) return
+
+			if (!this.hasWon) this.totalPlayTime += deltaSeconds
 
 			// Manual crafting
 
@@ -395,10 +588,10 @@ export const useGameStore = defineStore('game', {
 				manual.progressSeconds += deltaSeconds
 				if (manual.progressSeconds >= (manual.durationSeconds * manual.queueCount)) {
 
-					manual.outputs.forEach((output: any) => {
-						const outputItem = this.itemMap[output.id]
+					manual.outputs.forEach((outputId, rate) => {
+						const outputItem = this.itemMap[outputId]
 						if (outputItem) {
-							outputItem.count += output.rate * manual.queueCount
+							outputItem.count += rate * manual.queueCount
 							if (outputItem.count > outputItem.max) outputItem.count = outputItem.max
 						}
 					})
@@ -411,32 +604,30 @@ export const useGameStore = defineStore('game', {
 
 			// Logistic links
 
-			this.items.forEach(item => {
+			this.links.forEach((link: any) => {
 
-				if (!item.links || item.links.length === 0 || item.count <= 0) return
+				const item = this.itemMap[link.sourceItemId]
+				if (!item || item.count <= 0) return
 
-				item.links.forEach((link: any) => {
+				const targetProd = this.prodMap[link.targetProdId]
+				if (!targetProd) return
 
-					const targetProd = this.prodMap[link.targetProdId]
-					if (!targetProd) return
+				const targetProdInput = targetProd.inputs.find((input: any) => input.id === link.targetProdInputId)
+				if (!targetProdInput) return
 
-					const targetProdInput = this.prodMap[link.targetInputId]
-					if (!targetProdInput) return
+				const targetProdInputSpace = targetProdInput.bufferMax - targetProdInput.bufferCount
+				if (targetProdInputSpace <= 0) return
 
-					const targetProdInputSpace = targetProdInput.bufferMax - targetProdInput.bufferCount
-					if (targetProdInputSpace <= 0) return
+				const maxToTransfer = link.rate * deltaSeconds
+				let countToTransfer = Math.min(maxToTransfer, item.count, targetProdInputSpace)
 
-					const maxToTransfer = link.rate * deltaSeconds
-					let countToTransfer = Math.min(maxToTransfer, item.count, targetProdInputSpace)
+				if (countToTransfer > 0) {
 
-					if (countToTransfer > 0) {
+					item.count -= countToTransfer
+					if (item.count < 0) item.count = 0
 
-						item.count -= countToTransfer
-						if (item.count < 0) item.count = 0
-
-						targetProdInput.bufferCount += countToTransfer
-					}
-				})
+					targetProdInput.bufferCount += countToTransfer
+				}
 			})
 
 			// Production lines
@@ -526,6 +717,10 @@ export const useGameStore = defineStore('game', {
 					}
 				}
 			})
+
+			// Check victory conditions
+
+			this.checkVictoryConditions()
 		},
 	}
 })

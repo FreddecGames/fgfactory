@@ -1,12 +1,53 @@
 {
 	"gameName": "FG Factory",
 
+	"lang_en": "English",
+	"lang_fr": "Français",
+
+	"scenario_satisfactory": "Satisfactory",
+	"scenario_alchemy": "Alchemy",
+
 	"loading":{
 		"error": "Cannot load local data",
-		"error_button": "Wipe local data"
+		"error_button": "Wipe Local Data"
 	},
 
 	"tabs":{
-		"items": "Items"
+		"missions": "Missions",
+		"items": "Items",
+		"machines": "Machines"
+	},
+
+	"options":{
+		"title": "Options",
+		"language": "Language",
+		"local_storage": "Local data",
+		"wipe": "Wipe local data",
+		"wipe_confirm": "Are you sure you want to wipe your local data?",
+		"export": "Copy to clipboard",
+		"export_success": "Copied to clipboard",
+		"export_error": "Failed to copy to clipboard",
+		"import_title": "Import data",
+		"import": "Import your save",
+		"import_placeholder": "Paste your save here",
+		"import_error": "Failed to import your save",
+		"import_success": "Save imported successfully"
+	},
+
+	"scenarios":{
+		"title": "Scenarios",
+		"current": "Current Scenario",
+		"available": "Available Scenarios",
+		"reset_confirm": "Are you sure you want to reset the current scenario?"
+	},
+
+	"victory":{
+		"title": "Victory",
+		"message": "You have completed the scenario!",
+		"close": "Close"
+	},
+
+	"labels":{
+		"confirm": "Confirm"
 	}
 }
