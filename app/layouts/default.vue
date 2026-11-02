@@ -10,7 +10,71 @@
 	const gameStore = useGameStore()
 	const localePath = useLocalePath()
 
-	const { locales, setLocale, localeProperties } = useI18n()
+	const { locales, setLocale, locale, localeProperties, getLocaleMessage, setLocaleMessage } = useI18n()
+
+	type LocaleMessages = Record<string, unknown>
+
+	const baseLocaleMessages = new Map<string, LocaleMessages>()
+
+	let isScenarioLocalizationReady = false
+	let scenarioLocaleRequestId = 0
+
+	const mergeLocaleMessages = (base: LocaleMessages, scenario: LocaleMessages): LocaleMessages => {
+
+		const merged = { ...base }
+
+		for (const [key, scenarioValue] of Object.entries(scenario)) {
+
+			const baseValue = merged[key]
+
+			const canMergeNestedObjects =
+				baseValue !== null &&
+				typeof baseValue === 'object' &&
+				!Array.isArray(baseValue) &&
+				scenarioValue !== null &&
+				typeof scenarioValue === 'object' &&
+				!Array.isArray(scenarioValue)
+
+			merged[key] = canMergeNestedObjects
+				? mergeLocaleMessages(baseValue as LocaleMessages, scenarioValue as LocaleMessages)
+				: scenarioValue
+		}
+
+		return merged
+	}
+
+	const loadScenarioTranslations = async (scenarioId: string, localeCode: string) => {
+
+		const requestId = ++scenarioLocaleRequestId
+		let baseMessages = baseLocaleMessages.get(localeCode)
+
+		if (!baseMessages) {
+
+			baseMessages = getLocaleMessage(localeCode) as LocaleMessages
+			baseLocaleMessages.set(localeCode, baseMessages)
+		}
+
+		const response = await fetch(`/scenarios/${scenarioId}/locales/${localeCode}.json`)
+		if (requestId !== scenarioLocaleRequestId) return
+
+		if (response.status === 404) {
+
+			setLocaleMessage(localeCode, baseMessages)
+			return
+		}
+
+		if (!response.ok) {
+			throw new Error(`Failed to load scenario translations: ${response.status} ${response.statusText}`)
+		}
+
+		const scenarioMessages: unknown = await response.json()
+		if (!scenarioMessages || typeof scenarioMessages !== 'object' || Array.isArray(scenarioMessages))
+			throw new Error(`Invalid scenario translation file for locale "${localeCode}"`)
+
+		if (requestId !== scenarioLocaleRequestId) return
+
+		setLocaleMessage(localeCode, mergeLocaleMessages(baseMessages, scenarioMessages as LocaleMessages))
+	}
 
 	let animationFrameId: number | null = null
 	let lastTimestamp = 0
@@ -43,6 +107,11 @@
 		scheduleNextTick()
 	}
 
+	watch(() => gameStore.isPaused, (isPaused) => {
+
+		if (!isPaused && animationFrameId === null) scheduleNextTick()
+	})
+
 	const activeTab = computed(() => {
 
 		const pathSegments = route.path.split('/').filter(Boolean)
@@ -68,12 +137,6 @@
 	const isLoading = ref<boolean>(true)
 	const loadingError = ref<string | null>(null)
 
-	watch(() => gameStore.isPaused, (isPaused) => {
-		if (!isPaused && animationFrameId === null) {
-			scheduleNextTick()
-		}
-	})
-
 	onMounted(async () => {
 
 		isLoading.value = true
@@ -82,6 +145,9 @@
 		try {
 
 			await gameStore.loadLocalData()
+
+			await loadScenarioTranslations(gameStore.currentScenarioId, locale.value)
+			isScenarioLocalizationReady = true
 		
 			scheduleNextTick()
 
@@ -95,6 +161,21 @@
 		finally {
 
 			isLoading.value = false
+		}
+	})
+
+	watch([() => gameStore.currentScenarioId, locale], async ([scenarioId, localeCode]) => {
+
+		if (!isScenarioLocalizationReady) return
+
+		try {
+
+			await loadScenarioTranslations(scenarioId, localeCode)
+		}
+		catch (err: any) {
+
+			loadingError.value = err.message
+			console.error(err)
 		}
 	})
 
@@ -236,7 +317,7 @@
 
 			<!-- Page Content -->
 			<div class="flex-1 flex flex-col">
-				<UContainer class="pt-[84px] flex-1 sm:px-3 lg:px-3 max-w-3xl mx-auto bg-neutral-900/70 px-3 flex flex-col space-y-6">
+				<UContainer class="pt-[108px] pb-[48px] flex-1 sm:px-3 lg:px-3 max-w-3xl mx-auto bg-neutral-900/70 px-3 flex flex-col space-y-6">
 
 					<slot />
 
