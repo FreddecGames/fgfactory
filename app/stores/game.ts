@@ -16,6 +16,7 @@ export const useGameStore = defineStore('game', {
 
 		lastSaveDate: 0,
 		saveIntervalId: null as ReturnType<typeof setInterval> | null,
+		isRefreshing: false,
 
 		currentScenarioId: AVAILABLE_SCENARIOS[0].id as string | null,
 		totalPlayTime: 0,
@@ -33,6 +34,7 @@ export const useGameStore = defineStore('game', {
 		links: [] as any[],
 		prods: [] as any[],
 		manuals: [] as any[],
+		storages: [] as any[],
 		
 		itemMap: {} as Record<string, any>,
 		prodMap: {} as Record<string, any>,
@@ -93,7 +95,11 @@ export const useGameStore = defineStore('game', {
 					targetProdId: link.targetProdId,
 					targetProdInputId: link.targetProdInputId,
 					assignedCount: link.assignedCount || 0,
-					rate: link.rate || 0
+					rate: link.rate || 0,
+					conveyorAssignments: link.conveyorAssignments.map((assignment: any) => ({
+						conveyorId: assignment.conveyorId,
+						assignedCount: assignment.assignedCount || 0,
+					}))
 				})),
 
 				storers: this.storers.map(s => ({
@@ -131,6 +137,11 @@ export const useGameStore = defineStore('game', {
 					isProcessing: m.isProcessing || false,
 					queueCount: m.queueCount || 0
 				})),
+
+				storages: this.storages.map(s => ({
+					id: s.id,
+					assignedCount: s.assignedCount || 0,
+				}))
 			}
 
 			return this.encryptData(localData)
@@ -169,6 +180,7 @@ export const useGameStore = defineStore('game', {
 
 			if (!import.meta.client) return
 
+			this.isRefreshing = true
 			this.stopAutoSave()
 
 			localStorage.removeItem(LOCAL_DATA_NAME)
@@ -180,6 +192,7 @@ export const useGameStore = defineStore('game', {
 
 			if (!import.meta.client) return
 
+			this.isRefreshing = true
 			this.stopAutoSave()
 
 			this.lastSaveDate = 0
@@ -199,7 +212,8 @@ export const useGameStore = defineStore('game', {
 			this.links = []
 			this.prods = []
 			this.manuals = []
-
+			this.storages = []
+			
 			const encryptedString = this.getEncryptedData()
 			localStorage.setItem(LOCAL_DATA_NAME, encryptedString)
 
@@ -211,6 +225,7 @@ export const useGameStore = defineStore('game', {
 			if (!data || data.trim() === '') return false
 			if (!import.meta.client) return false
 
+			this.isRefreshing = true
 			this.stopAutoSave()
 
 			localStorage.setItem(LOCAL_DATA_NAME, data)
@@ -224,6 +239,7 @@ export const useGameStore = defineStore('game', {
 
 			if (!import.meta.client) return
 
+			this.isRefreshing = true
 			this.stopAutoSave()
 
 			this.lastSaveDate = 0
@@ -244,6 +260,7 @@ export const useGameStore = defineStore('game', {
 			this.links = []
 			this.prods = []
 			this.manuals = []
+			this.storages = []
 
 			const encryptedString = this.getEncryptedData()
 			localStorage.setItem(LOCAL_DATA_NAME, encryptedString)
@@ -283,8 +300,11 @@ export const useGameStore = defineStore('game', {
 						img: `/scenarios/${this.currentScenarioId}/img/${itemData.id}.png`,
 						name: 'item_' + itemData.id,
 						group: itemData.group,
+						baseMax: itemData.stack || Infinity,
 						max: itemData.stack || Infinity,
 						count: itemData.initialCount || 0,
+						storers: itemData.storers || [],
+						conveyors: itemData.conveyors || [],
 					})
 				})
 			}
@@ -292,7 +312,10 @@ export const useGameStore = defineStore('game', {
 			// Storers
 
 			this.storers = []
+			this.storages = []
+
 			if (scenarioData && scenarioData.storers) {
+
 				scenarioData.storers.forEach((storerData: any) => {
 					this.storers.push({
 						id: storerData.id,
@@ -301,6 +324,21 @@ export const useGameStore = defineStore('game', {
 						group: storerData.group,
 						count: storerData.initialCount || 0,
 					})
+				})
+
+				this.items.forEach(item => {
+					if (item.storers.length > 0) {
+						item.storers.forEach((storerId: string) => {
+							if (!this.storers.some(storer => storer.id === storerId)) return
+
+							this.storages.push({
+								id: `${item.id}_${storerId}`,
+								itemId: item.id,
+								storerId: storerId,
+								assignedCount: 0
+							})
+						})
+					}
 				})
 			}
 
@@ -345,6 +383,7 @@ export const useGameStore = defineStore('game', {
 						name: 'conveyor_' + conveyorData.id,
 						group: conveyorData.group,
 						count: conveyorData.initialCount || 0,
+						speed: conveyorData.speed || 0,
 					})
 				})
 			}
@@ -418,12 +457,16 @@ export const useGameStore = defineStore('game', {
 
 							lineInputs.forEach((input: any) => {
 								if (this.items.some(item => item.id === input.id)) {
+									const sourceItem = this.items.find(item => item.id === input.id)
 									this.links.push({
 										sourceItemId: input.id,
 										targetProdId: uniqueLineId,
 										targetProdInputId: input.id,
 										assignedCount: 0,
 										rate: 0,
+										conveyorAssignments: (sourceItem?.conveyors || [])
+											.filter((conveyorId: string) => this.conveyors.some(conveyor => conveyor.id === conveyorId))
+											.map((conveyorId: string) => ({ conveyorId, assignedCount: 0 })),
 									})
 								}
 							})
@@ -461,6 +504,13 @@ export const useGameStore = defineStore('game', {
 
 				if (decryptedLocalData.lastSaveDate !== undefined) this.lastSaveDate = decryptedLocalData.lastSaveDate
 
+				if (decryptedLocalData.conveyors) {
+					decryptedLocalData.conveyors.forEach((savedConveyor: any) => {
+						const conveyor = this.conveyors.find(c => c.id === savedConveyor.id)
+						if (conveyor) conveyor.count = savedConveyor.count ?? 0
+					})
+				}
+
 				if (decryptedLocalData.links) {
 					decryptedLocalData.links.forEach((savedLink: any) => {
 						const link = this.links.find((candidate: any) =>
@@ -469,8 +519,22 @@ export const useGameStore = defineStore('game', {
 							candidate.targetProdInputId === savedLink.targetProdInputId
 						)
 						if (link) {
-							link.assignedCount = savedLink.assignedCount ?? 0
-							link.rate = savedLink.rate ?? 0
+							if (savedLink.conveyorAssignments) {
+								savedLink.conveyorAssignments.forEach((savedAssignment: any) => {
+									const assignment = link.conveyorAssignments.find(
+										(candidate: any) => candidate.conveyorId === savedAssignment.conveyorId
+									)
+									if (!assignment) return
+
+									const requestedCount = Math.max(0, Math.floor(savedAssignment.assignedCount ?? 0))
+									assignment.assignedCount = Math.min(
+										requestedCount,
+										this.getAvailableConveyorCount(assignment.conveyorId)
+									)
+								})
+							}
+
+							this.updateLinkConveyorRate(link)
 						}
 					})
 				}
@@ -494,7 +558,8 @@ export const useGameStore = defineStore('game', {
 						const prod = this.prods.find(p => p.id === savedProd.id)
 						if (prod) {
 
-							prod.assignedCount = savedProd.assignedCount ?? 0
+							const requestedCount = Math.max(0, Math.floor(savedProd.assignedCount ?? 0))
+							prod.assignedCount = Math.min(requestedCount, this.getAvailableMachineCount(prod.machineId))
 							prod.progressSeconds = savedProd.progressSeconds ?? 0
 							prod.isProcessing = savedProd.isProcessing || false
 							prod.runMachineCount = savedProd.runMachineCount ?? 0
@@ -520,7 +585,26 @@ export const useGameStore = defineStore('game', {
 						}
 					})
 				}
+
+				if (decryptedLocalData.storers) {
+					decryptedLocalData.storers.forEach((savedStorer: any) => {
+						const storer = this.storers.find(s => s.id === savedStorer.id)
+						if (storer) storer.count = savedStorer.count ?? 0
+					})
+				}
+
+				if (decryptedLocalData.storages) {
+					decryptedLocalData.storages.forEach((savedStorage: any) => {
+						const storage = this.storages.find(s => s.id === savedStorage.id)
+						if (storage) {
+							const requestedCount = Math.max(0, Math.floor(savedStorage.assignedCount ?? 0))
+							storage.assignedCount = Math.min(requestedCount, this.getAvailableStorerCount(storage.storerId))
+						}
+					})
+				}
 			}
+
+			this.items.forEach(item => this.updateItemStorageCapacity(item.id))
 
 			// Util maps
 
@@ -732,6 +816,179 @@ export const useGameStore = defineStore('game', {
 			// Check victory conditions
 
 			this.checkVictoryConditions()
+		},
+
+		// Manual crafting actions
+
+		canStartManual(manual: any, count: number): boolean {
+
+			let result = true
+
+			for (const input of manual.inputs) {
+				if (input.rate <= 0) continue
+
+				const inputItem = this.itemMap[input.id]
+				if (inputItem.count < input.rate * count) {
+					result = false
+					break
+				}
+			}
+
+			for (const output of manual.outputs) {
+				if (output.rate <= 0) continue
+
+				const outputItem = this.itemMap[output.id]
+				if (!outputItem || (outputItem.max - outputItem.count) < (output.rate * count)) {
+					result = false
+					break
+				}
+			}
+
+			return result
+		},
+
+		startManual(manual: any, count: number): void {
+
+			for (const input of manual.inputs) {
+				if (input.rate <= 0) continue
+
+				const inputItem = this.itemMap[input.id]
+				inputItem.count -= input.rate * count
+			}
+
+			manual.queueCount = count
+			manual.isProcessing = true
+			manual.progressSeconds = 0
+		},
+
+		cancelManual(manual: any): void {
+
+			for (const input of manual.inputs) {
+				if (input.rate <= 0) continue
+
+				const inputItem = this.itemMap[input.id]
+				inputItem.count += input.rate * manual.queueCount
+			}
+
+			manual.queueCount = 0
+			manual.isProcessing = false
+			manual.progressSeconds = 0
+		},
+
+		getAvailableConveyorCount(conveyorId: string): number {
+
+			const conveyor = this.conveyors.find(candidate => candidate.id === conveyorId)
+			if (!conveyor) return 0
+
+			const assignedCount = this.links.reduce((total, link) =>
+				total + link.conveyorAssignments.reduce((linkTotal: number, assignment: any) =>
+					assignment.conveyorId === conveyorId ? linkTotal + assignment.assignedCount : linkTotal, 0), 0)
+
+			return Math.max(0, conveyor.count - assignedCount)
+		},
+
+		updateLinkConveyorRate(link: any): void {
+
+			let rate = 0
+			let assignedCount = 0
+
+			for (const assignment of link.conveyorAssignments) {
+				const conveyor = this.conveyors.find(candidate => candidate.id === assignment.conveyorId)
+				if (!conveyor) continue
+
+				assignedCount += assignment.assignedCount
+				rate += assignment.assignedCount * conveyor.speed
+			}
+
+			link.assignedCount = assignedCount
+			link.rate = rate
+		},
+
+		assignLinkConveyor(link: any, assignment: any): boolean {
+
+			if (this.getAvailableConveyorCount(assignment.conveyorId) <= 0) return false
+
+			assignment.assignedCount += 1
+			this.updateLinkConveyorRate(link)
+			return true
+		},
+
+		unassignLinkConveyor(link: any, assignment: any): boolean {
+
+			if (assignment.assignedCount <= 0) return false
+
+			assignment.assignedCount -= 1
+			this.updateLinkConveyorRate(link)
+			return true
+		},
+
+		getAvailableStorerCount(storerId: string): number {
+
+			const storer = this.storers.find(candidate => candidate.id === storerId)
+			if (!storer) return 0
+
+			const assignedCount = this.storages.reduce((total, storage) =>
+				storage.storerId === storerId ? total + storage.assignedCount : total, 0)
+
+			return Math.max(0, storer.count - assignedCount)
+		},
+
+		updateItemStorageCapacity(itemId: string): void {
+
+			const item = this.items.find(candidate => candidate.id === itemId)
+			if (!item) return
+
+			const assignedCount = this.storages.reduce((total, storage) =>
+				storage.itemId === itemId ? total + storage.assignedCount : total, 0)
+
+			item.max = Number.isFinite(item.baseMax)
+				? item.baseMax * (1 + assignedCount)
+				: item.baseMax
+		},
+
+		assignStorageStorer(storage: any): boolean {
+
+			if (this.getAvailableStorerCount(storage.storerId) <= 0) return false
+
+			storage.assignedCount += 1
+			this.updateItemStorageCapacity(storage.itemId)
+			return true
+		},
+
+		unassignStorageStorer(storage: any): boolean {
+
+			if (storage.assignedCount <= 0) return false
+
+			storage.assignedCount -= 1
+			this.updateItemStorageCapacity(storage.itemId)
+			return true
+		},
+
+		getAvailableMachineCount(machineId: string): number {
+
+			const machine = this.machines.find(candidate => candidate.id === machineId)
+			if (!machine) return 0
+
+			const assignedCount = this.prods.reduce((total, prod) =>
+				prod.machineId === machineId ? total + prod.assignedCount : total, 0)
+
+			return Math.max(0, machine.count - assignedCount)
+		},
+
+		assignProductionMachine(prod: any): boolean {
+
+			if (this.getAvailableMachineCount(prod.machineId) <= 0) return false
+
+			prod.assignedCount += 1
+			return true
+		},
+
+		unassignProductionMachine(prod: any): boolean {
+
+			if (prod.assignedCount <= 0) return false
+
+			prod.assignedCount -= 1
+			return true
 		},
 	}
 })

@@ -117,7 +117,7 @@
 		const pathSegments = route.path.split('/').filter(Boolean)
 		const currentPage = pathSegments[pathSegments.length - 1]
 
-		return currentPage === 'missions' || currentPage === 'machines' || currentPage === 'items'
+		return currentPage === 'missions' || currentPage === 'machines' || currentPage === 'items' || currentPage === 'production'
 			? currentPage
 			: 'missions'
 	})
@@ -127,6 +127,7 @@
 		{ label:$t('tabs.missions'), value:'missions', icon:'i-lucide-target' },
 		{ label:$t('tabs.items'), value:'items', icon:'i-lucide-boxes' },
 		{ label:$t('tabs.machines'), value:'machines', icon:'i-lucide-wrench' },
+		{ label:$t('tabs.production'), value:'production', icon:'i-lucide-industry' },
 	]
 
 	const navigateToTab = (tab: string) => {
@@ -136,6 +137,12 @@
 
 	const isLoading = ref<boolean>(true)
 	const loadingError = ref<string | null>(null)
+		
+	let hasLoadedGame = false
+
+	const saveOnPageHide = () => {
+		if (hasLoadedGame && !gameStore.isRefreshing) gameStore.saveLocalData()
+	}
 
 	onMounted(async () => {
 
@@ -148,6 +155,10 @@
 
 			await loadScenarioTranslations(gameStore.currentScenarioId, locale.value)
 			isScenarioLocalizationReady = true
+
+			hasLoadedGame = true
+
+			window.addEventListener('pagehide', saveOnPageHide)
 		
 			scheduleNextTick()
 
@@ -180,6 +191,10 @@
 	})
 
 	onBeforeUnmount(() => {
+
+		window.removeEventListener('pagehide', saveOnPageHide)
+
+		saveOnPageHide()
 
 		gameStore.stopAutoSave()
 

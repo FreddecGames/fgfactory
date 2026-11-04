@@ -15,7 +15,20 @@
 	"tabs":{
 		"missions": "Missions",
 		"items": "Items",
-		"machines": "Machines"
+		"machines": "Machines",
+		"production": "Production"
+	},
+
+	"production":{
+		"noLines": "No production lines are available.",
+		"close": "Close",
+		"inputs": "Input buffers",
+		"noInputs": "This production line has no inputs.",
+		"machines": "Assigned machines",
+		"assigned": "Assigned",
+		"assignMachine": "Assign machine",
+		"unassignMachine": "Unassign machine",
+		"machineUnavailable": "The required machine is not available."
 	},
 
 	"options":{
@@ -45,6 +58,21 @@
 		"title": "Victory",
 		"message": "You have completed the scenario!",
 		"close": "Close"
+	},
+
+	"modalItem":{
+		"count": "Stock",
+		"manuals": "Manual crafting",
+		"noManuals": "No manual recipes produce this item.",
+		"storages": "Storage",
+		"noStorages": "No storage types are available for this item.",
+		"assignStorer": "Assign storer",
+		"unassignStorer": "Unassign storer",
+		"links": "Logistics links",
+		"noLinks": "No logistics links use this item.",
+		"noConveyors": "No compatible conveyors are configured for this item.",
+		"assignConveyor": "Assign conveyor",
+		"unassignConveyor": "Unassign conveyor"
 	},
 
 	"labels":{

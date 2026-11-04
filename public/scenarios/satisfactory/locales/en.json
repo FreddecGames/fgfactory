@@ -1,12 +1,14 @@
 {
-    "subgroups": {
+    "groups": {
 
         "onboarding": "Installation",
         "power": "Power",
         "industry": "Industry",
         "project": "Final Project",
+        "mining": "Mining",
+        "smelting": "Smelting",
 
-		"ore": "Ore",
+		"mined": "Extracted",
         "smelted": "Smelted",
         "founded": "Founded",
         "energy": "Energy",
