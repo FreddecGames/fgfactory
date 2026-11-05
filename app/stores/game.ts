@@ -736,16 +736,16 @@ export const useGameStore = defineStore('game', {
 						const outputItem = this.itemMap[output.id]
 
 						const outputSpace = outputItem.max - outputItem.count
-						const outputMachineCount = 1 + Math.floor(outputSpace / output.count)
+						const outputMachineCount = Math.floor(outputSpace / output.count)
 						runMachineCount = Math.min(runMachineCount, outputMachineCount)
 
-						for (const input of prod.inputs) {
+						for (const input of outputItem.inputs) {
 
 							if (input.count <= 0) continue
 
-							const itemInput = this.itemInputMap[output.id].get(input.id)
+							const prodInput = prod.inputs.find(i => i.id === input.id)
 
-							const inputMachineCount = Math.floor(itemInput.count / input.count)
+							const inputMachineCount = Math.floor(input.count / prodInput.count)
 							runMachineCount = Math.min(runMachineCount, inputMachineCount)
 						}
 					}
@@ -755,12 +755,15 @@ export const useGameStore = defineStore('game', {
 						prod.runMachineCount = runMachineCount
 
 						for (const output of prod.outputs) {
-							for (const input of prod.inputs) {
 
-								const itemInput = this.itemInputMap[output.id].get(input.id)
+							const outputItem = this.itemMap[output.id]
 
-								itemInput.count -= input.count * prod.runMachineCount
-								if (itemInput.count < 0) itemInput.count = 0
+							for (const input of outputItem.inputs) {
+
+								const prodInput = prod.inputs.find(i => i.id === input.id)
+
+								input.count -= prodInput * prod.runMachineCount
+								if (input.count < 0) input.count = 0
 							}
 						}
 
