@@ -99,7 +99,7 @@
 		const totalDuration = manual.seconds * manual.queueCount
 		if (!manual.isProcessing || totalDuration <= 0) return 0
 
-		return Math.min(100, Math.max(0, (manual.progressSeconds / totalDuration) * 100))
+		return Math.min(100, Math.max(0, ((totalDuration - manual.progressSeconds) / totalDuration) * 100))
 	}
 
 </script>
@@ -350,7 +350,20 @@
 			<!-- Item Manuals -->
 			<div v-if="selectedManuals.length > 0" class="flex flex-col space-y-2">
 
-				<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalItem.manuals') }}</h4>
+				<div class="flex items-center gap-2">
+
+					<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalItem.manuals') }}</h4>
+
+					<UFieldGroup size="xs">
+						<UButton v-for="count in selectedItem.manualCounts"
+							:variant="selectedItem.manualSelectedCount == count ? 'solid' : 'soft'"
+							:color="selectedItem.manualSelectedCount == count ? 'primary' : 'neutral'"
+							@click="selectedItem.manualSelectedCount = count">
+							<span class="text-xs">+{{ count }}</span>
+						</UButton>
+					</UFieldGroup>
+
+				</div>
 
 				<div class="flex flex-col gap-1">
 					<div v-for="manual in selectedManuals" :key="manual.id" class="rounded-md bg-neutral-800 p-2 flex items-center gap-2">
@@ -363,8 +376,8 @@
 
 									<UBadge size="xs" color="neutral" variant="subtle"
 										class="absolute -top-0.5 -right-0.5 z-10">
-										<span v-if="gameStore.itemCounts[input.id] >= input.count" class="text-success">{{ input.count.toFixed(0) }}</span>
-										<span v-else class="text-error">{{ input.count.toFixed(0) }}</span>
+										<span v-if="gameStore.itemCounts[input.id] >= input.count * selectedItem.manualSelectedCount" class="text-success">{{ input.count.toFixed(0) * selectedItem.manualSelectedCount }}</span>
+										<span v-else class="text-error">{{ input.count.toFixed(0) * selectedItem.manualSelectedCount }}</span>
 									</UBadge>
 
 								</div>								
@@ -376,15 +389,15 @@
 
 						<div class="w-24 flex flex-col items-end gap-1">
 							<span v-if="manual.isProcessing" class="text-end text-xs text-primary">{{ formatTime(manual.progressSeconds) }}</span>
-							<span v-else class="text-end text-xs text-muted">{{ formatTime(manual.seconds) }}</span>
+							<span v-else class="text-end text-xs text-muted">{{ formatTime(manual.seconds * selectedItem.manualSelectedCount) }}</span>
 							<UProgress :model-value="getManualProgress(manual)" size="sm" color="primary" class="flex-1" />
 						</div>
 						
 						<UButton v-if="manual.isProcessing" color="error" variant="subtle" icon="i-lucide-square" size="sm"
 							@click="gameStore.cancelManual(manual)" />
 						
-						<UButton v-else-if="gameStore.canStartManual(manual, 1)" color="primary" variant="subtle" icon="i-lucide-play" size="sm"
-							@click="gameStore.startManual(manual, 1)" />
+						<UButton v-else-if="gameStore.canStartManual(manual, selectedItem.manualSelectedCount)" color="primary" variant="subtle" icon="i-lucide-play" size="sm"
+							@click="gameStore.startManual(manual, selectedItem.manualSelectedCount)" />
 
 						<UButton v-else color="neutral" variant="subtle" icon="i-lucide-play" disabled  size="sm" />
 

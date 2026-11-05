@@ -142,7 +142,8 @@ export const useGameStore = defineStore('game', {
 				items: this.items.map(i => ({
 					id: i.id,
 					count: i.count,
-					inputs: i.inputs ? i.inputs.map((input: any) => ({ id: input.id, count: input.count || 0, })) : null
+					inputs: i.inputs ? i.inputs.map((input: any) => ({ id: input.id, count: input.count || 0, })) : null,
+					manualSelectedCount: i.manualSelectedCount,
 				})),
 
 				links: this.links.map((link: any) => ({
@@ -162,7 +163,7 @@ export const useGameStore = defineStore('game', {
 					id: m.id, 
 					progressSeconds: m.progressSeconds || 0,
 					isProcessing: m.isProcessing || false,
-					queueCount: m.queueCount || 0
+					queueCount: m.queueCount || 0,
 				})),
 
 				storages: this.storages.map(s => ({
@@ -296,6 +297,8 @@ export const useGameStore = defineStore('game', {
 			let decryptedLocalData: any = null
 			const rawLocalData = localStorage.getItem(LOCAL_DATA_NAME)
 			if (rawLocalData) decryptedLocalData = this.decryptData(rawLocalData)
+
+			console.log(decryptedLocalData)
 			
 			if (decryptedLocalData && decryptedLocalData.currentScenarioId !== undefined)
 				this.currentScenarioId = decryptedLocalData.currentScenarioId
@@ -331,6 +334,8 @@ export const useGameStore = defineStore('game', {
 						storers: itemData.storers || [],
 						conveyors: itemData.conveyors || [],
 						requirement: itemData.requirement || {},
+						manualCounts: [ 1, 5, 10 ],
+						manualCountSelected: 1,
 					})
 				})
 			}
@@ -484,12 +489,15 @@ export const useGameStore = defineStore('game', {
 
 							prodInputs.forEach(prodInput => {
 
-								const itemInput = outputItem.inputs.find(candidate => candidate.id === prodInput.id)
-								if (!itemInput) {
+								const outputItemInput = outputItem.inputs.find(candidate => candidate.id === prodInput.id)
+								if (!outputItemInput) {
 
 									outputItem.inputs.push({ id:prodInput.id, img:prodInput.img, count:0 })
 
-									outputItem.conveyors.forEach(conveyorId => {
+									const inputItem = this.items.find(candidate => candidate.id === prodInput.id)
+									if (!inputItem) return
+
+									inputItem.conveyors.forEach(conveyorId => {
 
 										const conveyorItem = this.items.find(i => i.id === conveyorId)
 										
@@ -531,6 +539,7 @@ export const useGameStore = defineStore('game', {
 						if (item) {
 
 							item.count = savedItem.count ?? 0
+							item.manualSelectedCount = savedItem.manualSelectedCount ?? item.manualCounts[0]
 
 							if (Array.isArray(savedItem.inputs)) {
 								savedItem.inputs.forEach((savedInput: any) => {
@@ -672,8 +681,8 @@ export const useGameStore = defineStore('game', {
 					continue
 				}
 
-				manual.progressSeconds += deltaSeconds
-				if (manual.progressSeconds >= (manual.seconds * manual.queueCount)) {
+				manual.progressSeconds -= deltaSeconds
+				if (manual.progressSeconds <= 0) {
 
 					const outputItem = this.itemMap[manual.output.id]
 					if (outputItem) {
@@ -838,7 +847,7 @@ export const useGameStore = defineStore('game', {
 
 			manual.queueCount = count
 			manual.isProcessing = true
-			manual.progressSeconds = 0
+			manual.progressSeconds = manual.seconds * count
 
 			return true
 		},
