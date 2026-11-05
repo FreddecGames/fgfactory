@@ -551,6 +551,11 @@ export const useGameStore = defineStore('game', {
 			this.prodMap = {}
 			this.prods.forEach(prod => { this.prodMap[prod.id] = prod })
 
+			this.itemInputMap = {}
+			this.items.forEach(item => {
+				this.itemInputMap[item.id] = new Map(item.inputs.map((input: any) => [input.id, input]))
+			})
+
 			// Offline gains
 
 			if (this.lastSaveDate > 0) this.processOfflineProgress()
@@ -642,7 +647,7 @@ export const useGameStore = defineStore('game', {
 				const targetItem = this.itemMap[link.targetItemId]
 				if (!targetItem) continue
 
-				const targetItemInput = targetItem.inputs.find(i => i.id === link.sourceItemId)
+				const targetItemInput = this.itemInputMap[link.targetItemId]?.get(link.sourceItemId)
 				if (!targetItemInput) continue
 
 				sourceItem.count -= countToTransfer
@@ -681,7 +686,7 @@ export const useGameStore = defineStore('game', {
 
 							if (input.count <= 0) continue
 
-							const itemInput = outputItem.inputs.find(i => i.id === input.id)
+							const itemInput = this.itemInputMap[output.id]?.get(input.id)
 							if (!itemInput) {
 								runMachineCount = 0
 								break
@@ -702,10 +707,11 @@ export const useGameStore = defineStore('game', {
 
 							for (const input of prod.inputs) {
 
-								const itemInput = outputItem.inputs.find(i => i.id === input.id)
+								const itemInput = this.itemInputMap[output.id]?.get(input.id)
+								if (!itemInput) continue
 
 								itemInput.count -= input.count * prod.runMachineCount
-								if (itemInput.count < 0) input.count = 0
+								if (itemInput.count < 0) itemInput.count = 0
 							}
 						}
 
