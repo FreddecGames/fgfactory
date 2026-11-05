@@ -1,4 +1,11 @@
 {
+	"itemTypes": {
+		"item": "Item",
+		"machine": "Machine",
+		"mission": "Mission",
+		"storer": "Entrepôt",
+		"conveyor": "Convoyeur"
+	},
 	"tabs": {
 		"production": "Production"
 	},
@@ -15,6 +22,11 @@
 	},
 	"modalItem": {
 		"count": "Stock",
+		"type": "Type",
+		"speed": "Vitesse",
+		"capacity": "Capacité",
+		"close": "Fermer",
+		"production": "Production",
 		"manuals": "Fabrication manuelle",
 		"noManuals": "Aucune recette manuelle ne produit cet item.",
 		"storages": "Stockage",

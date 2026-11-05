@@ -8,7 +8,7 @@
         "mining": "Mining",
         "smelting": "Smelting",
 
-		"mined": "Extracted",
+		"ore": "Extracted",
         "smelted": "Smelted",
         "founded": "Founded",
         "energy": "Energy",
@@ -166,10 +166,10 @@
         "superposition_oscillator": "Superposition Oscillator",
         "ai_expansion_server": "AI Expansion Server",
 
-        "miner_1": "Portable Miner",
-        "miner_2": "Miner Mk.1",
-        "miner_3": "Miner Mk.2",
-        "miner_4": "Miner Mk.3",
+        "miner_0": "Portable Miner",
+        "miner_1": "Miner Mk.1",
+        "miner_2": "Miner Mk.2",
+        "miner_3": "Miner Mk.3",
         "pump_water": "Water Pump",
         "pump_oil": "Oil Pump",
         "pump_nitrogen": "Nitrogen Pump",
@@ -194,6 +194,9 @@
         "solid_storer_1": "Storage Container",
         "solid_storer_2": "Industrial Storage Container",
         "fluid_storer_1": "Fluid Buffer",
-        "fluid_storer_2": "Industrial Fluid Buffer"
+        "fluid_storer_2": "Industrial Fluid Buffer",
+
+        "solid_conveyor": "Conveyor Belt",
+        "energy_conveyor": "Energy Line"
     }
 }

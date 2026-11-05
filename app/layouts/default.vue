@@ -81,7 +81,6 @@
 
 	const scheduleNextTick = () => {
 
-		if (animationFrameId !== null) cancelAnimationFrame(animationFrameId)
 		animationFrameId = requestAnimationFrame(runGameLoop)
 	}
 
@@ -117,7 +116,7 @@
 		const pathSegments = route.path.split('/').filter(Boolean)
 		const currentPage = pathSegments[pathSegments.length - 1]
 
-		return currentPage === 'missions' || currentPage === 'machines' || currentPage === 'items' || currentPage === 'production'
+		return currentPage === 'missions' || currentPage === 'machines' || currentPage === 'items'
 			? currentPage
 			: 'missions'
 	})
@@ -127,7 +126,6 @@
 		{ label:$t('tabs.missions'), value:'missions', icon:'i-lucide-target' },
 		{ label:$t('tabs.items'), value:'items', icon:'i-lucide-boxes' },
 		{ label:$t('tabs.machines'), value:'machines', icon:'i-lucide-wrench' },
-		{ label:$t('tabs.production'), value:'production', icon:'i-lucide-industry' },
 	]
 
 	const navigateToTab = (tab: string) => {
