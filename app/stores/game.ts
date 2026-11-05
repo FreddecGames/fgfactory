@@ -725,10 +725,6 @@ export const useGameStore = defineStore('game', {
 						if (output.count <= 0) continue
 
 						const outputItem = this.itemMap[output.id]
-						if (!outputItem || outputItem.count >= outputItem.max) {
-							runMachineCount = 0
-							continue
-						}
 
 						const outputSpace = outputItem.max - outputItem.count
 						const outputMachineCount = 1 + Math.floor(outputSpace / output.count)
@@ -738,11 +734,7 @@ export const useGameStore = defineStore('game', {
 
 							if (input.count <= 0) continue
 
-							const itemInput = this.itemInputMap[output.id]?.get(input.id)
-							if (!itemInput) {
-								runMachineCount = 0
-								break
-							}
+							const itemInput = this.itemInputMap[output.id].get(input.id)
 
 							const inputMachineCount = Math.floor(itemInput.count / input.count)
 							runMachineCount = Math.min(runMachineCount, inputMachineCount)
@@ -754,13 +746,9 @@ export const useGameStore = defineStore('game', {
 						prod.runMachineCount = runMachineCount
 
 						for (const output of prod.outputs) {
-
-							const outputItem = this.itemMap[output.id]
-
 							for (const input of prod.inputs) {
 
-								const itemInput = this.itemInputMap[output.id]?.get(input.id)
-								if (!itemInput) continue
+								const itemInput = this.itemInputMap[output.id].get(input.id)
 
 								itemInput.count -= input.count * prod.runMachineCount
 								if (itemInput.count < 0) itemInput.count = 0
@@ -880,20 +868,20 @@ export const useGameStore = defineStore('game', {
 			link.rate = link.assignedCount * conveyor.speed
 		},
 
-		assignLinkConveyor(link: any): boolean {
+		assignLinkConveyor(link: any, count: number): boolean {
 
-			if (this.itemAvailableCounts[link.conveyorId] <= 0) return false
+			if (this.itemAvailableCounts[link.conveyorId] < count) return false
 
-			link.assignedCount += 1
+			link.assignedCount += count
 			this.updateLinkRate(link)
 			return true
 		},
 
-		unassignLinkConveyor(link: any): boolean {
+		unassignLinkConveyor(link: any, count: number): boolean {
 
-			if (link.assignedCount <= 0) return false
+			if (link.assignedCount < count) return false
 
-			link.assignedCount -= 1
+			link.assignedCount -= count
 			this.updateLinkRate(link)
 			return true
 		},
@@ -913,43 +901,39 @@ export const useGameStore = defineStore('game', {
 				: item.stack
 		},
 
-		assignStorageStorer(storage: any): boolean {
+		assignStorageStorer(storage: any, count: number): boolean {
 
-			if (this.itemAvailableCounts[storage.storerId] <= 0) return false
+			if (this.itemAvailableCounts[storage.storerId] < count) return false
 
-			storage.assignedCount += 1
+			storage.assignedCount += count
 			this.updateItemMax(storage.itemId)
 			return true
 		},
 
-		unassignStorageStorer(storage: any): boolean {
+		unassignStorageStorer(storage: any, count: number): boolean {
 
-			if (storage.assignedCount <= 0) return false
+			if (storage.assignedCount < count) return false
 
-			storage.assignedCount -= 1
+			storage.assignedCount -= count
 			this.updateItemMax(storage.itemId)
 			return true
 		},
 
 		// Prod actions
 
-		assignProdMachine(prod: any, machine: any): boolean {
+		assignProdMachine(prod: any, count: number): boolean {
 
-			const production = this.prods.find(candidate => candidate.id === prod.id)
-			if (!production || production.machineId !== machine.id || this.itemAvailableCounts[machine.id] <= 0)
-				return false
+			if (this.itemAvailableCounts[prod.machineId] < count) return false
 
-			production.assignedCount += 1
+			prod.assignedCount += count
 			return true
 		},
 
-		unassignProdMachine(prod: any, machine: any): boolean {
+		unassignProdMachine(prod: any, count: number): boolean {
 
-			const production = this.prods.find(candidate => candidate.id === prod.id)
-			if (!production || production.machineId !== machine.id || production.assignedCount <= 0)
-				return false
+			if (prod.assignedCount < count) return false
 
-			production.assignedCount -= 1
+			prod.assignedCount -= count
 			return true
 		},
 	}

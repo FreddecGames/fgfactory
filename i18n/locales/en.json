@@ -78,6 +78,19 @@
 		"noManualInputs": "No input needed"
 	},
 
+	"modalMission":{
+		"manuals": "Objectives",
+		"complete": "Complete",
+		"completed": "Completed"
+	},
+
+	"modalMachine":{
+		"count": "Stock",
+		"available": "Available",
+		"manuals": "Manual crafting",
+		"noManualInputs": "No input needed"
+	},
+
 	"labels":{
 		"confirm": "Confirm"
 	}

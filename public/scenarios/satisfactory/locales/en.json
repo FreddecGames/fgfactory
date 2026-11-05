@@ -26,7 +26,8 @@
         "generators": "Generators",
         "smelters": "Smelters",
         "assemblers": "Assemblers",
-        "storers": "Storers"
+        "storers": "Storers",
+		"conveyors": "Conveyors"
     },
 
     "items": {

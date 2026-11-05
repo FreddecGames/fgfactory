@@ -54,8 +54,9 @@
 				: 0
 
 			return [{
-				prod: { ...production, outputRate },
+				prod: production,
 				machine,
+				outputRate: outputRate
 			}]
 		})
 	})
@@ -202,6 +203,7 @@
 						<div class="flex min-w-0 items-center gap-2">
 							<img :src="storer.img" :alt="$t(`items.${storer.id}`)" class="size-5 shrink-0 object-contain" />
 							<span class="truncate text-xs text-muted">{{ $t(`items.${storer.id}`) }}</span>
+							<UBadge v-if="gameStore.itemAvailableCounts[storer.id] > 0" variant="subtle" color="success" size="sm">{{ gameStore.itemAvailableCounts[storer.id] }}</UBadge>
 						</div>								
 
 						<div class="flex shrink-0 items-center gap-6">
@@ -211,17 +213,15 @@
 							<div class="flex items-center gap-2">
 
 								<UButton :color="storage.assignedCount > 0 ? 'error' : 'neutral'" variant="subtle" icon="i-lucide-minus" size="xs"
-									:aria-label="$t('modalItem.unassignStorer')"
 									:disabled="storage.assignedCount <= 0"
-									@click="gameStore.unassignStorageStorer(storage)" />
+									@click="gameStore.unassignStorageStorer(storage, 1)" />
 
 								<span v-if="storage.assignedCount > 0" class="min-w-10 text-center text-xs">{{ storage.assignedCount }}</span>
 								<span v-else class="min-w-10 text-center text-xs text-muted">{{ storage.assignedCount }}</span>
 
 								<UButton :color="gameStore.itemAvailableCounts[storer.id] > 0 ? 'primary' : 'neutral'" variant="subtle" icon="i-lucide-plus" size="xs"
-									:aria-label="$t('modalItem.assignStorer')"
 									:disabled="gameStore.itemAvailableCounts[storer.id] <= 0"
-									@click="gameStore.assignStorageStorer(storage)" />
+									@click="gameStore.assignStorageStorer(storage, 1)" />
 
 							</div>
 								
@@ -261,32 +261,31 @@
 				<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalItem.prods') }}</h4>
 
 				<div class="flex flex-col gap-1">
-					<div v-for="{ prod, machine } in selectedProds" :key="prod.id"
+					<div v-for="{ prod, machine, outputRate } in selectedProds" :key="prod.id"
 						class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 p-2">
 
 						<div class="flex min-w-0 items-center gap-2">
 							<img :src="machine.img" :alt="$t(`items.${machine.id}`)" class="size-5 shrink-0 object-contain" />
 							<span class="truncate text-xs text-muted">{{ $t(`items.${machine.id}`) }}</span>
+							<UBadge v-if="gameStore.itemAvailableCounts[machine.id] > 0" variant="subtle" color="success" size="sm">{{ gameStore.itemAvailableCounts[machine.id] }}</UBadge>
 						</div>
 
 						<div class="flex shrink-0 items-center gap-6">
 
-							<span v-if="prod.assignedCount > 0" class="text-xs font-semibold text-success">+{{ prod.outputRate }}/s</span>
+							<span v-if="prod.assignedCount > 0" class="text-xs font-semibold text-success">+{{ outputRate }}/s</span>
 
 							<div class="flex items-center gap-2">
 
 								<UButton :color="prod.assignedCount > 0 ? 'error' : 'neutral'" variant="subtle" icon="i-lucide-minus" size="xs"
-									:aria-label="$t('modalItem.unassignConveyor')"
 									:disabled="prod.assignedCount <= 0"
-									@click="gameStore.unassignProdMachine(prod, machine)" />
+									@click="gameStore.unassignProdMachine(prod, 1)" />
 
 								<span v-if="prod.assignedCount > 0" class="min-w-10 text-center text-xs">{{ prod.assignedCount }}</span>
 								<span v-else class="min-w-10 text-center text-xs text-muted">{{ prod.assignedCount }}</span>
 
 								<UButton :color="gameStore.itemAvailableCounts[machine.id] > 0 ? 'primary' : 'neutral'" variant="subtle" icon="i-lucide-plus" size="xs"
-									:aria-label="$t('modalItem.assignConveyor')"
 									:disabled="gameStore.itemAvailableCounts[machine.id] <= 0"
-									@click="gameStore.assignProdMachine(prod, machine)" />
+									@click="gameStore.assignProdMachine(prod, 1)" />
 
 							</div>
 
@@ -309,6 +308,7 @@
 						<div class="flex min-w-0 items-center gap-2">
 							<img :src="conveyor.img" :alt="$t(`items.${conveyor.id}`)" class="size-5 shrink-0 object-contain" />
 							<span class="truncate text-xs text-muted">{{ $t(`items.${conveyor.id}`) }}</span>
+							<UBadge v-if="gameStore.itemAvailableCounts[conveyor.id] > 0" variant="subtle" color="success" size="sm">{{ gameStore.itemAvailableCounts[conveyor.id] }}</UBadge>
 						</div>
 
 						<div class="flex shrink-0 items-center gap-6">
@@ -328,17 +328,15 @@
 							<div class="flex items-center gap-2">
 
 								<UButton :color="link.assignedCount > 0 ? 'error' : 'neutral'" variant="subtle" icon="i-lucide-minus" size="xs"
-									:aria-label="$t('modalItem.unassignConveyor')"
 									:disabled="link.assignedCount <= 0"
-									@click="gameStore.unassignLinkConveyor(link)" />
+									@click="gameStore.unassignLinkConveyor(link, 1)" />
 
 								<span v-if="link.assignedCount > 0" class="min-w-10 text-center text-xs">{{ link.assignedCount }}</span>
 								<span v-else class="min-w-10 text-center text-xs text-muted">{{ link.assignedCount }}</span>
 
 								<UButton :color="gameStore.itemAvailableCounts[conveyor.id] > 0 ? 'primary' : 'neutral'" variant="subtle" icon="i-lucide-plus" size="xs"
-									:aria-label="$t('modalItem.assignConveyor')"
 									:disabled="gameStore.itemAvailableCounts[conveyor.id] <= 0"
-									@click="gameStore.assignLinkConveyor(link)" />
+									@click="gameStore.assignLinkConveyor(link, 1)" />
 
 							</div>
 
