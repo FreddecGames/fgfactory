@@ -60,7 +60,44 @@ export const useGameStore = defineStore('game', {
 				rates[link.sourceItemId] = (rates[link.sourceItemId] || 0) - link.rate
 
 			return rates
-		}
+		},
+
+		itemCounts: (state) => {
+
+			const counts: Record<string, number> = {}
+
+			for (const item of state.items)
+				counts[item.id] = item.count
+
+			return counts
+		},
+
+		itemAvailableCounts: (state) => {
+
+			const counts: Record<string, number> = {}
+
+			for (const item of state.items.filter(i => i.type === 'machine' || i.type === 'storer' || i.type === 'conveyor')) {
+
+				let assignedCount = 0
+
+				if (item.type === 'machine') {
+					assignedCount = state.prods.reduce((total, prod) =>
+						prod.machineId === item.id ? total + prod.assignedCount : total, 0)
+				}
+				else if (item.type === 'storer') {
+					assignedCount = state.storages.reduce((total, storage) =>
+						storage.storerId === item.id ? total + storage.assignedCount : total, 0)
+				}
+				else if (item.type === 'conveyor') {
+					assignedCount = state.links.reduce((total, link) =>
+						link.conveyorId === item.id ? total + link.assignedCount : total, 0)
+				}
+
+				counts[item.id] = Math.max(0, item.count - assignedCount)
+			}
+
+			return counts
+		},
 	},
 
 	actions: {
@@ -344,18 +381,33 @@ export const useGameStore = defineStore('game', {
 			let recipes = this.recipes.filter(recipe => recipe.machines && recipe.machines.includes('manual'))
 			if (recipes.length > 0) {
 				recipes.forEach(recipe => {
-					recipe.outputs && Object.entries(recipe.outputs).forEach(([outputId, outputCount]: [string, any]) => {
+
+					const recipeInputs = [] as any[]
+					if (recipe.inputs) {
+						recipe.inputs.forEach(input => {
+							
+							const inputItem = this.items.find(i => i.id === input.id)
+
+							recipeInputs.push({
+								id: input.id, 
+								img: inputItem.img,
+								count: input.count, 
+							})
+						})
+					}
+
+					recipe.outputs && recipe.outputs.forEach(output => {
 						this.manuals.push({
 
-							id: `${outputId}_manual`,
+							id: `${output.id}_manual`,
 							seconds: recipe.seconds,
 
 							progressSeconds: 0,
 							isProcessing: false,
 							queueCount: 0,
 
-							output: { id: outputId, count: outputCount },
-							inputs: recipe.inputs ? Object.entries(recipe.inputs).map(([inputId, inputCount]: [string, any]) => ({ id: inputId, count: inputCount })) : []
+							output: { id: output.id, count: output.count },
+							inputs: [...recipeInputs],
 						})
 					})
 				})
@@ -820,17 +872,6 @@ export const useGameStore = defineStore('game', {
 
 		// Link actions
 
-		getAvailableConveyorCount(conveyorId: string): number {
-
-			const conveyor = this.itemMap[conveyorId]
-			if (!conveyor) return 0
-
-			let assignedCount = 0
-			this.links.filter(link => link.conveyorId === conveyorId).forEach(link => assignedCount += link.assignedCount)
-
-			return Math.max(0, conveyor.count - assignedCount)
-		},
-
 		updateLinkRate(link: any): void {
 
 			const conveyor = this.items.find(candidate => candidate.id === link.conveyorId)
@@ -841,7 +882,7 @@ export const useGameStore = defineStore('game', {
 
 		assignLinkConveyor(link: any): boolean {
 
-			if (this.getAvailableConveyorCount(link.conveyorId) <= 0) return false
+			if (this.itemAvailableCounts[link.conveyorId] <= 0) return false
 
 			link.assignedCount += 1
 			this.updateLinkRate(link)
@@ -859,17 +900,6 @@ export const useGameStore = defineStore('game', {
 
 		// Storage actions
 
-		getAvailableStorerCount(storerId: string): number {
-
-			const storer = this.itemMap[storerId]
-			if (!storer) return 0
-
-			const assignedCount = this.storages.reduce((total, storage) =>
-				storage.storerId === storerId ? total + storage.assignedCount : total, 0)
-
-			return Math.max(0, storer.count - assignedCount)
-		},
-
 		updateItemMax(itemId: string): void {
 
 			const item = this.items.find(candidate => candidate.id === itemId)
@@ -885,7 +915,7 @@ export const useGameStore = defineStore('game', {
 
 		assignStorageStorer(storage: any): boolean {
 
-			if (this.getAvailableStorerCount(storage.storerId) <= 0) return false
+			if (this.itemAvailableCounts[storage.storerId] <= 0) return false
 
 			storage.assignedCount += 1
 			this.updateItemMax(storage.itemId)
@@ -903,21 +933,10 @@ export const useGameStore = defineStore('game', {
 
 		// Prod actions
 
-		getAvailableMachineCount(machineId: string): number {
-
-			const machine = this.itemMap[machineId]
-			if (!machine) return 0
-
-			const assignedCount = this.prods.reduce((total, prod) =>
-				prod.machineId === machineId ? total + prod.assignedCount : total, 0)
-
-			return Math.max(0, machine.count - assignedCount)
-		},
-
 		assignProdMachine(prod: any, machine: any): boolean {
 
 			const production = this.prods.find(candidate => candidate.id === prod.id)
-			if (!production || production.machineId !== machine.id || this.getAvailableMachineCount(machine.id) <= 0)
+			if (!production || production.machineId !== machine.id || this.itemAvailableCounts[machine.id] <= 0)
 				return false
 
 			production.assignedCount += 1

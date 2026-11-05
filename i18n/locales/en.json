@@ -74,7 +74,8 @@
 		"inputs": "Production input buffers",
 		"prods": "Production lines",
 		"links": "Distribution links",
-		"manuals": "Manual crafting"
+		"manuals": "Manual crafting",
+		"noManualInputs": "No input needed"
 	},
 
 	"labels":{

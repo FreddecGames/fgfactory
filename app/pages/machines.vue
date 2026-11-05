@@ -28,7 +28,7 @@
 
 <template>
 
-	<!-- Item Groups -->
+	<!-- Machine Groups -->
 	<section v-for="(machines, group) in groupedMachines" :key="group" class="flex flex-col gap-2">
 
 		<h2 class="text-center text-xs font-semibold text-neutral-400">{{ $t('groups.' + group) }}</h2>
@@ -40,9 +40,15 @@
 
 					<img :src="machine.img" alt="" class="size-full object-contain" />
 
-					<UBadge size="xs" color="neutral" variant="subtle"
+					<UBadge v-if="machine.count != 0" size="xs" color="neutral" variant="subtle"
 						class="absolute -top-0.5 -right-0.5 z-10">
-						<span>{{ machine.count.toFixed(0) }}</span>
+						<span v-if="machine.count > 0" class="text-white">{{ machine.count.toFixed(0) }}</span>
+						<span v-else-if="machine.count < 0" class="text-error">{{ machine.count.toFixed(0) }}</span>
+					</UBadge>
+
+					<UBadge v-if="gameStore.itemAvailableCounts[machine.id] > 0" size="xs" color="neutral" variant="subtle"
+						class="absolute -bottom-0.5 -right-0.5 z-10">
+						<span class="text-success">{{ gameStore.itemAvailableCounts[machine.id] }}</span>
 					</UBadge>
 
 				</UButton>
@@ -51,7 +57,7 @@
 
 	</section>
 
-	<!-- Item Modal -->
+	<!-- Machine Modal -->
 	<UModal scrollable v-model:open="isMachineModalOpen" :ui="{ header: 'p-4 sm:p-4' }">
 
 		<!-- Modal Header -->
