@@ -345,9 +345,9 @@ export const useGameStore = defineStore('game', {
 			this.recipes = []
 
 			if (scenarioData && scenarioData.recipes) {
-				scenarioData.recipes.forEach((recipeData: any) => {
+				scenarioData.recipes.forEach((recipeData: any, recipeIndex: number) => {
 					this.recipes.push({
-						id: recipeData.id,
+						id: recipeData.id || `${Object.keys(recipeData.outputs || {}).join('_')}_${recipeIndex}`,
 						seconds: recipeData.seconds,
 						inputs: recipeData.inputs ? Object.entries(recipeData.inputs).map(([inputId, inputCount]: [string, any]) => ({ id: inputId, count: inputCount })) : [],
 						outputs: recipeData.outputs ? Object.entries(recipeData.outputs).map(([outputId, outputCount]: [string, any]) => ({ id: outputId, count: outputCount })) : [],
@@ -404,7 +404,7 @@ export const useGameStore = defineStore('game', {
 					recipe.outputs && recipe.outputs.forEach(output => {
 						this.manuals.push({
 
-							id: `${output.id}_manual`,
+							id: `${recipe.id}_manual`,
 							seconds: recipe.seconds,
 
 							progressSeconds: 0,
@@ -426,20 +426,6 @@ export const useGameStore = defineStore('game', {
 			if (recipes.length > 0) {
 				recipes.forEach(recipe => {
 
-					const prodInputs = [] as any[]
-					if (recipe.inputs) {
-						recipe.inputs.forEach(input => {
-							
-							const inputItem = this.items.find(i => i.id === input.id)
-
-							prodInputs.push({
-								id: input.id, 
-								img: inputItem.img,
-								count: input.count, 
-							})
-						})
-					}
-
 					const prodOutputs = [] as any[]
 					if (recipe.outputs) {
 						recipe.outputs.forEach(output => {
@@ -447,21 +433,38 @@ export const useGameStore = defineStore('game', {
 						})
 					}
 
+					const inputBufferItemId = prodOutputs[0]?.id
+					const inputBufferItem = this.items.find(item => item.id === inputBufferItemId)
+					if (!inputBufferItem) return
+
 					recipe.machines.forEach((machineId: string) => {
 
 						const machine = this.items.find(candidate => candidate.id === machineId)
-						if (!machine) return
-						
+						if (!machine || machine.speed <= 0 || recipe.seconds <= 0) return
+
+						const prodInputs = (recipe.inputs || []).map((input: any) => {
+							const inputItem = this.items.find(item => item.id === input.id)
+							return {
+								id: input.id,
+								img: inputItem?.img,
+								count: input.count,
+							}
+						})
+
 						if (machine.energy) {
 							Object.entries(machine.energy).forEach(([energyId, energyCount]: [string, any]) => {
-							
-								const energyItem = this.items.find(i => i.id === energyId)
+								const energyItem = this.items.find(item => item.id === energyId)
+								const energyInput = prodInputs.find((input: any) => input.id === energyId)
+								const count = energyCount * recipe.seconds / machine.speed
 
-								prodInputs.push({
-									id: energyId,
-									img: energyItem.img,
-									count: energyCount * recipe.seconds / machine.speed,
-								})
+								if (energyInput) energyInput.count += count
+								else {
+									prodInputs.push({
+										id: energyId,
+										img: energyItem?.img,
+										count,
+									})
+								}
 							})
 						}
 
@@ -470,6 +473,7 @@ export const useGameStore = defineStore('game', {
 							id: `${recipe.id}_${machineId}`,
 							recipeId: recipe.id,
 							machineId: machineId,
+							inputBufferItemId,
 
 							seconds: recipe.seconds / machine.speed,
 							assignedCount: 0,
@@ -482,40 +486,34 @@ export const useGameStore = defineStore('game', {
 							outputs: [...prodOutputs],
 						})
 
-						recipe.outputs.forEach(output => {
+						for (const prodInput of prodInputs) {
+							let outputItemInput = inputBufferItem.inputs.find((candidate: any) => candidate.id === prodInput.id)
+							if (!outputItemInput) {
+								outputItemInput = { id: prodInput.id, img: prodInput.img, count: 0 }
+								inputBufferItem.inputs.push(outputItemInput)
+							}
 
-							const outputItem = this.items.find(candidate => candidate.id === output.id)
-							if (!outputItem) return
+							const inputItem = this.items.find(candidate => candidate.id === prodInput.id)
+							if (!inputItem) continue
 
-							prodInputs.forEach(prodInput => {
+							for (const conveyorId of inputItem.conveyors) {
+								const conveyorItem = this.items.find(item => item.id === conveyorId)
+								if (!conveyorItem) continue
 
-								const outputItemInput = outputItem.inputs.find(candidate => candidate.id === prodInput.id)
-								if (!outputItemInput) {
+								const linkId = `${prodInput.id}_${inputBufferItem.id}_${conveyorId}`
+								if (this.links.some(link => link.id === linkId)) continue
 
-									outputItem.inputs.push({ id:prodInput.id, img:prodInput.img, count:0 })
-
-									const inputItem = this.items.find(candidate => candidate.id === prodInput.id)
-									if (!inputItem) return
-
-									inputItem.conveyors.forEach(conveyorId => {
-
-										const conveyorItem = this.items.find(i => i.id === conveyorId)
-										
-										this.links.push({
-
-											id: `${prodInput.id}_${outputItem.id}_${conveyorId}`,
-											sourceItemId: prodInput.id,
-											targetItemId: outputItem.id,
-											conveyorId: conveyorId,
-											speed: conveyorItem.speed,
-
-											assignedCount: 0,
-											rate: 0,
-										})
-									});
-								}
-							})
-						})
+								this.links.push({
+									id: linkId,
+									sourceItemId: prodInput.id,
+									targetItemId: inputBufferItem.id,
+									conveyorId,
+									speed: conveyorItem.speed,
+									assignedCount: 0,
+									rate: 0,
+								})
+							}
+						}
 					})
 				})
 			}
@@ -568,7 +566,8 @@ export const useGameStore = defineStore('game', {
 						const prod = this.prods.find(l => l.id == savedProd.id)
 						if (prod) {
 
-							prod.assignedCount = savedProd.assignedCount ?? 0
+							const requestedCount = Math.max(0, Math.floor(savedProd.assignedCount ?? 0))
+							prod.assignedCount = Math.min(requestedCount, this.itemAvailableCounts[prod.machineId] ?? 0)
 							prod.progressSeconds = savedProd.progressSeconds ?? 0
 							prod.isProcessing = savedProd.isProcessing || false
 							prod.runMachineCount = savedProd.runMachineCount ?? 0
@@ -734,37 +733,41 @@ export const useGameStore = defineStore('game', {
 						if (output.count <= 0) continue
 
 						const outputItem = this.itemMap[output.id]
+						if (!outputItem) {
+							runMachineCount = 0
+							break
+						}
 
 						const outputSpace = outputItem.max - outputItem.count
 						const outputMachineCount = Math.floor(outputSpace / output.count)
 						runMachineCount = Math.min(runMachineCount, outputMachineCount)
+					}
 
-						for (const input of outputItem.inputs) {
+					const inputBufferMap = this.itemInputMap[prod.inputBufferItemId]
+					for (const input of prod.inputs) {
 
-							if (input.count <= 0) continue
+						if (input.count <= 0) continue
 
-							const prodInput = prod.inputs.find(i => i.id === input.id)
-
-							const inputMachineCount = Math.floor(input.count / prodInput.count)
-							runMachineCount = Math.min(runMachineCount, inputMachineCount)
+						const inputBuffer = inputBufferMap?.get(input.id)
+						if (!inputBuffer) {
+							runMachineCount = 0
+							break
 						}
+
+						const inputMachineCount = Math.floor(inputBuffer.count / input.count)
+						runMachineCount = Math.min(runMachineCount, inputMachineCount)
 					}
 
 					if (runMachineCount >= 1) {
 						
 						prod.runMachineCount = runMachineCount
 
-						for (const output of prod.outputs) {
+						for (const input of prod.inputs) {
+							const inputBuffer = inputBufferMap?.get(input.id)
+							if (!inputBuffer) continue
 
-							const outputItem = this.itemMap[output.id]
-
-							for (const input of outputItem.inputs) {
-
-								const prodInput = prod.inputs.find(i => i.id === input.id)
-
-								input.count -= prodInput * prod.runMachineCount
-								if (input.count < 0) input.count = 0
-							}
+							inputBuffer.count -= input.count * prod.runMachineCount
+							if (inputBuffer.count < 0) inputBuffer.count = 0
 						}
 
 						prod.isProcessing = true
@@ -783,7 +786,8 @@ export const useGameStore = defineStore('game', {
 
 						for (const output of prod.outputs) {
 							const outputItem = this.itemMap[output.id]
-							if (!outputItem || outputItem.count >= outputItem.max) {
+							const batchCount = output.count * prod.runMachineCount
+							if (!outputItem || outputItem.max - outputItem.count < batchCount) {
 								canDeliver = false
 								break
 							}
@@ -935,6 +939,7 @@ export const useGameStore = defineStore('game', {
 
 		assignProdMachine(prod: any, count: number): boolean {
 
+			if (!Number.isInteger(count) || count <= 0) return false
 			if (this.itemAvailableCounts[prod.machineId] < count) return false
 
 			prod.assignedCount += count
@@ -943,6 +948,7 @@ export const useGameStore = defineStore('game', {
 
 		unassignProdMachine(prod: any, count: number): boolean {
 
+			if (!Number.isInteger(count) || count <= 0) return false
 			if (prod.assignedCount < count) return false
 
 			prod.assignedCount -= count
