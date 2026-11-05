@@ -126,13 +126,13 @@
 						<span class="text-error">{{ item.count.toFixed(0) }}</span>
 					</UBadge>
 
-					<UBadge v-if="gameStore.getItemProductionRate(item.id) > 0" size="xs" color="neutral" variant="subtle"
+					<UBadge v-if="gameStore.itemProductionRates[item.id] > 0" size="xs" color="neutral" variant="subtle"
 						class="absolute -bottom-0.5 -right-0.5 z-10">
-						<span class="text-success">+{{ gameStore.getItemProductionRate(item.id).toFixed(1) }} /s</span>
+						<span class="text-success">+{{ gameStore.itemProductionRates[item.id].toFixed(1) }} /s</span>
 					</UBadge>
-					<UBadge v-else-if="gameStore.getItemProductionRate(item.id) < 0" size="xs" color="neutral" variant="subtle"
+					<UBadge v-else-if="gameStore.itemProductionRates[item.id] < 0" size="xs" color="neutral" variant="subtle"
 						class="absolute -bottom-0.5 -right-0.5 z-10">
-						<span class="text-error">{{ gameStore.getItemProductionRate(item.id).toFixed(1) }} /s</span>
+						<span class="text-error">{{ gameStore.itemProductionRates[item.id].toFixed(1) }} /s</span>
 					</UBadge>
 
 				</UButton>
@@ -179,8 +179,8 @@
 					<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalItem.production') }}</h4>
 
 					<div class="rounded-md bg-neutral-800 p-2">
-						<span :class="{ 'text-success': gameStore.getItemProductionRate(selectedItem.id) > 0, 'text-error': gameStore.getItemProductionRate(selectedItem.id) < 0 }">
-							<span v-if="gameStore.getItemProductionRate(selectedItem.id) > 0">+</span>{{ gameStore.getItemProductionRate(selectedItem.id).toFixed(1) }} /s
+						<span :class="{ 'text-success': gameStore.itemProductionRates[selectedItem.id] > 0, 'text-error': gameStore.itemProductionRates[selectedItem.id] < 0 }">
+							<span v-if="gameStore.itemProductionRates[selectedItem.id] > 0">+</span>{{ gameStore.itemProductionRates[selectedItem.id].toFixed(1) }} /s
 						</span>
 					</div>
 

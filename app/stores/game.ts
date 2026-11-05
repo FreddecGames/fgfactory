@@ -40,7 +40,27 @@ export const useGameStore = defineStore('game', {
 
 	getters: {
 
-		scenarios: () => AVAILABLE_SCENARIOS
+		scenarios: () => AVAILABLE_SCENARIOS,
+
+		itemProductionRates: (state) => {
+
+			const rates: Record<string, number> = {}
+
+			for (const item of state.items)
+				rates[item.id] = 0
+
+			for (const prod of state.prods) {
+				if (prod.seconds <= 0) continue
+
+				for (const output of prod.outputs)
+					rates[output.id] = (rates[output.id] || 0) + output.count * prod.assignedCount / prod.seconds
+			}
+
+			for (const link of state.links)
+				rates[link.sourceItemId] = (rates[link.sourceItemId] || 0) - link.rate
+
+			return rates
+		}
 	},
 
 	actions: {
@@ -736,24 +756,6 @@ export const useGameStore = defineStore('game', {
 			// Check victory conditions
 
 			this.checkVictoryConditions()
-		},
-
-		// Item actions
-
-		getItemProductionRate(itemId: string): number {
-
-			let rate = 0
-
-			for (const prod of this.prods)
-				for (const output of prod.outputs)
-					if (output.id === itemId)
-						rate += output.count * prod.assignedCount / prod.seconds
-			
-			for (const link of this.links)
-				if (link.sourceItemId === itemId)
-					rate -= link.rate
-			
-			return rate
 		},
 
 		// Manual actions
