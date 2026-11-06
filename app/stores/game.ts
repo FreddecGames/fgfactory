@@ -854,12 +854,14 @@ export const useGameStore = defineStore('game', {
 
 			if (!this.canStartManual(manual, count)) return false
 
-			for (const input of manual.inputs) {
+			if (manual.inputs) {
+				for (const input of manual.inputs) {
 
-				if (input.count <= 0) continue
+					if (input.count <= 0) continue
 
-				const inputItem = this.itemMap[input.id]
-				inputItem.count -= input.count * count
+					const inputItem = this.itemMap[input.id]
+					inputItem.count -= input.count * count
+				}
 			}
 
 			manual.processCount = count
@@ -871,12 +873,14 @@ export const useGameStore = defineStore('game', {
 
 		cancelManual(manual: Manual): void {
 
-			for (const input of manual.inputs) {
+			if (manual.inputs) {
+				for (const input of manual.inputs) {
 
-				if (input.count <= 0) continue
+					if (input.count <= 0) continue
 
-				const inputItem = this.itemMap[input.id]
-				inputItem.count += input.count * manual.processCount
+					const inputItem = this.itemMap[input.id]
+					inputItem.count += input.count * manual.processCount
+				}
 			}
 
 			manual.processCount = 0
