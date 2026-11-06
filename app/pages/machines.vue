@@ -34,10 +34,10 @@
 
 	function getManualProgress(manual: any): number {
 
-		const totalDuration = manual.seconds * manual.queueCount
+		const totalDuration = manual.seconds * manual.processCount
 		if (!manual.isProcessing || totalDuration <= 0) return 0
 
-		return Math.min(100, Math.max(0, (manual.progressSeconds / totalDuration) * 100))
+		return Math.min(100, Math.max(0, (manual.remainingSeconds / totalDuration) * 100))
 	}
 
 </script>
@@ -149,7 +149,7 @@
 						</div>
 
 						<div class="w-24 flex flex-col items-end gap-1">
-							<span v-if="manual.isProcessing" class="text-end text-xs text-primary">{{ formatTime(manual.progressSeconds) }}</span>
+							<span v-if="manual.isProcessing" class="text-end text-xs text-primary">{{ formatTime(manual.remainingSeconds) }}</span>
 							<span v-else class="text-end text-xs text-muted">{{ formatTime(manual.seconds) }}</span>
 							<UProgress :model-value="getManualProgress(manual)" size="sm" color="primary" class="flex-1" />
 						</div>
