@@ -1,5 +1,5 @@
 {
-	"winConditions":{ "phase_5":1 },
+	"winConditions":{ "iron":10 },
 
 	"items":[
 

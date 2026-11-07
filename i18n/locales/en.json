@@ -1,23 +1,17 @@
 {
 	"gameName": "FG Factory",
 
-	"lang_en": "English",
-	"lang_fr": "Français",
-	"itemTypes": {
-		"item": "Item",
-		"machine": "Machine",
-		"mission": "Mission",
-		"storer": "Storer",
-		"conveyor": "Conveyor"
-	},
-
-	"scenario_satisfactory": "Satisfactory",
-	"scenario_alchemy": "Alchemy",
-
 	"loading":{
+		"text": "Loading...",
 		"error": "Cannot load local data",
 		"error_button": "Wipe Local Data"
 	},
+
+	"lang_en": "English",
+	"lang_fr": "Français",
+
+	"scenario_satisfactory": "Satisfactory",
+	"scenario_alchemy": "Alchemy",
 
 	"tabs":{
 		"missions": "Missions",
@@ -26,21 +20,11 @@
 		"production": "Production"
 	},
 
-	"production":{
-		"noLines": "No production lines are available.",
-		"close": "Close",
-		"inputs": "Input buffers",
-		"noInputs": "This production line has no inputs.",
-		"machines": "Assigned machines",
-		"assigned": "Assigned",
-		"assignMachine": "Assign machine",
-		"unassignMachine": "Unassign machine",
-		"machineUnavailable": "The required machine is not available."
-	},
-
 	"options":{
 		"title": "Options",
 		"language": "Language",
+		"options": "Options",
+		"game_name_placeholder": "Enter a name for your factory",
 		"local_storage": "Local data",
 		"wipe": "Wipe local data",
 		"wipe_confirm": "Are you sure you want to wipe your local data?",
@@ -58,12 +42,14 @@
 		"title": "Scenarios",
 		"current": "Current Scenario",
 		"available": "Available Scenarios",
-		"reset_confirm": "Are you sure you want to reset the current scenario?"
+		"reset_confirm": "Are you sure you want to reset the current scenario?",
+		"victories": "Victories",
+		"no_victory": "No victory for the moment"
 	},
 
 	"victory":{
 		"title": "Victory",
-		"message": "You have completed the scenario!",
+		"message": "You have completed the scenario! You can continue to play in infinite mode or choose another scenario to play.",
 		"close": "Close"
 	},
 
@@ -71,10 +57,9 @@
 		"count": "Stock",
 		"production": "Production",
 		"storages": "Storage",
-		"inputs": "Production input buffers",
-		"prods": "Production lines",
-		"links": "Distribution links",
-		"manuals": "Manual crafting",
+		"prods": "Production",
+		"links": "Distribution",
+		"manuals": "Crafting",
 		"noManualInputs": "No input needed"
 	},
 

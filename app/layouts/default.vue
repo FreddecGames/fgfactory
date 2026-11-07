@@ -247,26 +247,34 @@
 
     watch(() => gameStore.hasWon, (newHasWon) => {
 
-        if (!gameStore.hasWon && newHasWon)
-            isVictoryOpen.value = true
+        if (newHasWon) {
+
+			isOptionsOpen.value = false
+			isScenariosOpen.value = false
+
+			isVictoryOpen.value = true
+		}
     })
 
 </script>
 
 <template>
-	<div class="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col">
+	<div class="min-h-screen text-neutral-100 flex flex-col">
 
 		<!-- Loading Card -->
 		<div v-if="isLoading" class="flex flex-col items-center justify-center min-h-screen py-12 px-4 text-center">
 			<UCard :ui="{ 'body': 'p-3 sm:p-3 max-w-md' }">
-				<div class="flex flex-col space-y-3 items-center">
+				<div class="flex flex-col space-y-4 items-center">
 
 					<h1 class="text-xl font-bold text-white flex items-center justify-center gap-2">
-						<UIcon name="i-lucide-factory" class="w-6 h-6 text-primary" />
+						<img src="/favicon.png" :alt="$t('gameName')" class="size-6 object-contain" />
 						{{ $t('gameName') }}
 					</h1>
 
-					<UProgress size="xs" animation="carousel" class="w-64" />
+					<div class="flex flex-col space-y-1 items-center">
+						<span class="text-primary text-xs">{{ $t('loading.text') }}</span>
+						<UProgress size="xs" animation="carousel" class="w-64" />
+					</div>
 
 				</div>
 			</UCard>
@@ -301,8 +309,8 @@
 					<header class="pt-2 flex justify-between gap-3">
 
 						<h1 class="text-xl font-bold text-neutral-900 dark:text-white flex items-center justify-center gap-2">
-							<UIcon name="i-lucide-factory" class="w-6 h-6 text-primary" />
-							{{ $t('gameName') }}
+							<img src="/favicon.png" :alt="$t('gameName')" class="size-6 object-contain" />
+							{{ gameStore.customGameName || $t('gameName') }}
 						</h1>
 
 						<div class="flex items-center gap-3">
@@ -340,253 +348,289 @@
 		</main>
 
 		<!-- Options Modal -->
-		<UModal v-model:open="isOptionsOpen" scrollable>
-			<template #content>
-				<UCard>
-				
-					<template #header>
-						<div class="flex items-center justify-between">
+		<UModal v-model:open="isOptionsOpen" scrollable :ui="{ header: 'p-4 sm:p-4' }">
+			
+			<!-- Modal Header -->
+			<template #header>
+
+				<div class="flex items-center gap-3">
+					<UIcon name="i-lucide-settings" class="text-primary size-5" />
+					<h3 class="text-lg font-bold text-white">{{ $t('options.title') }}</h3>
+				</div>
+
+				<UButton color="neutral" variant="ghost" icon="i-lucide-x"
+					@click="isOptionsOpen = false" />
+
+			</template>
+
+			<!-- Modal Body -->
+			<template #body>
+
+				<!-- Language -->
+				<div class="flex flex-col space-y-2">
+
+					<h4 class="text-xs font-semibold text-neutral-400">{{ $t('options.language') }}</h4>
+
+					<div class="grid grid-cols-2 gap-2">
+
+						<UButton v-for="locale in locales" :key="locale.code"
+							variant="subtle" :color="localeProperties.code === locale.code ? 'primary' : 'neutral'" class="justify-center"
+							@click="setLocale(locale.code)">
 
 							<div class="flex items-center gap-3">
-								<UIcon name="i-lucide-settings" class="text-primary size-5" />
-								<h3 class="text-lg font-bold text-white">{{ $t('options.title') }}</h3>
+								<img :src="`/flags/${locale.code}.png`" :alt="$t('lang_' + locale.code)"  class="w-6 h-6" />
+								<span>{{ $t('lang_' + locale.code) }}</span>
 							</div>
-
-							<UButton color="neutral" variant="ghost" icon="i-lucide-x"
-								@click="isOptionsOpen = false" />
-
-						</div>
-					</template>
-
-					<div class="flex flex-col space-y-6">
-
-						<!-- Language -->
-						<div class="flex flex-col space-y-3">
-
-							<h4 class="text-xs font-semibold text-neutral-400">{{ $t('options.language') }}</h4>
-
-							<div class="grid grid-cols-2 gap-3">
-
-								<UButton v-for="locale in locales" :key="locale.code"
-									variant="subtle" :color="localeProperties.code === locale.code ? 'primary' : 'neutral'" class="justify-center"
-									@click="setLocale(locale.code)">
-
-									<div class="flex items-center gap-3">
-										<img :src="`/flags/${locale.code}.png`" :alt="$t('lang_' + locale.code)"  class="w-6 h-6" />
-										<span>{{ $t('lang_' + locale.code) }}</span>
-									</div>
-									
-								</UButton>
-
-							</div>
-
-						</div>
-
-						<!-- Local Data -->
-						<div class="flex flex-col space-y-3">
-
-							<h4 class="text-xs font-semibold text-neutral-400">{{ $t('options.local_storage') }}</h4>
-
-							<div class="grid grid-cols-2 gap-3">
-
-								<!-- Wipe Data -->
-								<UPopover>
-
-									<UButton block color="error" variant="subtle" icon="i-lucide-trash-2">
-										{{ $t('options.wipe') }}
-									</UButton>
-
-									<template #content>
-										<UCard :ui="{ 'body': 'p-3 sm:p-3' }">
-											<div class="flex flex-col items-center gap-4">
-
-												<span class="w-48 text-center text-xs font-semibold text-error">{{ $t('options.wipe_confirm') }}</span>
-
-												<UButton color="error" variant="subtle"
-													@click="() => { gameStore.wipeLocalData(); isOptionsOpen = false; }">
-													{{ $t('labels.confirm') }}
-												</UButton>
-
-											</div>
-										</UCard>
-									</template>
-
-								</UPopover>
-
-								<!-- Export Data -->
-								<UButton block variant="subtle"
-									:color="areDataCopied ? 'success' : 'primary'"                                        
-									:icon="areDataCopied ? 'i-lucide-check' : 'i-lucide-clipboard-copy'"
-									@click="copyDataToClipboard">
-									{{ areDataCopied ? $t('options.export_success') : $t('options.export') }}
-								</UButton>
-
-							</div>
-
-						</div>
-
-						<!-- Import Save -->
-						<div class="flex flex-col space-y-3">
-
-							<h4 class="text-xs font-semibold text-neutral-400">{{ $t('options.import_title') }}</h4>
-
-							<div class="flex flex-col space-y-3">
-
-								<UTextarea v-model="importInput" :rows="3" autoresize block
-									:placeholder="$t('options.import_placeholder')"                                        
-									class="text-xs" />
-
-								<UButton block variant="subtle"
-									:color="importStatus === 'success' ? 'success' : importStatus === 'error' ? 'error' : 'primary'"                                        
-									:icon="importStatus === 'success' ? 'i-lucide-check' : importStatus === 'error' ? 'i-lucide-alert-triangle' : 'i-lucide-download'"
-									:disabled="!importInput.trim()"
-									@click="importData">
-									{{ 
-										importStatus === 'success' ? $t('options.import_success') : 
-										importStatus === 'error' ? $t('options.import_error') : 
-										$t('options.import') 
-									}}
-								</UButton>
 							
-							</div>
-
-						</div>
+						</UButton>
 
 					</div>
 
-				</UCard>
+				</div>
+
+				<!-- Options -->
+				<div class="flex flex-col space-y-2">
+
+					<h4 class="text-xs font-semibold text-neutral-400">{{ $t('options.options') }}</h4>
+
+					<div class="flex flex-col space-y-2">
+
+						<UInput v-model="gameStore.customGameName" block
+							:placeholder="$t('options.game_name_placeholder')"
+							class="w-full" />
+
+					</div>
+
+				</div>
+
+				<!-- Local Data -->
+				<div class="flex flex-col space-y-2">
+
+					<h4 class="text-xs font-semibold text-neutral-400">{{ $t('options.local_storage') }}</h4>
+
+					<div class="grid grid-cols-2 gap-2">
+
+						<!-- Wipe Data -->
+						<UPopover>
+
+							<UButton block color="error" variant="subtle" icon="i-lucide-trash-2">
+								{{ $t('options.wipe') }}
+							</UButton>
+
+							<template #content>
+								<UCard :ui="{ 'body': 'p-3 sm:p-3' }">
+									<div class="flex flex-col items-center gap-4">
+
+										<span class="w-48 text-center text-xs font-semibold text-error">{{ $t('options.wipe_confirm') }}</span>
+
+										<UButton color="error" variant="subtle"
+											@click="() => { gameStore.wipeLocalData(); isOptionsOpen = false; }">
+											{{ $t('labels.confirm') }}
+										</UButton>
+
+									</div>
+								</UCard>
+							</template>
+
+						</UPopover>
+
+						<!-- Export Data -->
+						<UButton block variant="subtle"
+							:color="areDataCopied ? 'success' : 'primary'"                                        
+							:icon="areDataCopied ? 'i-lucide-check' : 'i-lucide-clipboard-copy'"
+							@click="copyDataToClipboard">
+							{{ areDataCopied ? $t('options.export_success') : $t('options.export') }}
+						</UButton>
+
+					</div>
+
+				</div>
+
+				<!-- Import Save -->
+				<div class="flex flex-col space-y-2">
+
+					<h4 class="text-xs font-semibold text-neutral-400">{{ $t('options.import_title') }}</h4>
+
+					<div class="flex flex-col space-y-2">
+
+						<UTextarea v-model="importInput" :rows="3" autoresize block
+							:placeholder="$t('options.import_placeholder')"                                        
+							class="text-xs" />
+
+						<UButton block variant="subtle"
+							:color="importStatus === 'success' ? 'success' : importStatus === 'error' ? 'error' : 'primary'"                                        
+							:icon="importStatus === 'success' ? 'i-lucide-check' : importStatus === 'error' ? 'i-lucide-alert-triangle' : 'i-lucide-download'"
+							:disabled="!importInput.trim()"
+							@click="importData">
+							{{ 
+								importStatus === 'success' ? $t('options.import_success') : 
+								importStatus === 'error' ? $t('options.import_error') : 
+								$t('options.import') 
+							}}
+						</UButton>
+					
+					</div>
+
+				</div>
+
 			</template>
+
 		</UModal>
 
 		<!-- Scenarios Modal -->
-		<UModal v-model:open="isScenariosOpen" scrollable>
-			<template #content>
-				<UCard>
-				
-					<template #header>
-						<div class="flex items-center justify-between">
+		<UModal v-model:open="isScenariosOpen" scrollable :ui="{ header: 'p-4 sm:p-4' }">
+			
+			<!-- Modal Header -->
+			<template #header>
 
-							<div class="flex items-center gap-3">
-								<UIcon name="i-lucide-settings-2" class="text-primary size-5" />
-								<h3 class="text-lg font-bold text-white">{{ $t('scenarios.title') }}</h3>
-							</div>
+				<div class="flex items-center gap-3">
+					<UIcon name="i-lucide-settings-2" class="text-primary size-5" />
+					<h3 class="text-lg font-bold text-white">{{ $t('scenarios.title') }}</h3>
+				</div>
 
-							<UButton color="neutral" variant="ghost" icon="i-lucide-x"
-								@click="isScenariosOpen = false" />
+				<UButton color="neutral" variant="ghost" icon="i-lucide-x"
+					@click="isScenariosOpen = false" />
 
-						</div>
-					</template>
+			</template>
 
-					<div class="flex flex-col space-y-6">
+			<!-- Modal Body -->
+			<template #body>
 
-						<!-- Current scenario -->
-						<div class="flex flex-col space-y-3">
+				<!-- Current scenario -->
+				<div class="flex flex-col space-y-2">
 
-							<h4 class="text-xs font-semibold text-neutral-400">{{ $t('scenarios.current') }}</h4>
+					<h4 class="text-xs font-semibold text-neutral-400">{{ $t('scenarios.current') }}</h4>
 
-							<div class="flex items-center justify-between gap-3">
+					<div class="flex items-center justify-between gap-2">
 
-								<div class="flex items-center gap-3">
+						<div class="flex items-center gap-2">
 
-									<UPopover>
+							<UPopover>
 
-										<UButton color="error" variant="subtle" icon="i-lucide-rotate-ccw" />
+								<UButton color="error" variant="subtle" icon="i-lucide-rotate-ccw" size="sm" />
 
-										<template #content>
-											<UCard :ui="{ 'body': 'p-3 sm:p-3' }">
-												<div class="flex flex-col items-center gap-4">
+								<template #content>
+									<UCard :ui="{ 'body': 'p-3 sm:p-3' }">
+										<div class="flex flex-col items-center gap-4">
 
-													<span class="w-48 text-center text-xs font-semibold text-error">{{ $t('scenarios.reset_confirm') }}</span>
+											<span class="w-48 text-center text-xs font-semibold text-error">{{ $t('scenarios.reset_confirm') }}</span>
 
-													<UButton color="error" variant="subtle"
-														@click="gameStore.resetLocalData()">
-														{{ $t('labels.confirm') }}
-													</UButton>
+											<UButton color="error" variant="subtle"
+												@click="gameStore.resetLocalData()">
+												{{ $t('labels.confirm') }}
+											</UButton>
 
-												</div>
-											</UCard>
-										</template>
+										</div>
+									</UCard>
+								</template>
 
-									</UPopover>
+							</UPopover>
 
-									<h2 class="text-lg font-bold text-primary">{{ $t('scenario_' + gameStore.currentScenarioId) }}</h2>
-
-								</div>
-
-								<div class="flex items-center gap-3">
-
-									<h2 class="text-lg font-bold font-mono">{{ formatTime(gameStore.totalPlayTime) }}</h2>
-
-									<UButton variant="subtle"
-										:color="gameStore.isPaused ? 'success' : 'primary'"                                
-										:icon="gameStore.isPaused ? 'i-lucide-play-circle' : 'i-lucide-pause-circle'"
-										@click="gameStore.togglePause()" />
-
-								</div>
-
-							</div>
+							<h2 class="text-lg font-bold text-primary">{{ $t('scenario_' + gameStore.currentScenarioId) }}</h2>
 
 						</div>
 
-						<!-- Available scenarios -->
-						<div class="flex flex-col space-y-3">
+						<div class="flex items-center gap-2">
 
-							<h4 class="text-xs font-semibold text-neutral-400">{{ $t('scenarios.available') }}</h4>
-							
-							<div class="grid grid-cols-2 gap-3">
-								
-								<UButton v-for="scenario in gameStore.scenarios" :key="scenario.id"
-									variant="subtle" :color="gameStore.currentScenarioId === scenario.id ? 'primary' : 'neutral'" class="justify-center"
-									:disabled="gameStore.currentScenarioId === scenario.id"
-									@click="gameStore.switchScenario(scenario.id)">
-									<span>{{ $t('scenario_' + scenario.id) }}</span>
-								</UButton>
+							<h2 class="text-lg font-bold font-mono">{{ formatTime(gameStore.totalPlayTime) }}</h2>
 
-							</div>
+							<UButton variant="subtle" size="sm"
+								:color="gameStore.isPaused ? 'success' : 'primary'"                                
+								:icon="gameStore.isPaused ? 'i-lucide-play-circle' : 'i-lucide-pause-circle'"
+								@click="gameStore.togglePause()" />
 
 						</div>
 
 					</div>
-				
-				</UCard>
+
+					<UAlert v-if="gameStore.hasWon" variant="subtle" color="success" class="text-center" icon="i-lucide-award"
+						:description="$t('victory.message')" />
+
+				</div>
+
+				<!-- Available scenarios -->
+				<div class="flex flex-col space-y-2">
+
+					<h4 class="text-xs font-semibold text-neutral-400">{{ $t('scenarios.available') }}</h4>
+					
+					<div class="grid grid-cols-2 gap-2">
+						
+						<UButton v-for="scenario in gameStore.scenarios" :key="scenario.id"
+							variant="subtle" :color="gameStore.currentScenarioId === scenario.id ? 'primary' : 'neutral'" class="justify-center"
+							:disabled="gameStore.currentScenarioId === scenario.id"
+							@click="gameStore.switchScenario(scenario.id)">
+							<span>{{ $t('scenario_' + scenario.id) }}</span>
+						</UButton>
+
+					</div>
+
+				</div>
+
+				<!-- Victories -->
+				<div class="flex flex-col space-y-2">
+
+					<h4 class="text-xs font-semibold text-neutral-400">{{ $t('scenarios.victories') }}</h4>
+
+					<div v-if="gameStore.victories && gameStore.victories.length > 0" class="flex flex-col space-y-2">
+						<div v-for="(victory, index) in gameStore.victories" :key="index"
+							class="rounded-md bg-neutral-800 p-2 flex justify-between items-center text-xs">
+
+							<div class="flex flex-col gap-1">
+								<span>{{ $t('scenario_' + victory.scenarioId) }}</span>
+								<span class="text-muted text-xs">{{ victory.date }}</span>
+							</div>
+
+							<div class="flex items-center gap-2">
+								<span>{{ formatTime(victory.totalPlayTime) }}</span>
+								<UButton color="error" variant="subtle" icon="i-lucide-trash" size="sm"
+									@click="gameStore.victoryDelete(index)" />
+							</div>
+
+						</div>
+					</div>
+					<span v-else class="text-xs italic text-muted">{{ $t('scenarios.no_victory') }}</span>
+
+				</div>
+
 			</template>
+		
 		</UModal>
 
 		<!-- Victory Modal -->
-		<UModal v-model:open="isVictoryOpen" scrollable>
-			<template #content>
-				<UCard>
+		<UModal v-model:open="isVictoryOpen" :dismissible="false" scrollable :ui="{ header: 'p-4 sm:p-4' }">
 
-					<template #header>
-						<div class="flex items-center justify-center gap-3">
-							<UIcon name="i-lucide-award" class="text-primary size-5" />
-							<h3 class="text-lg font-bold text-white">{{ $t('victory.title') }}</h3>
-						</div>
-					</template>
+			<!-- Modal Header -->
+			<template #header>
+				<div class="flex items-center justify-center gap-3">
+					<UIcon name="i-lucide-award" class="text-primary size-5" />
+					<h3 class="text-lg font-bold text-white">{{ $t('victory.title') }}</h3>
+				</div>
+			</template>
 
-					<div class="flex flex-col space-y-4">
+			<!-- Modal Body -->
+			<template #body>
 
-						<UAlert variant="subtle" color="success" class="text-center"
-							:description="$t('victory.message')" />
+				<div class="flex flex-col space-y-2">
 
-						<UCard variant="subtle" :ui="{ 'body': 'sm:p-3 p-3' }">
-							<div class="flex justify-between items-center text-xs">
-								<span class="text-sm font-bold text-neutral-200">{{ $t('scenario_' + gameStore.currentScenarioId) }}</span>
-								<span class="font-bold">{{ formatTime(gameStore.totalPlayTime) }}</span>
-							</div>
-						</UCard>
+					<UAlert variant="subtle" color="success" class="text-center" icon="i-lucide-award"
+						:description="$t('victory.message')" />
 
-						<div class="flex justify-center">
-							<UButton color="primary" variant="subtle"
-								@click="isVictoryOpen = false">
-								{{ $t('victory.close') }}
-							</UButton>
-						</div>
-
+					<div class="rounded-md bg-neutral-800 p-2 flex justify-between items-center text-xs">
+						<span>{{ $t('scenario_' + gameStore.currentScenarioId) }}</span>
+						<span>{{ formatTime(gameStore.totalPlayTime) }}</span>
 					</div>
 
-				</UCard>
+				</div>
+
+				<div class="flex justify-center">
+					<UButton color="primary" variant="subtle"
+						@click="isVictoryOpen = false">
+						{{ $t('victory.close') }}
+					</UButton>
+				</div>
+
 			</template>
+
 		</UModal>
 
 	</div>

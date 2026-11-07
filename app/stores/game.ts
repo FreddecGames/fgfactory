@@ -10,7 +10,13 @@ const AVAILABLE_SCENARIOS = [
 	{ id: "alchemy", name: "scenarios.alchemy" },
 ]
 
-interface ScenarioDataItem {
+interface Victory {
+	scenarioId: string
+	totalPlayTime: number
+	date: string
+}
+
+interface ScenarioItem {
 	id: string
 	type: 'mission' | 'item' | 'machine' | 'storer' | 'conveyor'
 	group: string
@@ -18,11 +24,11 @@ interface ScenarioDataItem {
 	requirement?: Record<string, number>
 	storers?: string[]
 	conveyors?: string[]
-	energy?: string[]
+	energy?: Record<string, number>
 	speed?: number
 }
 
-interface ScenarioDataRecipe {
+interface ScenarioRecipe {
 	id: string
 	seconds: number
 	output: Record<string, number>
@@ -32,6 +38,20 @@ interface ScenarioDataRecipe {
 
 interface Item {
 	id: string
+	name: string
+	type: string
+	group: string
+	stack: number
+	requirement?: Record<string, number>
+	max: number
+	count: number
+	prods: Prod[]
+	manuals: Manual[]
+	inLinks: Link[]
+	outLinks: Link[]
+	storages: Storage[]
+	manualCounts: number[]
+	manualCountSelected: number
 }
 
 interface Link {
@@ -42,11 +62,21 @@ interface Link {
 	conveyorSpeed: number
 	max: number
 	count: number
+	isProcessing: boolean
 	assignedCount: number
 }
 
 interface Prod {
 	id: string
+	itemId: string
+	machineId: string
+	inputs?: { id: string, count: number }[]
+	seconds: number
+	outputCount: number
+	isProcessing: boolean
+	assignedCount: number	
+	runMachineCount: number
+	remainingSeconds: number
 }
 
 interface Manual {
@@ -62,6 +92,10 @@ interface Manual {
 
 interface Storage {
 	id: string
+	itemId: string
+	storerId: string
+	capacity: number
+	assignedCount: number
 }
 
 export const useGameStore = defineStore('game', {
@@ -72,13 +106,17 @@ export const useGameStore = defineStore('game', {
 		saveIntervalId: null as ReturnType<typeof setInterval> | null,
 		isRefreshing: false,
 
-		currentScenarioId: AVAILABLE_SCENARIOS[0].id as string | null,
+		customGameName : null as string | null,
+		
+		victories: [] as Victory[],
+
+		currentScenarioId: AVAILABLE_SCENARIOS[0]?.id as string | null,
 		totalPlayTime: 0,
 		isPaused: false,
 		hasWon: false,
 
-		scenarioItems: [] as ScenarioDataItem[],
-		scenarioRecipes: [] as ScenarioDataRecipe[],
+		scenarioItems: [] as ScenarioItem[],
+		scenarioRecipes: [] as ScenarioRecipe[],
 		scenarioWinConditions: null as Record<string, number> | null,
 
 		items: [] as Item[],
@@ -157,6 +195,45 @@ export const useGameStore = defineStore('game', {
 
 			return counts
 		},
+
+		itemWarnings: (state) => {
+
+			const warnings: Record<string, boolean> = {}
+
+			for (const item of state.items) {
+
+				if (item.prods.some(prod => state.prodWarnings[prod.id]) || item.outLinks.some(link => state.linkWarnings[link.id])) warnings[item.id] = true
+				else warnings[item.id] = false
+			}
+
+			return warnings
+		},
+
+		prodWarnings: (state) => {
+
+			const warnings: Record<string, boolean> = {}
+
+			for (const prod of state.prods) {
+
+				if (prod.assignedCount > 0 && !prod.isProcessing) warnings[prod.id] = true
+				else warnings[prod.id] = false
+			}
+
+			return warnings
+		},
+
+		linkWarnings: (state) => {
+
+			const warnings: Record<string, boolean> = {}
+
+			for (const link of state.links) {
+
+				if (link.assignedCount > 0 && !link.isProcessing) warnings[link.id] = true
+				else warnings[link.id] = false
+			}
+
+			return warnings
+		},
 	},
 
 	actions: {
@@ -191,12 +268,19 @@ export const useGameStore = defineStore('game', {
 		getEncryptedData(): string {
 			const localData = {
 
-				lastSaveDate: this.lastSaveDate,
-				hasWon: this.hasWon,
-
 				currentScenarioId: this.currentScenarioId,
-				totalPlayTime: this.totalPlayTime,
+
+				hasWon: this.hasWon,
 				isPaused: this.isPaused,
+				lastSaveDate: this.lastSaveDate,
+				totalPlayTime: this.totalPlayTime,
+				customGameName: this.customGameName,
+
+				victories: this.victories.map(v => ({
+					scenarioId: v.scenarioId,
+					totalPlayTime: v.totalPlayTime,
+					date: v.date,
+				})),
 
 				items: this.items.map(i => ({
 					id: i.id,
@@ -207,6 +291,7 @@ export const useGameStore = defineStore('game', {
 
 				links: this.links.map((link: any) => ({
 					id: link.id,
+					count: link.count || 0,
 					assignedCount: link.assignedCount || 0,
 				})),
 
@@ -355,17 +440,30 @@ export const useGameStore = defineStore('game', {
 
 			console.log(decryptedLocalData)
 			
+			// Victories
+
+			if (decryptedLocalData && decryptedLocalData.victories && decryptedLocalData.victories.length > 0) {
+				decryptedLocalData.victories.forEach(victory => {
+					this.victories.push({
+
+						scenarioId: victory.scenarioId,
+						totalPlayTime: victory.totalPlayTime,
+						date: victory.date,
+					})
+				})
+			}
+
+			// Scenario data
+
 			if (decryptedLocalData && decryptedLocalData.currentScenarioId !== undefined)
 				this.currentScenarioId = decryptedLocalData.currentScenarioId
 
 			if (!AVAILABLE_SCENARIOS.some(s => s.id === this.currentScenarioId))
-				this.currentScenarioId = AVAILABLE_SCENARIOS[0].id
+				this.currentScenarioId = AVAILABLE_SCENARIOS[0]?.id
 
 			const [scenarioData] = await Promise.all([
 				fetch(`/scenarios/${this.currentScenarioId}/data.json`).then(response => response.json())
 			])
-
-			// Scenario data
 
 			this.scenarioWinConditions = scenarioData && scenarioData.winConditions ? scenarioData.winConditions : null	
 			this.scenarioItems = scenarioData && scenarioData.items ? scenarioData.items : null	
@@ -467,38 +565,41 @@ export const useGameStore = defineStore('game', {
 
 			this.links = []
 
-			dataRecipes = this.scenarioRecipes.filter(dataRecipe => dataRecipe.inputs && dataRecipe.machines.some(machineId => machineId !== 'manual'))
+			dataRecipes = this.scenarioRecipes.filter(dataRecipe => dataRecipe.machines.some(machineId => machineId !== 'manual'))
 			if (dataRecipes.length > 0) {
 				dataRecipes.forEach(dataRecipe => {
 
 					const outputId = Object.keys(dataRecipe.output)[0]
 
-					Object.keys(dataRecipe.inputs).forEach(inputId => {
+					if (dataRecipe.inputs) {
+						Object.keys(dataRecipe.inputs).forEach(inputId => {
 
-						const dataInput = this.scenarioItems.find(candidate => candidate.id === inputId)
-						dataInput?.conveyors?.forEach(conveyorId => {
+							const dataInput = this.scenarioItems.find(candidate => candidate.id === inputId)
+							dataInput?.conveyors?.forEach(conveyorId => {
 
-							const dataConveyor = this.scenarioItems.find(candidate => candidate.id === conveyorId)
+								const dataConveyor = this.scenarioItems.find(candidate => candidate.id === conveyorId)
 
-							const newLink: Link = {
+								const newLink: Link = {
 
-								id: `${inputId}_${outputId}`,
-								sourceId: inputId,
-								targetId: outputId,
-								conveyorId: dataConveyor.id,
-								conveyorSpeed: dataConveyor.speed,
+									id: `${inputId}_${outputId}`,
+									sourceId: inputId,
+									targetId: outputId,
+									conveyorId: dataConveyor.id,
+									conveyorSpeed: dataConveyor.speed,
 
-								max: 0,
-								count: 0,
-								assignedCount: 0,
-							}
+									max: 0,
+									count: 0,
+									isProcessing: false,
+									assignedCount: 0,
+								}
 
-							if (!this.links.find(l => l.id === newLink.id)) this.links.push(newLink)
+								if (!this.links.find(l => l.id === newLink.id)) this.links.push(newLink)
 
-							if (!this.itemMap[outputId].inLinks.find(l => l.id === newLink.id)) this.itemMap[outputId].inLinks.push(newLink)
-							if (!this.itemMap[inputId].outLinks.find(l => l.id === newLink.id)) this.itemMap[inputId].outLinks.push(newLink)
+								if (!this.itemMap[outputId].inLinks.find(l => l.id === newLink.id)) this.itemMap[outputId].inLinks.push(newLink)
+								if (!this.itemMap[inputId].outLinks.find(l => l.id === newLink.id)) this.itemMap[inputId].outLinks.push(newLink)
+							})
 						})
-					})
+					}
 
 					dataRecipe.machines.filter(machineId => machineId !== 'manual').forEach(machineId => {
 
@@ -521,6 +622,7 @@ export const useGameStore = defineStore('game', {
 
 										max: 0,
 										count: 0,
+										isProcessing: false,
 										assignedCount: 0,
 									}
 
@@ -549,16 +651,13 @@ export const useGameStore = defineStore('game', {
 					const outputId = Object.keys(dataRecipe.output)[0]
 					const outputCount = dataRecipe.output[outputId]
 
-					let prodInputs: { id: string, count: number }[]
-					if (dataRecipe.inputs) prodInputs = Object.entries(dataRecipe.inputs).map(([id, count]) => ({ id, count }))
-
 					dataRecipe.machines.filter(machineId => machineId !== 'manual').forEach(machineId => {
 
 						const dataMachine = this.scenarioItems.find(candidate => candidate.id === machineId)
-
-						if (dataMachine.energy)
-							if (prodInputs) prodInputs += Object.entries(dataMachine.energy).map(([id, count]) => ({ id, count }))
-							else prodInputs = Object.entries(dataMachine.energy).map(([id, count]) => ({ id, count }))
+						const prodInputs = [
+							...(dataRecipe.inputs ? Object.entries(dataRecipe.inputs).map(([id, count]) => ({ id, count })) : []),
+							...(dataMachine.energy ? Object.entries(dataMachine.energy).map(([id, count]) => ({ id, count })) : []),
+						]
 
 						const newProd: Prod = {
 
@@ -566,7 +665,7 @@ export const useGameStore = defineStore('game', {
 							itemId: outputId,
 							machineId: machineId,
 
-							inputs: prodInputs,
+							inputs: prodInputs.length > 0 ? prodInputs : undefined,
 							seconds: dataRecipe.seconds / dataMachine.speed,
 							outputCount: outputCount,
 						
@@ -591,6 +690,7 @@ export const useGameStore = defineStore('game', {
 				if (decryptedLocalData.isPaused !== undefined) this.isPaused = decryptedLocalData.isPaused
 				if (decryptedLocalData.lastSaveDate !== undefined) this.lastSaveDate = decryptedLocalData.lastSaveDate
 				if (decryptedLocalData.totalPlayTime !== undefined) this.totalPlayTime = decryptedLocalData.totalPlayTime
+				if (decryptedLocalData.customGameName !== undefined) this.customGameName = decryptedLocalData.customGameName
 
 				if (decryptedLocalData.items) {
 					decryptedLocalData.items.forEach((savedItem: any) => {
@@ -699,7 +799,17 @@ export const useGameStore = defineStore('game', {
 					break;
 				}
 
-			if (isVictorious && !this.hasWon) this.hasWon = true
+			if (isVictorious && !this.hasWon) {
+
+				this.hasWon = true
+
+				this.victories.push({
+
+					scenarioId: this.currentScenarioId,
+					totalPlayTime: this.totalPlayTime,
+					date: new Date().toLocaleString(),
+				})
+			}
 		},
 
 		processGameTick(deltaSeconds: number) {
@@ -741,12 +851,16 @@ export const useGameStore = defineStore('game', {
 
 				if (countToTransfer > 0) {
 
+					link.isProcessing = true
+
 					sourceItem.count -= countToTransfer
 					if (sourceItem.count < 0) sourceItem.count = 0
 
 					link.count += countToTransfer
 					if (link.count > link.max) link.count = link.max
+
 				}
+				else link.isProcessing = false
 			}
 
 			// Prods
@@ -769,7 +883,6 @@ export const useGameStore = defineStore('game', {
 						for (const input of prod.inputs) {
 
 							const inputLink = this.linkMap[`${input.id}_${prod.itemId}`]
-							console.log(prod.inputs)
 
 							const inputMachineCount = Math.floor(inputLink.count / input.count)
 							runMachineCount = Math.min(runMachineCount, inputMachineCount)
@@ -826,6 +939,26 @@ export const useGameStore = defineStore('game', {
 			// Check victory conditions
 
 			this.checkVictoryConditions()
+		},
+
+		// Victory actions
+
+		victoryDelete(index: number) {
+
+			this.victories.splice(index, 1)
+		},
+
+		// Item actions
+
+		updateItemMax(itemId: string): void {
+
+			const item = this.items.find(candidate => candidate.id === itemId)
+			if (!item) return
+
+			const addedCapacity = this.storages.reduce((total, storage) =>
+				storage.itemId === itemId ? total + storage.assignedCount * storage.capacity : total, 0)
+
+			item.max = Number.isFinite(item.stack) ? item.stack + addedCapacity : item.stack
 		},
 
 		// Manual actions
@@ -886,19 +1019,6 @@ export const useGameStore = defineStore('game', {
 			manual.processCount = 0
 			manual.isProcessing = false
 			manual.remainingSeconds = 0
-		},
-
-		// Item actions
-
-		updateItemMax(itemId: string): void {
-
-			const item = this.items.find(candidate => candidate.id === itemId)
-			if (!item) return
-
-			const addedCapacity = this.storages.reduce((total, storage) =>
-				storage.itemId === itemId ? total + storage.assignedCount * storage.capacity : total, 0)
-
-			item.max = Number.isFinite(item.stack) ? item.stack + addedCapacity : item.stack
 		},
 
 		// Link actions
