@@ -51,7 +51,7 @@ interface Item {
 	outLinks: Link[]
 	storages: Storage[]
 	manualCounts: number[]
-	manualCountSelected: number
+	manualSelectedCount: number
 }
 
 interface Link {
@@ -101,6 +101,14 @@ interface Storage {
 export const useGameStore = defineStore('game', {
 
 	state: () => ({
+
+		selectedItem: null as Item,
+		selectedMachine: null as Item,
+		selectedMission: null as Item,
+
+		isItemModalOpen: false,
+		isMachineModalOpen: false,
+		isMissionModalOpen: false,
 
 		lastSaveDate: 0,
 		saveIntervalId: null as ReturnType<typeof setInterval> | null,
@@ -237,6 +245,35 @@ export const useGameStore = defineStore('game', {
 	},
 
 	actions: {
+
+		// UI Modales
+
+		openItem(itemId: string) {
+
+			this.selectedItem = this.items.find(i => i.id === itemId)
+
+			this.isItemModalOpen = true
+			this.isMachineModalOpen = false
+			this.isMissionModalOpen = false
+		},
+
+		openMachine(machineId: string) {
+
+			this.selectedMachine = this.items.find(i => i.id === machineId)
+
+			this.isItemModalOpen = false
+			this.isMachineModalOpen = true
+			this.isMissionModalOpen = false
+		},
+
+		openMission(missionId: string) {
+
+			this.selectedMission = this.items.find(i => i.id === missionId)
+
+			this.isItemModalOpen = false
+			this.isMachineModalOpen = false
+			this.isMissionModalOpen = true
+		},
 
 		// Local data
 
@@ -493,7 +530,7 @@ export const useGameStore = defineStore('game', {
 					storages: [],
 
 					manualCounts: [ 1, 5, 10 ],
-					manualCountSelected: 1,
+					manualSelectedCount: 1,
 				})
 			})
 
