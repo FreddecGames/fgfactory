@@ -674,7 +674,7 @@
 
 					<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalItem.count') }}</h4>
 
-					<div class="rounded-md bg-neutral-800 p-2">
+					<div class="rounded-md bg-neutral-800 ps-2 pe-1 py-1">
 
 						<span v-if="gameStore.selectedItem.count >= gameStore.selectedItem.max" class="text-error">{{ gameStore.selectedItem.count.toFixed(0) }}</span>
 						<span v-else-if="gameStore.selectedItem.count > 0" class="text-white">{{ gameStore.selectedItem.count.toFixed(0) }}</span>
@@ -692,7 +692,7 @@
 
 					<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalItem.production') }}</h4>
 
-					<div class="rounded-md bg-neutral-800 p-2">
+					<div class="rounded-md bg-neutral-800 ps-2 pe-1 py-1">
 						<span v-if="gameStore.itemProductionRates[gameStore.selectedItem.id] > 0" class="text-success">+{{ gameStore.itemProductionRates[gameStore.selectedItem.id].toFixed(1) }} /s</span>
 						<span v-else-if="gameStore.itemProductionRates[gameStore.selectedItem.id] < 0" class="text-error">{{ gameStore.itemProductionRates[gameStore.selectedItem.id].toFixed(1) }} /s</span>
 						<span v-else class="text-muted">{{ gameStore.itemProductionRates[gameStore.selectedItem.id].toFixed(1) }} /s</span>						
@@ -709,12 +709,17 @@
 
 				<div class="flex flex-col gap-1">
 					<div v-for="storage in gameStore.selectedItem.storages" :key="storage.id"
-						class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 p-2">
+						class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 ps-2 pe-1 py-1">
 
 						<div class="flex min-w-0 items-center gap-2">
-							<img :src="gameStore.itemImgs[storage.storerId]" :alt="$t(`items.${storage.storerId}`)" class="size-5 shrink-0 object-contain" />
-							<span class="truncate text-xs text-muted">{{ $t(`items.${storage.storerId}`) }}</span>
+
+							<UButton color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
+								:avatar="{ src:gameStore.itemImgs[storage.storerId] }"
+								:label="$t(`items.${storage.storerId}`)"
+								@click="gameStore.openMachine(storage.storerId)" />
+
 							<UBadge v-if="gameStore.itemAvailableCounts[storage.storerId] > 0" variant="subtle" color="success" size="sm">{{ gameStore.itemAvailableCounts[storage.storerId] }}</UBadge>
+
 						</div>								
 
 						<div class="flex shrink-0 items-center gap-6">
@@ -771,9 +776,15 @@
 						class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 p-2">
 
 						<div class="flex min-w-0 items-center gap-2">
-							<img :src="gameStore.itemImgs[prod.machineId]" :alt="$t(`items.${prod.machineId}`)" class="size-5 shrink-0 object-contain" />
-							<span class="truncate text-xs text-muted">{{ $t(`items.${prod.machineId}`) }}</span>
+
+							<UButton color="neutral" variant="soft" size="xs"
+								:avatar="{ src:gameStore.itemImgs[prod.machineId] }"
+								@click="gameStore.openMachine(prod.machineId)">
+								<span class="truncate text-muted">{{ $t(`items.${prod.machineId}`) }}</span>
+							</UButton>
+
 							<UBadge v-if="gameStore.itemAvailableCounts[prod.machineId] > 0" variant="subtle" color="success" size="sm">{{ gameStore.itemAvailableCounts[prod.machineId] }}</UBadge>
+
 						</div>
 
 						<div class="flex shrink-0 items-center gap-6">
@@ -813,9 +824,15 @@
 						class="flex items-center justify-between gap-4 rounded-md bg-neutral-800 p-2">
 
 						<div class="flex min-w-0 items-center gap-2">
-							<img :src="gameStore.itemImgs[link.conveyorId]" :alt="$t(`items.${link.conveyorId}`)" class="size-5 shrink-0 object-contain" />
-							<span class="truncate text-xs text-muted">{{ $t(`items.${link.conveyorId}`) }}</span>
+
+							<UButton color="neutral" variant="soft" size="xs"
+								:avatar="{ src:gameStore.itemImgs[link.conveyorId] }"
+								@click="gameStore.openMachine(link.conveyorId)">
+								<span class="truncate text-muted">{{ $t(`items.${link.conveyorId}`) }}</span>
+							</UButton>
+
 							<UBadge v-if="gameStore.itemAvailableCounts[link.conveyorId] > 0" variant="subtle" color="success" size="sm">{{ gameStore.itemAvailableCounts[link.conveyorId] }}</UBadge>
+
 						</div>
 
 						<div class="flex shrink-0 items-center gap-6">
@@ -829,7 +846,9 @@
 								<UIcon name="i-lucide-move-right" size="xs" class="text-muted" />
 
 								<UTooltip :text="$t(`items.${link.targetId}`)">
-									<img :src="gameStore.itemImgs[link.targetId]" :alt="$t(`items.${link.targetId}`)" class="size-5 shrink-0 object-contain" />
+									<UButton color="neutral" variant="soft" size="xs"
+										:avatar="{ src:gameStore.itemImgs[link.targetId] }"
+										@click="gameStore.openMachine(link.targetId)" />
 								</UTooltip>
 
 							</div>

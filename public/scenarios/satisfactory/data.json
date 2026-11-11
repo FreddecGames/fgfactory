@@ -87,83 +87,152 @@
           "requirement":{ "phase_4":1 }
         },
         
-        { "type":"item", "group":"ore", "id":"iron", "stack":100,
+        { "type":"item", "group":"raw", "id":"iron", "stack":100,
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"ore", "id":"copper", "stack":100,
+        { "type":"item", "group":"raw", "id":"copper", "stack":100,
           "requirement":{ "onboarding_2":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"ore", "id":"biomass", "stack":100,
-          "requirement":{ "onboarding_2":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"ore", "id":"limestone", "stack":100,
+        { "type":"item", "group":"raw", "id":"limestone", "stack":100,
           "requirement":{ "onboarding_3":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"ore", "id":"coal", "stack":100,
+        { "type":"item", "group":"raw", "id":"coal", "stack":100,
           "requirement":{ "coal_power":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"ore", "id":"caterium", "stack":100,
+        { "type":"item", "group":"raw", "id":"caterium", "stack":100,
           "requirement":{ "fuel_power":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"ore", "id":"bauxite", "stack":100,
+        { "type":"item", "group":"raw", "id":"bauxite", "stack":100,
           "requirement":{ "bauxite_refinement":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"ore", "id":"quartz", "stack":100,
+        { "type":"item", "group":"raw", "id":"quartz", "stack":100,
           "requirement":{ "bauxite_refinement":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"ore", "id":"sulfur", "stack":100,
+        { "type":"item", "group":"raw", "id":"sulfur", "stack":100,
           "requirement":{ "control_system":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"ore", "id":"uranium", "stack":100,
+        { "type":"item", "group":"raw", "id":"uranium", "stack":100,
           "requirement":{ "nuclear_power":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"ore", "id":"sam", "stack":100,
+        { "type":"item", "group":"raw", "id":"sam", "stack":100,
           "requirement":{ "matter_conversion":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
-        },
-        
-        { "type":"item", "group":"smelted", "id":"iron_ingot", "stack":100,
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"smelted", "id":"copper_ingot", "stack":100,
+        },        
+        { "type":"item", "group":"raw", "id":"biomass", "stack":100,
           "requirement":{ "onboarding_2":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"smelted", "id":"caterium_ingot", "stack":100,
-          "requirement":{ "fuel_power":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
+        { "type":"item", "group":"raw", "id":"water", "stack":400,
+          "requirement":{ "coal_power":1 },
+          "storers":[ "fluid_storer_1", "fluid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"raw", "id":"oil", "stack":400,
+          "requirement":{ "oil_prod":1 },
+          "storers":[ "fluid_storer_1", "fluid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"raw", "id":"nitrogen", "stack":400,
+          "requirement":{ "aluminum_prod":1 },
+          "storers":[ "fluid_storer_1", "fluid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
         
-        { "type":"item", "group":"founded", "id":"steel_ingot", "stack":100,
+        { "type":"item", "group":"transformed", "id":"iron_ingot", "stack":100,
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"transformed", "id":"copper_ingot", "stack":100,
+          "requirement":{ "onboarding_2":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"transformed", "id":"concrete", "stack":500,
+          "requirement":{ "onboarding_3":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"transformed", "id":"caterium_ingot", "stack":100,
+          "requirement":{ "fuel_power":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },        
+        { "type":"item", "group":"transformed", "id":"steel_ingot", "stack":100,
           "requirement":{ "steel_prod_1":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"founded", "id":"aluminum_ingot", "stack":100,
+        { "type":"item", "group":"transformed", "id":"aluminum_ingot", "stack":100,
           "requirement":{ "bauxite_refinement":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"transformed", "id":"silica", "stack":200,
+          "requirement":{ "bauxite_refinement":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"transformed", "id":"quartz_crystal", "stack":200,
+          "requirement":{ "bauxite_refinement":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"transformed", "id":"fuel", "stack":400,
+          "requirement":{ "oil_prod":1 },
+          "storers":[ "fluid_storer_1", "fluid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"transformed", "id":"plastic", "stack":200,
+          "requirement":{ "oil_prod":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"transformed", "id":"polymer_resin", "stack":200,
+          "requirement":{ "oil_prod":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"transformed", "id":"rubber", "stack":200,
+          "requirement":{ "oil_prod":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },        
+        { "type":"item", "group":"transformed", "id":"alumina_solution", "stack":400,
+          "requirement":{ "bauxite_refinement":1 },
+          "storers":[ "fluid_storer_1", "fluid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"transformed", "id":"aluminum_scrap", "stack":500,
+          "requirement":{ "bauxite_refinement":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"transformed", "id":"sulfuric_acid", "stack":400,
+          "requirement":{ "control_system":1 },
+          "storers":[ "fluid_storer_1", "fluid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"transformed", "id":"reanimated_sam", "stack":100,
+          "requirement":{ "matter_conversion":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
@@ -185,368 +254,291 @@
 		  "conveyors":[ "energy_conveyor" ]
         },
         
-        { "type":"item", "group":"constructed", "id":"iron_rod", "stack":200,
+        { "type":"item", "group":"material", "id":"iron_rod", "stack":200,
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"constructed", "id":"iron_plate", "stack":200,
+        { "type":"item", "group":"material", "id":"iron_plate", "stack":200,
           "requirement":{ "onboarding_1":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"constructed", "id":"screws", "stack":500,
-          "requirement":{ "onboarding_3":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"constructed", "id":"wire", "stack":500,
+        { "type":"item", "group":"material", "id":"wire", "stack":500,
           "requirement":{ "onboarding_2":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"constructed", "id":"cable", "stack":200,
-          "requirement":{ "onboarding_3":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"constructed", "id":"copper_sheet", "stack":200,
+        { "type":"item", "group":"material", "id":"copper_sheet", "stack":200,
           "requirement":{ "coal_power":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"constructed", "id":"copper_powder", "stack":500,
+        { "type":"item", "group":"material", "id":"copper_powder", "stack":500,
           "requirement":{ "particle_enrichment":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"constructed", "id":"concrete", "stack":500,
-          "requirement":{ "onboarding_3":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"constructed", "id":"steel_beam", "stack":200,
+        { "type":"item", "group":"material", "id":"steel_beam", "stack":200,
           "requirement":{ "steel_prod_1":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"constructed", "id":"steel_pipe", "stack":200,
+        { "type":"item", "group":"material", "id":"steel_pipe", "stack":200,
           "requirement":{ "steel_prod_1":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"constructed", "id":"quickwire", "stack":500,
+        { "type":"item", "group":"material", "id":"quickwire", "stack":500,
           "requirement":{ "fuel_power":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"constructed", "id":"silica", "stack":200,
+        { "type":"item", "group":"material", "id":"aluminum_casing", "stack":200,
           "requirement":{ "bauxite_refinement":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"constructed", "id":"quartz_crystal", "stack":200,
+        { "type":"item", "group":"material", "id":"alclad_aluminum_sheet", "stack":200,
           "requirement":{ "bauxite_refinement":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"constructed", "id":"aluminum_casing", "stack":200,
-          "requirement":{ "bauxite_refinement":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"constructed", "id":"reanimated_sam", "stack":100,
-          "requirement":{ "matter_conversion":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"constructed", "id":"ficsite_trigon", "stack":200,
+        { "type":"item", "group":"material", "id":"ficsite_ingot", "stack":100,
           "requirement":{ "matter_conversion":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
 
-        { "type":"item", "group":"assembled", "id":"iron_plate_reinforced", "stack":100,
+        { "type":"item", "group":"component", "id":"cable", "stack":200,
           "requirement":{ "onboarding_3":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"assembled", "id":"rotor", "stack":100,
+        { "type":"item", "group":"component", "id":"screws", "stack":500,
+          "requirement":{ "onboarding_3":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"iron_plate_reinforced", "stack":100,
+          "requirement":{ "onboarding_3":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"rotor", "stack":100,
           "requirement":{ "part_assembly":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"assembled", "id":"modular_frame", "stack":50,
+        { "type":"item", "group":"component", "id":"modular_frame", "stack":50,
           "requirement":{ "part_assembly":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"assembled", "id":"smart_plating", "stack":50,
+        { "type":"item", "group":"component", "id":"smart_plating", "stack":50,
           "requirement":{ "part_assembly":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"assembled", "id":"versatile_framework", "stack":50,
+        { "type":"item", "group":"component", "id":"versatile_framework", "stack":50,
           "requirement":{ "steel_prod_1":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"assembled", "id":"encased_industrial_beam", "stack":100,
+        { "type":"item", "group":"component", "id":"encased_industrial_beam", "stack":100,
           "requirement":{ "steel_prod_2":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"assembled", "id":"stator", "stack":100,
+        { "type":"item", "group":"component", "id":"stator", "stack":100,
           "requirement":{ "steel_prod_2":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"assembled", "id":"motor", "stack":50,
+        { "type":"item", "group":"component", "id":"motor", "stack":50,
           "requirement":{ "steel_prod_2":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"assembled", "id":"automated_wiring", "stack":50,
+        { "type":"item", "group":"component", "id":"automated_wiring", "stack":50,
           "requirement":{ "steel_prod_2":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"assembled", "id":"circuit_board", "stack":200,
+        { "type":"item", "group":"component", "id":"circuit_board", "stack":200,
           "requirement":{ "oil_prod":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"assembled", "id":"alclad_aluminum_sheet", "stack":200,
+        { "type":"item", "group":"component", "id":"computer", "stack":50,
+          "requirement":{ "manufacturing":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"heavy_modular_frame", "stack":50,
+          "requirement":{ "manufacturing":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"modular_engine", "stack":50,
+          "requirement":{ "manufacturing":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"adaptive_control_unit", "stack":50,
+          "requirement":{ "manufacturing":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"crystal_oscillator", "stack":100,
           "requirement":{ "bauxite_refinement":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"assembled", "id":"ai_limiter", "stack":100,
+        { "type":"item", "group":"component", "id":"ai_limiter", "stack":100,
+          "requirement":{ "control_system":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },        
+        { "type":"item", "group":"component", "id":"high_speed_connector", "stack":100,
           "requirement":{ "control_system":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"assembled", "id":"assembly_director_system", "stack":50,
+        { "type":"item", "group":"component", "id":"radio_control_unit", "stack":50,
           "requirement":{ "control_system":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"assembled", "id":"heat_sink", "stack":100,
+        { "type":"item", "group":"component", "id":"supercomputer", "stack":50,
+          "requirement":{ "control_system":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"assembly_director_system", "stack":50,
+          "requirement":{ "control_system":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"encased_uranium_cell", "stack":200,
+          "requirement":{ "nuclear_power":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"uranium_fuel_rod", "stack":50,
+          "requirement":{ "nuclear_power":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"electromagnetic_control_rod", "stack":100,
+          "requirement":{ "nuclear_power":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"magnetic_field_generator", "stack":50,
+          "requirement":{ "nuclear_power":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"heat_sink", "stack":100,
           "requirement":{ "aluminum_prod":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"assembled", "id":"electromagnetic_control_rod", "stack":100,
-          "requirement":{ "nuclear_power":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"assembled", "id":"magnetic_field_generator", "stack":50,
-          "requirement":{ "nuclear_power":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"assembled", "id":"pressure_conversion_cube", "stack":50,
-          "requirement":{ "particle_enrichment":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        
-        { "type":"item", "group":"fluid", "id":"water", "stack":400,
-          "requirement":{ "coal_power":1 },
-          "storers":[ "fluid_storer_1", "fluid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"fluid", "id":"oil", "stack":400,
-          "requirement":{ "oil_prod":1 },
-          "storers":[ "fluid_storer_1", "fluid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"fluid", "id":"nitrogen", "stack":400,
+        { "type":"item", "group":"component", "id":"cooling_system", "stack":100,
           "requirement":{ "aluminum_prod":1 },
-          "storers":[ "fluid_storer_1", "fluid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        
-        { "type":"item", "group":"refined", "id":"fuel", "stack":400,
-          "requirement":{ "oil_prod":1 },
-          "storers":[ "fluid_storer_1", "fluid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"refined", "id":"plastic", "stack":200,
-          "requirement":{ "oil_prod":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"refined", "id":"polymer_resin", "stack":200,
-          "requirement":{ "oil_prod":1 },
+        { "type":"item", "group":"component", "id":"fused_modular_frame", "stack":50,
+          "requirement":{ "aluminum_prod":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"refined", "id":"rubber", "stack":200,
-          "requirement":{ "oil_prod":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"refined", "id":"alumina_solution", "stack":400,
-          "requirement":{ "bauxite_refinement":1 },
-          "storers":[ "fluid_storer_1", "fluid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"refined", "id":"aluminum_scrap", "stack":500,
-          "requirement":{ "bauxite_refinement":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"refined", "id":"sulfuric_acid", "stack":400,
-          "requirement":{ "control_system":1 },
-          "storers":[ "fluid_storer_1", "fluid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        
-        { "type":"item", "group":"manufactured", "id":"computer", "stack":50,
-          "requirement":{ "manufacturing":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"manufactured", "id":"heavy_modular_frame", "stack":50,
-          "requirement":{ "manufacturing":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"manufactured", "id":"modular_engine", "stack":50,
-          "requirement":{ "manufacturing":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"manufactured", "id":"adaptive_control_unit", "stack":50,
-          "requirement":{ "manufacturing":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"manufactured", "id":"high_speed_connector", "stack":100,
-          "requirement":{ "control_system":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"manufactured", "id":"radio_control_unit", "stack":50,
-          "requirement":{ "control_system":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"manufactured", "id":"supercomputer", "stack":50,
-          "requirement":{ "control_system":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"manufactured", "id":"crystal_oscillator", "stack":100,
-          "requirement":{ "bauxite_refinement":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"manufactured", "id":"uranium_fuel_rod", "stack":50,
-          "requirement":{ "nuclear_power":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"manufactured", "id":"turbo_motor", "stack":50,
+        { "type":"item", "group":"component", "id":"turbo_motor", "stack":50,
           "requirement":{ "leading_edge_prod":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"manufactured", "id":"thermal_propulsion_rocket", "stack":50,
+        { "type":"item", "group":"component", "id":"thermal_propulsion_rocket", "stack":50,
           "requirement":{ "leading_edge_prod":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"manufactured", "id":"sam_fluctuator", "stack":100,
-          "requirement":{ "matter_conversion":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"manufactured", "id":"singularity_cell", "stack":50,
-          "requirement":{ "spatial_regulation":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"manufactured", "id":"ballistic_warp_drive", "stack":50,
-          "requirement":{ "spatial_regulation":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        
-        { "type":"item", "group":"blended", "id":"cooling_system", "stack":100,
-          "requirement":{ "aluminum_prod":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"blended", "id":"encased_uranium_cell", "stack":200,
-          "requirement":{ "nuclear_power":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"blended", "id":"fused_modular_frame", "stack":50,
-          "requirement":{ "aluminum_prod":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"blended", "id":"biochemical_sculptor", "stack":50,
-          "requirement":{ "matter_conversion":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        
-        { "type":"item", "group":"accelerated", "id":"diamonds", "stack":200,
-          "requirement":{ "matter_conversion":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"accelerated", "id":"dark_matter_crystal", "stack":200,
-          "requirement":{ "quantum_encoding":1 },
-          "storers":[ "solid_storer_1", "solid_storer_2" ],
-		  "conveyors":[ "solid_conveyor" ]
-        },
-        { "type":"item", "group":"accelerated", "id":"nuclear_pasta", "stack":50,
+        { "type":"item", "group":"component", "id":"pressure_conversion_cube", "stack":50,
           "requirement":{ "particle_enrichment":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        
-        { "type":"item", "group":"converted", "id":"time_crystal", "stack":200,
+        { "type":"item", "group":"component", "id":"nuclear_pasta", "stack":50,
+          "requirement":{ "particle_enrichment":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"diamonds", "stack":200,
           "requirement":{ "matter_conversion":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"converted", "id":"ficsite_ingot", "stack":100,
+        { "type":"item", "group":"component", "id":"time_crystal", "stack":200,
           "requirement":{ "matter_conversion":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"converted", "id":"dark_matter_residue", "stack":400,
+        { "type":"item", "group":"component", "id":"ficsite_trigon", "stack":200,
+          "requirement":{ "matter_conversion":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"sam_fluctuator", "stack":100,
+          "requirement":{ "matter_conversion":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"biochemical_sculptor", "stack":50,
+          "requirement":{ "matter_conversion":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"excited_photonic_matter", "stack":400,
           "requirement":{ "quantum_encoding":1 },
           "storers":[ "fluid_storer_1", "fluid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"converted", "id":"excited_photonic_matter", "stack":400,
+        { "type":"item", "group":"component", "id":"dark_matter_residue", "stack":400,
           "requirement":{ "quantum_encoding":1 },
           "storers":[ "fluid_storer_1", "fluid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        
-        { "type":"item", "group":"encoded", "id":"neural_quantum_processor", "stack":50,
+        { "type":"item", "group":"component", "id":"dark_matter_crystal", "stack":200,
           "requirement":{ "quantum_encoding":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"encoded", "id":"superposition_oscillator", "stack":100,
+        { "type":"item", "group":"component", "id":"superposition_oscillator", "stack":100,
           "requirement":{ "quantum_encoding":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
-        { "type":"item", "group":"encoded", "id":"ai_expansion_server", "stack":50,
+        { "type":"item", "group":"component", "id":"neural_quantum_processor", "stack":50,
           "requirement":{ "quantum_encoding":1 },
           "storers":[ "solid_storer_1", "solid_storer_2" ],
 		  "conveyors":[ "solid_conveyor" ]
         },
+        { "type":"item", "group":"component", "id":"ai_expansion_server", "stack":50,
+          "requirement":{ "quantum_encoding":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"singularity_cell", "stack":50,
+          "requirement":{ "spatial_regulation":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },
+        { "type":"item", "group":"component", "id":"ballistic_warp_drive", "stack":50,
+          "requirement":{ "spatial_regulation":1 },
+          "storers":[ "solid_storer_1", "solid_storer_2" ],
+		  "conveyors":[ "solid_conveyor" ]
+        },        
         
         { "type":"machine", "group":"extractors", "id":"miner_0", "initialCount":1,
           "requirement":{ "onboarding_1":1 },
