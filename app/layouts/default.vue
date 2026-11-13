@@ -848,7 +848,7 @@
 								<UTooltip :text="$t(`items.${link.targetId}`)">
 									<UButton color="neutral" variant="soft" size="xs"
 										:avatar="{ src:gameStore.itemImgs[link.targetId] }"
-										@click="gameStore.openMachine(link.targetId)" />
+										@click="gameStore.openItem(link.targetId)" />
 								</UTooltip>
 
 							</div>

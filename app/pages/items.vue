@@ -26,7 +26,7 @@
 
 		<div class="flex flex-wrap items-center justify-center gap-2">
 			<UTooltip v-for="item in items" :key="item.id" :text="$t(`items.${item.id}`)">
-				<UButton color="neutral" variant="subtle" class="relative aspect-square size-10"
+				<UButton color="neutral" variant="subtle" class="relative aspect-square size-11"
 					@click="gameStore.openItem(item.id)">
 
 					<img :src="gameStore.itemImgs[item.id]" :alt="$t(`items.${item.id}`)" class="size-full object-contain" />
