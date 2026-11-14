@@ -26,19 +26,19 @@
 
 		<div class="flex flex-wrap items-center justify-center gap-2">
 			<UTooltip v-for="machine in machines" :key="machine.id" :text="$t(`items.${machine.id}`)">
-				<UButton color="neutral" variant="subtle" class="relative aspect-square size-10"
+				<UButton color="neutral" variant="subtle" class="relative aspect-square size-11"
 					@click="gameStore.openMachine(machine.id)">
 
 					<img :src="gameStore.itemImgs[machine.id]" :alt="$t(`items.${machine.id}`)" class="size-full object-contain" />
 
 					<UBadge v-if="machine.count != 0" size="xs" color="neutral" variant="subtle"
-						class="absolute -top-0.5 -right-0.5 z-10">
+						class="absolute -top-1 -right-0.5 z-10">
 						<span v-if="machine.count > 0" class="text-white">{{ machine.count.toFixed(0) }}</span>
 						<span v-else-if="machine.count < 0" class="text-error">{{ machine.count.toFixed(0) }}</span>
 					</UBadge>
 
 					<UBadge v-if="gameStore.itemAvailableCounts[machine.id] > 0" size="xs" color="neutral" variant="subtle"
-						class="absolute -bottom-0.5 -right-0.5 z-10">
+						class="absolute -bottom-1 -right-0.5 z-10">
 						<span class="text-success">{{ gameStore.itemAvailableCounts[machine.id] }}</span>
 					</UBadge>
 

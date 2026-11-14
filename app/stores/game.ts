@@ -45,8 +45,8 @@ interface Item {
 	requirement?: Record<string, number>
 	max: number
 	count: number
+	manual: Manual
 	prods: Prod[]
-	manuals: Manual[]
 	inLinks: Link[]
 	outLinks: Link[]
 	storages: Storage[]
@@ -511,7 +511,8 @@ export const useGameStore = defineStore('game', {
 			this.items = []
 
 			scenarioData.items.forEach((itemData: any) => {
-				this.items.push({
+
+				const newItem: Item = {
 
 					id: itemData.id,
 					name: 'item_' + itemData.id,
@@ -524,200 +525,178 @@ export const useGameStore = defineStore('game', {
 					count: itemData.initialCount || 0,
 
 					prods: [],
-					manuals: [],
 					inLinks: [],
 					outLinks: [],
 					storages: [],
 
 					manualCounts: [ 1, 5, 10 ],
 					manualSelectedCount: 1,
-				})
-			})
+				}
 
-			this.itemMap = {}
-			this.items.forEach(item => { this.itemMap[item.id] = item })
+				this.items.push(newItem)
 
-			// Manuals
+				// Storages
 
-			this.manuals = []
-
-			let dataRecipes = this.scenarioRecipes.filter(dataRecipe => dataRecipe.machines.includes('manual'))
-			if (dataRecipes.length > 0) {
-				dataRecipes.forEach(dataRecipe => {
-
-					const outputId = Object.keys(dataRecipe.output)[0]
-					const outputCount = dataRecipe.output[outputId]
-
-					let manualInputs: { id: string, count: number }[] | undefined = undefined;
-					if (dataRecipe.inputs) manualInputs = Object.entries(dataRecipe.inputs).map(([id, count]) => ({ id, count }))
-
-					const newManual: Manual = {
-
-						id: `${outputId}_manual`,
-						itemId: outputId,
-						inputs: manualInputs,
-						seconds: dataRecipe.seconds,
-						outputCount: outputCount,
-
-						isProcessing: false,
-						processCount: 0,
-						remainingSeconds: 0,
-					}
-
-					this.manuals.push(newManual)
-
-					this.itemMap[outputId].manuals.push(newManual)
-				})
-			}
-
-			// Storages
-
-			this.storages = []
-
-			let dataItems = this.scenarioItems.filter(dataItem => dataItem.storers && dataItem.storers.length > 0)
-			if (dataItems.length > 0) {
-				dataItems.forEach(dataItem => {					
-					dataItem.storers.forEach((storerId: string) => {
+				if (itemData.storers && itemData.storers.length > 0) {
+					itemData.storers.forEach((storerId: string) => {
 
 						const dataStorer = this.scenarioItems.find(candidate => candidate.id === storerId)
 
 						const newStorage: Storage = {
 
-							id: `${dataItem.id}_${storerId}`,
-							itemId: dataItem.id,
+							id: `${itemData.id}_${storerId}`,
+							itemId: itemData.id,
 							storerId: dataStorer.id,
-							capacity: dataStorer.speed * dataItem.stack,
+							capacity: dataStorer.speed * itemData.stack,
 
 							assignedCount: 0
 						}
 
 						this.storages.push(newStorage)
 
-						this.itemMap[dataItem.id].storages.push(newStorage)
+						newItem.storages.push(newStorage)
 					})
-				})
-			}
+				}
+			})
 
-			// Links
+			this.itemMap = {}
+			this.items.forEach(item => { this.itemMap[item.id] = item })
 
-			this.links = []
+			scenarioData.items.filter(i => i.recipe).forEach((itemData: any) => {
 
-			dataRecipes = this.scenarioRecipes.filter(dataRecipe => dataRecipe.machines.some(machineId => machineId !== 'manual'))
-			if (dataRecipes.length > 0) {
-				dataRecipes.forEach(dataRecipe => {
+				// Input Links
 
-					const outputId = Object.keys(dataRecipe.output)[0]
+				if (itemData.recipe.inputs && itemData.recipe.machines && itemData.recipe.machines.some(m => m !== 'manual')) {
+					Object.keys(itemData.recipe.inputs).forEach(inputId => {
 
-					if (dataRecipe.inputs) {
-						Object.keys(dataRecipe.inputs).forEach(inputId => {
+						const dataInput = this.scenarioItems.find(candidate => candidate.id === inputId)
+						dataInput?.conveyors?.forEach(conveyorId => {
 
-							const dataInput = this.scenarioItems.find(candidate => candidate.id === inputId)
-							dataInput?.conveyors?.forEach(conveyorId => {
+							const dataConveyor = this.scenarioItems.find(candidate => candidate.id === conveyorId)
 
-								const dataConveyor = this.scenarioItems.find(candidate => candidate.id === conveyorId)
+							const newLink: Link = {
 
-								const newLink: Link = {
+								id: `${inputId}_${itemData.id}`,
+								sourceId: inputId,
+								targetId: itemData.id,
+								conveyorId: dataConveyor.id,
+								conveyorSpeed: dataConveyor.speed,
 
-									id: `${inputId}_${outputId}`,
-									sourceId: inputId,
-									targetId: outputId,
-									conveyorId: dataConveyor.id,
-									conveyorSpeed: dataConveyor.speed,
+								max: 0,
+								count: 0,
+								isProcessing: false,
+								assignedCount: 0,
+							}
 
-									max: 0,
-									count: 0,
+							if (!this.links.find(l => l.id === newLink.id)) this.links.push(newLink)
+
+							if (!this.itemMap[itemData.id].inLinks.find(l => l.id === newLink.id)) this.itemMap[itemData.id].inLinks.push(newLink)
+							if (!this.itemMap[inputId].outLinks.find(l => l.id === newLink.id)) this.itemMap[inputId].outLinks.push(newLink)
+						})
+					})
+				}
+
+				if (itemData.recipe.machines && itemData.recipe.machines.length > 0) {
+					itemData.recipe.machines.forEach(machineId => {
+
+						// Manual
+
+						if (machineId ==='manual') {
+
+							let manualInputs: { id: string, count: number }[] | undefined = undefined;
+							if (itemData.recipe.inputs) manualInputs = Object.entries(itemData.recipe.inputs).map(([id, count]) => ({ id, count }))
+
+							const newManual: Manual = {
+
+								id: `${itemData.id}_manual`,
+								itemId: itemData.id,
+								inputs: manualInputs,
+								seconds: itemData.recipe.seconds,
+								outputCount: itemData.recipe.output,
+
+								isProcessing: false,
+								processCount: 0,
+								remainingSeconds: 0,
+							}
+
+							this.manuals.push(newManual)
+
+							this.itemMap[itemData.id].manual = newManual
+						}
+						else {
+
+							// Energy Links
+
+							const dataMachine = this.scenarioItems.find(candidate => candidate.id === machineId)
+							if (dataMachine?.energy) {
+								Object.keys(dataMachine.energy).forEach(energyId => {
+
+									const dataEnergy = this.scenarioItems.find(candidate => candidate.id === energyId)
+									dataEnergy?.conveyors?.forEach(conveyorId => {
+
+										const dataConveyor = this.scenarioItems.find(candidate => candidate.id === conveyorId)
+
+										const newLink: Link = {
+
+											id: `${energyId}_${itemData.id}`,
+											sourceId: energyId,
+											targetId: itemData.id,
+											conveyorId: dataConveyor.id,
+											conveyorSpeed: dataConveyor.speed,
+
+											max: 0,
+											count: 0,
+											isProcessing: false,
+											assignedCount: 0,
+										}
+
+										if (!this.links.find(l => l.id === newLink.id)) this.links.push(newLink)
+
+										if (!this.itemMap[itemData.id].inLinks.find(l => l.id === newLink.id)) this.itemMap[itemData.id].inLinks.push(newLink)
+										if (!this.itemMap[energyId].outLinks.find(l => l.id === newLink.id)) this.itemMap[energyId].outLinks.push(newLink)
+									})
+								})
+							}
+
+							// Prods
+
+							const outputCount = itemData.recipe.output
+
+							itemData.recipe.machines.filter(machineId => machineId !== 'manual').forEach(machineId => {
+
+								const dataMachine = this.scenarioItems.find(candidate => candidate.id === machineId)
+								const prodInputs = [
+									...(itemData.recipe.inputs ? Object.entries(itemData.recipe.inputs).map(([id, count]) => ({ id, count })) : []),
+									...(dataMachine.energy ? Object.entries(dataMachine.energy).map(([id, count]) => ({ id, count })) : []),
+								]
+
+								const newProd: Prod = {
+
+									id: `${itemData.id}_${machineId}`,
+									itemId: itemData.id,
+									machineId: machineId,
+
+									inputs: prodInputs.length > 0 ? prodInputs : undefined,
+									seconds: itemData.recipe.seconds / dataMachine.speed,
+									outputCount: outputCount,
+								
 									isProcessing: false,
-									assignedCount: 0,
+									assignedCount: 0,	
+									runMachineCount: 0,
+									remainingSeconds: 0,
 								}
 
-								if (!this.links.find(l => l.id === newLink.id)) this.links.push(newLink)
+								this.prods.push(newProd)
 
-								if (!this.itemMap[outputId].inLinks.find(l => l.id === newLink.id)) this.itemMap[outputId].inLinks.push(newLink)
-								if (!this.itemMap[inputId].outLinks.find(l => l.id === newLink.id)) this.itemMap[inputId].outLinks.push(newLink)
-							})
-						})
-					}
-
-					dataRecipe.machines.filter(machineId => machineId !== 'manual').forEach(machineId => {
-
-						const dataMachine = this.scenarioItems.find(candidate => candidate.id === machineId)
-						if (dataMachine?.energy) {
-							Object.keys(dataMachine.energy).forEach(energyId => {
-
-								const dataEnergy = this.scenarioItems.find(candidate => candidate.id === energyId)
-								dataEnergy?.conveyors?.forEach(conveyorId => {
-
-									const dataConveyor = this.scenarioItems.find(candidate => candidate.id === conveyorId)
-
-									const newLink: Link = {
-
-										id: `${energyId}_${outputId}`,
-										sourceId: energyId,
-										targetId: outputId,
-										conveyorId: dataConveyor.id,
-										conveyorSpeed: dataConveyor.speed,
-
-										max: 0,
-										count: 0,
-										isProcessing: false,
-										assignedCount: 0,
-									}
-
-									if (!this.links.find(l => l.id === newLink.id)) this.links.push(newLink)
-
-									if (!this.itemMap[outputId].inLinks.find(l => l.id === newLink.id)) this.itemMap[outputId].inLinks.push(newLink)
-									if (!this.itemMap[energyId].outLinks.find(l => l.id === newLink.id)) this.itemMap[energyId].outLinks.push(newLink)
-								})
+								this.itemMap[itemData.id].prods.push(newProd)
 							})
 						}
 					})
-				})
-			}
+				}
+			})
 
 			this.linkMap = {}
 			this.links.forEach(link => { this.linkMap[link.id] = link })
-
-			// Prods
-
-			this.prods = []
-
-			dataRecipes = this.scenarioRecipes.filter(dataRecipe => dataRecipe.machines && dataRecipe.machines.some(machineId => machineId !== 'manual'))
-			if (dataRecipes.length > 0) {
-				dataRecipes.forEach(dataRecipe => {
-
-					const outputId = Object.keys(dataRecipe.output)[0]
-					const outputCount = dataRecipe.output[outputId]
-
-					dataRecipe.machines.filter(machineId => machineId !== 'manual').forEach(machineId => {
-
-						const dataMachine = this.scenarioItems.find(candidate => candidate.id === machineId)
-						const prodInputs = [
-							...(dataRecipe.inputs ? Object.entries(dataRecipe.inputs).map(([id, count]) => ({ id, count })) : []),
-							...(dataMachine.energy ? Object.entries(dataMachine.energy).map(([id, count]) => ({ id, count })) : []),
-						]
-
-						const newProd: Prod = {
-
-							id: `${outputId}_${machineId}`,
-							itemId: outputId,
-							machineId: machineId,
-
-							inputs: prodInputs.length > 0 ? prodInputs : undefined,
-							seconds: dataRecipe.seconds / dataMachine.speed,
-							outputCount: outputCount,
-						
-							isProcessing: false,
-							assignedCount: 0,	
-							runMachineCount: 0,
-							remainingSeconds: 0,
-						}
-
-						this.prods.push(newProd)
-
-						this.itemMap[outputId].prods.push(newProd)
-					})
-				})
-			}
 
 			// Saved data
 
