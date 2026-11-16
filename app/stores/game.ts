@@ -185,9 +185,9 @@ export const useGameStore = defineStore('game', {
 
 			const unlockeds: Record<string, boolean> = {}
 
-			for (const item of state.items) {
+			for (const item of state.items)
 				unlockeds[item.id] = state.unlockedItemIds.includes(item.id)
-			}
+
 
 			return unlockeds
 		},
@@ -649,7 +649,7 @@ export const useGameStore = defineStore('game', {
 								id: `${itemData.id}_manual`,
 								itemId: itemData.id,
 								inputs: manualInputs,
-								seconds: itemData.recipe.seconds,
+								seconds: itemData.recipe.seconds ?? 0,
 								outputCount: itemData.recipe.output,
 
 								isProcessing: false,
