@@ -129,6 +129,8 @@ export const useGameStore = defineStore('game', {
 		scenarioRecipes: [] as ScenarioRecipe[],
 		scenarioWinConditions: null as Record<string, number> | null,
 
+		unlockedItemIds: [] as string[],
+
 		items: [] as Item[],
 		links: [] as Link[],
 		prods: [] as Prod[],
@@ -184,16 +186,7 @@ export const useGameStore = defineStore('game', {
 			const unlockeds: Record<string, boolean> = {}
 
 			for (const item of state.items) {
-
-				unlockeds[item.id] = true
-
-				if (item.requirement) {
-					for (const [id, count] of Object.entries(item.requirement))
-						if (state.itemMap[id] && state.itemMap[id].count < count) {
-							unlockeds[item.id] = false;
-							break;
-						}
-				}
+				unlockeds[item.id] = state.unlockedItemIds.includes(item.id)
 			}
 
 			return unlockeds
@@ -358,6 +351,8 @@ export const useGameStore = defineStore('game', {
 					date: v.date,
 				})),
 
+				unlockedItemIds: this.unlockedItemIds,
+
 				items: this.items.map(i => ({
 					id: i.id,
 					count: i.count,
@@ -451,6 +446,8 @@ export const useGameStore = defineStore('game', {
 			this.totalPlayTime = 0
 			this.isPaused = false
 
+			this.unlockedItemIds = []
+
 			this.items = []
 			this.links = []
 			this.prods = []
@@ -493,6 +490,8 @@ export const useGameStore = defineStore('game', {
 			this.currentScenarioId = newScenarioId
 			this.totalPlayTime = 0
 			this.isPaused = false
+
+			this.unlockedItemIds = []
 
 			this.items = []
 			this.links = []
@@ -758,6 +757,11 @@ export const useGameStore = defineStore('game', {
 						}
 					})
 				}
+				
+				if (Array.isArray(decryptedLocalData.unlockedItemIds)) {
+					this.unlockedItemIds = decryptedLocalData.unlockedItemIds.filter((id: unknown): id is string =>
+						typeof id === 'string' && Boolean(this.itemMap[id]))
+				}
 
 				if (decryptedLocalData.links) {
 					decryptedLocalData.links.forEach((savedLink: any) => {
@@ -809,6 +813,8 @@ export const useGameStore = defineStore('game', {
 					})
 				}
 			}
+
+			this.updateItemUnlocks()
 
 			this.items.forEach(item => this.updateItemMax(item.id))
 			this.links.forEach(link => this.updateLinkMax(link.id))
@@ -890,6 +896,8 @@ export const useGameStore = defineStore('game', {
 					manual.isProcessing = false
 					manual.processCount = 0
 					manual.remainingSeconds = 0
+
+					this.updateItemUnlocks()
 				}
 			}
 
@@ -1014,6 +1022,25 @@ export const useGameStore = defineStore('game', {
 				storage.itemId === itemId ? total + storage.assignedCount * storage.capacity : total, 0)
 
 			item.max = Number.isFinite(item.stack) ? item.stack + addedCapacity : item.stack
+		},
+
+		updateItemUnlocks(): void {
+
+			const unlockedItemIds = new Set(this.unlockedItemIds)
+			let hasNewUnlock = false
+
+			for (const item of this.items) {
+
+				const requirementsMet = Object.entries(item.requirement ?? {}).every(([id, count]) =>
+					!this.itemMap[id] || this.itemMap[id].count >= count)
+
+				if (requirementsMet && !unlockedItemIds.has(item.id)) {
+					unlockedItemIds.add(item.id)
+					hasNewUnlock = true
+				}
+			}
+
+			if (hasNewUnlock) this.unlockedItemIds = [...unlockedItemIds]
 		},
 
 		// Manual actions
