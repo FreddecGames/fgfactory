@@ -226,6 +226,21 @@ export const useGameStore = defineStore('game', {
 			return counts
 		},
 
+		linkUnlockeds: (state) => {
+
+			const unlockeds: Record<string, boolean> = {}
+
+			for (const link of state.links) {
+
+				unlockeds[link.id] = true
+
+				if (!state.itemUnlockeds[link.conveyorId] || !state.itemUnlockeds[link.sourceId] || !state.itemUnlockeds[link.targetid])
+					unlockeds[link.id] = false;
+			}
+
+			return unlockeds
+		},
+
 		linkMiniumRates: (state) => {
 
 			const rates: Record<string, number> = {}
