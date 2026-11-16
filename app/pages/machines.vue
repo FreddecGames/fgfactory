@@ -26,7 +26,8 @@
 
 		<div class="flex flex-wrap items-center justify-center gap-2">
 			<UTooltip v-for="machine in machines" :key="machine.id" :text="$t(`items.${machine.id}`)">
-				<UButton color="neutral" variant="subtle" class="relative aspect-square size-11"
+
+				<UButton v-if="gameStore.itemUnlockeds[machine.id]" color="neutral" variant="subtle" class="relative aspect-square size-11"
 					@click="gameStore.openMachine(machine.id)">
 
 					<img :src="gameStore.itemImgs[machine.id]" :alt="$t(`items.${machine.id}`)" class="size-full object-contain" />
@@ -43,6 +44,12 @@
 					</UBadge>
 
 				</UButton>
+
+				<UButton v-else color="neutral" variant="subtle" class="aspect-square size-11 justify-center"
+					@click="gameStore.openLocked(machine.id)">
+					<UIcon name="i-lucide-lock" class="text-muted" />
+				</UButton>
+
 			</UTooltip>
 		</div>
 

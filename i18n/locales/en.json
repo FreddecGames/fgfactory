@@ -53,6 +53,10 @@
 		"close": "Close"
 	},
 
+	"modalLocked":{
+		"requirements": "Requirements"
+	},
+
 	"modalItem":{
 		"count": "Stock",
 		"production": "Production",

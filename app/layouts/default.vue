@@ -275,22 +275,20 @@
 	<div class="min-h-screen text-neutral-100 flex flex-col">
 
 		<!-- Loading Card -->
-		<div v-if="isLoading" class="flex flex-col items-center justify-center min-h-screen py-12 px-4 text-center">
-			<UCard :ui="{ 'body': 'p-3 sm:p-3 max-w-md' }">
-				<div class="flex flex-col space-y-4 items-center">
+		<div v-if="isLoading" class="flex flex-col gap-3 items-center justify-center min-h-screen py-12 px-4 text-center">
 
-					<h1 class="text-xl font-bold text-white flex items-center justify-center gap-2">
-						<img src="/favicon.png" :alt="$t('gameName')" class="size-6 object-contain" />
-						{{ $t('gameName') }}
-					</h1>
+			<h1 class="text-xl font-bold text-white flex items-center justify-center gap-2">
+				<img src="/favicon.png" :alt="$t('gameName')" class="size-6 object-contain" />
+				{{ $t('gameName') }}
+			</h1>
 
-					<div class="flex flex-col space-y-1 items-center">
-						<span class="text-primary text-xs">{{ $t('loading.text') }}</span>
-						<UProgress size="xs" animation="carousel" class="w-64" />
-					</div>
-
+			<UCard :ui="{ 'body': 'p-2 sm:p-2 max-w-md' }">
+				<div class="flex flex-col space-y-1 items-center">
+					<span class="text-primary text-xs">{{ $t('loading.text') }}</span>
+					<UProgress size="xs" animation="carousel" class="w-64" />
 				</div>
 			</UCard>
+
 		</div>
 
 		<!-- Error Screen -->
@@ -648,6 +646,44 @@
 
 	</UModal>
 
+	<!-- Locked Modal -->
+	<UModal v-model:open="gameStore.isLockedModalOpen" scrollable :ui="{ header: 'p-4 sm:p-4' }">
+
+		<!-- Modal Header -->
+		<template #header>
+
+			<div class="flex items-center gap-2">
+				<UIcon name="i-lucide-lock" class="text-muted" />
+				<h3 class="text-lg font-bold text-muted">{{ $t(`items.${gameStore.selectedLocked.id}`) }}</h3>
+			</div>
+
+			<UButton color="neutral" variant="ghost" icon="i-lucide-x"
+				@click="gameStore.isLockedModalOpen = false" />
+
+		</template>
+
+		<!-- Modal Body -->
+		<template #body>
+			<div class="flex flex-col space-y-2">
+
+				<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalLocked.requirements') }}</h4>
+
+				<div class="grid grid-cols-2 items-start gap-1">
+					<div v-for="(count, req) of gameStore.selectedLocked.requirement" :key="req"
+						class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 px-2 py-2">
+							<UButton color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
+								:avatar="{ src:gameStore.itemImgs[req] }"
+								:label="$t(`items.${req}`)"
+								@click="gameStore.openMission(req)" />
+
+					</div>
+				</div>
+
+			</div>
+		</template>
+
+	</UModal>
+
 	<!-- Item Modal -->
 	<UModal v-model:open="gameStore.isItemModalOpen" scrollable :ui="{ header: 'p-4 sm:p-4' }">
 
@@ -676,7 +712,7 @@
 
 					<div class="rounded-md bg-neutral-800 ps-2 pe-1 py-1">
 
-						<span v-if="gameStore.selectedItem.count >= gameStore.selectedItem.max" class="text-error">{{ gameStore.selectedItem.count.toFixed(0) }}</span>
+						<span v-if="gameStore.selectedItem.count.toFixed(0) >= gameStore.selectedItem.max" class="text-error">{{ gameStore.selectedItem.count.toFixed(0) }}</span>
 						<span v-else-if="gameStore.selectedItem.count > 0" class="text-white">{{ gameStore.selectedItem.count.toFixed(0) }}</span>
 						<span v-else-if="gameStore.selectedItem.count < 0" class="text-error">{{ gameStore.selectedItem.count.toFixed(0) }}</span>
 						<span v-else class="text-muted">{{ gameStore.selectedItem.count.toFixed(0) }}</span>
@@ -731,8 +767,8 @@
 									:label="$t(`items.${input.id}`)"
 									@click="gameStore.openItem(input.id)" />
 								
-								<span v-if="gameStore.itemCounts[input.id] >= input.count * gameStore.selectedItem.manualSelectedCount" class="text-success text-xs">{{ gameStore.itemCounts[input.id] }} / {{ input.count.toFixed(0) * gameStore.selectedItem.manualSelectedCount }}</span>
-								<span v-else class="text-error text-xs">{{ gameStore.itemCounts[input.id] }} / {{ input.count.toFixed(0) * gameStore.selectedItem.manualSelectedCount }}</span>
+								<span v-if="gameStore.itemCounts[input.id] >= input.count * gameStore.selectedItem.manualSelectedCount" class="text-success text-xs">{{ gameStore.itemCounts[input.id].toFixed(0) }} / {{ input.count.toFixed(0) * gameStore.selectedItem.manualSelectedCount }}</span>
+								<span v-else class="text-error text-xs">{{ gameStore.itemCounts[input.id].toFixed(0) }} / {{ input.count.toFixed(0) * gameStore.selectedItem.manualSelectedCount }}</span>
 
 						</div>
 					</div>
@@ -835,19 +871,19 @@
 
 						<div class="flex shrink-0 items-center gap-6">
 
-							<UIcon v-if="gameStore.linkWarnings[link.id]" name="i-lucide-triangle-exclamation-point" class="text-error" />
-
 							<div class="flex items-center gap-2">
 
-								<span v-if="link.assignedCount > 0" class="text-xs font-semibold text-success">+{{ link.assignedCount * link.conveyorSpeed }} /s</span>
-
-								<UIcon name="i-lucide-move-left" size="xs" class="text-muted" />
+								<span v-if="link.assignedCount <= 0" class="text-xs font-semibold text-muted">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
+								<span v-else-if="link.assignedCount * link.conveyorSpeed >= gameStore.linkMiniumRates[link.id]" class="text-xs font-semibold text-success">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
+								<span v-else class="text-xs font-semibold text-danger">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
 
 								<UTooltip :text="$t(`items.${link.sourceId}`)">
 									<UButton color="neutral" variant="soft" size="xs"
 										:avatar="{ src:gameStore.itemImgs[link.sourceId] }"
 										@click="gameStore.openItem(link.sourceId)" />
 								</UTooltip>
+
+								<UIcon name="i-lucide-move-right" size="xs" class="text-muted" />
 
 							</div>
 
@@ -874,7 +910,7 @@
 					</div>
 				</div>
 
-				<USeparator />
+				<USeparator v-if="gameStore.selectedItem.inLinks.length > 0" />
 
 				<!-- Item Prods -->
 				<div v-if="gameStore.selectedItem.prods.length > 0" class="flex flex-col gap-1">
@@ -891,9 +927,9 @@
 						</div>
 
 						<div class="flex shrink-0 items-center gap-6">
-
-							<UIcon v-if="gameStore.prodWarnings[prod.id]" name="i-lucide-triangle-exclamation-point" class="text-error" />
-							<span v-if="prod.assignedCount > 0" class="text-xs font-semibold text-success">+{{ prod.assignedCount * prod.outputCount / prod.seconds }}/s</span>
+							
+							<span v-if="prod.assignedCount > 0" class="text-xs font-semibold text-success">+{{ prod.assignedCount * prod.outputCount / prod.seconds }} /s</span>
+							<span v-else class="text-xs font-semibold text-muted">+{{ prod.assignedCount * prod.outputCount / prod.seconds }} /s</span>
 
 							<div class="flex items-center gap-2">
 
@@ -940,11 +976,11 @@
 
 						<div class="flex shrink-0 items-center gap-6">
 
-							<UIcon v-if="gameStore.linkWarnings[link.id]" name="i-lucide-triangle-exclamation-point" class="text-error" />
-
 							<div class="flex items-center gap-2">
 
-								<span v-if="link.assignedCount > 0" class="text-xs font-semibold text-error">-{{ link.assignedCount * link.conveyorSpeed }} /s</span>
+								<span v-if="link.assignedCount <= 0" class="text-xs font-semibold text-muted">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
+								<span v-else-if="link.assignedCount * link.conveyorSpeed >= gameStore.linkMiniumRates[link.id]" class="text-xs font-semibold text-success">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
+								<span v-else class="text-xs font-semibold text-danger">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
 
 								<UIcon name="i-lucide-move-right" size="xs" class="text-muted" />
 

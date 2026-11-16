@@ -26,7 +26,8 @@
 
 		<div class="flex flex-wrap items-center justify-center gap-2">
 			<UTooltip v-for="mission in missions" :key="mission.id" :text="$t(`items.${mission.id}`)">
-				<UButton color="neutral" variant="subtle" class="relative aspect-square size-11"
+
+				<UButton v-if="gameStore.itemUnlockeds[mission.id]" color="neutral" variant="subtle" class="relative aspect-square size-11"
 					@click="gameStore.openMission(mission.id)">
 
 					<img :src="gameStore.itemImgs[mission.id]" :alt="$t(`items.${mission.id}`)" class="size-full object-contain" />
@@ -38,6 +39,12 @@
 					</UBadge>
 
 				</UButton>
+
+				<UButton v-else color="neutral" variant="subtle" class="aspect-square size-11 justify-center"
+					@click="gameStore.openLocked(mission.id)">
+					<UIcon name="i-lucide-lock" class="text-muted" />
+				</UButton>
+
 			</UTooltip>
 		</div>
 

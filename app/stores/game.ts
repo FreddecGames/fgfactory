@@ -103,10 +103,12 @@ export const useGameStore = defineStore('game', {
 	state: () => ({
 
 		selectedItem: null as Item,
+		selectedLocked: null as Item,
 		selectedMachine: null as Item,
 		selectedMission: null as Item,
 
 		isItemModalOpen: false,
+		isLockedModalOpen: false,
 		isMachineModalOpen: false,
 		isMissionModalOpen: false,
 
@@ -177,6 +179,26 @@ export const useGameStore = defineStore('game', {
 			return counts
 		},
 
+		itemUnlockeds: (state) => {
+
+			const unlockeds: Record<string, boolean> = {}
+
+			for (const item of state.items) {
+
+				unlockeds[item.id] = true
+
+				if (item.requirement) {
+					for (const [id, count] of Object.entries(item.requirement))
+						if (state.itemMap[id] && state.itemMap[id].count < count) {
+							unlockeds[item.id] = false;
+							break;
+						}
+				}
+			}
+
+			return unlockeds
+		},
+
 		itemAvailableCounts: (state) => {
 
 			const counts: Record<string, number> = {}
@@ -204,43 +226,26 @@ export const useGameStore = defineStore('game', {
 			return counts
 		},
 
-		itemWarnings: (state) => {
+		linkMiniumRates: (state) => {
 
-			const warnings: Record<string, boolean> = {}
-
-			for (const item of state.items) {
-
-				if (item.prods.some(prod => state.prodWarnings[prod.id]) || item.outLinks.some(link => state.linkWarnings[link.id])) warnings[item.id] = true
-				else warnings[item.id] = false
-			}
-
-			return warnings
-		},
-
-		prodWarnings: (state) => {
-
-			const warnings: Record<string, boolean> = {}
-
-			for (const prod of state.prods) {
-
-				if (prod.assignedCount > 0 && !prod.isProcessing) warnings[prod.id] = true
-				else warnings[prod.id] = false
-			}
-
-			return warnings
-		},
-
-		linkWarnings: (state) => {
-
-			const warnings: Record<string, boolean> = {}
+			const rates: Record<string, number> = {}
 
 			for (const link of state.links) {
 
-				if (link.assignedCount > 0 && !link.isProcessing) warnings[link.id] = true
-				else warnings[link.id] = false
+				let rate = 0
+
+				const targetItem = state.itemMap[link.targetId]
+				targetItem?.prods.forEach(prod => {
+
+					const recipeInput = prod.inputs?.find(i => i.id === link.sourceId)
+					if (recipeInput)
+						rate += prod.assignedCount * recipeInput.count / prod.seconds
+				})
+
+				rates[link.id] = rate
 			}
 
-			return warnings
+			return rates
 		},
 	},
 
@@ -248,29 +253,48 @@ export const useGameStore = defineStore('game', {
 
 		// UI Modales
 
+		openLocked(itemId: string) {
+
+			this.selectedLocked = this.items.find(i => i.id === itemId)
+
+			this.isItemModalOpen = false
+			this.isLockedModalOpen = true
+			this.isMachineModalOpen = false
+			this.isMissionModalOpen = false
+		},
+
 		openItem(itemId: string) {
+
+			if (!this.itemUnlockeds[itemId]) return this.openLocked(itemId)
 
 			this.selectedItem = this.items.find(i => i.id === itemId)
 
 			this.isItemModalOpen = true
+			this.isLockedModalOpen = false
 			this.isMachineModalOpen = false
 			this.isMissionModalOpen = false
 		},
 
 		openMachine(machineId: string) {
 
+			if (!this.itemUnlockeds[machineId]) return this.openLocked(machineId)
+
 			this.selectedMachine = this.items.find(i => i.id === machineId)
 
 			this.isItemModalOpen = false
+			this.isLockedModalOpen = false
 			this.isMachineModalOpen = true
 			this.isMissionModalOpen = false
 		},
 
 		openMission(missionId: string) {
 
+			if (!this.itemUnlockeds[missionId]) return this.openLocked(missionId)
+
 			this.selectedMission = this.items.find(i => i.id === missionId)
 
 			this.isItemModalOpen = false
+			this.isLockedModalOpen = false
 			this.isMachineModalOpen = false
 			this.isMissionModalOpen = true
 		},

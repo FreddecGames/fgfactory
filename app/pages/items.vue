@@ -26,14 +26,15 @@
 
 		<div class="flex flex-wrap items-center justify-center gap-2">
 			<UTooltip v-for="item in items" :key="item.id" :text="$t(`items.${item.id}`)">
-				<UButton color="neutral" variant="subtle" class="relative aspect-square size-11"
+
+				<UButton v-if="gameStore.itemUnlockeds[item.id]" color="neutral" variant="subtle" class="relative aspect-square size-11"
 					@click="gameStore.openItem(item.id)">
 
 					<img :src="gameStore.itemImgs[item.id]" :alt="$t(`items.${item.id}`)" class="size-full object-contain" />
 
 					<UBadge v-if="item.count != 0" size="xs" color="neutral" variant="subtle"
 						class="absolute -top-1 -right-0.5 z-10">
-						<span v-if="item.count >= item.max" class="text-error">{{ item.count.toFixed(0) }}</span>
+						<span v-if="item.count.toFixed(0) >= item.max" class="text-error">{{ item.count.toFixed(0) }}</span>
 						<span v-else-if="item.count > 0" class="text-white">{{ item.count.toFixed(0) }}</span>
 						<span v-else-if="item.count < 0" class="text-error">{{ item.count.toFixed(0) }}</span>
 					</UBadge>
@@ -44,10 +45,13 @@
 						<span v-else-if="gameStore.itemProductionRates[item.id] < 0" class="text-error">{{ gameStore.itemProductionRates[item.id].toFixed(1) }} /s</span>
 					</UBadge>
 
-					<UIcon v-if="gameStore.itemWarnings[item.id]" name="i-lucide-triangle-exclamation-point"
-						class="absolute -top-1 -left-0.5 z-10 text-error text-xs" />
-
 				</UButton>
+
+				<UButton v-else color="neutral" variant="subtle" class="aspect-square size-11 justify-center"
+					@click="gameStore.openLocked(item.id)">
+					<UIcon name="i-lucide-lock" class="text-muted" />
+				</UButton>
+
 			</UTooltip>
 		</div>
 
