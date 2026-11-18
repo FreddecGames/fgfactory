@@ -139,6 +139,8 @@ export const useGameStore = defineStore('game', {
 		
 		itemMap: {} as Record<string, Item>,
 		linkMap: {} as Record<string, Link>,
+		
+		itemAvailableCounts: {} as Record<string, number>,
 	}),
 
 	getters: {
@@ -192,32 +194,6 @@ export const useGameStore = defineStore('game', {
 			return unlockeds
 		},
 
-		itemAvailableCounts: (state) => {
-
-			const counts: Record<string, number> = {}
-
-			for (const item of state.items.filter(i => i.type === 'machine' || i.type === 'storer' || i.type === 'conveyor')) {
-
-				let assignedCount = 0
-
-				if (item.type === 'machine') {
-					assignedCount = state.prods.reduce((total, prod) =>
-						prod.machineId === item.id ? total + prod.assignedCount : total, 0)
-				}
-				else if (item.type === 'storer') {
-					assignedCount = state.storages.reduce((total, storage) =>
-						storage.storerId === item.id ? total + storage.assignedCount : total, 0)
-				}
-				else if (item.type === 'conveyor') {
-					assignedCount = state.links.reduce((total, link) =>
-						link.conveyorId === item.id ? total + link.assignedCount : total, 0)
-				}
-
-				counts[item.id] = Math.max(0, item.count - assignedCount)
-			}
-
-			return counts
-		},
 
 		itemWarnings: (state) => {
 
@@ -848,6 +824,8 @@ export const useGameStore = defineStore('game', {
 			this.items.forEach(item => this.updateItemMax(item.id))
 			this.links.forEach(link => this.updateLinkMax(link.id))
 
+			this.recalculateItemAvailableCounts()
+
 			// Offline gains
 
 			if (this.lastSaveDate > 0) this.processOfflineProgress()
@@ -1053,6 +1031,36 @@ export const useGameStore = defineStore('game', {
 			item.max = Number.isFinite(item.stack) ? item.stack + addedCapacity : item.stack
 		},
 
+		recalculateItemAvailableCounts(): void {
+
+			const counts: Record<string, number> = {}
+
+			for (const item of this.items) {
+
+				if (item.type !== 'machine' && item.type !== 'storer' && item.type !== 'conveyor')
+					continue
+
+				let assignedCount = 0
+
+				if (item.type === 'machine') {
+					assignedCount = this.prods.reduce((total, prod) =>
+						prod.machineId === item.id ? total + prod.assignedCount : total, 0)
+				}
+				else if (item.type === 'storer') {
+					assignedCount = this.storages.reduce((total, storage) =>
+						storage.storerId === item.id ? total + storage.assignedCount : total, 0)
+				}
+				else if (item.type === 'conveyor') {
+					assignedCount = this.links.reduce((total, link) =>
+						link.conveyorId === item.id ? total + link.assignedCount : total, 0)
+				}
+
+				counts[item.id] = Math.max(0, item.count - assignedCount)
+			}
+
+			this.itemAvailableCounts = counts
+		},
+
 		updateItemUnlocks(): void {
 
 			const unlockedItemIds = new Set(this.unlockedItemIds)
@@ -1156,6 +1164,7 @@ export const useGameStore = defineStore('game', {
 			if (this.itemAvailableCounts[link.conveyorId] < count) return false
 
 			link.assignedCount += count
+			this.recalculateItemAvailableCounts()
 
 			return true
 		},
@@ -1165,6 +1174,7 @@ export const useGameStore = defineStore('game', {
 			if (link.assignedCount < count) return false
 
 			link.assignedCount -= count
+			this.recalculateItemAvailableCounts()
 
 			return true
 		},
@@ -1177,6 +1187,7 @@ export const useGameStore = defineStore('game', {
 
 			storage.assignedCount += count
 			this.updateItemMax(storage.itemId)
+			this.recalculateItemAvailableCounts()
 			return true
 		},
 
@@ -1186,6 +1197,7 @@ export const useGameStore = defineStore('game', {
 
 			storage.assignedCount -= count
 			this.updateItemMax(storage.itemId)
+			this.recalculateItemAvailableCounts()
 			return true
 		},
 
@@ -1197,6 +1209,7 @@ export const useGameStore = defineStore('game', {
 			if (this.itemAvailableCounts[prod.machineId] < count) return false
 
 			prod.assignedCount += count
+			this.recalculateItemAvailableCounts()
 
 			this.itemMap[prod.itemId].inLinks.forEach(l => { this.updateLinkMax(l.id) });
 
@@ -1209,6 +1222,7 @@ export const useGameStore = defineStore('game', {
 			if (prod.assignedCount < count) return false
 
 			prod.assignedCount -= count
+			this.recalculateItemAvailableCounts()
 
 			this.itemMap[prod.itemId].inLinks.forEach(l => { this.updateLinkMax(l.id) });
 
