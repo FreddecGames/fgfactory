@@ -45,6 +45,9 @@
 						<span v-else-if="gameStore.itemProductionRates[item.id] < 0" class="text-error">{{ gameStore.itemProductionRates[item.id].toFixed(1) }} /s</span>
 					</UBadge>
 
+					<UBadge v-if="gameStore.itemWarnings[item.id]" size="xs" color="error" variant="subtle" icon="i-lucide-triangle-exclamation-point"
+						class="absolute -top-1 -left-0.5 z-10" />
+
 				</UButton>
 
 				<UButton v-else color="neutral" variant="subtle" class="aspect-square size-11 justify-center"

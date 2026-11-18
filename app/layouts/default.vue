@@ -892,9 +892,12 @@
 
 								<div class="flex items-center gap-2">
 
-									<span v-if="link.assignedCount <= 0" class="text-xs font-semibold text-muted">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
+									<span v-if="link.assignedCount <= 0 && gameStore.linkMiniumRates[link.id] <= 0" class="text-xs font-semibold text-muted">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
 									<span v-else-if="link.assignedCount * link.conveyorSpeed >= gameStore.linkMiniumRates[link.id]" class="text-xs font-semibold text-success">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
-									<span v-else class="text-xs font-semibold text-danger">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
+									<div v-else class="flex flex-items gap-2">
+										<UIcon name="i-lucide-triangle-exclamation-point" class="text-error" />
+										<span class="text-xs font-semibold text-error">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
+									</div>
 
 									<UTooltip :text="$t(`items.${link.sourceId}`)">
 										<UButton color="neutral" variant="soft" size="xs"
@@ -1026,9 +1029,12 @@
 
 								<div class="flex items-center gap-2">
 
-									<span v-if="link.assignedCount <= 0" class="text-xs font-semibold text-muted">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
+									<span v-if="link.assignedCount <= 0 && gameStore.linkMiniumRates[link.id] <= 0" class="text-xs font-semibold text-muted">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
 									<span v-else-if="link.assignedCount * link.conveyorSpeed >= gameStore.linkMiniumRates[link.id]" class="text-xs font-semibold text-success">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
-									<span v-else class="text-xs font-semibold text-danger">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
+									<div v-else class="flex flex-items gap-2">
+										<UIcon name="i-lucide-triangle-exclamation-point" class="text-error" />
+										<span class="text-xs font-semibold text-error">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
+									</div>
 
 									<UIcon name="i-lucide-move-right" size="xs" class="text-muted" />
 

@@ -219,6 +219,35 @@ export const useGameStore = defineStore('game', {
 			return counts
 		},
 
+		itemWarnings: (state) => {
+
+			const warnings: Record<string, boolean> = {}
+
+			for (const item of state.items) {
+
+				warnings[item.id] = false
+
+				item.inLinks.forEach(link => {
+
+					if (link.assignedCount * link.conveyorSpeed < state.linkMiniumRates[link.id]) {
+						warnings[item.id] = true
+						return
+					}
+				})
+
+				item.outLinks.forEach(link => {
+
+					if (link.assignedCount * link.conveyorSpeed < state.linkMiniumRates[link.id]) {
+						warnings[item.id] = true
+						return
+					}
+				})
+			}
+
+			return warnings
+		},
+
+
 		linkUnlockeds: (state) => {
 
 			const unlockeds: Record<string, boolean> = {}

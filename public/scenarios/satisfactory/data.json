@@ -122,7 +122,7 @@
         },
 		{ "type":"item", "group":"energy", "id":"biomass", "stack":100,
           "requirement":{ "onboarding_2":1 },
-          "recipe":{ "seconds":1, "output":1, "machines":[ "manual", "miner_0" ] },
+          "recipe":{ "seconds":1, "output":1, "machines":[ "miner_0" ] },
           "storers":[ "storer_solid" ],
 		  "conveyors":[ "conveyor_solid" ]
         },
@@ -207,7 +207,7 @@
 
         { "type":"item", "group":"copper", "id":"copper", "stack":100,
           "requirement":{ "onboarding_2":1 },
-          "recipe":{ "seconds":1, "output":1, "machines":[ "miner_1" ] },
+          "recipe":{ "seconds":1, "output":1, "machines":[ "manual", "miner_1" ] },
           "storers":[ "storer_solid" ],
 		  "conveyors":[ "conveyor_solid" ]
         },
