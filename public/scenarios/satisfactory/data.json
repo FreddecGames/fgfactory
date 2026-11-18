@@ -1,5 +1,5 @@
 {
-	"winConditions":{ "iron":10 },
+	"winConditions":{ "phase_5":1 },
 
 	"items":[
 
@@ -731,7 +731,7 @@
 		  "speed": 1
         },
         
-        { "type":"machine", "group":"transformers", "id":"smelter", "initialCount":5,
+        { "type":"machine", "group":"transformers", "id":"smelter",
           "requirement":{ "onboarding_2":1 },
           "recipe":{ "seconds":1, "output":1, "inputs":{ "iron_rod":5, "copper_wire_1":8 }, "machines":[ "manual" ] },
           "energy":{ "energy_biomass":4 },
@@ -750,7 +750,7 @@
 		  "speed": 1
         },
         
-        { "type":"machine", "group":"assemblers", "id":"builder", "initialCount":5,
+        { "type":"machine", "group":"assemblers", "id":"builder",
           "requirement":{ "onboarding_3":1 },
           "recipe":{ "seconds":1, "output":1, "inputs":{ "copper_wire_2":8, "iron_plate_2":2 }, "machines":[ "manual" ] },
           "energy":{ "energy_biomass":4 },
@@ -793,7 +793,7 @@
 		  "speed": 1
         },
         
-        { "type":"storer", "group":"logistics", "id":"storer_solid", "initialCount":5,
+        { "type":"storer", "group":"logistics", "id":"storer_solid",
           "requirement":{ "onboarding_4":1 },
           "recipe":{ "seconds":1, "output":1, "inputs":{ "iron_rod":10, "iron_plate_1":10 }, "machines":[ "manual" ] },
 		  "speed": 1
@@ -803,10 +803,14 @@
           "recipe":{ "seconds":1, "output":1, "inputs":{ "iron_frame_1":5, "copper_sheet":10 }, "machines":[ "manual" ] },
 		  "speed": 1
         },        
-        { "type":"conveyor", "group":"logistics", "id":"conveyor_solid", "initialCount":5,
+        { "type":"conveyor", "group":"logistics", "id":"conveyor_solid",
+          "requirement":{ "onboarding_2":1 },
+          "recipe":{ "seconds":1, "output":1, "inputs":{ "iron_plate_1":1 }, "machines":[ "manual" ] },
 		  "speed": 1
         },
         { "type":"conveyor", "group":"logistics", "id":"conveyor_energy",
+          "requirement":{ "onboarding_2":1 },
+          "recipe":{ "seconds":1, "output":1, "inputs":{ "iron_rod":1, "iron_plate_1":1, "copper_wire_2":1 }, "machines":[ "manual" ] },
 		  "speed": 1
         }
 	]

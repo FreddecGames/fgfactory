@@ -930,12 +930,12 @@
 
 						<div v-else class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 ps-2 pe-1 py-2">
 
-							<UButton v-if="gameStore.itemUnlockeds[link.conveyorId]" color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
+							<UButton v-if="!gameStore.itemUnlockeds[link.conveyorId]" color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
 								icon="i-lucide-lock"
 								:label="$t(`items.${link.conveyorId}`)"
 								@click="gameStore.openMachine(link.conveyorId)" />
 
-							<UButton v-else-if="gameStore.itemUnlockeds[link.sourceId]" color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
+							<UButton v-else-if="!gameStore.itemUnlockeds[link.sourceId]" color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
 								icon="i-lucide-lock"
 								:label="$t(`items.${link.sourceId}`)"
 								@click="gameStore.openItem(link.sourceId)" />
@@ -1064,12 +1064,12 @@
 
 						<div v-else class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 ps-2 pe-1 py-2">
 
-							<UButton v-if="gameStore.itemUnlockeds[link.conveyorId]" color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
+							<UButton v-if="!gameStore.itemUnlockeds[link.conveyorId]" color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
 								icon="i-lucide-lock"
 								:label="$t(`items.${link.conveyorId}`)"
 								@click="gameStore.openMachine(link.conveyorId)" />
 
-							<UButton v-else-if="gameStore.itemUnlockeds[link.targetId]" color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
+							<UButton v-else-if="!gameStore.itemUnlockeds[link.targetId]" color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
 								icon="i-lucide-lock"
 								:label="$t(`items.${link.targetId}`)"
 								@click="gameStore.openItem(link.targetId)" />
