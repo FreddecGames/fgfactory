@@ -84,16 +84,20 @@
 
 	const scheduleNextTick = () => {
 
+		if (animationFrameId !== null || document.hidden || gameStore.isPaused || gameStore.items.length === 0)
+			return
+
 		animationFrameId = requestAnimationFrame(runGameLoop)
 	}
 
 	const runGameLoop = (timestamp: number) => {
 
-		if (gameStore.isPaused || gameStore.items.length === 0) {
+		animationFrameId = null
+
+		if (document.hidden || gameStore.isPaused || gameStore.items.length === 0) {
 
 			lastTimestamp = 0
 			tickAccumulator = 0
-			animationFrameId = null
 			
 			return
 		}
@@ -158,10 +162,29 @@
 		if (hasLoadedGame && !gameStore.isRefreshing) gameStore.saveLocalData()
 	}
 
+	const handleVisibilityChange = () => {
+
+		if (document.hidden) {
+
+			if (animationFrameId !== null)
+				cancelAnimationFrame(animationFrameId)
+
+			lastTimestamp = 0
+			tickAccumulator = 0
+			animationFrameId = null
+
+			return
+		}
+
+		if (hasLoadedGame) scheduleNextTick()
+	}
+
 	onMounted(async () => {
 
 		isLoading.value = true
 		loadingError.value = null
+
+		document.addEventListener('visibilitychange', handleVisibilityChange)
 
 		try {
 
@@ -207,6 +230,7 @@
 	onBeforeUnmount(() => {
 
 		window.removeEventListener('pagehide', saveOnPageHide)
+		document.removeEventListener('visibilitychange', handleVisibilityChange)
 
 		saveOnPageHide()
 
