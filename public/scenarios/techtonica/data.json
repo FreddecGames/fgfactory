@@ -1,0 +1,46 @@
+{
+	"items":[
+
+		{ "type":"mission", "group":"lima", "id":"lima_1", "stack":1,
+          "recipe":{ "output":1, "inputs":{ "copper_ore":10, "iron_ore":10 }, "machines":[ "manual" ] }
+        },
+
+        { "type":"item", "group":"energy", "id":"plant", "stack":500,
+		  "requirement":{ "lima_1":1 },
+          "recipe":{ "seconds":1, "output":1, "machines":[ "pickaxe" ] },
+		  "conveyors":[ "conveyor_solid" ]
+		},
+        { "type":"item", "group":"energy", "id":"energy_plant", "stack":500,
+		  "requirement":{ "lima_1":1 },
+          "recipe":{ "seconds":1, "output":5, "machines":[ "generator_plant" ] }
+		},
+
+        { "type":"item", "group":"copper", "id":"copper_ore", "stack":250,
+          "recipe":{ "seconds":1, "output":1, "machines":[ "manual" ] }
+        },
+
+        { "type":"item", "group":"iron", "id":"iron_ore", "stack":250,
+          "recipe":{ "seconds":1, "output":1, "machines":[ "manual" ] }
+        },
+        { "type":"item", "group":"iron", "id":"iron_ingot", "stack":500,
+		  "requirement":{ "lima_1":1 }
+		},
+
+        { "type":"machine", "group":"miner", "id":"pickaxe", "initialCount":1,
+		  "requirement":{ "lima_1":1 },
+          "recipe":{ "seconds":5, "output":1, "inputs":{ "iron_ingot":2 }, "machines":[ "manual" ] },
+		  "speed":1
+        },
+
+        { "type":"machine", "group":"generator", "id":"generator_plant", "initialCount":1,
+		  "requirement":{ "lima_1":1 },
+		  "energy":{ "plant":0.25 },
+		  "speed":1
+		},
+
+        { "type":"conveyor", "group":"logistics", "id":"conveyor_solid", "initialCount":1,
+		  "requirement":{ "lima_1":1 },
+		  "speed":1
+		}
+	]
+}

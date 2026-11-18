@@ -7,7 +7,7 @@ const LOCAL_DATA_NAME = 'fgfactory_save'
 const AVAILABLE_SCENARIOS = [
 
 	{ id: "satisfactory", name: "scenarios.satisfactory" },
-	{ id: "alchemy", name: "scenarios.alchemy" },
+	{ id: "techtonica", name: "scenarios.techtonica" },
 ]
 
 interface Victory {
