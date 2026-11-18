@@ -227,7 +227,7 @@ export const useGameStore = defineStore('game', {
 
 				unlockeds[link.id] = true
 
-				if (!state.unlockedItemIds.includes(link.conveyorId) || !state.unlockedItemIds.includes(link.sourceId) || !state.unlockedItemIds.includes(link.targetid))
+				if (!state.unlockedItemIds.includes(link.conveyorId) || !state.unlockedItemIds.includes(link.sourceId) || !state.unlockedItemIds.includes(link.targetId))
 					unlockeds[link.id] = false;
 			}
 
