@@ -76,8 +76,11 @@
 		setLocaleMessage(localeCode, mergeLocaleMessages(baseMessages, scenarioMessages as LocaleMessages))
 	}
 
-	let animationFrameId: number | null = null
+	const fixedTickSeconds = 0.25
+
 	let lastTimestamp = 0
+	let tickAccumulator = 0
+	let animationFrameId: number | null = null
 
 	const scheduleNextTick = () => {
 
@@ -89,6 +92,7 @@
 		if (gameStore.isPaused || gameStore.items.length === 0) {
 
 			lastTimestamp = 0
+			tickAccumulator = 0
 			animationFrameId = null
 			
 			return
@@ -101,14 +105,26 @@
 
 		if (deltaSeconds > 1.0) deltaSeconds = 1.0
 
-		gameStore.processGameTick(deltaSeconds)
+		tickAccumulator += deltaSeconds
+
+		while (tickAccumulator >= fixedTickSeconds) {
+
+			gameStore.processGameTick(fixedTickSeconds)
+			tickAccumulator -= fixedTickSeconds
+		}
 
 		scheduleNextTick()
 	}
 
 	watch(() => gameStore.isPaused, (isPaused) => {
 
-		if (!isPaused && animationFrameId === null) scheduleNextTick()
+		if (!isPaused && animationFrameId === null) {
+
+			lastTimestamp = 0
+			tickAccumulator = 0
+			
+			scheduleNextTick()
+		}
 	})
 
 	const activeTab = computed(() => {
@@ -197,6 +213,10 @@
 		gameStore.stopAutoSave()
 
 		cancelAnimationFrame(animationFrameId)
+
+		animationFrameId = null
+		lastTimestamp = 0
+		tickAccumulator = 0
 	})
 	
 	const isOptionsOpen = ref<boolean>(false)
