@@ -132,7 +132,7 @@
         },
         { "type":"item", "group":"energy", "id":"energy_biomass", "stack":100,
           "requirement":{ "onboarding_2":1 },
-          "recipe":{ "seconds":1, "output":30, "inputs":{ "biomass":5 }, "machines":[ "generator_biomass" ] },
+          "recipe":{ "seconds":1, "output":5, "inputs":{ "biomass":0.5 }, "machines":[ "generator_biomass" ] },
 		  "conveyors":[ "conveyor_energy" ]
         },
         { "type":"item", "group":"energy", "id":"energy_coal", "stack":100,
@@ -152,16 +152,19 @@
         },
 
         { "type":"item", "group":"iron", "id":"iron", "stack":100,
+          "requirement":{ "onboarding_0":1 },
           "recipe":{ "seconds":1, "output":1, "machines":[ "manual", "miner_0" ] },
           "storers":[ "storer_solid" ],
 		  "conveyors":[ "conveyor_solid" ]
         },
         { "type":"item", "group":"iron", "id":"iron_ingot", "stack":100,
+          "requirement":{ "onboarding_0":1 },
           "recipe":{ "seconds":2, "output":1, "inputs":{ "iron":1 }, "machines":[ "manual", "smelter" ] },
           "storers":[ "storer_solid" ],
 		  "conveyors":[ "conveyor_solid" ]
         },
         { "type":"item", "group":"iron", "id":"iron_rod", "stack":200,
+          "requirement":{ "onboarding_0":1 },
           "recipe":{ "seconds":4, "output":1, "inputs":{ "iron_ingot":1 }, "machines":[ "manual", "builder" ] },
           "storers":[ "storer_solid" ],
 		  "conveyors":[ "conveyor_solid" ]
@@ -211,7 +214,7 @@
 
         { "type":"item", "group":"copper", "id":"copper", "stack":100,
           "requirement":{ "onboarding_2":1 },
-          "recipe":{ "seconds":1, "output":1, "machines":[ "manual", "miner_1" ] },
+          "recipe":{ "seconds":1, "output":1, "machines":[ "manual", "miner_0" ] },
           "storers":[ "storer_solid" ],
 		  "conveyors":[ "conveyor_solid" ]
         },
@@ -675,25 +678,25 @@
         { "type":"machine", "group":"extractors", "id":"miner_0", "initialCount":1,
           "requirement":{ "onboarding_1":1 },
           "recipe":{ "seconds":1, "output":1, "inputs":{ "iron_rod":4, "iron_plate_1":4 }, "machines":[ "manual" ] },
-		  "speed": 0.5
+		  "speed": 1
         },
         { "type":"machine", "group":"extractors", "id":"miner_1",
           "requirement":{ "onboarding_4":1 },
           "recipe":{ "seconds":1, "output":1, "inputs":{ "iron_rod":4, "iron_plate_1":14, "concrete":10 }, "machines":[ "manual" ] },
           "energy":{ "energy_biomass":5 },
-		  "speed": 1
+		  "speed": 2
         },
         { "type":"machine", "group":"extractors", "id":"miner_2",
           "requirement":{ "steel_prod_2":1 },
           "recipe":{ "seconds":1, "output":1, "inputs":{ "iron_rod":8, "iron_plate_1":8, "steel_beam_2":10, "steel_pipe":20, "iron_frame_1":10 }, "machines":[ "manual" ] },
           "energy":{ "energy_coal":15 },
-		  "speed": 2
+		  "speed": 3
         },
         { "type":"machine", "group":"extractors", "id":"miner_3",
           "requirement":{ "leading_edge_prod":1 },
           "recipe":{ "seconds":1, "output":1, "inputs":{ "iron_rod":12, "iron_plate_1":12, "steel_pipe":50, "supercomputer":5, "steel_frame_2":10, "engine_3":3 }, "machines":[ "manual" ] },
           "energy":{ "energy_nuclear":45 },
-		  "speed": 3
+		  "speed": 4
         },
         { "type":"machine", "group":"extractors", "id":"pump_water",
           "requirement":{ "power_coal":1 },
@@ -735,7 +738,7 @@
 		  "speed": 1
         },
         
-        { "type":"machine", "group":"transformers", "id":"smelter",
+        { "type":"machine", "group":"transformers", "id":"smelter", "initialCount":2,
           "requirement":{ "onboarding_2":1 },
           "recipe":{ "seconds":1, "output":1, "inputs":{ "iron_rod":5, "copper_wire_1":8 }, "machines":[ "manual" ] },
           "energy":{ "energy_biomass":4 },
@@ -807,12 +810,12 @@
           "recipe":{ "seconds":1, "output":1, "inputs":{ "iron_frame_1":5, "copper_sheet":10 }, "machines":[ "manual" ] },
 		  "speed": 1
         },        
-        { "type":"conveyor", "group":"logistics", "id":"conveyor_solid",
+        { "type":"conveyor", "group":"logistics", "id":"conveyor_solid", "initialCount":3,
           "requirement":{ "onboarding_2":1 },
           "recipe":{ "seconds":1, "output":1, "inputs":{ "iron_plate_1":1 }, "machines":[ "manual" ] },
 		  "speed": 1
         },
-        { "type":"conveyor", "group":"logistics", "id":"conveyor_energy",
+        { "type":"conveyor", "group":"logistics", "id":"conveyor_energy", "initialCount":2,
           "requirement":{ "onboarding_2":1 },
           "recipe":{ "seconds":1, "output":1, "inputs":{ "iron_rod":1, "iron_plate_1":1, "copper_wire_2":1 }, "machines":[ "manual" ] },
 		  "speed": 1

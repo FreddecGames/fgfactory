@@ -998,6 +998,11 @@
 		<!-- Modal Body -->
 		<template #body>
 
+			<!-- Mission Description -->
+			<div class="rounded-md bg-neutral-800 p-2 text-center">
+				<span class="text-xs">{{ $t('desc.' + gameStore.selectedMission.id) }}</span>
+			</div>
+
 			<!-- Mission Manuals -->
 			<div v-if="gameStore.selectedMission.manual" class="flex flex-col space-y-1">
 
@@ -1028,7 +1033,7 @@
 
 					<UButton v-else-if="gameStore.canStartManual(gameStore.selectedMission.manual, gameStore.selectedMission.manualSelectedCount) === 0" color="primary" variant="subtle" icon="i-lucide-award" size="sm"
 						:label="$t('modalMission.complete')"
-						@click="gameStore.startManual(gameStore.selectedMission.manual, gameStore.selectedMission.manualSelectedCount)" />
+						@click="gameStore.startManual(gameStore.selectedMission.manual, gameStore.selectedMission.manualSelectedCount); gameStore.isMissionModalOpen = false;" />
 
 					<UButton v-else color="neutral" variant="subtle" icon="i-lucide-award" disabled size="sm"
 						:label="$t('modalMission.complete')" />

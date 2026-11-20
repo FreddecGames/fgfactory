@@ -187,7 +187,7 @@ export const useGameStore = defineStore('game', {
 			const unlockeds: Record<string, boolean> = {}
 
 			for (const item of state.items)
-				unlockeds[item.id] = true // state.unlockedItemIds.includes(item.id)
+				unlockeds[item.id] = state.unlockedItemIds.includes(item.id)
 
 
 			return unlockeds

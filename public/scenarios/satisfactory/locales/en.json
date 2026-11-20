@@ -28,6 +28,14 @@
         "logistics": "Logistics"
     },
 
+	"desc":{
+
+		"onboarding_0": "Crash-landed on an alien world with nothing but a massive student debt to the ruthless megacorporation \"Big Company\", your mission is to pave over paradise. You will mine ores, tangle miles of spaghetti-like conveyors, and automate production lines so complex they make your brain hurt. To meet absurdly escalating corporate quotas, you must finalize the project and ship off millions of useless widgets to achieve your ultimate dream: winning the coveted \"Employee of the Month\" plaque.",
+		"onboarding_1": "Let's start at the beginning. The only thing you can do right now is manually craft the required items. Let's do it! Tip: use the x10 button to make it faster!",
+		"onboarding_2": "Perfect! The first automation machine has been unlocked, so now you can automate ore extraction. The rest still needs to be done manually. Let's get back to work!",
+		"onboarding_3": "Good job! A little more complex than ore extraction, you can now automate smelting. To do that, we've provided you with some machines and conveyors to set up your first fully automated production lines. Finally, to complete your objectives, you will have to finish the rest of the production by hand."
+	},
+
     "items": {
 
         "onboarding_0": "Start Here",
