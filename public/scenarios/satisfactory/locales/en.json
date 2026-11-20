@@ -30,15 +30,16 @@
 
     "items": {
 
+        "onboarding_0": "Start Here",
         "onboarding_1": "Step #1",
         "onboarding_2": "Step #2",
         "onboarding_3": "Step #3",
         "onboarding_4": "Step #4",
         "onboarding_5": "Step #5",
 
-		"coal_power": "Coal Power",
-		"fuel_power": "Fuel Power",
-		"nuclear_power": "Nuclear Power",
+		"power_coal": "Coal Power",
+		"power_fuel": "Fuel Power",
+		"power_nuclear": "Nuclear Power",
 
 		"part_assembly": "Part Assembly",
 		"steel_prod_1": "Steel Production",

@@ -1,5 +1,3 @@
-<!-- ./app/layouts/default.vue -->
-
 <script setup lang="ts">
 
 	import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
@@ -76,7 +74,7 @@
 		setLocaleMessage(localeCode, mergeLocaleMessages(baseMessages, scenarioMessages as LocaleMessages))
 	}
 
-	const fixedTickSeconds = 0.25
+	const fixedTickSeconds = 0.05
 
 	let lastTimestamp = 0
 	let tickAccumulator = 0
@@ -304,14 +302,6 @@
 		}
     })
 
-	function getManualProgress(manual: any): number {
-
-		const totalDuration = manual.seconds * manual.processCount
-		if (!manual.isProcessing || totalDuration <= 0) return 0
-
-		return Math.min(100, Math.max(0, ((totalDuration - manual.remainingSeconds) / totalDuration) * 100))
-	}
-
 </script>
 
 <template>
@@ -359,7 +349,7 @@
 
 			<!-- Page Header -->
 			<div class="fixed top-0 z-50 w-full">
-				<UContainer class="sm:px-3 lg:px-3 backdrop-blur max-w-3xl mx-auto bg-neutral-900/70 px-3">
+				<UContainer class="sm:px-3 lg:px-3 backdrop-blur max-w-2xl mx-auto bg-neutral-900/70 px-3 flex flex-col gap-2">
 
 					<header class="pt-2 flex justify-between gap-3">
 
@@ -393,7 +383,7 @@
 
 			<!-- Page Content -->
 			<div class="flex-1 flex flex-col">
-				<UContainer class="pt-[108px] pb-[48px] flex-1 sm:px-3 lg:px-3 max-w-3xl mx-auto bg-neutral-900/70 px-3 flex flex-col space-y-6">
+				<UContainer class="pt-[108px] pb-[48px] flex-1 sm:px-3 lg:px-3 max-w-2xl mx-auto bg-neutral-900/70 px-3 flex flex-col space-y-6">
 
 					<slot />
 
@@ -708,25 +698,23 @@
 
 		<!-- Modal Body -->
 		<template #body>
-			<div class="flex flex-col space-y-2">
+			<div class="flex flex-col space-y-1">
 
 				<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalLocked.requirements') }}</h4>
 
-				<div class="grid grid-cols-2 items-start gap-1">
-					<div v-for="(count, req) of gameStore.selectedLocked.requirement" :key="req"
-						class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 px-2 py-2">
+				<div v-for="(count, req) of gameStore.selectedLocked.requirement" :key="req"
+					class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 px-2 py-1.5">
 
-							<UButton v-if="gameStore.itemUnlockeds[req]" color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
-								:avatar="{ src:gameStore.itemImgs[req] }"
-								:label="$t(`items.${req}`)"
-								@click="gameStore.openMission(req)" />
+						<UButton v-if="gameStore.itemUnlockeds[req]" color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
+							:avatar="{ src:gameStore.itemImgs[req] }"
+							:label="$t(`items.${req}`)"
+							@click="gameStore.openMission(req)" />
 
-							<UButton v-else color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
-								icon="i-lucide-lock"
-								:label="$t(`items.${req}`)"
-								@click="gameStore.openMission(req)" />
+						<UButton v-else color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
+							icon="i-lucide-lock"
+							:label="$t(`items.${req}`)"
+							@click="gameStore.openMission(req)" />
 
-					</div>
 				</div>
 
 			</div>
@@ -735,13 +723,13 @@
 	</UModal>
 
 	<!-- Item Modal -->
-	<UModal v-model:open="gameStore.isItemModalOpen" scrollable :ui="{ header: 'p-4 sm:p-4' }">
+	<UModal v-model:open="gameStore.isItemModalOpen" scrollable :ui="{ content: 'w-[calc(100vw-1.5rem)] min-w-0', body: 'min-w-0' }">
 
 		<!-- Modal Header -->
 		<template #header>
 
 			<div class="flex items-center gap-2">
-				<img :src="gameStore.itemImgs[gameStore.selectedItem.id]" :alt="$t(`items.${gameStore.selectedItem.id}`)" class="size-7 object-contain" />
+				<img :src="gameStore.itemImgs[gameStore.selectedItem.id]" :alt="$t(`items.${gameStore.selectedItem.id}`)" class="size-6 object-contain" />
 				<h3 class="text-lg font-bold text-white">{{ $t(`items.${gameStore.selectedItem.id}`) }}</h3>
 			</div>
 
@@ -756,7 +744,7 @@
 			<div class="grid grid-cols-2 gap-1">
 
 				<!-- Item Count -->
-				<div class="flex flex-col space-y-2">
+				<div class="flex flex-col space-y-1">
 
 					<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalItem.count') }}</h4>
 
@@ -774,7 +762,7 @@
 				</div>
 
 				<!-- Item Production Rate -->
-				<div class="flex flex-col space-y-2">
+				<div class="flex flex-col space-y-1">
 
 					<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalItem.production') }}</h4>
 
@@ -788,255 +776,126 @@
 
 			</div>
 
-			<!-- Item Manuals -->
-			<div v-if="gameStore.selectedItem.manual" class="flex flex-col space-y-2">
-
-				<div class="flex items-center justify-between gap-2">
-
-					<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalItem.manuals') }}</h4>
-
-					<div class="flex items-center gap-1">
-						<UButton v-for="count in gameStore.selectedItem.manualCounts" size="xs"
-							:variant="gameStore.selectedItem.manualSelectedCount == count ? 'subtle' : 'soft'"
-							:color="gameStore.selectedItem.manualSelectedCount == count ? 'primary' : 'neutral'"
-							@click="gameStore.selectedItem.manualSelectedCount = count">
-							<span class="text-[10px]">x{{ count }}</span>
-						</UButton>
-					</div>
-
-				</div>
-
-				<div class="grid grid-cols-2 items-start gap-1">
-
-					<div v-if="gameStore.selectedItem.manual.inputs && gameStore.selectedItem.manual.inputs.length > 0" class="flex flex-col gap-1">
-						<div v-for="input in gameStore.selectedItem.manual.inputs" :key="input.id"
-							class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 px-2 py-2">
-
-								<UButton color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
-									:avatar="{ src:gameStore.itemImgs[input.id] }"
-									:label="$t(`items.${input.id}`)"
-									@click="gameStore.openItem(input.id)" />
-								
-								<span v-if="gameStore.itemCounts[input.id] >= input.count * gameStore.selectedItem.manualSelectedCount" class="text-success text-xs">{{ gameStore.itemCounts[input.id].toFixed(0) }} / {{ input.count.toFixed(0) * gameStore.selectedItem.manualSelectedCount }}</span>
-								<span v-else class="text-error text-xs">{{ gameStore.itemCounts[input.id].toFixed(0) }} / {{ input.count.toFixed(0) * gameStore.selectedItem.manualSelectedCount }}</span>
-
-						</div>
-					</div>
-					<div v-else class="flex-1">
-						<span class="text-muted text-xs italic">{{ $t('modalItem.noManualInputs') }}</span>
-					</div>
-
-					<div class="rounded-md bg-neutral-800 p-2 flex items-center gap-2">
-
-						<div class="flex-1 flex flex-col items-end gap-1">
-
-							<div class="w-full flex justify-between gap-2">
-								<span class="text-success text-xs">+{{ gameStore.selectedItem.manual.outputCount * gameStore.selectedItem.manualSelectedCount }}</span>
-								<span v-if="gameStore.selectedItem.manual.isProcessing" class="text-end text-xs text-primary">{{ formatTime(gameStore.selectedItem.manual.remainingSeconds) }}</span>
-								<span v-else class="text-end text-xs text-muted">{{ formatTime(gameStore.selectedItem.manual.seconds * gameStore.selectedItem.manualSelectedCount) }}</span>
-							</div>
-
-							<UProgress :model-value="getManualProgress(gameStore.selectedItem.manual)" size="sm" color="primary" class="flex-1" />
-
-						</div>
-						
-						<UButton v-if="gameStore.selectedItem.manual.isProcessing" color="error" variant="subtle" icon="i-lucide-square" size="sm"
-							@click="gameStore.cancelManual(gameStore.selectedItem.manual)" />
-						
-						<UButton v-else-if="gameStore.canStartManual(gameStore.selectedItem.manual, gameStore.selectedItem.manualSelectedCount)" color="primary" variant="subtle" icon="i-lucide-play" size="sm"
-							@click="gameStore.startManual(gameStore.selectedItem.manual, gameStore.selectedItem.manualSelectedCount)" />
-
-						<UButton v-else color="neutral" variant="subtle" icon="i-lucide-play" disabled  size="sm" />
-
-					</div>
-
-				</div>
-
-			</div>
+			<!-- Item Manual -->
+			<ItemManual v-if="gameStore.selectedItem.manual" :itemId="gameStore.selectedItem.id" />
 
 			<!-- Item Storages -->
-			<div v-if="gameStore.selectedItem.storages.length > 0" class="flex flex-col space-y-2">
+			<div v-if="gameStore.selectedItem.storages.length > 0" class="flex flex-col space-y-1">
 
 				<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalItem.storages') }}</h4>
 
-				<div class="flex flex-col gap-1">
-					<div v-for="storage in gameStore.selectedItem.storages" :key="storage.id">
+				<div v-for="storage in gameStore.selectedItem.storages" :key="storage.id">
 
-						<div v-if="gameStore.itemUnlockeds[storage.storerId]" class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 ps-2 pe-1 py-1">
+					<div v-if="gameStore.itemUnlockeds[storage.storerId]" class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 ps-2 pe-1 py-1.5">
 
-							<div class="flex min-w-0 items-center gap-2">
-
-								<UButton color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
-									:avatar="{ src:gameStore.itemImgs[storage.storerId] }"
-									:label="$t(`items.${storage.storerId}`)"
-									@click="gameStore.openMachine(storage.storerId)" />
-
-							</div>								
-
-							<div class="flex shrink-0 items-center gap-6">
-
-								<span v-if="storage.assignedCount > 0" class="text-xs font-semibold text-success">+{{ storage.capacity * storage.assignedCount }}</span>
-
-								<div class="flex items-center gap-2">
-
-									<UBadge v-if="gameStore.itemAvailableCounts[storage.storerId] > 0" variant="subtle" color="success" size="sm">{{ gameStore.itemAvailableCounts[storage.storerId] }}</UBadge>
-									<UBadge v-else variant="subtle" color="neutral" size="sm">{{ gameStore.itemAvailableCounts[storage.storerId] }}</UBadge>
-
-									<UButton :color="storage.assignedCount > 0 ? 'error' : 'neutral'" variant="subtle" icon="i-lucide-minus" size="xs"
-										:disabled="storage.assignedCount <= 0"
-										@click="gameStore.unassignStorageStorer(storage, 1)" />
-
-									<span v-if="storage.assignedCount > 0" class="min-w-10 text-center text-xs">{{ storage.assignedCount }}</span>
-									<span v-else class="min-w-10 text-center text-xs text-muted">{{ storage.assignedCount }}</span>
-
-									<UButton :color="gameStore.itemAvailableCounts[storage.storerId] > 0 ? 'primary' : 'neutral'" variant="subtle" icon="i-lucide-plus" size="xs"
-										:disabled="gameStore.itemAvailableCounts[storage.storerId] <= 0"
-										@click="gameStore.assignStorageStorer(storage, 1)" />
-
-								</div>
-									
-							</div>
-
-						</div>
-
-						<div v-else class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 ps-2 pe-1 py-2">
+						<div class="flex min-w-0 items-center gap-2">
 
 							<UButton color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
-								icon="i-lucide-lock"
+								:avatar="{ src:gameStore.itemImgs[storage.storerId] }"
 								:label="$t(`items.${storage.storerId}`)"
 								@click="gameStore.openMachine(storage.storerId)" />
 
+						</div>								
+
+						<div class="flex shrink-0 items-center gap-6">
+
+							<span v-if="storage.assignedCount > 0" class="text-xs font-semibold text-success">+{{ storage.capacity * storage.assignedCount }}</span>
+
+							<div class="flex items-center gap-2">
+
+								<UBadge v-if="gameStore.itemAvailableCounts[storage.storerId] > 0" variant="subtle" color="success" size="sm">{{ gameStore.itemAvailableCounts[storage.storerId] }}</UBadge>
+								<UBadge v-else variant="subtle" color="neutral" size="sm">{{ gameStore.itemAvailableCounts[storage.storerId] }}</UBadge>
+
+								<UButton :color="storage.assignedCount > 0 ? 'error' : 'neutral'" variant="subtle" icon="i-lucide-minus" size="xs"
+									:disabled="storage.assignedCount <= 0"
+									@click="gameStore.unassignStorageStorer(storage, 1)" />
+
+								<span v-if="storage.assignedCount > 0" class="min-w-10 text-center text-xs">{{ storage.assignedCount }}</span>
+								<span v-else class="min-w-10 text-center text-xs text-muted">{{ storage.assignedCount }}</span>
+
+								<UButton :color="gameStore.itemAvailableCounts[storage.storerId] > 0 ? 'primary' : 'neutral'" variant="subtle" icon="i-lucide-plus" size="xs"
+									:disabled="gameStore.itemAvailableCounts[storage.storerId] <= 0"
+									@click="gameStore.assignStorageStorer(storage, 1)" />
+
+							</div>
+								
 						</div>
 
 					</div>
+					<div v-else class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 ps-2 pe-1 py-1.5">
+
+						<UButton color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
+							icon="i-lucide-lock"
+							:label="$t(`items.${storage.storerId}`)"
+							@click="gameStore.openMachine(storage.storerId)" />
+
+					</div>
+
 				</div>
 
 			</div>
 
-			<div v-if="gameStore.selectedItem.inLinks.length > 0 || gameStore.selectedItem.prods.length > 0" class="flex flex-col space-y-2">
+			<div v-if="gameStore.selectedItem.inLinks.length > 0 || gameStore.selectedItem.prods.length > 0" class="min-w-0 space-y-1">
 
 				<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalItem.prods') }}</h4>
 
 				<!-- Item In-Links -->
 				<div v-if="gameStore.selectedItem.inLinks.length > 0" class="flex flex-col gap-1">
-					<div v-for="link in gameStore.selectedItem.inLinks" :key="link.id">
-
-						<div v-if="gameStore.linkUnlockeds[link.id]" class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 ps-2 pe-1 py-1">
-
-							<div class="flex min-w-0 items-center gap-2">
-
-								<UButton color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
-									:avatar="{ src:gameStore.itemImgs[link.conveyorId] }"
-									:label="$t(`items.${link.conveyorId}`)"
-									@click="gameStore.openMachine(link.conveyorId)" />
-
-							</div>
-
-							<div class="flex shrink-0 items-center gap-6">
-
-								<div class="flex items-center gap-2">
-
-									<span v-if="link.assignedCount <= 0 && gameStore.linkMiniumRates[link.id] <= 0" class="text-xs font-semibold text-muted">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
-									<span v-else-if="link.assignedCount * link.conveyorSpeed >= gameStore.linkMiniumRates[link.id]" class="text-xs font-semibold text-success">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
-									<div v-else class="flex flex-items gap-2">
-										<UIcon name="i-lucide-triangle-exclamation-point" class="text-error" />
-										<span class="text-xs font-semibold text-error">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
-									</div>
-
-									<UTooltip :text="$t(`items.${link.sourceId}`)">
-										<UButton color="neutral" variant="soft" size="xs"
-											:avatar="{ src:gameStore.itemImgs[link.sourceId] }"
-											@click="gameStore.openItem(link.sourceId)" />
-									</UTooltip>
-
-									<UIcon name="i-lucide-move-right" size="xs" class="text-muted" />
-
-								</div>
-
-								<div class="flex items-center gap-2">
-
-									<UBadge v-if="gameStore.itemAvailableCounts[link.conveyorId] > 0" variant="subtle" color="success" size="sm">{{ gameStore.itemAvailableCounts[link.conveyorId] }}</UBadge>
-									<UBadge v-else variant="subtle" color="neutral" size="sm" class="text-muted">{{ gameStore.itemAvailableCounts[link.conveyorId] }}</UBadge>
-
-									<UButton :color="link.assignedCount > 0 ? 'error' : 'neutral'" variant="subtle" icon="i-lucide-minus" size="xs"
-										:disabled="link.assignedCount <= 0"
-										@click="gameStore.unassignLinkConveyor(link, 1)" />
-
-									<span v-if="link.assignedCount > 0" class="min-w-10 text-center text-xs">{{ link.assignedCount }}</span>
-									<span v-else class="min-w-10 text-center text-xs text-muted">{{ link.assignedCount }}</span>
-
-									<UButton :color="gameStore.itemAvailableCounts[link.conveyorId] > 0 ? 'primary' : 'neutral'" variant="subtle" icon="i-lucide-plus" size="xs"
-										:disabled="gameStore.itemAvailableCounts[link.conveyorId] <= 0"
-										@click="gameStore.assignLinkConveyor(link, 1)" />
-
-								</div>
-
-							</div>
-
-						</div>
-
-						<div v-else class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 ps-2 pe-1 py-2">
-
-							<UButton v-if="!gameStore.itemUnlockeds[link.conveyorId]" color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
-								icon="i-lucide-lock"
-								:label="$t(`items.${link.conveyorId}`)"
-								@click="gameStore.openMachine(link.conveyorId)" />
-
-							<UButton v-else-if="!gameStore.itemUnlockeds[link.sourceId]" color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
-								icon="i-lucide-lock"
-								:label="$t(`items.${link.sourceId}`)"
-								@click="gameStore.openItem(link.sourceId)" />
-
-						</div>
-
-					</div>
+					<ItemLink v-for="link in gameStore.selectedItem.inLinks" :key="link.id" :link-id="link.id" />
 				</div>
 
 				<USeparator v-if="gameStore.selectedItem.inLinks.length > 0" />
 
 				<!-- Item Prods -->
-				<div v-if="gameStore.selectedItem.prods.length > 0" class="flex flex-col gap-1">
-					<div v-for="prod in gameStore.selectedItem.prods" :key="prod.id">
+				<div v-if="gameStore.selectedItem.prods.length > 0" class="flex min-w-0 flex-col gap-1">
+					<div v-for="prod in gameStore.selectedItem.prods" :key="prod.id" class="min-w-0">
 
-						<div v-if="gameStore.itemUnlockeds[prod.machineId]" class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 ps-2 pe-1 py-1">
+						<div v-if="gameStore.itemUnlockeds[prod.machineId]" class="space-y-1.5 rounded-md bg-neutral-800 ps-2 pe-2 py-1.5">
 
-							<div class="flex min-w-0 items-center gap-2">
-
-								<UButton color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
-									:avatar="{ src:gameStore.itemImgs[prod.machineId] }"
-									:label="$t(`items.${prod.machineId}`)"
-									@click="gameStore.openMachine(prod.machineId)" />
+							<div class="flex items-center justify-end gap-2">
+									
+								<span v-if="prod.assignedCount > 0" class="shrink-0 text-xs font-semibold text-success">+{{ prod.assignedCount * prod.outputCount / prod.seconds }} /s</span>
+								<span v-else class="shrink-0 text-xs font-semibold text-muted">+{{ prod.assignedCount * prod.outputCount / prod.seconds }} /s</span>
 
 							</div>
 
-							<div class="flex shrink-0 items-center gap-6">
-								
-								<span v-if="prod.assignedCount > 0" class="text-xs font-semibold text-success">+{{ prod.assignedCount * prod.outputCount / prod.seconds }} /s</span>
-								<span v-else class="text-xs font-semibold text-muted">+{{ prod.assignedCount * prod.outputCount / prod.seconds }} /s</span>
+							<div class="flex w-full min-w-0 max-w-full items-center justify-between gap-3">
 
-								<div class="flex items-center gap-2">
+								<div class="flex min-w-0 flex-1 items-center gap-2">
 
-									<UBadge v-if="gameStore.itemAvailableCounts[prod.machineId] > 0" variant="subtle" color="success" size="sm">{{ gameStore.itemAvailableCounts[prod.machineId] }}</UBadge>
-									<UBadge v-else variant="subtle" color="neutral" size="sm" class="text-muted">{{ gameStore.itemAvailableCounts[prod.machineId] }}</UBadge>
-
-									<UButton :color="prod.assignedCount > 0 ? 'error' : 'neutral'" variant="subtle" icon="i-lucide-minus" size="xs"
-										:disabled="prod.assignedCount <= 0"
-										@click="gameStore.unassignProdMachine(prod, 1)" />
-
-									<span v-if="prod.assignedCount > 0" class="min-w-10 text-center text-xs">{{ prod.assignedCount }}</span>
-									<span v-else class="min-w-10 text-center text-xs text-muted">{{ prod.assignedCount }}</span>
-
-									<UButton :color="gameStore.itemAvailableCounts[prod.machineId] > 0 ? 'primary' : 'neutral'" variant="subtle" icon="i-lucide-plus" size="xs"
-										:disabled="gameStore.itemAvailableCounts[prod.machineId] <= 0"
-										@click="gameStore.assignProdMachine(prod, 1)" />
+									<UButton color="neutral" variant="link" size="xs" class="min-w-0 flex-1 justify-start overflow-hidden p-0 gap-2"
+										:ui="{ label: 'block min-w-0 truncate' }"
+										:avatar="{ src:gameStore.itemImgs[prod.machineId] }"
+										:label="$t(`items.${prod.machineId}`)"
+										@click="gameStore.openMachine(prod.machineId)" />
 
 								</div>
 
+								<div class="flex shrink-0 items-center gap-2">
+
+									<div class="flex items-center gap-2">
+
+										<UBadge v-if="gameStore.itemAvailableCounts[prod.machineId] > 0" variant="subtle" color="success" size="sm">{{ gameStore.itemAvailableCounts[prod.machineId] }}</UBadge>
+										<UBadge v-else variant="subtle" color="neutral" size="sm" class="text-muted">{{ gameStore.itemAvailableCounts[prod.machineId] }}</UBadge>
+
+										<UButton :color="prod.assignedCount > 0 ? 'error' : 'neutral'" variant="subtle" icon="i-lucide-minus" size="xs"
+											:disabled="prod.assignedCount <= 0"
+											@click="gameStore.unassignProdMachine(prod, 1)" />
+
+										<span v-if="prod.assignedCount > 0" class="min-w-10 text-center text-xs">{{ prod.assignedCount }}</span>
+										<span v-else class="min-w-10 text-center text-xs text-muted">{{ prod.assignedCount }}</span>
+
+										<UButton :color="gameStore.itemAvailableCounts[prod.machineId] > 0 ? 'primary' : 'neutral'" variant="subtle" icon="i-lucide-plus" size="xs"
+											:disabled="gameStore.itemAvailableCounts[prod.machineId] <= 0"
+											@click="gameStore.assignProdMachine(prod, 1)" />
+
+									</div>
+
+								</div>
 							</div>
 
 						</div>
-
-						<div v-else class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 ps-2 pe-1 py-2">
+						<div v-else class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 ps-2 pe-1 py-1.5">
 
 							<UButton color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
 								icon="i-lucide-lock"
@@ -1051,82 +910,12 @@
 			</div>
 
 			<!-- Item Out-Links -->
-			<div v-if="gameStore.selectedItem.outLinks.length > 0" class="flex flex-col space-y-2">
+			<div v-if="gameStore.selectedItem.outLinks.length > 0" class="flex flex-col space-y-1">
 
 				<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalItem.links') }}</h4>
 
 				<div class="flex flex-col gap-1">
-					<div v-for="link in gameStore.selectedItem.outLinks" :key="link.id">
-
-						<div v-if="gameStore.linkUnlockeds[link.id]" class="flex items-center justify-between gap-4 rounded-md bg-neutral-800 ps-2 pe-1 py-1">
-
-							<div class="flex min-w-0 items-center gap-2">
-
-								<UButton color="neutral" variant="link" size="xs"" class="truncate p-0 gap-2"
-									:avatar="{ src:gameStore.itemImgs[link.conveyorId] }"
-									:label="$t(`items.${link.conveyorId}`)"
-									@click="gameStore.openMachine(link.conveyorId)" />
-
-							</div>
-
-							<div class="flex shrink-0 items-center gap-6">
-
-								<div class="flex items-center gap-2">
-
-									<span v-if="link.assignedCount <= 0 && gameStore.linkMiniumRates[link.id] <= 0" class="text-xs font-semibold text-muted">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
-									<span v-else-if="link.assignedCount * link.conveyorSpeed >= gameStore.linkMiniumRates[link.id]" class="text-xs font-semibold text-success">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
-									<div v-else class="flex flex-items gap-2">
-										<UIcon name="i-lucide-triangle-exclamation-point" class="text-error" />
-										<span class="text-xs font-semibold text-error">{{ link.assignedCount * link.conveyorSpeed }} / {{ gameStore.linkMiniumRates[link.id] }} /s</span>
-									</div>
-
-									<UIcon name="i-lucide-move-right" size="xs" class="text-muted" />
-
-									<UTooltip :text="$t(`items.${link.targetId}`)">
-										<UButton color="neutral" variant="soft" size="xs"
-											:avatar="{ src:gameStore.itemImgs[link.targetId] }"
-											@click="gameStore.openItem(link.targetId)" />
-									</UTooltip>
-
-								</div>
-
-								<div class="flex items-center gap-2">
-
-									<UBadge v-if="gameStore.itemAvailableCounts[link.conveyorId] > 0" variant="subtle" color="success" size="sm">{{ gameStore.itemAvailableCounts[link.conveyorId] }}</UBadge>
-									<UBadge v-else variant="subtle" color="neutral" size="sm" class="text-muted">{{ gameStore.itemAvailableCounts[link.conveyorId] }}</UBadge>
-
-									<UButton :color="link.assignedCount > 0 ? 'error' : 'neutral'" variant="subtle" icon="i-lucide-minus" size="xs"
-										:disabled="link.assignedCount <= 0"
-										@click="gameStore.unassignLinkConveyor(link, 1)" />
-
-									<span v-if="link.assignedCount > 0" class="min-w-10 text-center text-xs">{{ link.assignedCount }}</span>
-									<span v-else class="min-w-10 text-center text-xs text-muted">{{ link.assignedCount }}</span>
-
-									<UButton :color="gameStore.itemAvailableCounts[link.conveyorId] > 0 ? 'primary' : 'neutral'" variant="subtle" icon="i-lucide-plus" size="xs"
-										:disabled="gameStore.itemAvailableCounts[link.conveyorId] <= 0"
-										@click="gameStore.assignLinkConveyor(link, 1)" />
-
-								</div>
-
-							</div>
-
-						</div>
-
-						<div v-else class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 ps-2 pe-1 py-2">
-
-							<UButton v-if="!gameStore.itemUnlockeds[link.conveyorId]" color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
-								icon="i-lucide-lock"
-								:label="$t(`items.${link.conveyorId}`)"
-								@click="gameStore.openMachine(link.conveyorId)" />
-
-							<UButton v-else-if="!gameStore.itemUnlockeds[link.targetId]" color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
-								icon="i-lucide-lock"
-								:label="$t(`items.${link.targetId}`)"
-								@click="gameStore.openItem(link.targetId)" />
-
-						</div>
-
-					</div>
+					<ItemLink v-for="link in gameStore.selectedItem.outLinks" :key="link.id" :link-id="link.id" />
 				</div>
 
 			</div>
@@ -1136,7 +925,7 @@
 	</UModal>
 
 	<!-- Machine Modal -->
-	<UModal v-model:open="gameStore.isMachineModalOpen" scrollable :ui="{ header: 'p-4 sm:p-4' }">
+	<UModal v-model:open="gameStore.isMachineModalOpen" scrollable>
 
 		<!-- Modal Header -->
 		<template #header>
@@ -1183,78 +972,15 @@
 
 			</div>
 
-			<!-- Machine Manuals -->
-			<div v-if="gameStore.selectedMachine.manual" class="flex flex-col space-y-2">
-
-				<div class="flex items-center justify-between gap-2">
-
-					<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalItem.manuals') }}</h4>
-
-					<div class="flex items-center gap-1">
-						<UButton v-for="count in gameStore.selectedMachine.manualCounts" size="xs"
-							:variant="gameStore.selectedMachine.manualSelectedCount == count ? 'subtle' : 'soft'"
-							:color="gameStore.selectedMachine.manualSelectedCount == count ? 'primary' : 'neutral'"
-							@click="gameStore.selectedMachine.manualSelectedCount = count">
-							<span class="text-[10px]">x{{ count }}</span>
-						</UButton>
-					</div>
-
-				</div>
-
-				<div class="grid grid-cols-2 items-start gap-1">
-
-					<div v-if="gameStore.selectedMachine.manual.inputs && gameStore.selectedMachine.manual.inputs.length > 0" class="flex flex-col gap-1">
-						<div v-for="input in gameStore.selectedMachine.manual.inputs" :key="input.id"
-							class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 px-2 py-2">
-
-								<UButton color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
-									:avatar="{ src:gameStore.itemImgs[input.id] }"
-									:label="$t(`items.${input.id}`)"
-									@click="gameStore.openItem(input.id)" />
-								
-								<span v-if="gameStore.itemCounts[input.id] >= input.count * gameStore.selectedMachine.manualSelectedCount" class="text-success text-xs">{{ gameStore.itemCounts[input.id].toFixed(0) }} / {{ input.count.toFixed(0) * gameStore.selectedMachine.manualSelectedCount }}</span>
-								<span v-else class="text-error text-xs">{{ gameStore.itemCounts[input.id].toFixed(0) }} / {{ input.count.toFixed(0) * gameStore.selectedMachine.manualSelectedCount }}</span>
-
-						</div>
-					</div>
-					<div v-else class="flex-1">
-						<span class="text-muted text-xs italic">{{ $t('modalItem.noManualInputs') }}</span>
-					</div>
-
-					<div class="rounded-md bg-neutral-800 p-2 flex items-center gap-2">
-
-						<div class="flex-1 flex flex-col items-end gap-1">
-
-							<div class="w-full flex justify-between gap-2">
-								<span class="text-success text-xs">+{{ gameStore.selectedMachine.manual.outputCount * gameStore.selectedMachine.manualSelectedCount }}</span>
-								<span v-if="gameStore.selectedMachine.manual.isProcessing" class="text-end text-xs text-primary">{{ formatTime(gameStore.selectedMachine.manual.remainingSeconds) }}</span>
-								<span v-else class="text-end text-xs text-muted">{{ formatTime(gameStore.selectedMachine.manual.seconds * gameStore.selectedMachine.manualSelectedCount) }}</span>
-							</div>
-
-							<UProgress :model-value="getManualProgress(gameStore.selectedMachine.manual)" size="sm" color="primary" class="flex-1" />
-
-						</div>
-						
-						<UButton v-if="gameStore.selectedMachine.manual.isProcessing" color="error" variant="subtle" icon="i-lucide-square" size="sm"
-							@click="gameStore.cancelManual(gameStore.selectedMachine.manual)" />
-						
-						<UButton v-else-if="gameStore.canStartManual(gameStore.selectedMachine.manual, gameStore.selectedMachine.manualSelectedCount)" color="primary" variant="subtle" icon="i-lucide-play" size="sm"
-							@click="gameStore.startManual(gameStore.selectedMachine.manual, gameStore.selectedMachine.manualSelectedCount)" />
-
-						<UButton v-else color="neutral" variant="subtle" icon="i-lucide-play" disabled  size="sm" />
-
-					</div>
-
-				</div>
-
-			</div>
+			<!-- Machine Manual -->
+			<ItemManual v-if="gameStore.selectedMachine.manual" :itemId="gameStore.selectedMachine.id" />
 
 		</template>
 
 	</UModal>
 
 	<!-- Mission Modal -->
-	<UModal v-model:open="gameStore.isMissionModalOpen" scrollable :ui="{ header: 'p-4 sm:p-4' }">
+	<UModal v-model:open="gameStore.isMissionModalOpen" scrollable>
 
 		<!-- Modal Header -->
 		<template #header>
@@ -1273,43 +999,39 @@
 		<template #body>
 
 			<!-- Mission Manuals -->
-			<div v-if="gameStore.selectedMission.manual" class="flex flex-col space-y-2">
+			<div v-if="gameStore.selectedMission.manual" class="flex flex-col space-y-1">
 
 				<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalMission.manuals') }}</h4>
 
-				<div class="grid grid-cols-2 items-end gap-1">
+				<div v-if="gameStore.selectedMission.manual.inputs && gameStore.selectedMission.manual.inputs.length > 0" class="flex flex-col gap-1">
+					<div v-for="input in gameStore.selectedMission.manual.inputs" :key="input.id"
+						class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 px-2 py-1.5">
 
-					<div v-if="gameStore.selectedMission.manual.inputs && gameStore.selectedMission.manual.inputs.length > 0" class="flex flex-col gap-1">
-						<div v-for="input in gameStore.selectedMission.manual.inputs" :key="input.id"
-							class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 px-2 py-2">
-
-								<UButton color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
-									:avatar="{ src:gameStore.itemImgs[input.id] }"
-									:label="$t(`items.${input.id}`)"
-									@click="gameStore.openItem(input.id)" />
-								
-								<span v-if="gameStore.itemCounts[input.id] >= input.count * gameStore.selectedMission.manualSelectedCount" class="text-success text-xs">{{ gameStore.itemCounts[input.id] }} / {{ input.count.toFixed(0) * gameStore.selectedMission.manualSelectedCount }}</span>
-								<span v-else class="text-error text-xs">{{ gameStore.itemCounts[input.id] }} / {{ input.count.toFixed(0) * gameStore.selectedMission.manualSelectedCount }}</span>
-
-						</div>
-					</div>
-					<div v-else class="flex-1">
-						<span class="text-muted text-xs italic">{{ $t('modalItem.noManualInputs') }}</span>
-					</div>
-
-					<div class="flex justify-end">
-
-						<UButton v-if="gameStore.selectedMission.count > 0" color="success" variant="subtle" icon="i-lucide-award" disabled size="sm"
-							:label="$t('modalMission.completed')" />
-
-						<UButton v-else-if="gameStore.canStartManual(gameStore.selectedMission.manual, gameStore.selectedMission.manualSelectedCount)" color="primary" variant="subtle" icon="i-lucide-award" size="sm"
-							:label="$t('modalMission.complete')"
-							@click="gameStore.startManual(gameStore.selectedMission.manual, gameStore.selectedMission.manualSelectedCount)" />
-
-						<UButton v-else color="neutral" variant="subtle" icon="i-lucide-award" disabled size="sm"
-							:label="$t('modalMission.complete')" />
+							<UButton color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
+								:avatar="{ src:gameStore.itemImgs[input.id] }"
+								:label="$t(`items.${input.id}`)"
+								@click="gameStore.openItem(input.id)" />
+							
+							<span v-if="gameStore.itemCounts[input.id] >= input.count * gameStore.selectedMission.manualSelectedCount" class="text-success text-xs">{{ gameStore.itemCounts[input.id] }} / {{ input.count.toFixed(0) * gameStore.selectedMission.manualSelectedCount }}</span>
+							<span v-else class="text-error text-xs">{{ gameStore.itemCounts[input.id] }} / {{ input.count.toFixed(0) * gameStore.selectedMission.manualSelectedCount }}</span>
 
 					</div>
+				</div>
+				<div v-else class="flex-1">
+					<span class="text-muted text-xs italic">{{ $t('modalItem.noManualInputs') }}</span>
+				</div>
+
+				<div class="mt-3 flex justify-end">
+
+					<UButton v-if="gameStore.selectedMission.count > 0" color="success" variant="subtle" icon="i-lucide-award" disabled size="sm"
+						:label="$t('modalMission.completed')" />
+
+					<UButton v-else-if="gameStore.canStartManual(gameStore.selectedMission.manual, gameStore.selectedMission.manualSelectedCount) === 0" color="primary" variant="subtle" icon="i-lucide-award" size="sm"
+						:label="$t('modalMission.complete')"
+						@click="gameStore.startManual(gameStore.selectedMission.manual, gameStore.selectedMission.manualSelectedCount)" />
+
+					<UButton v-else color="neutral" variant="subtle" icon="i-lucide-award" disabled size="sm"
+						:label="$t('modalMission.complete')" />
 
 				</div>
 

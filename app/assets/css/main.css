@@ -5,3 +5,8 @@
 	
     --font-sans: 'Public Sans', system-ui, sans-serif;
 }
+
+:root {
+
+	--ui-header-height: 3rem;
+}

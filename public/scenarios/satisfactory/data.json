@@ -3,7 +3,11 @@
 
 	"items":[
 
+		{ "type":"mission", "group":"onboarding", "id":"onboarding_0", "stack":1,
+          "recipe":{ "output":1, "machines":[ "manual" ] }
+        },
 		{ "type":"mission", "group":"onboarding", "id":"onboarding_1", "stack":1,
+          "requirement":{ "onboarding_0":1 },
           "recipe":{ "output":1, "inputs":{ "iron_rod":10 }, "machines":[ "manual" ] }
         },
         { "type":"mission", "group":"onboarding", "id":"onboarding_2", "stack":1,
@@ -23,15 +27,15 @@
           "recipe":{ "output":1, "inputs":{ "iron_rod":100, "iron_plate_1":100, "copper_wire_1":100, "concrete":50 }, "machines":[ "manual" ] }
         },
 
-        { "type":"mission", "group":"power", "id":"coal_power", "stack":1,
+        { "type":"mission", "group":"power", "id":"power_coal", "stack":1,
           "requirement":{ "phase_1":1 },
           "recipe":{ "output":1, "inputs":{ "copper_wire_2":500, "iron_plate_2":150, "iron_rotor":50 }, "machines":[ "manual" ] }
         },
-        { "type":"mission", "group":"power", "id":"fuel_power", "stack":1,
+        { "type":"mission", "group":"power", "id":"power_fuel", "stack":1,
           "requirement":{ "phase_2":1 },
           "recipe":{ "output":1, "inputs":{ "plastic":200, "rubber":200, "steel_beam_2":100, "engine_1":100 }, "machines":[ "manual" ] }
         },
-        { "type":"mission", "group":"power", "id":"nuclear_power", "stack":1,
+        { "type":"mission", "group":"power", "id":"power_nuclear", "stack":1,
           "requirement":{ "phase_3":1 },
           "recipe":{ "output":1, "inputs":{ "concrete":2000, "copper_wire_2":1000, "steel_frame_1":200, "supercomputer":50 }, "machines":[ "manual" ] }
         },
@@ -115,7 +119,7 @@
         },
 
         { "type":"item", "group":"energy", "id":"water", "stack":400,
-          "requirement":{ "coal_power":1 },
+          "requirement":{ "power_coal":1 },
 		  "recipe":{ "seconds":2, "output":1, "machines":[ "pump_water" ] },
           "storers":[ "storer_fluid" ],
 		  "conveyors":[ "conveyor_solid" ]
@@ -132,17 +136,17 @@
 		  "conveyors":[ "conveyor_energy" ]
         },
         { "type":"item", "group":"energy", "id":"energy_coal", "stack":100,
-          "requirement":{ "coal_power":1 },
+          "requirement":{ "power_coal":1 },
           "recipe":{ "seconds":1, "output":75, "inputs":{ "coal":0.25, "water":0.75 }, "machines":[ "generator_coal" ] },
 		  "conveyors":[ "conveyor_energy" ]
         },
         { "type":"item", "group":"energy", "id":"energy_fuel", "stack":100,
-          "requirement":{ "fuel_power":1 },
+          "requirement":{ "power_fuel":1 },
           "recipe":{ "seconds":1, "output":250, "inputs":{ "fuel":0.33 }, "machines":[ "generator_fuel" ] },
 		  "conveyors":[ "conveyor_energy" ]
         },
         { "type":"item", "group":"energy", "id":"energy_nuclear", "stack":100,
-          "requirement":{ "nuclear_power":1 },
+          "requirement":{ "power_nuclear":1 },
           "recipe":{ "seconds":1, "output":2500, "inputs":{ "uranium_fuel":0.01, "water":4 }, "machines":[ "generator_nuclear" ] },
 		  "conveyors":[ "conveyor_energy" ]
         },
@@ -218,7 +222,7 @@
 		  "conveyors":[ "conveyor_solid" ]
         },
         { "type":"item", "group":"copper", "id":"copper_sheet", "stack":200,
-          "requirement":{ "coal_power":1 },
+          "requirement":{ "power_coal":1 },
           "recipe":{ "seconds":6, "output":1, "inputs":{ "copper_ingot":2 }, "machines":[ "manual", "builder" ] },
           "storers":[ "storer_solid" ],
 		  "conveyors":[ "conveyor_solid" ]
@@ -262,7 +266,7 @@
         },
 
         { "type":"item", "group":"coal", "id":"coal", "stack":100,
-          "requirement":{ "coal_power":1 },
+          "requirement":{ "power_coal":1 },
           "recipe":{ "seconds":1, "output":1, "machines":[ "miner_1" ] },
           "storers":[ "storer_solid" ],
 		  "conveyors":[ "conveyor_solid" ]
@@ -374,19 +378,19 @@
         },
 
 		{ "type":"item", "group":"caterium", "id":"caterium", "stack":100,
-          "requirement":{ "fuel_power":1 },
+          "requirement":{ "power_fuel":1 },
           "recipe":{ "seconds":1, "output":1, "machines":[ "miner_2" ] },
           "storers":[ "storer_solid" ],
 		  "conveyors":[ "conveyor_solid" ]
         },
 		{ "type":"item", "group":"caterium", "id":"caterium_ingot", "stack":100,
-          "requirement":{ "fuel_power":1 },
+          "requirement":{ "power_fuel":1 },
           "recipe":{ "seconds":4, "output":1, "inputs":{ "caterium":3 }, "machines":[ "manual", "smelter" ] },
           "storers":[ "storer_solid" ],
 		  "conveyors":[ "conveyor_solid" ]
         },        
         { "type":"item", "group":"caterium", "id":"caterium_wire", "stack":500,
-          "requirement":{ "fuel_power":1 },
+          "requirement":{ "power_fuel":1 },
           "recipe":{ "seconds":5, "output":5, "inputs":{ "caterium_ingot":1 }, "machines":[ "manual", "builder" ] },
           "storers":[ "storer_solid" ],
 		  "conveyors":[ "conveyor_solid" ]
@@ -398,13 +402,13 @@
 		  "conveyors":[ "conveyor_solid" ]
         },        
         { "type":"item", "group":"caterium", "id":"control_rod", "stack":100,
-          "requirement":{ "nuclear_power":1 },
+          "requirement":{ "power_nuclear":1 },
           "recipe":{ "seconds":30, "output":2, "inputs":{ "stator":3, "caterium_circuit":2 }, "machines":[ "manual", "assembler" ] },
           "storers":[ "storer_solid" ],
 		  "conveyors":[ "conveyor_solid" ]
         },
         { "type":"item", "group":"caterium", "id":"magnetic_field_generator", "stack":50,
-          "requirement":{ "nuclear_power":1 },
+          "requirement":{ "power_nuclear":1 },
           "recipe":{ "seconds":120, "output":2, "inputs":{ "iron_frame_2":5, "control_rod":2 }, "machines":[ "assembler" ] },
           "storers":[ "storer_solid" ],
 		  "conveyors":[ "conveyor_solid" ]
@@ -509,19 +513,19 @@
 		  "conveyors":[ "conveyor_solid" ]
         },
         { "type":"item", "group":"nuclear", "id":"uranium", "stack":100,
-          "requirement":{ "nuclear_power":1 },
+          "requirement":{ "power_nuclear":1 },
           "recipe":{ "seconds":1, "output":1, "machines":[ "miner_2" ] },
           "storers":[ "storer_solid" ],
 		  "conveyors":[ "conveyor_solid" ]
         },
         { "type":"item", "group":"nuclear", "id":"uranium_cell", "stack":200,
-          "requirement":{ "nuclear_power":1 },
+          "requirement":{ "power_nuclear":1 },
           "recipe":{ "seconds":12, "output":5, "inputs":{ "uranium":10, "concrete":3, "sulfuric_acid":6 }, "machines":[ "manual", "blender" ] },
           "storers":[ "storer_solid" ],
 		  "conveyors":[ "conveyor_solid" ]
         },
         { "type":"item", "group":"nuclear", "id":"uranium_fuel", "stack":50,
-          "requirement":{ "nuclear_power":1 },
+          "requirement":{ "power_nuclear":1 },
           "recipe":{ "seconds":150, "output":1, "inputs":{ "uranium_cell":50, "steel_beam_2":3, "control_rod":5 }, "machines":[ "manual", "manufacturer" ] },
           "storers":[ "storer_solid" ],
 		  "conveyors":[ "conveyor_solid" ]
@@ -692,7 +696,7 @@
 		  "speed": 3
         },
         { "type":"machine", "group":"extractors", "id":"pump_water",
-          "requirement":{ "coal_power":1 },
+          "requirement":{ "power_coal":1 },
           "recipe":{ "seconds":1, "output":1, "inputs":{ "iron_plate_2":10, "iron_rotor":10, "copper_sheet":20 }, "machines":[ "manual" ] },
           "energy":{ "energy_biomass":20 },
 		  "speed": 1
@@ -716,17 +720,17 @@
 		  "speed": 1
         },
         { "type":"machine", "group":"generators", "id":"generator_coal",
-          "requirement":{ "coal_power":1 },
+          "requirement":{ "power_coal":1 },
           "recipe":{ "seconds":1, "output":1, "inputs":{ "copper_wire_2":30, "iron_plate_2":20, "iron_rotor":10 }, "machines":[ "manual" ] },
 		  "speed": 1
         },
         { "type":"machine", "group":"generators", "id":"generator_fuel",
-          "requirement":{ "fuel_power":1 },
+          "requirement":{ "power_fuel":1 },
           "recipe":{ "seconds":1, "output":1, "inputs":{ "engine_1":15, "steel_beam_2":15, "copper_sheet":30, "rubber":50, "copper_wire_2":50 }, "machines":[ "manual" ] },
 		  "speed": 1
         },
         { "type":"machine", "group":"generators", "id":"generator_nuclear",
-          "requirement":{ "nuclear_power":1 },
+          "requirement":{ "power_nuclear":1 },
           "recipe":{ "seconds":1, "output":1, "inputs":{ "supercomputer":10, "steel_frame_1":25, "aluminum_sheet":100, "copper_wire_2":200, "concrete":250 }, "machines":[ "manual" ] },
 		  "speed": 1
         },
@@ -799,7 +803,7 @@
 		  "speed": 1
         },
         { "type":"storer", "group":"logistics", "id":"storer_fluid",
-          "requirement":{ "coal_power":1 },
+          "requirement":{ "power_coal":1 },
           "recipe":{ "seconds":1, "output":1, "inputs":{ "iron_frame_1":5, "copper_sheet":10 }, "machines":[ "manual" ] },
 		  "speed": 1
         },        

@@ -32,11 +32,7 @@
 
 					<img :src="gameStore.itemImgs[mission.id]" :alt="$t(`items.${mission.id}`)" class="size-full object-contain" />
 
-					<UBadge v-if="mission.count != 0" size="xs" :color="mission.count >= mission.max ? 'success' : 'neutral'" variant="solid"
-						class="absolute -top-1 -right-0.5 z-10">
-						<span v-if="mission.count >= mission.max"><UIcon name="i-lucide-check" /></span>
-						<span v-else-if="mission.count > 0">{{ mission.count.toFixed(0) }} / {{ mission.max.toFixed(0) }}</span>
-					</UBadge>
+					<UIcon v-if="mission.count != 0" name="i-lucide-award" class="absolute -top-1 -right-0.5 z-10 text-xs text-success" />
 
 				</UButton>
 

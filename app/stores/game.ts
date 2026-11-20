@@ -7,7 +7,6 @@ const LOCAL_DATA_NAME = 'fgfactory_save'
 const AVAILABLE_SCENARIOS = [
 
 	{ id: "satisfactory", name: "scenarios.satisfactory" },
-	{ id: "techtonica", name: "scenarios.techtonica" },
 ]
 
 interface Victory {
@@ -83,8 +82,8 @@ interface Manual {
 	id: string
 	itemId: string
 	seconds: number
-	outputCount: number
 	inputs?: { id: string, count: number }[]
+	outputCount: number
 	isProcessing: boolean
 	processCount: number
 	remainingSeconds: number
@@ -188,7 +187,7 @@ export const useGameStore = defineStore('game', {
 			const unlockeds: Record<string, boolean> = {}
 
 			for (const item of state.items)
-				unlockeds[item.id] = state.unlockedItemIds.includes(item.id)
+				unlockeds[item.id] = true // state.unlockedItemIds.includes(item.id)
 
 
 			return unlockeds
@@ -896,7 +895,6 @@ export const useGameStore = defineStore('game', {
 				if (manual.remainingSeconds <= 0) {
 
 					const outputItem = this.itemMap[manual.itemId]
-
 					outputItem.count += manual.outputCount * manual.processCount
 					if (outputItem.count > outputItem.max) outputItem.count = outputItem.max
 
@@ -946,10 +944,9 @@ export const useGameStore = defineStore('game', {
 					let runMachineCount = prod.assignedCount
 
 					const outputItem = this.itemMap[prod.itemId]
-					const outputMachineCount = Math.floor((outputItem.max - outputItem.count) / prod.outputCount)
-					runMachineCount = Math.min(runMachineCount, outputMachineCount)
+					if (outputItem.count >= outputItem.max) runMachineCount = 0
 
-					if (prod.inputs) {
+					if (runMachineCount > 0 && prod.inputs) {
 						for (const input of prod.inputs) {
 
 							const inputLink = this.linkMap[`${input.id}_${prod.itemId}`]
@@ -1082,9 +1079,9 @@ export const useGameStore = defineStore('game', {
 
 		// Manual actions
 
-		canStartManual(manual: Manual, count: number): boolean {
+		canStartManual(manual: Manual, count: number): number {
 
-			if (!Number.isInteger(count) || count <= 0 || manual.isProcessing) return false
+			if (count <= 0 || manual.isProcessing) return -1
 
 			if (manual.inputs) {
 				for (const input of manual.inputs) {
@@ -1092,19 +1089,19 @@ export const useGameStore = defineStore('game', {
 					if (input.count <= 0) continue
 
 					const inputItem = this.itemMap[input.id]
-					if (inputItem.count < input.count * count) return false
+					if (inputItem.count < input.count * count) return -2
 				}
 			}
 
-			const outputItem = this.itemMap[manual.itemId]
-			if (outputItem.max - outputItem.count < manual.outputCount * count) return false
+			const outputItem = manual.itemId
+			if (outputItem.max - outputItem.count <  manual.outputCount * count) return -3
 
-			return true
+			return 0
 		},
 
-		startManual(manual: Manual, count: number): boolean {
+		startManual(manual: Manual, count: number): void {
 
-			if (!this.canStartManual(manual, count)) return false
+			if (this.canStartManual(manual) !== 0) return
 
 			if (manual.inputs) {
 				for (const input of manual.inputs) {
@@ -1119,8 +1116,6 @@ export const useGameStore = defineStore('game', {
 			manual.processCount = count
 			manual.isProcessing = true
 			manual.remainingSeconds = manual.seconds * count
-
-			return true
 		},
 
 		cancelManual(manual: Manual): void {
