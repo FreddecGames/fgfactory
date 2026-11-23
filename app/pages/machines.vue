@@ -7,7 +7,7 @@
 
 	const groupedMachines = computed(() => {
 
-		return gameStore.items.filter((item: any) => item.type === 'machine' || item.type === 'storer' || item.type === 'conveyor').reduce((groups: Record<string, any[]>, item: any) => {
+		return gameStore.items.filter((item: any) => item.type === 'machine' || item.type === 'storer').reduce((groups: Record<string, any[]>, item: any) => {
 			const group = item.group
 			const groupMachines = groups[group] || (groups[group] = [])
 			groupMachines.push(item)

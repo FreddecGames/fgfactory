@@ -59,11 +59,10 @@
 	"modalItem":{
 		"count": "Stock",
 		"production": "Production",
-		"storages": "Storage",
-		"prods": "Automation",
-		"links": "Distribution",
-		"manuals": "Crafting",
-		"noManualInputs": "No input needed"
+		"storage": "Storage",
+		"prod": "Automation",
+		"manual": "Crafting",
+		"noInputs": "No input needed"
 	},
 
 	"modalMission":{

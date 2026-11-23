@@ -39,14 +39,11 @@
 						<span v-else-if="item.count < 0" class="text-error">{{ item.count.toFixed(0) }}</span>
 					</UBadge>
 
-					<UBadge v-if="gameStore.itemProductionRates[item.id] != 0" size="xs" color="neutral" variant="subtle"
+					<UBadge v-if="gameStore.itemProds[item.id] != 0" size="xs" color="neutral" variant="subtle"
 						class="absolute -bottom-1 -right-0.5 z-10">
-						<span v-if="gameStore.itemProductionRates[item.id] > 0" class="text-success">+{{ gameStore.itemProductionRates[item.id].toFixed(1) }} /s</span>
-						<span v-else-if="gameStore.itemProductionRates[item.id] < 0" class="text-error">{{ gameStore.itemProductionRates[item.id].toFixed(1) }} /s</span>
+						<span v-if="gameStore.itemProds[item.id] > 0" class="text-success">+{{ gameStore.itemProds[item.id].toFixed(1) }} /s</span>
+						<span v-else-if="gameStore.itemProds[item.id] < 0" class="text-error">{{ gameStore.itemProds[item.id].toFixed(1) }} /s</span>
 					</UBadge>
-
-					<UIcon v-if="gameStore.itemWarnings[item.id]" name="i-lucide-triangle-exclamation-point"
-						class="absolute -top-1 -left-0.5 z-10 text-xs text-error" />
 
 				</UButton>
 

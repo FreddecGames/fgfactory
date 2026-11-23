@@ -30,14 +30,14 @@
 
 		<div class="flex items-center justify-between gap-2">
 
-			<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalItem.manuals') }}</h4>
+			<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalItem.manual') }}</h4>
 
 			<div class="flex items-center gap-1">
 				<UButton v-for="count in item.manualCounts" size="xs"
 					:variant="item.manualSelectedCount == count ? 'subtle' : 'soft'"
 					:color="item.manualSelectedCount == count ? 'primary' : 'neutral'"
 					@click="item.manualSelectedCount = count">
-					<span class="text-[10px]">x{{ count }}</span>
+					<span class="text-[10px]">+{{ count * item.manual.outputCount }}</span>
 				</UButton>
 			</div>
 
@@ -58,15 +58,14 @@
 			</div>
 		</div>
 		<div v-else class="flex-1">
-			<span class="text-muted text-xs italic">{{ $t('modalItem.noManualInputs') }}</span>
+			<span class="text-muted text-xs italic">{{ $t('modalItem.noInputs') }}</span>
 		</div>
 
 		<div class="rounded-md bg-neutral-800 p-2 flex items-center gap-2">
 
 			<div class="flex-1 flex flex-col items-end gap-1">
 
-				<div class="w-full flex justify-between gap-2">
-					<span class="text-success text-xs">+{{ item.manual.outputCount * item.manualSelectedCount }}</span>
+				<div class="w-full flex justify-end gap-2">
 					<span v-if="item.manual.isProcessing" class="text-end text-xs text-primary">{{ formatTime(item.manual.remainingSeconds) }}</span>
 					<span v-else class="text-end text-xs text-muted">{{ formatTime(item.manual.seconds * item.manualSelectedCount) }}</span>
 				</div>
@@ -75,7 +74,7 @@
 
 			</div>
 			
-			<UButton v-if="item.manual.isProcessing" color="error" variant="subtle" icon="i-lucide-square" size="sm"
+			<UButton v-if="gameStore.canCancelManual(item.manual) === 0" color="error" variant="subtle" icon="i-lucide-square" size="sm"
 				@click="gameStore.cancelManual(item.manual)" />
 			
 			<UButton v-else-if="gameStore.canStartManual(item.manual, item.manualSelectedCount) === 0" color="primary" variant="subtle" icon="i-lucide-play" size="sm"
@@ -86,6 +85,5 @@
 		</div>
 
 	</div>
-
 
 </template>
