@@ -259,7 +259,7 @@
 			gameStore.isOptionsModalOpen = false
 			gameStore.isScenariosModalOpen = false
 
-			gameStore.isVictoryModalOpen.value = true
+			gameStore.isVictoryModalOpen = true
 		}
     })
 

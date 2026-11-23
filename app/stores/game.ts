@@ -429,8 +429,6 @@ export const useGameStore = defineStore('game', {
 			let decryptedLocalData: any = null
 			const rawLocalData = localStorage.getItem(LOCAL_DATA_NAME)
 			if (rawLocalData) decryptedLocalData = this.decryptData(rawLocalData)
-
-			console.log(decryptedLocalData)
 			
 			// Victories
 
@@ -847,7 +845,7 @@ export const useGameStore = defineStore('game', {
 
 		startManual(manual: Manual, count: number): void {
 
-			if (this.canStartManual(manual) !== 0) return
+			if (this.canStartManual(manual, count) !== 0) return
 
 			if (manual.inputs) {
 				for (const input of manual.inputs) {
