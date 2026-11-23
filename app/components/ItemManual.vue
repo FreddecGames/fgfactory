@@ -1,8 +1,18 @@
-<script setup lang="ts">
+item.<script setup lang="ts">
+
+	import { computed } from 'vue'
 
 	import { useGameStore } from '~/stores/game'
 
 	const gameStore = useGameStore()
+
+	const props = defineProps<{
+		manualId: string
+	}>()
+
+	const manual = computed(() => { return gameStore.manuals.find(m => m.id === props.manualId) })
+
+	const item = computed(() => { return gameStore.items.find(i => i.id === manual.value.itemId) })
 
 	function getManualProgress(manual: any): number {
 
@@ -23,18 +33,18 @@
 			<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalItem.manual') }}</h4>
 
 			<div class="flex items-center gap-1">
-				<UButton v-for="count in gameStore.selectedItem.manualCounts" size="xs"
-					:variant="gameStore.selectedItem.manualSelectedCount == count ? 'subtle' : 'soft'"
-					:color="gameStore.selectedItem.manualSelectedCount == count ? 'primary' : 'neutral'"
-					@click="gameStore.selectedItem.manualSelectedCount = count">
-					<span class="text-[10px]">+{{ count * gameStore.selectedItem.manual.outputCount }}</span>
+				<UButton v-for="count in item.manualCounts" size="xs"
+					:variant="item.manualSelectedCount == count ? 'subtle' : 'soft'"
+					:color="item.manualSelectedCount == count ? 'primary' : 'neutral'"
+					@click="item.manualSelectedCount = count">
+					<span class="text-[10px]">+{{ count * manual.outputCount }}</span>
 				</UButton>
 			</div>
 
 		</div>
 
-		<div v-if="gameStore.selectedItem.manual.inputs && gameStore.selectedItem.manual.inputs.length > 0" class="flex flex-col gap-1">
-			<div v-for="input in gameStore.selectedItem.manual.inputs" :key="input.id"
+		<div v-if="manual.inputs && manual.inputs.length > 0" class="flex flex-col gap-1">
+			<div v-for="input in manual.inputs" :key="input.id"
 				class="flex items-center justify-between gap-3 rounded-md bg-neutral-800 px-2 py-1.5">
 
 					<UButton color="neutral" variant="link" size="xs" class="truncate p-0 gap-2"
@@ -42,8 +52,8 @@
 						:label="$t(`items.${input.id}`)"
 						@click="gameStore.openItem(input.id)" />
 					
-					<span v-if="gameStore.itemCounts[input.id] >= input.count * gameStore.selectedItem.manualSelectedCount" class="text-success text-xs">{{ gameStore.itemCounts[input.id].toFixed(0) }} / {{ input.count.toFixed(0) * gameStore.selectedItem.manualSelectedCount }}</span>
-					<span v-else class="text-error text-xs">{{ gameStore.itemCounts[input.id].toFixed(0) }} / {{ input.count.toFixed(0) * gameStore.selectedItem.manualSelectedCount }}</span>
+					<span v-if="gameStore.itemCounts[input.id] >= input.count * item.manualSelectedCount" class="text-success text-xs">{{ gameStore.itemCounts[input.id].toFixed(0) }} / {{ input.count.toFixed(0) * item.manualSelectedCount }}</span>
+					<span v-else class="text-error text-xs">{{ gameStore.itemCounts[input.id].toFixed(0) }} / {{ input.count.toFixed(0) * item.manualSelectedCount }}</span>
 
 			</div>
 		</div>
@@ -56,19 +66,19 @@
 			<div class="flex-1 flex flex-col items-end gap-1">
 
 				<div class="w-full flex justify-end gap-2">
-					<span v-if="gameStore.selectedItem.manual.isProcessing" class="text-end text-xs text-primary">{{ formatTime(gameStore.selectedItem.manual.remainingSeconds) }}</span>
-					<span v-else class="text-end text-xs text-muted">{{ formatTime(gameStore.selectedItem.manual.seconds * gameStore.selectedItem.manualSelectedCount) }}</span>
+					<span v-if="manual.isProcessing" class="text-end text-xs text-primary">{{ formatTime(manual.remainingSeconds) }}</span>
+					<span v-else class="text-end text-xs text-muted">{{ formatTime(manual.seconds * item.manualSelectedCount) }}</span>
 				</div>
 
-				<UProgress :model-value="getManualProgress(gameStore.selectedItem.manual)" size="sm" color="primary" class="flex-1" />
+				<UProgress :model-value="getManualProgress(item.manual)" size="sm" color="primary" class="flex-1" />
 
 			</div>
 			
-			<UButton v-if="gameStore.canCancelManual(gameStore.selectedItem.manual) === 0" color="error" variant="subtle" icon="i-lucide-square" size="sm"
-				@click="gameStore.cancelManual(gameStore.selectedItem.manual)" />
+			<UButton v-if="gameStore.canCancelManual(item.manual) === 0" color="error" variant="subtle" icon="i-lucide-square" size="sm"
+				@click="gameStore.cancelManual(item.manual)" />
 			
-			<UButton v-else-if="gameStore.canStartManual(gameStore.selectedItem.manual, gameStore.selectedItem.manualSelectedCount) === 0" color="primary" variant="subtle" icon="i-lucide-play" size="sm"
-				@click="gameStore.startManual(gameStore.selectedItem.manual, gameStore.selectedItem.manualSelectedCount)" />
+			<UButton v-else-if="gameStore.canStartManual(item.manual, item.manualSelectedCount) === 0" color="primary" variant="subtle" icon="i-lucide-play" size="sm"
+				@click="gameStore.startManual(item.manual, item.manualSelectedCount)" />
 
 			<UButton v-else color="neutral" variant="subtle" icon="i-lucide-play" disabled  size="sm" />
 

@@ -62,13 +62,13 @@
 			</div>
 
 			<!-- Item Prod -->
-			<ItemProd v-if="gameStore.selectedItem.prod" />
+			<ItemProd v-if="gameStore.selectedItem.prod" :prodId="gameStore.selectedItem.prod.id" />
 
 			<!-- Item Storage -->
-			<ItemStorage v-if="gameStore.selectedItem.storage" />
+			<ItemStorage v-if="gameStore.selectedItem.storage" :storageId="gameStore.selectedItem.storage.id" />
 
 			<!-- Item Manual -->
-			<ItemManual v-if="gameStore.selectedItem.manual" />
+			<ItemManual v-if="gameStore.selectedItem.manual" :manualId="gameStore.selectedItem.manual.id" />
 
 		</template>
 
