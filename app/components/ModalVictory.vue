@@ -35,7 +35,7 @@
 
 			<div class="flex justify-center">
 				<UButton color="primary" variant="subtle"
-					@click="isVictoryModalOpen = false">
+					@click="gameStore.isVictoryModalOpen = false">
 					{{ $t('victory.close') }}
 				</UButton>
 			</div>
