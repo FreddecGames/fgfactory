@@ -52,7 +52,7 @@
 			baseLocaleMessages.set(localeCode, baseMessages)
 		}
 
-		const response = await fetch(`/scenarios/${scenarioId}/locales/${localeCode}.json`)
+		const response = await fetch(`/fgfactory/scenarios/${scenarioId}/locales/${localeCode}.json`)
 		if (requestId !== scenarioLocaleRequestId) return
 
 		if (response.status === 404) {

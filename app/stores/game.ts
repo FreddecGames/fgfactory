@@ -154,7 +154,7 @@ export const useGameStore = defineStore('game', {
 			const imgs: Record<string, string> = {}
 
 			for (const item of state.items)
-				imgs[item.id] = `/scenarios/${state.currentScenarioId}/img/${item.id}.png`
+				imgs[item.id] = `/fgfactory/scenarios/${state.currentScenarioId}/img/${item.id}.png`
 
 			return imgs
 		},
@@ -452,7 +452,7 @@ export const useGameStore = defineStore('game', {
 				this.currentScenarioId = AVAILABLE_SCENARIOS[0]?.id
 
 			const [scenarioData] = await Promise.all([
-				fetch(`/scenarios/${this.currentScenarioId}/data.json`).then(response => response.json())
+				fetch(`/fgfactory/scenarios/${this.currentScenarioId}/data.json`).then(response => response.json())
 			])
 
 			this.scenarioWinConditions = scenarioData && scenarioData.winConditions ? scenarioData.winConditions : null	
