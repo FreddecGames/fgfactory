@@ -22,7 +22,7 @@
 
 			<h4 class="text-xs font-semibold text-neutral-400">{{ $t('modalItem.storage') }}</h4>
 
-			<div class="flex items-center gap-1">
+			<div v-if="gameStore.itemUnlockeds[storage.storerId]" class="flex items-center gap-1">
 				<UButton v-for="count in item.storageCounts" size="xs"
 					:variant="item.storageSelectedCount == count ? 'subtle' : 'soft'"
 					:color="item.storageSelectedCount == count ? 'primary' : 'neutral'"

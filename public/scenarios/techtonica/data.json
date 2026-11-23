@@ -1,0 +1,26 @@
+{
+	"items":[
+
+		{ "type":"mission", "group":"onboarding", "id":"onboarding_0", "stack":1,
+          "recipe":{ "output":1, "machines":[ "manual" ] }
+        },
+		{ "type":"mission", "group":"onboarding", "id":"onboarding_1", "stack":1,
+          "requirement":{ "onboarding_0":1 },
+          "recipe":{ "output":1, "inputs":{ "iron":10, "copper":10 }, "machines":[ "manual" ] }
+		},
+
+        { "type":"item", "group":"energy", "id":"energy", "stack":250,
+          "requirement":{ "onboarding_1":1 }
+		},
+
+        { "type":"item", "group":"iron", "id":"iron", "stack":250,
+          "requirement":{ "onboarding_0":1 },
+          "recipe":{ "seconds":1, "output":1, "machines":[ "manual" ] }
+        },
+
+        { "type":"item", "group":"copper", "id":"copper", "stack":250,
+          "requirement":{ "onboarding_0":1 },
+          "recipe":{ "seconds":1, "output":1, "machines":[ "manual" ] }
+        }
+	]
+}

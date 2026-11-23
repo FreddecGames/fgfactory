@@ -1,0 +1,30 @@
+{
+	"groups": {
+
+        "onboarding": "Installation",
+
+		"energy": "Energy",
+		"iron": "Iron Production",
+        "copper": "Copper Production"
+	},
+
+	"desc":{
+
+		"onboarding_0": "You wake up from a long cryosleep inside a massive, bioluminescent cavern deep beneath the surface of an alien planet. Your expedition team is missing, and the automated facility you were meant to oversee has been completely reclaimed by glowing flora and strange, crystalline formations. You must extract raw minerals, restore power to the ancient grid, and build an automated factory from the ground up to dig deeper.",
+		"onboarding_1": "Before you can rebuild the facility, you need raw materials. Gather enough ore to craft your first basic machines required to jumpstart your factory.",
+		"onboarding_2": ""
+	},
+
+	"items": {
+
+        "onboarding_0": "Start Here",
+        "onboarding_1": "Basic Raw Extraction",
+        "onboarding_2": "Energy generation",
+
+        "energy": "Energy",
+
+        "iron": "Iron",
+
+        "copper": "Copper"
+	}
+}
